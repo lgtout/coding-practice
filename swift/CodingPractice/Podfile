@@ -1,0 +1,19 @@
+# Podfile
+
+platform :osx, '10.12'
+
+use_frameworks!
+
+def testing_pods
+    pod 'Quick'
+    pod 'Nimble'
+    pod 'Dollar'
+end
+
+target 'CodingPractice' do
+    testing_pods
+end
+
+target 'CodingPracticeTests' do
+    testing_pods
+end
