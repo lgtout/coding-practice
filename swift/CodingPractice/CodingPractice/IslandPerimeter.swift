@@ -2,44 +2,11 @@
 
 import Foundation
 
-let degugging = true
+let debugging = false
 
-class IslandPerimeter {
-    func islandPerimeter(_ rawGrid: [[Int]]) -> Int {
-        let grid:Grid = Grid(rawGrid)
-        print("finding perimeter of \(grid)")
-        let randomLand:Square! = grid.randomLandSquare()
-        print("found random land \(randomLand)")
-        var unexplored = [randomLand]
-        var explored = Set<Square>()
-        var perimeterLength = 0;
-        while !unexplored.isEmpty {
-            let square:Square! = unexplored.removeFirst()
-            print("exploring", square)
-            explored.insert(square)
-            print("finding neighbors")
-            for neighbor in [
-                grid.left(square), grid.right(square),
-                grid.above(square), grid.below(square)] {
-                    print("checking out neighbor")
-                    if neighbor == nil {
-                        print("neighbor is not land")
-                        perimeterLength += 1
-                    } else {
-                        print("adding neighbor \(neighbor) to unexplored")
-                        unexplored.append(neighbor)
-                    }
-            }
-        }
-        print("return perimeter length", perimeterLength)
-        return perimeterLength
-    }
+func prnt(_ items: Any...) {
+    if debugging { print(items) }
 }
-
-var indent = ""
-
-func ==(lhs: Square, rhs: Square) -> Bool {
-    return lhs.hashValue == rhs.hashValue }
 
 class Grid : CustomDebugStringConvertible {
     
@@ -50,7 +17,8 @@ class Grid : CustomDebugStringConvertible {
     }
     
     public var debugDescription: String {
-        return "Grid(grid: \(grid))"
+        let gridStr = grid.map(){ $0.description }.joined(separator: "\n")
+        return "Grid(\ngrid: \n\(gridStr))"
     }
     
     var width: Int {
@@ -63,7 +31,7 @@ class Grid : CustomDebugStringConvertible {
     
     func squareIsLand(_ square:Square) -> Bool {
         let squareIsInsideGrid = (0...width - 1).contains(square.col)
-            && (1...height - 1).contains(square.row)
+            && (0...height - 1).contains(square.row)
         guard squareIsInsideGrid else {
             return false
         }
@@ -91,13 +59,29 @@ class Grid : CustomDebugStringConvertible {
         return squareIsLand(otherSquare) ? otherSquare : Optional.none
     }
     
-    func randomLandSquare() -> Square? {
+//    Use of arc4random_uniform isn't allowed on leetcode OJ.
+    
+//    func randomLandSquare() -> Square? {
+//        var square:Square?
+//        repeat {
+//            square = Square(Int(arc4random_uniform(UInt32(grid[0].count))),
+//                            Int(arc4random_uniform(UInt32(grid.count))))
+//        } while (square == Optional.none || !squareIsLand(square!))
+//        return square
+//    }
+    
+    func findLandSquare() -> Square {
         var square:Square?
-        repeat {
-            square = Square(Int(arc4random_uniform(UInt32(grid[0].count))),
-                            Int(arc4random_uniform(UInt32(grid.count))))
-        } while (square == Optional.none || !squareIsLand(square!))
-        return square
+        for (i, row) in grid.enumerated() {
+            for (j, col) in row.enumerated() {
+                if col == 1 {
+                    square = Square(j, i)
+                    break
+                }
+            }
+            if square != nil { break }
+        }
+        return square!
     }
     
 }
@@ -126,4 +110,47 @@ class Square : Hashable, CustomDebugStringConvertible {
         }
     }
     
+    static func == (lhs:Square, rhs:Square) -> Bool {
+        return lhs.col == rhs.col && lhs.row == rhs.row
+    }
+    
+}
+
+class Solution {
+    func islandPerimeter(_ rawGrid: [[Int]]) -> Int {
+        let grid:Grid = Grid(rawGrid)
+        prnt()
+        prnt("finding perimeter of \(grid)")
+        let land = grid.findLandSquare()
+        prnt("found random land \(land)")
+        var unexplored = [land]
+        var explored = Set<Square>()
+        var perimeterLength = 0;
+        while !unexplored.isEmpty {
+            prnt("unexplored \(unexplored)")
+            let square:Square! = unexplored.removeFirst()
+            prnt("exploring", square)
+            explored.insert(square)
+            prnt("finding neighbors")
+            for neighbor in [
+                grid.left(square), grid.right(square),
+                grid.above(square), grid.below(square)] {
+                    prnt("checking out neighbor")
+                    if neighbor == nil {
+                        prnt("neighbor is not land")
+                        perimeterLength += 1
+                        prnt("incremented perimeter to \(perimeterLength)")
+                    } else if !unexplored.contains(neighbor!) && !explored.contains(where: {
+                        $0 == neighbor!
+                    }) {
+                        prnt("adding neighbor \(neighbor) to unexplored")
+                        unexplored.append(neighbor!)
+                    } else {
+                        prnt("already explored \(neighbor)")
+                    }
+            }
+        }
+        prnt("return perimeter length", perimeterLength)
+        return perimeterLength
+    }
 }
