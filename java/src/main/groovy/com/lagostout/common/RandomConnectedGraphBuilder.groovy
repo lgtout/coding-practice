@@ -19,25 +19,25 @@ class RandomConnectedGraphBuilder implements GraphTrait {
      * Derived from <a href="http://stackoverflow.com/a/14618505/369722">Stackoverflow</a>
      *
      * @param vertexCount Number of vertices in the graph
-     * @param additionalEdgesPercent A fraction of the number of edges (percent: 0-100) that can be added to the initial spanning tree to make a complete graph.
+     * @param additionalEdgeSaturationPercent A fraction of the number of edges (percent: 0-100) that can be added to the initial spanning tree to make a complete graph.
      * @param randomDataGenerator
      * @return A connected graph, with no cycles, containing <code>(vertexCount - 1 + additionalEdges)</code> edges
      */
-    List<Set<Integer>> generate(
-            int vertexCount, int additionalEdgesPercent) {
+    Map<Integer, Set<Integer>> build(
+            int vertexCount, int additionalEdgeSaturationPercent) {
         def randomSpanningTreeGenerator =
                 new RandomSpanningTreeBuilder(randomDataGenerator)
         def adjacencyLists = randomSpanningTreeGenerator
                 .createByRandomWalk(vertexCount)
-        println adjacencyLists
         def possibleAdditionalEdgesCount = 0
         if (vertexCount >= 2) {
+            int maximumEdgeCount = (vertexCount - 1)
             possibleAdditionalEdgesCount =
-                    CombinatoricsUtils.binomialCoefficient(vertexCount, 2) -
-                            (vertexCount - 1)
+                    CombinatoricsUtils.
+                            binomialCoefficient(vertexCount, 2) - maximumEdgeCount
         }
         def additionalEdgesCount = possibleAdditionalEdgesCount *
-                (additionalEdgesPercent % 101) / 100D
+                (additionalEdgeSaturationPercent % 101) / 100D
         while (additionalEdgesCount > 0) {
             def vertex = randomVertex(vertexCount)
             def otherVertex = randomVertex(vertexCount)
@@ -47,7 +47,6 @@ class RandomConnectedGraphBuilder implements GraphTrait {
                 additionalEdgesCount--
             }
         }
-        println adjacencyLists
         return adjacencyLists
     }
 

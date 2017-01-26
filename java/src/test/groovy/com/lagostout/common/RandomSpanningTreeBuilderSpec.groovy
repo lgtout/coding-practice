@@ -26,9 +26,10 @@ class RandomSpanningTreeBuilderSpec extends Specification {
         isATree(tree)
 
         where:
-        vertexCount << (0..5).collect {
+        vertexCount << [(0..5).collect {
             randomDataGenerator.nextInt(1, 4)
-        }
+        }, [1] // Make sure this case is handled
+        ].collectMany { it }
 
     }
 

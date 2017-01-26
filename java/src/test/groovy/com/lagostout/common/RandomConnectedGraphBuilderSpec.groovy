@@ -21,7 +21,7 @@ class RandomConnectedGraphBuilderSpec extends Specification {
     'has expected edges'(int vertexCount, int additionalEdgesPercent, int expectedEdgeCount) {
         expect:
         def builder = new RandomConnectedGraphBuilder(randomDataGenerator)
-        def graph = builder.generate(vertexCount, additionalEdgesPercent)
+        def graph = builder.build(vertexCount, additionalEdgesPercent)
         Graphs.edgeCount(graph) == expectedEdgeCount
 
         where:

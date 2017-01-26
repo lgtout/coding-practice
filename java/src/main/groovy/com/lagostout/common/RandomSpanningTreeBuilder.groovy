@@ -10,12 +10,14 @@ class RandomSpanningTreeBuilder implements GraphTrait {
         this.randomDataGenerator = randomDataGenerator
     }
 
-    List<Set<Integer>> createByRandomWalk(int vertexCount) {
+    // http://stackoverflow.com/a/14618505/369722
+    Map<Integer, Set<Integer>> createByRandomWalk(int vertexCount) {
         Set<Integer> unvisitedVertices =
                 new HashSet<>(new IntRange(0, vertexCount - 1))
         Set<Integer> visitedVertices = new HashSet<>()
-        List<Set<Integer>> adjacencyLists = new ArrayList<Set<Integer>>()
-                .withDefault { new HashSet<Integer>() }
+        Map<Integer, Set<Integer>> adjacencyLists = new HashMap<>()
+        // Make sure every vertex is in the map, even if the vertex has no edges.
+        (0..vertexCount).each { adjacencyLists.put(it, new HashSet<Integer>()) }
         def vertex = 0
         unvisitedVertices.remove(vertex)
         visitedVertices.add(vertex)
