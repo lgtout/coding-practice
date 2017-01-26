@@ -45,7 +45,7 @@ class IslandPerimeterSpec : QuickSpec {
 //                  [1,1,0,0]], 16]
             ]
             for aCase in cases {
-                let perimeter = Solution()
+                let perimeter = IslandPerimeter.Solution()
                     .islandPerimeter(aCase[0] as! [[Int]])
                 expect(perimeter).to(equal(aCase[1] as? Int))
             }
