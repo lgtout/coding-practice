@@ -20,6 +20,9 @@
 		664BDBBF1E2F2C6D0074D723 /* HammingDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BDBBE1E2F2C6D0074D723 /* HammingDistance.swift */; };
 		664BDBC11E2F2CCE0074D723 /* HammingDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BDBBE1E2F2C6D0074D723 /* HammingDistance.swift */; };
 		66751E501E300AC600E3C558 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66751E4F1E300AC600E3C558 /* Utils.swift */; };
+		668C43181E42F91E00ED2902 /* FlipGameSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C43171E42F91E00ED2902 /* FlipGameSpec.swift */; };
+		668C431A1E42F93300ED2902 /* FlipGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C43191E42F93300ED2902 /* FlipGame.swift */; };
+		668C431B1E42F93300ED2902 /* FlipGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C43191E42F93300ED2902 /* FlipGame.swift */; };
 		668DB3C91E3136390095473A /* IslandPerimeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668DB3C81E3136390095473A /* IslandPerimeter.swift */; };
 		668DB3CA1E3136390095473A /* IslandPerimeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668DB3C81E3136390095473A /* IslandPerimeter.swift */; };
 		668DB3CC1E3136C40095473A /* IslandPerimeterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668DB3CB1E3136C40095473A /* IslandPerimeterSpec.swift */; };
@@ -27,6 +30,9 @@
 		66E851221E39585100E28A6A /* PalindromePermutationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851211E39585100E28A6A /* PalindromePermutationSpec.swift */; };
 		66E851241E39586F00E28A6A /* PalindromePermutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851231E39586F00E28A6A /* PalindromePermutation.swift */; };
 		66E851251E39586F00E28A6A /* PalindromePermutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851231E39586F00E28A6A /* PalindromePermutation.swift */; };
+		66E851271E3A94D900E28A6A /* NimGameSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851261E3A94D900E28A6A /* NimGameSpec.swift */; };
+		66E851291E3A94EA00E28A6A /* NimGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851281E3A94EA00E28A6A /* NimGame.swift */; };
+		66E8512A1E3A94EA00E28A6A /* NimGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851281E3A94EA00E28A6A /* NimGame.swift */; };
 		66F9BC5A1E2F358A002D64C8 /* HammingDistanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BDBBC1E2F2C660074D723 /* HammingDistanceTests.swift */; };
 		6C2B09D24AD3DF2D41816309 /* Pods_CodingPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A517CDD427A707531CDB3334 /* Pods_CodingPractice.framework */; };
 		EDB80680FBCC575E1687A211 /* Pods_CodingPracticeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E801E5982796911D8F38614B /* Pods_CodingPracticeTests.framework */; };
@@ -58,10 +64,14 @@
 		664BDBBC1E2F2C660074D723 /* HammingDistanceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HammingDistanceTests.swift; sourceTree = "<group>"; };
 		664BDBBE1E2F2C6D0074D723 /* HammingDistance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HammingDistance.swift; sourceTree = "<group>"; };
 		66751E4F1E300AC600E3C558 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		668C43171E42F91E00ED2902 /* FlipGameSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipGameSpec.swift; sourceTree = "<group>"; };
+		668C43191E42F93300ED2902 /* FlipGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipGame.swift; sourceTree = "<group>"; };
 		668DB3C81E3136390095473A /* IslandPerimeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IslandPerimeter.swift; sourceTree = "<group>"; };
 		668DB3CB1E3136C40095473A /* IslandPerimeterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IslandPerimeterSpec.swift; sourceTree = "<group>"; };
 		66E851211E39585100E28A6A /* PalindromePermutationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PalindromePermutationSpec.swift; sourceTree = "<group>"; };
 		66E851231E39586F00E28A6A /* PalindromePermutation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PalindromePermutation.swift; sourceTree = "<group>"; };
+		66E851261E3A94D900E28A6A /* NimGameSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NimGameSpec.swift; sourceTree = "<group>"; };
+		66E851281E3A94EA00E28A6A /* NimGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NimGame.swift; sourceTree = "<group>"; };
 		A517CDD427A707531CDB3334 /* Pods_CodingPractice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CodingPractice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA239D6340699E6F19D8C7D1 /* Pods-CodingPracticeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingPracticeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C75215A5AC100AE96F7BCE2E /* Pods-CodingPracticeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingPracticeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -141,6 +151,8 @@
 				66751E4F1E300AC600E3C558 /* Utils.swift */,
 				668DB3C81E3136390095473A /* IslandPerimeter.swift */,
 				66E851231E39586F00E28A6A /* PalindromePermutation.swift */,
+				66E851281E3A94EA00E28A6A /* NimGame.swift */,
+				668C43191E42F93300ED2902 /* FlipGame.swift */,
 			);
 			path = CodingPractice;
 			sourceTree = "<group>";
@@ -154,6 +166,8 @@
 				2E079081B905211D6A9BB5A8 /* NumberComplementSpec.swift */,
 				668DB3CB1E3136C40095473A /* IslandPerimeterSpec.swift */,
 				66E851211E39585100E28A6A /* PalindromePermutationSpec.swift */,
+				66E851261E3A94D900E28A6A /* NimGameSpec.swift */,
+				668C43171E42F91E00ED2902 /* FlipGameSpec.swift */,
 			);
 			path = CodingPracticeTests;
 			sourceTree = "<group>";
@@ -352,11 +366,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				668C431A1E42F93300ED2902 /* FlipGame.swift in Sources */,
 				668DB3C91E3136390095473A /* IslandPerimeter.swift in Sources */,
 				66E851241E39586F00E28A6A /* PalindromePermutation.swift in Sources */,
 				66751E501E300AC600E3C558 /* Utils.swift in Sources */,
 				668DB3CC1E3136C40095473A /* IslandPerimeterSpec.swift in Sources */,
 				664BDBBF1E2F2C6D0074D723 /* HammingDistance.swift in Sources */,
+				66E851291E3A94EA00E28A6A /* NimGame.swift in Sources */,
 				662BA9431E2F52110015A79F /* Operators.swift in Sources */,
 				662BA9461E2F577F0015A79F /* MaxConsecutiveOnes.swift in Sources */,
 				2E0798AF80703CFC9293A98C /* NumberComplement.swift in Sources */,
@@ -368,16 +384,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				668DB3CD1E3136C40095473A /* IslandPerimeterSpec.swift in Sources */,
+				66E851271E3A94D900E28A6A /* NimGameSpec.swift in Sources */,
 				662BA94C1E2F5C930015A79F /* MaxConsecutiveOnesSpec.swift in Sources */,
 				66E851251E39586F00E28A6A /* PalindromePermutation.swift in Sources */,
 				662BA9441E2F55420015A79F /* Operators.swift in Sources */,
+				668C431B1E42F93300ED2902 /* FlipGame.swift in Sources */,
 				668DB3CA1E3136390095473A /* IslandPerimeter.swift in Sources */,
 				662BA9471E2F577F0015A79F /* MaxConsecutiveOnes.swift in Sources */,
 				66F9BC5A1E2F358A002D64C8 /* HammingDistanceTests.swift in Sources */,
 				66E851221E39585100E28A6A /* PalindromePermutationSpec.swift in Sources */,
 				664BDBC11E2F2CCE0074D723 /* HammingDistance.swift in Sources */,
 				2E079F6180A2E4F4844391CF /* NumberComplementSpec.swift in Sources */,
+				668C43181E42F91E00ED2902 /* FlipGameSpec.swift in Sources */,
 				2E0798F5B63266B62D2EB04A /* NumberComplement.swift in Sources */,
+				66E8512A1E3A94EA00E28A6A /* NimGame.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
