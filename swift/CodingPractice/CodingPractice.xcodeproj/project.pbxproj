@@ -10,6 +10,9 @@
 		2E0798AF80703CFC9293A98C /* NumberComplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079267D52C7F0A39E3DFA3 /* NumberComplement.swift */; };
 		2E0798F5B63266B62D2EB04A /* NumberComplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079267D52C7F0A39E3DFA3 /* NumberComplement.swift */; };
 		2E079F6180A2E4F4844391CF /* NumberComplementSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079081B905211D6A9BB5A8 /* NumberComplementSpec.swift */; };
+		44F3212CF89C2A97243C7D22 /* Pods_CodingPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B289D46F7B5F7DF819B3C1 /* Pods_CodingPractice.framework */; };
+		662879631E5521DE00D2EAE6 /* SumOfTwoIntegers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662879621E5521DE00D2EAE6 /* SumOfTwoIntegers.swift */; };
+		662879641E5521DE00D2EAE6 /* SumOfTwoIntegers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662879621E5521DE00D2EAE6 /* SumOfTwoIntegers.swift */; };
 		662BA9431E2F52110015A79F /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662BA9421E2F52110015A79F /* Operators.swift */; };
 		662BA9441E2F55420015A79F /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662BA9421E2F52110015A79F /* Operators.swift */; };
 		662BA9461E2F577F0015A79F /* MaxConsecutiveOnes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662BA9451E2F577F0015A79F /* MaxConsecutiveOnes.swift */; };
@@ -19,23 +22,51 @@
 		663F32251E2F2AAB0009C92D /* CodingPractice.h in Headers */ = {isa = PBXBuildFile; fileRef = 663F32171E2F2AAB0009C92D /* CodingPractice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		664BDBBF1E2F2C6D0074D723 /* HammingDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BDBBE1E2F2C6D0074D723 /* HammingDistance.swift */; };
 		664BDBC11E2F2CCE0074D723 /* HammingDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BDBBE1E2F2C6D0074D723 /* HammingDistance.swift */; };
+		66699F4F1E4ACCD3009E3067 /* SingleNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66699F4E1E4ACCD3009E3067 /* SingleNumber.swift */; };
+		66699F501E4ACCD3009E3067 /* SingleNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66699F4E1E4ACCD3009E3067 /* SingleNumber.swift */; };
+		66699F521E4ACD8D009E3067 /* SingleNumberSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66699F511E4ACD8D009E3067 /* SingleNumberSpec.swift */; };
+		66699F531E4ACD8D009E3067 /* SingleNumberSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66699F511E4ACD8D009E3067 /* SingleNumberSpec.swift */; };
+		66699F551E4AD2A3009E3067 /* RelativeRanks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66699F541E4AD2A3009E3067 /* RelativeRanks.swift */; };
+		66699F561E4AD2A3009E3067 /* RelativeRanks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66699F541E4AD2A3009E3067 /* RelativeRanks.swift */; };
+		66699F581E4AD2B1009E3067 /* RelativeRanks_QuickSort_Spec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66699F571E4AD2B1009E3067 /* RelativeRanks_QuickSort_Spec.swift */; };
+		66699F591E4AD2B1009E3067 /* RelativeRanks_QuickSort_Spec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66699F571E4AD2B1009E3067 /* RelativeRanks_QuickSort_Spec.swift */; };
+		6674A37E1E67926100CB0502 /* SumOfTwoIntegersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662879601E5521CE00D2EAE6 /* SumOfTwoIntegersSpec.swift */; };
+		6674A37F1E6793DD00CB0502 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66751E4F1E300AC600E3C558 /* Utils.swift */; };
 		66751E501E300AC600E3C558 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66751E4F1E300AC600E3C558 /* Utils.swift */; };
 		668C43181E42F91E00ED2902 /* FlipGameSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C43171E42F91E00ED2902 /* FlipGameSpec.swift */; };
 		668C431A1E42F93300ED2902 /* FlipGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C43191E42F93300ED2902 /* FlipGame.swift */; };
 		668C431B1E42F93300ED2902 /* FlipGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C43191E42F93300ED2902 /* FlipGame.swift */; };
+		668C431D1E45898F00ED2902 /* FindDisappearedNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C431C1E45898F00ED2902 /* FindDisappearedNumbers.swift */; };
+		668C431E1E45898F00ED2902 /* FindDisappearedNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C431C1E45898F00ED2902 /* FindDisappearedNumbers.swift */; };
+		668C43201E4589A300ED2902 /* FindDisappearedNumbersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668C431F1E4589A300ED2902 /* FindDisappearedNumbersSpec.swift */; };
 		668DB3C91E3136390095473A /* IslandPerimeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668DB3C81E3136390095473A /* IslandPerimeter.swift */; };
 		668DB3CA1E3136390095473A /* IslandPerimeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668DB3C81E3136390095473A /* IslandPerimeter.swift */; };
 		668DB3CC1E3136C40095473A /* IslandPerimeterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668DB3CB1E3136C40095473A /* IslandPerimeterSpec.swift */; };
 		668DB3CD1E3136C40095473A /* IslandPerimeterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668DB3CB1E3136C40095473A /* IslandPerimeterSpec.swift */; };
+		6692F88F1E8615A800DFC8AA /* MinimumMovesToEqualArrayElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6692F88E1E8615A800DFC8AA /* MinimumMovesToEqualArrayElements.swift */; };
+		6692F8901E8615A800DFC8AA /* MinimumMovesToEqualArrayElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6692F88E1E8615A800DFC8AA /* MinimumMovesToEqualArrayElements.swift */; };
+		6692F8921E8615B300DFC8AA /* MinimumMovesToEqualArrayElementsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6692F8911E8615B300DFC8AA /* MinimumMovesToEqualArrayElementsSpec.swift */; };
+		6692F8931E8615B300DFC8AA /* MinimumMovesToEqualArrayElementsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6692F8911E8615B300DFC8AA /* MinimumMovesToEqualArrayElementsSpec.swift */; };
+		669EBB7A1E847E0700AB49C8 /* RelativeRanksSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669EBB791E847E0700AB49C8 /* RelativeRanksSpec.swift */; };
+		669ED5861E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669ED5851E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift */; };
+		669ED5871E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669ED5851E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift */; };
+		669ED5891E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669ED5881E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift */; };
+		669ED58A1E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669ED5881E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift */; };
+		66CF07241E83325C00C2D034 /* Scratch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF07231E83325C00C2D034 /* Scratch.swift */; };
+		66D9C66A1E750BF200DD92EC /* ConstructTheRectangleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D9C6691E750BF200DD92EC /* ConstructTheRectangleSpec.swift */; };
+		66D9C66C1E750C0400DD92EC /* ConstructTheRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D9C66B1E750C0400DD92EC /* ConstructTheRectangle.swift */; };
+		66D9C66D1E750C0A00DD92EC /* ConstructTheRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D9C66B1E750C0400DD92EC /* ConstructTheRectangle.swift */; };
 		66E851221E39585100E28A6A /* PalindromePermutationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851211E39585100E28A6A /* PalindromePermutationSpec.swift */; };
 		66E851241E39586F00E28A6A /* PalindromePermutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851231E39586F00E28A6A /* PalindromePermutation.swift */; };
 		66E851251E39586F00E28A6A /* PalindromePermutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851231E39586F00E28A6A /* PalindromePermutation.swift */; };
 		66E851271E3A94D900E28A6A /* NimGameSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851261E3A94D900E28A6A /* NimGameSpec.swift */; };
 		66E851291E3A94EA00E28A6A /* NimGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851281E3A94EA00E28A6A /* NimGame.swift */; };
 		66E8512A1E3A94EA00E28A6A /* NimGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851281E3A94EA00E28A6A /* NimGame.swift */; };
+		66F25CC01E710D6000D94152 /* AddDigits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F25CBF1E710D6000D94152 /* AddDigits.swift */; };
+		66F25CC11E710D6000D94152 /* AddDigits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F25CBF1E710D6000D94152 /* AddDigits.swift */; };
+		66F25CC31E710DBF00D94152 /* AddDigitsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F25CC21E710DBF00D94152 /* AddDigitsSpec.swift */; };
 		66F9BC5A1E2F358A002D64C8 /* HammingDistanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BDBBC1E2F2C660074D723 /* HammingDistanceTests.swift */; };
-		6C2B09D24AD3DF2D41816309 /* Pods_CodingPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A517CDD427A707531CDB3334 /* Pods_CodingPractice.framework */; };
-		EDB80680FBCC575E1687A211 /* Pods_CodingPracticeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E801E5982796911D8F38614B /* Pods_CodingPracticeTests.framework */; };
+		9EDE9F4B6B42008CDF16ADFA /* Pods_CodingPracticeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CB0C31A56E9C6AB6B0F019B /* Pods_CodingPracticeTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,10 +80,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1751F757E5F2BC845FC2DD45 /* Pods-CodingPracticeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingPracticeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests.release.xcconfig"; sourceTree = "<group>"; };
+		1CB0C31A56E9C6AB6B0F019B /* Pods_CodingPracticeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CodingPracticeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E079081B905211D6A9BB5A8 /* NumberComplementSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberComplementSpec.swift; sourceTree = "<group>"; };
 		2E079267D52C7F0A39E3DFA3 /* NumberComplement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberComplement.swift; sourceTree = "<group>"; };
-		3C90E177F559CCDC750C2F97 /* Pods-CodingPractice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingPractice.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CodingPractice/Pods-CodingPractice.debug.xcconfig"; sourceTree = "<group>"; };
-		6281BC7933960FE6074217A5 /* Pods-CodingPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingPractice.release.xcconfig"; path = "Pods/Target Support Files/Pods-CodingPractice/Pods-CodingPractice.release.xcconfig"; sourceTree = "<group>"; };
+		6616F6AF1E52D57E004C79E2 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; };
+		662879601E5521CE00D2EAE6 /* SumOfTwoIntegersSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfTwoIntegersSpec.swift; sourceTree = "<group>"; };
+		662879621E5521DE00D2EAE6 /* SumOfTwoIntegers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfTwoIntegers.swift; sourceTree = "<group>"; };
 		662BA9421E2F52110015A79F /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		662BA9451E2F577F0015A79F /* MaxConsecutiveOnes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaxConsecutiveOnes.swift; sourceTree = "<group>"; };
 		662BA94B1E2F5C930015A79F /* MaxConsecutiveOnesSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaxConsecutiveOnesSpec.swift; sourceTree = "<group>"; };
@@ -63,19 +97,35 @@
 		663F32241E2F2AAB0009C92D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		664BDBBC1E2F2C660074D723 /* HammingDistanceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HammingDistanceTests.swift; sourceTree = "<group>"; };
 		664BDBBE1E2F2C6D0074D723 /* HammingDistance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HammingDistance.swift; sourceTree = "<group>"; };
+		66699F4E1E4ACCD3009E3067 /* SingleNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleNumber.swift; sourceTree = "<group>"; };
+		66699F511E4ACD8D009E3067 /* SingleNumberSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleNumberSpec.swift; sourceTree = "<group>"; };
+		66699F541E4AD2A3009E3067 /* RelativeRanks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelativeRanks.swift; sourceTree = "<group>"; };
+		66699F571E4AD2B1009E3067 /* RelativeRanks_QuickSort_Spec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelativeRanks_QuickSort_Spec.swift; sourceTree = "<group>"; };
 		66751E4F1E300AC600E3C558 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		668C43171E42F91E00ED2902 /* FlipGameSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipGameSpec.swift; sourceTree = "<group>"; };
 		668C43191E42F93300ED2902 /* FlipGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipGame.swift; sourceTree = "<group>"; };
+		668C431C1E45898F00ED2902 /* FindDisappearedNumbers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindDisappearedNumbers.swift; sourceTree = "<group>"; };
+		668C431F1E4589A300ED2902 /* FindDisappearedNumbersSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindDisappearedNumbersSpec.swift; sourceTree = "<group>"; };
 		668DB3C81E3136390095473A /* IslandPerimeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IslandPerimeter.swift; sourceTree = "<group>"; };
 		668DB3CB1E3136C40095473A /* IslandPerimeterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IslandPerimeterSpec.swift; sourceTree = "<group>"; };
+		6692F88E1E8615A800DFC8AA /* MinimumMovesToEqualArrayElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinimumMovesToEqualArrayElements.swift; sourceTree = "<group>"; };
+		6692F8911E8615B300DFC8AA /* MinimumMovesToEqualArrayElementsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinimumMovesToEqualArrayElementsSpec.swift; sourceTree = "<group>"; };
+		669EBB791E847E0700AB49C8 /* RelativeRanksSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelativeRanksSpec.swift; sourceTree = "<group>"; };
+		669ED5851E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaxDepthOfBinaryTree.swift; sourceTree = "<group>"; };
+		669ED5881E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaxDepthOfBinaryTreeSpec.swift; sourceTree = "<group>"; };
+		66CF07231E83325C00C2D034 /* Scratch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scratch.swift; sourceTree = "<group>"; };
+		66D9C6691E750BF200DD92EC /* ConstructTheRectangleSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructTheRectangleSpec.swift; sourceTree = "<group>"; };
+		66D9C66B1E750C0400DD92EC /* ConstructTheRectangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructTheRectangle.swift; sourceTree = "<group>"; };
 		66E851211E39585100E28A6A /* PalindromePermutationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PalindromePermutationSpec.swift; sourceTree = "<group>"; };
 		66E851231E39586F00E28A6A /* PalindromePermutation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PalindromePermutation.swift; sourceTree = "<group>"; };
 		66E851261E3A94D900E28A6A /* NimGameSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NimGameSpec.swift; sourceTree = "<group>"; };
 		66E851281E3A94EA00E28A6A /* NimGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NimGame.swift; sourceTree = "<group>"; };
-		A517CDD427A707531CDB3334 /* Pods_CodingPractice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CodingPractice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BA239D6340699E6F19D8C7D1 /* Pods-CodingPracticeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingPracticeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests.debug.xcconfig"; sourceTree = "<group>"; };
-		C75215A5AC100AE96F7BCE2E /* Pods-CodingPracticeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingPracticeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests.release.xcconfig"; sourceTree = "<group>"; };
-		E801E5982796911D8F38614B /* Pods_CodingPracticeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CodingPracticeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		66F25CBF1E710D6000D94152 /* AddDigits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDigits.swift; sourceTree = "<group>"; };
+		66F25CC21E710DBF00D94152 /* AddDigitsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDigitsSpec.swift; sourceTree = "<group>"; };
+		77B289D46F7B5F7DF819B3C1 /* Pods_CodingPractice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CodingPractice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2C0D3C63579A49F9773301A /* Pods-CodingPracticeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingPracticeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E85F0BAA5BDE576D217FEBD0 /* Pods-CodingPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingPractice.release.xcconfig"; path = "Pods/Target Support Files/Pods-CodingPractice/Pods-CodingPractice.release.xcconfig"; sourceTree = "<group>"; };
+		F607F800A8658599C1B7D39B /* Pods-CodingPractice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingPractice.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CodingPractice/Pods-CodingPractice.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6C2B09D24AD3DF2D41816309 /* Pods_CodingPractice.framework in Frameworks */,
+				44F3212CF89C2A97243C7D22 /* Pods_CodingPractice.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,29 +142,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				663F321E1E2F2AAB0009C92D /* CodingPractice.framework in Frameworks */,
-				EDB80680FBCC575E1687A211 /* Pods_CodingPracticeTests.framework in Frameworks */,
+				9EDE9F4B6B42008CDF16ADFA /* Pods_CodingPracticeTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		211EC41883DE4CF425BF7DA3 /* Frameworks */ = {
+		0875859EB1047BBA70BFC334 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A517CDD427A707531CDB3334 /* Pods_CodingPractice.framework */,
-				E801E5982796911D8F38614B /* Pods_CodingPracticeTests.framework */,
+				77B289D46F7B5F7DF819B3C1 /* Pods_CodingPractice.framework */,
+				1CB0C31A56E9C6AB6B0F019B /* Pods_CodingPracticeTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		49A07CD13EFF91C46FAB2931 /* Pods */ = {
+		5639BDD1C4BF9EADDA6F6949 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3C90E177F559CCDC750C2F97 /* Pods-CodingPractice.debug.xcconfig */,
-				6281BC7933960FE6074217A5 /* Pods-CodingPractice.release.xcconfig */,
-				BA239D6340699E6F19D8C7D1 /* Pods-CodingPracticeTests.debug.xcconfig */,
-				C75215A5AC100AE96F7BCE2E /* Pods-CodingPracticeTests.release.xcconfig */,
+				F607F800A8658599C1B7D39B /* Pods-CodingPractice.debug.xcconfig */,
+				E85F0BAA5BDE576D217FEBD0 /* Pods-CodingPractice.release.xcconfig */,
+				B2C0D3C63579A49F9773301A /* Pods-CodingPracticeTests.debug.xcconfig */,
+				1751F757E5F2BC845FC2DD45 /* Pods-CodingPracticeTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -122,11 +172,12 @@
 		663F320A1E2F2AAB0009C92D = {
 			isa = PBXGroup;
 			children = (
+				6616F6AF1E52D57E004C79E2 /* Playground.playground */,
 				663F32161E2F2AAB0009C92D /* CodingPractice */,
 				663F32211E2F2AAB0009C92D /* CodingPracticeTests */,
 				663F32151E2F2AAB0009C92D /* Products */,
-				49A07CD13EFF91C46FAB2931 /* Pods */,
-				211EC41883DE4CF425BF7DA3 /* Frameworks */,
+				5639BDD1C4BF9EADDA6F6949 /* Pods */,
+				0875859EB1047BBA70BFC334 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -153,6 +204,14 @@
 				66E851231E39586F00E28A6A /* PalindromePermutation.swift */,
 				66E851281E3A94EA00E28A6A /* NimGame.swift */,
 				668C43191E42F93300ED2902 /* FlipGame.swift */,
+				668C431C1E45898F00ED2902 /* FindDisappearedNumbers.swift */,
+				66699F4E1E4ACCD3009E3067 /* SingleNumber.swift */,
+				66699F541E4AD2A3009E3067 /* RelativeRanks.swift */,
+				662879621E5521DE00D2EAE6 /* SumOfTwoIntegers.swift */,
+				669ED5851E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift */,
+				66F25CBF1E710D6000D94152 /* AddDigits.swift */,
+				66D9C66B1E750C0400DD92EC /* ConstructTheRectangle.swift */,
+				6692F88E1E8615A800DFC8AA /* MinimumMovesToEqualArrayElements.swift */,
 			);
 			path = CodingPractice;
 			sourceTree = "<group>";
@@ -168,6 +227,16 @@
 				66E851211E39585100E28A6A /* PalindromePermutationSpec.swift */,
 				66E851261E3A94D900E28A6A /* NimGameSpec.swift */,
 				668C43171E42F91E00ED2902 /* FlipGameSpec.swift */,
+				668C431F1E4589A300ED2902 /* FindDisappearedNumbersSpec.swift */,
+				66699F511E4ACD8D009E3067 /* SingleNumberSpec.swift */,
+				66699F571E4AD2B1009E3067 /* RelativeRanks_QuickSort_Spec.swift */,
+				662879601E5521CE00D2EAE6 /* SumOfTwoIntegersSpec.swift */,
+				669ED5881E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift */,
+				66F25CC21E710DBF00D94152 /* AddDigitsSpec.swift */,
+				66D9C6691E750BF200DD92EC /* ConstructTheRectangleSpec.swift */,
+				66CF07231E83325C00C2D034 /* Scratch.swift */,
+				669EBB791E847E0700AB49C8 /* RelativeRanksSpec.swift */,
+				6692F8911E8615B300DFC8AA /* MinimumMovesToEqualArrayElementsSpec.swift */,
 			);
 			path = CodingPracticeTests;
 			sourceTree = "<group>";
@@ -190,12 +259,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 663F32281E2F2AAB0009C92D /* Build configuration list for PBXNativeTarget "CodingPractice" */;
 			buildPhases = (
-				392610BECDE0181EF33C7513 /* [CP] Check Pods Manifest.lock */,
+				EFF9D661304088AC1E497E7B /* [CP] Check Pods Manifest.lock */,
 				663F320F1E2F2AAB0009C92D /* Sources */,
 				663F32101E2F2AAB0009C92D /* Frameworks */,
 				663F32111E2F2AAB0009C92D /* Headers */,
 				663F32121E2F2AAB0009C92D /* Resources */,
-				F0513A27443400F2E8E2ECB7 /* [CP] Copy Pods Resources */,
+				0E0AD443856E3BB35DABFD3D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -210,12 +279,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 663F322B1E2F2AAB0009C92D /* Build configuration list for PBXNativeTarget "CodingPracticeTests" */;
 			buildPhases = (
-				22B01D3BE38BD2449554F41F /* [CP] Check Pods Manifest.lock */,
+				BCA52F81C3735475272AE4AA /* [CP] Check Pods Manifest.lock */,
 				663F32191E2F2AAB0009C92D /* Sources */,
 				663F321A1E2F2AAB0009C92D /* Frameworks */,
 				663F321B1E2F2AAB0009C92D /* Resources */,
-				C195F3D4C730836749259621 /* [CP] Embed Pods Frameworks */,
-				5DEB8A6A119D7A432137AD59 /* [CP] Copy Pods Resources */,
+				B9476CDFB7E2D039065A2B9D /* [CP] Embed Pods Frameworks */,
+				DE8BA42026BFFED057AA33AC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -284,67 +353,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		22B01D3BE38BD2449554F41F /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		392610BECDE0181EF33C7513 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		5DEB8A6A119D7A432137AD59 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C195F3D4C730836749259621 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F0513A27443400F2E8E2ECB7 /* [CP] Copy Pods Resources */ = {
+		0E0AD443856E3BB35DABFD3D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -359,6 +368,66 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CodingPractice/Pods-CodingPractice-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B9476CDFB7E2D039065A2B9D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BCA52F81C3735475272AE4AA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DE8BA42026BFFED057AA33AC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EFF9D661304088AC1E497E7B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -366,16 +435,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66699F4F1E4ACCD3009E3067 /* SingleNumber.swift in Sources */,
 				668C431A1E42F93300ED2902 /* FlipGame.swift in Sources */,
+				66F25CC01E710D6000D94152 /* AddDigits.swift in Sources */,
+				66699F521E4ACD8D009E3067 /* SingleNumberSpec.swift in Sources */,
 				668DB3C91E3136390095473A /* IslandPerimeter.swift in Sources */,
 				66E851241E39586F00E28A6A /* PalindromePermutation.swift in Sources */,
+				669ED5891E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift in Sources */,
 				66751E501E300AC600E3C558 /* Utils.swift in Sources */,
+				662879631E5521DE00D2EAE6 /* SumOfTwoIntegers.swift in Sources */,
 				668DB3CC1E3136C40095473A /* IslandPerimeterSpec.swift in Sources */,
+				668C431D1E45898F00ED2902 /* FindDisappearedNumbers.swift in Sources */,
 				664BDBBF1E2F2C6D0074D723 /* HammingDistance.swift in Sources */,
+				66699F551E4AD2A3009E3067 /* RelativeRanks.swift in Sources */,
+				6692F88F1E8615A800DFC8AA /* MinimumMovesToEqualArrayElements.swift in Sources */,
 				66E851291E3A94EA00E28A6A /* NimGame.swift in Sources */,
+				6692F8921E8615B300DFC8AA /* MinimumMovesToEqualArrayElementsSpec.swift in Sources */,
+				669ED5861E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift in Sources */,
 				662BA9431E2F52110015A79F /* Operators.swift in Sources */,
 				662BA9461E2F577F0015A79F /* MaxConsecutiveOnes.swift in Sources */,
+				66D9C66C1E750C0400DD92EC /* ConstructTheRectangle.swift in Sources */,
 				2E0798AF80703CFC9293A98C /* NumberComplement.swift in Sources */,
+				66699F581E4AD2B1009E3067 /* RelativeRanks_QuickSort_Spec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,20 +465,39 @@
 			buildActionMask = 2147483647;
 			files = (
 				668DB3CD1E3136C40095473A /* IslandPerimeterSpec.swift in Sources */,
+				669ED58A1E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift in Sources */,
 				66E851271E3A94D900E28A6A /* NimGameSpec.swift in Sources */,
+				66699F591E4AD2B1009E3067 /* RelativeRanks_QuickSort_Spec.swift in Sources */,
+				66D9C66A1E750BF200DD92EC /* ConstructTheRectangleSpec.swift in Sources */,
 				662BA94C1E2F5C930015A79F /* MaxConsecutiveOnesSpec.swift in Sources */,
+				66699F531E4ACD8D009E3067 /* SingleNumberSpec.swift in Sources */,
+				66D9C66D1E750C0A00DD92EC /* ConstructTheRectangle.swift in Sources */,
+				66F25CC31E710DBF00D94152 /* AddDigitsSpec.swift in Sources */,
 				66E851251E39586F00E28A6A /* PalindromePermutation.swift in Sources */,
+				66699F561E4AD2A3009E3067 /* RelativeRanks.swift in Sources */,
 				662BA9441E2F55420015A79F /* Operators.swift in Sources */,
 				668C431B1E42F93300ED2902 /* FlipGame.swift in Sources */,
+				66699F501E4ACCD3009E3067 /* SingleNumber.swift in Sources */,
+				66CF07241E83325C00C2D034 /* Scratch.swift in Sources */,
+				669ED5871E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift in Sources */,
+				6692F8901E8615A800DFC8AA /* MinimumMovesToEqualArrayElements.swift in Sources */,
+				668C431E1E45898F00ED2902 /* FindDisappearedNumbers.swift in Sources */,
+				662879641E5521DE00D2EAE6 /* SumOfTwoIntegers.swift in Sources */,
 				668DB3CA1E3136390095473A /* IslandPerimeter.swift in Sources */,
 				662BA9471E2F577F0015A79F /* MaxConsecutiveOnes.swift in Sources */,
 				66F9BC5A1E2F358A002D64C8 /* HammingDistanceTests.swift in Sources */,
 				66E851221E39585100E28A6A /* PalindromePermutationSpec.swift in Sources */,
+				6692F8931E8615B300DFC8AA /* MinimumMovesToEqualArrayElementsSpec.swift in Sources */,
+				6674A37E1E67926100CB0502 /* SumOfTwoIntegersSpec.swift in Sources */,
 				664BDBC11E2F2CCE0074D723 /* HammingDistance.swift in Sources */,
+				669EBB7A1E847E0700AB49C8 /* RelativeRanksSpec.swift in Sources */,
 				2E079F6180A2E4F4844391CF /* NumberComplementSpec.swift in Sources */,
 				668C43181E42F91E00ED2902 /* FlipGameSpec.swift in Sources */,
 				2E0798F5B63266B62D2EB04A /* NumberComplement.swift in Sources */,
 				66E8512A1E3A94EA00E28A6A /* NimGame.swift in Sources */,
+				668C43201E4589A300ED2902 /* FindDisappearedNumbersSpec.swift in Sources */,
+				6674A37F1E6793DD00CB0502 /* Utils.swift in Sources */,
+				66F25CC11E710D6000D94152 /* AddDigits.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,7 +612,7 @@
 		};
 		663F32291E2F2AAB0009C92D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C90E177F559CCDC750C2F97 /* Pods-CodingPractice.debug.xcconfig */;
+			baseConfigurationReference = F607F800A8658599C1B7D39B /* Pods-CodingPractice.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -535,7 +635,7 @@
 		};
 		663F322A1E2F2AAB0009C92D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6281BC7933960FE6074217A5 /* Pods-CodingPractice.release.xcconfig */;
+			baseConfigurationReference = E85F0BAA5BDE576D217FEBD0 /* Pods-CodingPractice.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -557,7 +657,7 @@
 		};
 		663F322C1E2F2AAB0009C92D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA239D6340699E6F19D8C7D1 /* Pods-CodingPracticeTests.debug.xcconfig */;
+			baseConfigurationReference = B2C0D3C63579A49F9773301A /* Pods-CodingPracticeTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -578,7 +678,7 @@
 		};
 		663F322D1E2F2AAB0009C92D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C75215A5AC100AE96F7BCE2E /* Pods-CodingPracticeTests.release.xcconfig */;
+			baseConfigurationReference = 1751F757E5F2BC845FC2DD45 /* Pods-CodingPracticeTests.release.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = CodingPracticeTests/Info.plist;
