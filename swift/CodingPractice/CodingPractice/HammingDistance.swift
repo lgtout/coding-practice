@@ -1,9 +1,10 @@
 import Foundation
 
+/// [Problem description](https://leetcode.com/problems/hamming-distance)
+
 open class HammingDistance {
+    
     func hammingDistance(_ x: Int, _ y: Int) -> Int {
-        let a:Int = 10 ^^ 2
-        print(a)
         let z:Int = x ^ y
         return bitCount(z)
     }

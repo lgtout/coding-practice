@@ -2,7 +2,10 @@
 
 import Foundation
 
+/// [Problem description](https://leetcode.com/problems/flip-game)
+
 class FlipGame {
+    
     func generatePossibleNextMoves(_ s: String) -> [String] {
         var result = [String]()
         if s.characters.count > 1 {
@@ -17,4 +20,5 @@ class FlipGame {
         }
         return result
     }
+    
 }
