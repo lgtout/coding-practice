@@ -11,11 +11,11 @@ class MinimumMovesToEqualArrayElementsSpec : QuickSpec {
             describe("minMoves") {
                 let minimumMoves = MinimumMovesToEqualArrayElements()
                 let cases: [(nums: [Int], expected: (num:Int, moves:Int))] = [
-//                    ([1], (1, 0)),
-//                    ([2,2], (2, 0)),
-//                    ([1,2,3], (4, 3)),
-//                    ([1,2], (2, 1)),
-//                    ([1,2,4], (5, 4)),
+                    ([1], (1, 0)),
+                    ([2,2], (2, 0)),
+                    ([1,2,3], (4, 3)),
+                    ([1,2], (2, 1)),
+                    ([1,2,4], (5, 4)),
                     ([1,2147483647], (2147483647, 2147483646))
                 ]
                 for (nums, expected) in cases {
