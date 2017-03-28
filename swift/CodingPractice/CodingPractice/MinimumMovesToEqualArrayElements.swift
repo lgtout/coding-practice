@@ -7,14 +7,12 @@ import Foundation
 class MinimumMovesToEqualArrayElements {
     
     func minMoves(_ nums: [Int]) -> Int {
-        let nums = [Int](nums).sorted()
-        var moveCount = 0
-        var index = nums.count - 1
-        while index > 0 {
-            moveCount += (nums[index] + moveCount - (nums.first! + moveCount))
-            index += -1
+        let min = nums.min()
+        var moves = 0
+        for num in nums {
+            moves += (num - min!)
         }
-        return moveCount
+        return moves
     }
     
 }
