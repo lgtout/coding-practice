@@ -1,4 +1,4 @@
-package com.lagostout.cp3.util
+package com.lagostout.competitiveprogramming3.util
 
 class Util {
 

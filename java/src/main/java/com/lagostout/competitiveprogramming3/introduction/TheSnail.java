@@ -1,4 +1,4 @@
-package com.lagostout.cp3.introduction;
+package com.lagostout.competitiveprogramming3.introduction;
 
 import java.util.Iterator;
 import java.util.Scanner;

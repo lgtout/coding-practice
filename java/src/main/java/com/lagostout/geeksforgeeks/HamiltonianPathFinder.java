@@ -4,16 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class HamiltonianPathFinder {
 
-    static public void main(String... args) {
+    static public void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int caseCount = scanner.nextInt();
         int[] result = new int[caseCount];
-        HamiltonianPathFinder finder = new HamiltonianPathFinder();
         for (int i = 0; i < caseCount; i++) {
             int vertexCount = scanner.nextInt();
             int edgeCount = scanner.nextInt();
@@ -26,67 +24,68 @@ public class HamiltonianPathFinder {
                 adjacencyLists.get(v1).add(v2);
                 adjacencyLists.get(v2).add(v1);
             }
-            result[i] = finder.containsPath(adjacencyLists) ? 1 : 0;
+            result[i] = containsPath(adjacencyLists) ? 1 : 0;
         }
-        Arrays.stream(result).forEach(System.out::println);
+        for (int i : result) {
+            System.out.println(i);
+        }
     }
 
-    public boolean containsPath(Map<Integer, Set<Integer>> adjacencyLists) {
+    static private boolean containsPath(Map<Integer, Set<Integer>> adjacencyLists) {
         return !findUsingBacktracking(adjacencyLists).isEmpty();
-    }
-
-    public List<Integer> findUsingBacktracking(Map<Integer, Set<Integer>> adjacencyLists) {
-        Set<Integer> visitedVertices = new HashSet<>();
-        Deque<Frame> stack = new ArrayDeque<>();
-        boolean pathFound = false;
-        for (int vertex : adjacencyLists.keySet()) {
-            Frame frame = new Frame(vertex, adjacencyLists.get(vertex));
-            stack.push(frame);
-            visitedVertices.clear();
-            visitedVertices.add(vertex);
-            pathFound = false;
-            while (!stack.isEmpty()) {
-                pathFound = stack.size() == adjacencyLists.size();
-                if (pathFound) break;
-                frame = stack.peek();
-                Integer nextVertex = null;
-                boolean foundNext = false;
-                while (!frame.adjacentVertices.isEmpty()) {
-                    nextVertex = frame.adjacentVertices.pop();
-                    foundNext = !visitedVertices.contains(nextVertex);
-                    if (foundNext) break;
-                }
-                if (foundNext) {
-                    visitedVertices.add(nextVertex);
-                    stack.push(new Frame(nextVertex, adjacencyLists.get(nextVertex)));
-                } else {
-                    stack.pop();
-                }
-            }
-            if (pathFound) break;
-        }
-        print(pathFound);
-        print(stack);
-        @SuppressWarnings("UnnecessaryLocalVariable")
-        List<Integer> path = stack.stream()
-                .mapToInt(frame -> frame.vertex).boxed()
-                .collect(Collectors.toList());
-        print(stack);
-        print(path);
-        return path;
     }
 
     static private class Frame {
         int vertex;
-        Deque<Integer> adjacentVertices = new ArrayDeque<>();
-        int nextAction = 0;
-        Frame(int vertex, Set<Integer> adjacentVertices) {
+        int step = 1;
+        Frame(int vertex) {
             this.vertex = vertex;
-            this.adjacentVertices.addAll(adjacentVertices);
         }
-        public void next() {
-            nextAction++;
+    }
+
+    // Take a frame from the stack.
+    // If next step is explore, add frames for its node's
+    // children to the stack and add its node to the path.
+    // If next step is remove, remove it from the stack
+    // and remove its node from the path.
+
+    static public List<Integer> findUsingBacktracking(
+            Map<Integer, Set<Integer>> adjacencyLists) {
+        List<Integer> result = new ArrayList<>();
+        for (int vertex : adjacencyLists.keySet()) {
+            Deque<Frame> frameStack = new ArrayDeque<>();
+            Deque<Integer> path = new ArrayDeque<>();
+            Set<Integer> visited = new HashSet<>();
+            frameStack.push(new Frame(vertex));
+            // DFS on vertex
+            while (!frameStack.isEmpty() &&
+                    path.size() < adjacencyLists.size()) {
+                Frame frame = frameStack.peek();
+                switch (frame.step) {
+                    case 1:
+                        Set<Integer> adjacencyList =
+                                adjacencyLists.get(frame.vertex);
+                        path.push(frame.vertex);
+                        visited.add(frame.vertex);
+                        for (int adjacentVertex : adjacencyList) {
+                            if (visited.contains(adjacentVertex)) continue;
+                            frameStack.push(new Frame(adjacentVertex));
+                        }
+                        frame.step = 2;
+                        break;
+                    case 2:
+                        path.pop();
+                        frameStack.pop();
+                        visited.remove(frame.vertex);
+                        break;
+                }
+            }
+            if (path.size() == adjacencyLists.size()) {
+                result.addAll(path);
+                break;
+            }
         }
+        return result;
     }
 
     static private void print(Object obj) {

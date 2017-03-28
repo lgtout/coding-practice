@@ -19,21 +19,53 @@ class Graphs {
         reverseAdjacencyLists
     }
 
-    static boolean isATree(Map<Integer, Set<Integer>> adjacencyLists) {
-        // Verify graph is a single component
+    /**
+     * Verifies the adjacency lists represent a tree by verifying
+     * that it represents a single connected component that
+     * contains no cycles, and that it implements each undirected edge
+     * between adjacent vertices as 2 edges, one in each direction.
+     *
+     * @param adjacencyLists adjacency lists representing a graph.
+     * @return Whether the <code>adjacencyLists</code> graph is a tree.
+     */
+    static boolean isATree(
+            Map<Integer, Set<Integer>> adjacencyLists) {
         Set<Integer> visitedVertices = new HashSet<Integer>()
         Deque<Integer> unvisitedVertices = new ArrayDeque<Integer>()
+        // Maintain a stack of previous vertices, so we can prevent
+        // following a reverse edge, which would cause doubling back
+        // on the current path.
+        Deque<Integer> previousVertices = new ArrayDeque<Integer>()
         int vertex = 0
         unvisitedVertices.add(vertex)
-        boolean containsALoop = false
-        while (!unvisitedVertices.isEmpty()) {
+        final int NULL_PARENT = -1
+        previousVertices.add(NULL_PARENT)
+        boolean containsACycle = false
+        boolean backwardPointingEdgeIsMissing = false
+        while (!unvisitedVertices.isEmpty() && !backwardPointingEdgeIsMissing) {
             vertex = unvisitedVertices.pop()
-            containsALoop = visitedVertices.contains(vertex)
-            if (containsALoop) break
+            containsACycle = visitedVertices.contains(vertex)
+            if (containsACycle) break
             visitedVertices.add(vertex)
-            unvisitedVertices.addAll(adjacencyLists.get(vertex))
+            // Ignore any edge pointing to the most recent vertex
+            // on the path.  This prevents reverse edges from behaving
+            // like cycles.
+            Integer previousVertex = previousVertices.pop()
+            backwardPointingEdgeIsMissing = false
+            for (int adjacentVertex : adjacencyLists.get(vertex)) {
+                // Verify adjacent vertices have backward pointing edge.
+                backwardPointingEdgeIsMissing = !adjacencyLists.get(adjacentVertex).contains(vertex)
+                if (backwardPointingEdgeIsMissing) break
+                // Store next edges to explore
+                if (adjacentVertex != previousVertex) {
+                    unvisitedVertices.add(adjacentVertex)
+                    previousVertices.add(vertex)
+                }
+            }
         }
-        return !containsALoop && visitedVertices.size() == adjacencyLists.size()
+        return !containsACycle &&
+                !backwardPointingEdgeIsMissing &&
+                visitedVertices.size() == adjacencyLists.size()
     }
 
     static int edgeCount(Map<Integer, Set<Integer>> adjacencyLists) {
@@ -42,20 +74,24 @@ class Graphs {
             if (adjacencyList == null) continue
             count += adjacencyList.size()
         }
-        return count
+        // The adjacency data structure represent an undirected edge with 2
+        // "edges" - one in each direction between any two vertices.
+        // So the number of edges is actually half what's stored
+        // by the adjacency data structure
+        return count/2
     }
 
     @SuppressWarnings("ChangeToOperator")
     static List<List<Integer>> findAllHamiltonianPathsUsingBruteForce(
             Map<Integer, Set<Integer>> adjacencyLists) {
-        println adjacencyLists
         PermutationIterator<Integer> iterator =
                 new PermutationIterator(adjacencyLists.keySet())
         def paths = new ArrayList<List<Integer>>()
         while (iterator.hasNext()) {
             List<Integer> permutation = iterator.next()
+//            println "permutation $permutation"
             boolean permutationIsAPath = true
-            for (int i = 0; i < permutation.size() - 1; i += 2) {
+            for (int i = 0; i < permutation.size() - 1; i++) {
                 def vertex = permutation.get(i)
                 def nextVertex = permutation.get(i+1)
                 if (!adjacencyLists.get(vertex).contains(nextVertex)) {

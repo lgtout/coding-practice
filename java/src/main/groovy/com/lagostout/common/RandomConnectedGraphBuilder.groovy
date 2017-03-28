@@ -34,16 +34,21 @@ class RandomConnectedGraphBuilder implements GraphTrait {
             int maximumEdgeCount = (vertexCount - 1)
             possibleAdditionalEdgesCount =
                     CombinatoricsUtils.
-                            binomialCoefficient(vertexCount, 2) - maximumEdgeCount
+                            binomialCoefficient(vertexCount, 2) -
+                            maximumEdgeCount
         }
         def additionalEdgesCount = possibleAdditionalEdgesCount *
                 (additionalEdgeSaturationPercent % 101) / 100D
         while (additionalEdgesCount > 0) {
             def vertex = randomVertex(vertexCount)
             def otherVertex = randomVertex(vertexCount)
+            // Make sure we don't create a single-vertex cycle.
+            if (vertex == otherVertex) continue
             def adjacencyList = adjacencyLists.get(vertex)
             if (!adjacencyList.contains(otherVertex)) {
                 adjacencyList.add(otherVertex)
+                adjacencyList = adjacencyLists.get(otherVertex)
+                adjacencyList.add(vertex)
                 additionalEdgesCount--
             }
         }

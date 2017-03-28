@@ -1,7 +1,7 @@
-package com.lagostout.cp3.introduction
+package com.lagostout.competitiveprogramming3.introduction
 
-import com.lagostout.cp3.introduction.DivisionOfNlogonia.TestCaseIterator
-import com.lagostout.cp3.util.Util
+import com.lagostout.competitiveprogramming3.introduction.DivisionOfNlogonia.TestCaseIterator
+import com.lagostout.competitiveprogramming3.util.Util
 import spock.lang.Specification
 import spock.lang.Unroll
 
