@@ -7,42 +7,13 @@ import Foundation
 class MinimumMovesToEqualArrayElements {
     
     func minMoves(_ nums: [Int]) -> Int {
-        var nums = [Int](nums)
-            
-        // Find max, min
-        var maxIndex = 0
-        var minIndex = 0
-        nums.enumerated().forEach { (index, num) in
-            if (num > nums[maxIndex]) {
-                maxIndex = index
-            }
-            if (num < nums[minIndex]) {
-                minIndex = index
-            }
-        }
-        
+        let nums = [Int](nums).sorted().reversed()
         var moveCount = 0
-        while nums[minIndex] < nums[maxIndex] {
-//            print(nums)
-            let moves = nums[maxIndex] - nums[minIndex]
-            moveCount += moves
-            var nextMaxIndex = maxIndex
-            var minIndex = maxIndex
-            nums.enumerated().forEach { index, num in
-                // Increment all except max
-                if (index != maxIndex) {
-                    nums[index] += moves
-                    if (nums[index] > nums[nextMaxIndex]) {
-                        nextMaxIndex = index
-                    }
-                    if (nums[index] < nums[minIndex]) {
-                        minIndex = index
-                    }
-                }
-            }
-            maxIndex = nextMaxIndex
+        for num in nums {
+            let max = num + moveCount
+            let delta = max - (nums.last! + moveCount)
+            moveCount += delta
         }
-    
         return moveCount
     }
     
