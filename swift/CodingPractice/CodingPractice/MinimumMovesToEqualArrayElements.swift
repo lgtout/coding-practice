@@ -8,10 +8,11 @@ class MinimumMovesToEqualArrayElements {
     
     func minMoves(_ nums: [Int]) -> Int {
         let min = nums.min()
-        var moves = 0
+        var sum = 0
         for num in nums {
-            moves += (num - min!)
+            sum += num
         }
+        let moves = sum - min! * nums.count
         return moves
     }
     
