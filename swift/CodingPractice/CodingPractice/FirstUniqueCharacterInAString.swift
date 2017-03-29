@@ -7,14 +7,21 @@ import Foundation
 class FirstUniqueCharacterInAString {
     
     func firstUniqChar(_ s: String) -> Int {
+        var duplicatedChars = Set<Character>()
+        var uniqueChars = Set<Character>()
         var firstUniqueCharIndex = -1
-        var charCounts = Dictionary<Character, Int>()
         for char in s.characters {
-            let count = charCounts[char] ?? 0
-            charCounts[char] = 1 + count
+            if duplicatedChars.contains(char) {
+                continue
+            } else if uniqueChars.contains(char) {
+                uniqueChars.remove(char)
+                duplicatedChars.insert(char)
+            } else {
+                uniqueChars.insert(char)
+            }
         }
         for (index, char) in s.characters.enumerated() {
-            if charCounts[char] == 1 {
+            if uniqueChars.contains(char) {
                 firstUniqueCharIndex = index
                 break
             }
