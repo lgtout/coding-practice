@@ -1,4 +1,4 @@
-package com.lagostout
+package com.lagostout.common
 
 import java.util.function.BiFunction
 

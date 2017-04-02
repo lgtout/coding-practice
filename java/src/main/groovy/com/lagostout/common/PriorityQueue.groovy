@@ -1,4 +1,4 @@
-package com.lagostout
+package com.lagostout.common
 
 import com.google.common.annotations.VisibleForTesting
 

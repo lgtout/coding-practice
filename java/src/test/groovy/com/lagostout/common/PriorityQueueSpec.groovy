@@ -1,7 +1,8 @@
-package com.lagostout
+package com.lagostout.common
 
 import spock.lang.Specification
 import spock.lang.Unroll
+import static com.lagostout.util.HeapUtil.toOneBasedHeap
 
 class PriorityQueueSpec extends Specification {
 
@@ -43,7 +44,7 @@ class PriorityQueueSpec extends Specification {
                 [[2,1], 1, 3, [3,2]],
                 [[4,2,3], 1, 5, [5,4,3]],
                 [[8,7,6,5,4,3,2,1], 3, 9, [9,8,6,7,4,3,2,1]]
-        ].collect(this.&convertHeapsTo1BasedLists)
+        ].collect(toOneBasedHeap)
 
     }
 
@@ -85,28 +86,28 @@ class PriorityQueueSpec extends Specification {
                 [[4,2,3], 0, 1, [3,2,1]],
                 [[4,2,3], 0, 3, [3,2,3]],
                 [[9,8,7,6,5,4,3,2,1], 1, 1, [9,6,7,2,5,4,3,1,1]]
-        ].collect(this.&convertHeapsTo1BasedLists)
+        ].collect(toOneBasedHeap)
 
     }
 
 
     // TODO
 
-    @Unroll
-    'updates value'(List<Integer> heap, int item,
-                    int value, List<Integer> expected) {
-
-    }
-
-    @Unroll
-    'gets maximum'() {
-
-    }
-
-    @Unroll
-    'extracts maximum'() {
-
-    }
+//    @Unroll
+//    'updates value'(List<Integer> heap, int item,
+//                    int value, List<Integer> expected) {
+//
+//    }
+//
+//    @Unroll
+//    'gets maximum'() {
+//
+//    }
+//
+//    @Unroll
+//    'extracts maximum'() {
+//
+//    }
 
     def convertHeapsTo1BasedLists(List aCase) {
         [0,3].each { index ->

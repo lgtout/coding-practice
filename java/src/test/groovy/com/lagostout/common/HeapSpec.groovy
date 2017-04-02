@@ -1,7 +1,8 @@
-package com.lagostout
+package com.lagostout.common
 
 import spock.lang.Specification
 import spock.lang.Unroll
+import static com.lagostout.util.HeapUtil.toOneBasedHeap
 
 class HeapSpec extends Specification {
 
@@ -22,22 +23,8 @@ class HeapSpec extends Specification {
                 [[1,2], [1,2]],
                 [[2,1], [1,2]],
                 [[7,6,5,4,3,2,1], [1,2,3,4,5,6,7]]
-        ].collect(collector)
+        ].collect(toOneBasedHeap)
 
-    }
-
-    /**
-     * If there is a list in a test's data, prepend it with
-     * an empty element.  This makes heap indexing 1-based,
-     * instead of 0-based.
-     */
-    static private Closure collector = { List<Object> it ->
-        it.collect {
-            if (it instanceof List) {
-                ((List)it).add(0, null)
-            }
-            it
-        }
     }
 
     @Unroll
@@ -59,7 +46,7 @@ class HeapSpec extends Specification {
                 [[3,2,1], [3,2,1]],
                 [[1,2,3], [3,2,1]],
                 [[1,2,3,6,5,4], [6,5,4,2,1,3]]
-        ].collect(collector)
+        ].collect(toOneBasedHeap)
 
     }
 
@@ -81,7 +68,7 @@ class HeapSpec extends Specification {
                 [[1,2,3], 1, [3,2,1]],
                 [[1,3,2], 1, [3,1,2]],
                 [[1,2,3,4,5,6,7], 1, [3,2,7,4,5,6,1]],
-        ].collect(collector)
+        ].collect(toOneBasedHeap)
     }
 
     @Unroll
@@ -102,7 +89,7 @@ class HeapSpec extends Specification {
                 [[3,2,1], [1,2,3]],
                 [[1,2,3], [1,2,3]],
                 [[7,6,5,4,3,2,1], [1,3,2,4,6,7,5]]
-        ].collect(collector)
+        ].collect(toOneBasedHeap)
     }
 
     @Unroll
@@ -123,7 +110,7 @@ class HeapSpec extends Specification {
                 [[3,2,1], 1, [1,2,3]],
                 [[3,1,2], 1, [1,3,2]],
                 [[7,6,5,4,3,2,1], 1, [1,3,2,4,6,7,5]],
-        ].collect(collector)
+        ].collect(toOneBasedHeap)
     }
 
 }
