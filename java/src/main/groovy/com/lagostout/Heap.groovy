@@ -5,12 +5,16 @@ import java.util.function.BiFunction
 class Heap {
 
     static void buildMaxHeap(List<Integer> items, int heapSize) {
+        // We only enforce the heap property on the first half
+        // of items in the heap i.e. all rows but the bottom-most.
         for (int vertex = heapSize/2; vertex >= 1; vertex--) {
             enforceMaxHeapProperty(items, heapSize, vertex)
         }
     }
 
     static void buildMinHeap(List<Integer> items, int heapSize) {
+        // We only enforce the heap property on the first half
+        // of items in the heap i.e. all rows but the bottom-most.
         for (int vertex = heapSize/2; vertex >= 1; vertex--) {
             enforceMinHeapProperty(items, heapSize, vertex)
         }
@@ -26,6 +30,10 @@ class Heap {
         def heapSize = items.size() - 1
         buildMaxHeap(items, heapSize)
         def lastIndex = heapSize
+
+        // Swap the first (largest) item with the last item in the
+        // heap.  Reduce the heap size by 1.  And re-enforce the
+        // heap property on the first item.
         while (lastIndex > 1) {
             def temp = items[lastIndex]
             items.set(lastIndex, items[1])
@@ -64,7 +72,9 @@ class Heap {
 
         if (heapSize <= 0) return
         int lastItemIndex = items.size() - 1
-        if (heapSize > lastItemIndex || vertexIndex > heapSize || vertexIndex < 1)
+        if (heapSize > lastItemIndex ||
+                vertexIndex > heapSize ||
+                vertexIndex < 1)
             throw new IllegalArgumentException()
         if (vertexIndex < 0) return
 
@@ -72,7 +82,9 @@ class Heap {
             int indexOfLargestOrSmallestItem = vertexIndex
             int largestOrSmallestItem = items[vertexIndex]
 
-            // Compare with left child
+            // Compare value at vertexIndex with left child.
+            // Update largest/smallest item index if heap
+            // property violated.
             int leftIndex = getLeftChildIndex(vertexIndex)
             if (leftIndex <= heapSize) {
                 int leftItem = items[leftIndex]
@@ -82,7 +94,9 @@ class Heap {
                 }
             }
 
-            // Compare with right child
+            // Compare value at vertexIndex with right child.
+            // Update largest/smallest item index if heap
+            // property violated.
             int rightIndex = getRightChildIndex(vertexIndex)
             if (rightIndex <= heapSize) {
                 int rightItem = items[rightIndex]
@@ -92,10 +106,16 @@ class Heap {
                 }
             }
 
-            // If vertexIndex isn't the largest item,
-            // swap, and enforce the max/min heap
-            // property on the vertexIndex we swapped
-            // with.
+            // If vertexIndex isn't the largest item, swap,
+            // so that the max/min heap property will be
+            // enforced on the updated vertexIndex on the
+            // next iteration of the while-loop.
+            // If we haven't updated the vertexIndex in the
+            // current iteration, then the value at that
+            // position is either in its final position,
+            // or we've reached the bottom row, where no
+            // vertices have children.  In either case,
+            // we're done, and we should exit the while-loop.
             if (indexOfLargestOrSmallestItem != vertexIndex) {
                 int temp = items[vertexIndex]
                 items[vertexIndex] = largestOrSmallestItem

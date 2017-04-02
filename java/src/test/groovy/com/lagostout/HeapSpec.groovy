@@ -1,6 +1,5 @@
 package com.lagostout
 
-import com.lagostout.Heap
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -27,8 +26,18 @@ class HeapSpec extends Specification {
 
     }
 
-    static private Closure collector = { List<List<Integer>> it ->
-        it.collect { it.add(0, null); it }
+    /**
+     * If there is a list in a test's data, prepend it with
+     * an empty element.  This makes heap indexing 1-based,
+     * instead of 0-based.
+     */
+    static private Closure collector = { List<Object> it ->
+        it.collect {
+            if (it instanceof List) {
+                ((List)it).add(0, null)
+            }
+            it
+        }
     }
 
     @Unroll
@@ -72,10 +81,7 @@ class HeapSpec extends Specification {
                 [[1,2,3], 1, [3,2,1]],
                 [[1,3,2], 1, [3,1,2]],
                 [[1,2,3,4,5,6,7], 1, [3,2,7,4,5,6,1]],
-        ].collect { List<Object> it ->
-            ((List<Integer>) it[0]).add(0, null)
-            it
-        }
+        ].collect(collector)
     }
 
     @Unroll
