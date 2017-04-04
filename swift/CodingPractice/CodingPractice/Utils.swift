@@ -21,3 +21,7 @@ public func getTwosComplement(_ n:Int) -> Int {
     let result = (n ^ m) + 1
     return result
 }
+
+public func elapsedTime(_ a:DispatchTime, _ b:DispatchTime) -> Double {
+    return Double(b.uptimeNanoseconds - a.uptimeNanoseconds)/1_000_000_000
+}
