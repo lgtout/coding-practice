@@ -9,8 +9,10 @@ class FirstUniqueCharacterInAStringSpec : QuickSpec {
     override func spec() {
         describe("FirstUniqueCharacterInAString") {
             let cases:[(str:String, expected:Int)] = [
+                ("", -1),
                 ("leetcode", 0),
-                ("loveleetcode", 2)
+                ("loveleetcode", 2),
+                ("cc", -1)
             ]
             let firstUnique = FirstUniqueCharacterInAString()
             for (str, expected) in cases {
