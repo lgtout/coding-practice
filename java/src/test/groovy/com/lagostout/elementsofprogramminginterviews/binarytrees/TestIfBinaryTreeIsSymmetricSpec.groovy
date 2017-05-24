@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarytrees
 
-import com.lagostout.elementsofprogramminginterviews.common.Node
+import com.lagostout.common.BinaryTreeNode
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -8,7 +8,7 @@ class TestIfBinaryTreeIsSymmetricSpec extends Specification {
 
     @Unroll
     'Tests if a binary tree is symmetric'(
-            Node tree, boolean expected) {
+            BinaryTreeNode tree, boolean expected) {
 
         expect:
         TestIfBinaryTreeIsSymmetric.isSymmetric(tree) == expected
@@ -42,7 +42,7 @@ class TestIfBinaryTreeIsSymmetricSpec extends Specification {
                   [null, null, 'C'], [null, null, 'C']], false], // 16
         ].collect { List params ->
             def nodeTree = []
-            Node.build(0, params[0] as List, nodeTree)
+            BinaryTreeNode.buildBinaryTree(0, params[0] as List, nodeTree)
             [nodeTree[0], params[1]]
         }
     }

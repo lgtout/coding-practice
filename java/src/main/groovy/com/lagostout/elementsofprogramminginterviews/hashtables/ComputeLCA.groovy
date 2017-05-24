@@ -1,13 +1,13 @@
 package com.lagostout.elementsofprogramminginterviews.hashtables
 
-import com.lagostout.elementsofprogramminginterviews.common.Node
+import com.lagostout.common.BinaryTreeNode
 
 /**
  * Problem 13.4 p219
  */
 class ComputeLCA {
 
-    static Node findLCA(Node node1, Node node2) {
+    static BinaryTreeNode findLCA(BinaryTreeNode node1, BinaryTreeNode node2) {
         def visitedNodes = [] as Set
         def lowestCommonAncestor
         while (true) {

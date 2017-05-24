@@ -1,17 +1,17 @@
 package com.lagostout.elementsofprogramminginterviews.binarytrees
 
-import com.lagostout.elementsofprogramminginterviews.common.Node
+import com.lagostout.common.BinaryTreeNode
 
-import static com.lagostout.elementsofprogramminginterviews.common.Node.createNullNode
+import static BinaryTreeNode.createNullNode
 
 /**
  * Problem 10.2 p155
  */
 class TestIfBinaryTreeIsSymmetric {
 
-    static boolean isSymmetric(Node<Character> root) {
+    static boolean isSymmetric(BinaryTreeNode<Character> root) {
         def isSymmetric = true
-        def queue = [] as ArrayDeque<Node>
+        def queue = [] as ArrayDeque<BinaryTreeNode>
         queue.add(root)
         def levelNodeCount = 1
         while (!queue.isEmpty()) {

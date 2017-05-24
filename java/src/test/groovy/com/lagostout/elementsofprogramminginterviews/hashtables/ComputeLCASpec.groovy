@@ -1,6 +1,6 @@
-package com.lagostout.elementsofprogramminginterviews.hashtables
 
-import com.lagostout.elementsofprogramminginterviews.common.Node
+import com.lagostout.common.BinaryTreeNode
+import com.lagostout.elementsofprogramminginterviews.hashtables.ComputeLCA
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -8,9 +8,10 @@ class ComputeLCASpec extends Specification {
 
     @Unroll("node1 #node1.value node2 #node2.value expected #expected.value")
     def "finds LCA, optimizing for close ancestors"(
-            Node node1, Node node2, Node expected) {
+            BinaryTreeNode node1, BinaryTreeNode node2, BinaryTreeNode expected) {
 
         expect:
+        println node1
         ComputeLCA.findLCA(node1, node2) == expected
 
         where:
@@ -42,8 +43,8 @@ class ComputeLCASpec extends Specification {
         ].collect {
             int node1Index, int node2Index,
             List<List> rawTree, int expectedIndex ->
-                List<Node> nodeTree = []
-                Node.build(0, rawTree, nodeTree)
+                List<BinaryTreeNode> nodeTree = []
+                BinaryTreeNode.buildBinaryTree(0, rawTree, nodeTree)
                 def _node1 = node1Index != null ?
                         nodeTree[node1Index] : null
                 def _node2 = node2Index != null ?
