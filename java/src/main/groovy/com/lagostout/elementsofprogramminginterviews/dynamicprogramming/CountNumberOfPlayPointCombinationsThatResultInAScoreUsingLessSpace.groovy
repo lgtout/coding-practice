@@ -5,7 +5,7 @@ import org.apache.commons.math3.util.CombinatoricsUtils
 /**
  * Problem 17.2 p313
  */
-class CountTheNumberOfPlayPointCombinationsThatMakeAScoreUsingLessSpace {
+class CountNumberOfPlayPointCombinationsThatResultInAScoreUsingLessSpace {
 
     static int combinationCount(int scoreToFindNumberOfWaysToCombinePlayPointsOf,
                                 Set<Integer> playPointsToCombine) {
