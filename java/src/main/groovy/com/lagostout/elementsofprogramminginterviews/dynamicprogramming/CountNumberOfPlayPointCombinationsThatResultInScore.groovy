@@ -1,9 +1,9 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
 /**
- * Source: EPIJ - Dynamic Programming (ch 17) - problem 17.1
+ * Problem 17.1 page 311
  */
-class CountTheNumberOfScoreCombinations {
+class CountNumberOfPlayPointCombinationsThatResultInScore {
 
     /**
      * Faster implementation: O(sn)

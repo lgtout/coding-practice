@@ -3,13 +3,13 @@ package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class CountTheNumberOfScoreCombinationsSpec extends Specification {
+class CountNumberOfPlayPointCombinationsThatResultInScoreSpec extends Specification {
 
     @Unroll("score: #score, points: #points, count: #expectedCount")
     'counts the number of score combinations'(
             int score, int[] points, int expectedCount) {
         expect:
-        CountTheNumberOfScoreCombinations
+        CountNumberOfPlayPointCombinationsThatResultInScore
                 .scoreCombinationCount(score, points) == expectedCount
         where:
         [score, points, expectedCount] << [
