@@ -1,36 +1,41 @@
 package com.lagostout.common
 
 import com.google.common.annotations.VisibleForTesting
+import com.lagostout.common.Heaps.HeapPropertyTester
 
-class Heap<T> {
+class Heap<T extends Comparable<?>> {
 
-    private static enum Type {
-        MIN, MAX
-    }
+    HeapPropertyTester<T> heapPropertyTester
 
-    private Type type
-    private List<Comparable<T>> state
-
-    Type getType() {
-        type
-    }
-
-    int size() {
-        0
-    }
-
-    Heap(Type type) {
-        this.type = type
-        state = []
-    }
+    int size
 
     @VisibleForTesting
     List<Comparable<T>> getState() {
         return new ArrayList<Comparable<T>>(state)
     }
 
+    private List<Comparable<T>> state
+
+    Heap(HeapPropertyTester<T> heapPropertyTester) {
+        this.heapPropertyTester = heapPropertyTester
+        state = []
+        size = 0
+    }
+
     void add(Comparable<T> comparable) {
         state.add(comparable)
+        size += 1
+        def currentNode = [size - 1, state] as HeapNode
+        while (currentNode != null) {
+            def parent = currentNode.parent()
+            if (!heapPropertyTester.satisfiesHeapProperty(
+                    parent, currentNode)) {
+                parent.swapValue(currentNode)
+                currentNode = parent
+            } else {
+                break
+            }
+        }
     }
 
     Comparable<T> remove() {
@@ -49,12 +54,12 @@ class Heap<T> {
         null
     }
 
-    static Heap createMinHeap() {
-        new Heap(Type.MIN)
+    static <T> Heap createMinHeap() {
+        new Heap(new Heaps.MinHeapPropertyTester<T>())
     }
 
-    static Heap createMaxHeap() {
-        new Heap(Type.MAX)
+    static <T> Heap createMaxHeap() {
+        new Heap(new Heaps.MaxHeapPropertyTester<T>())
     }
 
 }

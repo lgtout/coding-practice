@@ -3,47 +3,15 @@ package com.lagostout.common
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.lagostout.common.Graphs.satisfiesMaxHeapProperty
-import static com.lagostout.common.Graphs.satisfiesMinHeapProperty
 import static com.lagostout.common.Heap.*
+import static Heaps.heapStateIsComplete
+import static com.lagostout.common.Heaps.satisfiesMaxHeapProperty
+import static com.lagostout.common.Heaps.satisfiesMinHeapProperty
 
 class HeapSpec extends Specification {
 
-    /**
-     * A heap's state is complete when any null entries, if they're
-     * present, occupy a contiguous range that terminates at the
-     * last index that's included in the heap's state.  If the heap's
-     * size is n, then the last included index is n-1.  This is true
-     * regardless of the actual size data structure used to store state.
-     *
-     * @param state A heap's internal state
-     * @param size Size of the heap.  Not the size of the data structure
-     * used to store its state.
-     * @return Whether the state complies with completeness constraints
-     * of a heap of the given size.
-     */
-    static private <T> boolean heapStateIsComplete(List<T> state, int size) {
-        def isComplete = true
-        if (state.size() < size) isComplete = false
-        else {
-            def foundFirstEmptyPosition = false
-            for (i in (0..(size-1))) {
-                def value = state[i]
-                if (!foundFirstEmptyPosition) {
-                    foundFirstEmptyPosition = foundFirstEmptyPosition ||
-                            value == null
-                } else {
-                    isComplete = value == null
-                    if (!isComplete) break
-                }
-            }
-        }
-        isComplete
-    }
-
     @Unroll
-    'min heap maintains a complete tree'(
-            List items, int heapSize, boolean expected) {
+    'min heap maintains a complete tree'(List items) {
 
         given:
         def heap = createMinHeap()
@@ -52,28 +20,23 @@ class HeapSpec extends Specification {
         heap.addAll(items)
 
         then:
-        heapStateIsComplete(heap.getState(), heapSize) == expected
+        heapStateIsComplete(heap.getState())
 
         where:
-        [items, heapSize, expected] << [
-                [[1], 1, true],
-                [[1, 2], 1, true],
-                [[1, 2], 2, true],
-                [[1, 2], 3, false],
-                [[1, 2, null], 3, true],
-                [[1, null, 2], 3, false],
-                [[1, null, 2], 2, true],
-                [[1, null, 2], 1, true],
-                [[1, 2, null], 1, true],
-                [[1, 2, null], 2, true],
-                [[1, 2, 3], 3, true],
+        items << [
+                [1],
+                [1,2],
+                [1,1],
+                [2,1],
+                [1,2,3],
+                [3,2,1],
+                [2,3,1],
         ]
 
     }
 
     @Unroll
-    'max heap maintains a complete tree'(
-            List items, int heapSize, boolean expected) {
+    'max heap maintains a complete tree'(List items) {
 
         given:
         def heap = createMaxHeap()
@@ -82,28 +45,24 @@ class HeapSpec extends Specification {
         heap.addAll(items)
 
         then:
-        heapStateIsComplete(heap.getState(), heapSize) == expected
+        heapStateIsComplete(heap.getState())
 
         where:
-        [items, heapSize, expected] << [
-                [[1], 1, true],
-                [[1, 2], 1, true],
-                [[1, 2], 2, true],
-                [[1, 2], 3, false],
-                [[1, 2, null], 3, true],
-                [[1, null, 2], 3, false],
-                [[1, null, 2], 2, true],
-                [[1, null, 2], 1, true],
-                [[1, 2, null], 1, true],
-                [[1, 2, null], 2, true],
-                [[1, 2, 3], 3, true],
+        items << [
+                [1],
+                [1,2],
+                [1,1],
+                [2,1],
+                [1,2,3],
+                [3,2,1],
+                [2,3,1],
         ]
 
     }
 
     @Unroll
-    'min heap maintains a tree that satisfies the min heap property'(
-            List items, List expectedState) {
+    """min heap maintains a tree that satisfies
+     the min heap property"""(List items) {
 
         when:
         def heap = createMinHeap()
@@ -114,24 +73,26 @@ class HeapSpec extends Specification {
         satisfiesMinHeapProperty(tree)
 
         where:
-        [items, expectedState] << [
-                [[1], [1]],
-                [[1,2], [1,2]],
-                [[1,1], [1,1]],
-                [[2,1], [1,2]],
-                [[1,2,3], [1,2,3]],
-                [[3,2,1], [1,2,3]],
-                [[3,2,1], [1,2,3]],
+        items << [
+                [1],
+                [1,2],
+                [1,1],
+                [2,1],
+                [1,2,3],
+                [3,2,1],
+                [2,3,1],
         ]
 
     }
 
     @Unroll
-    'max heap maintains a tree that satisfies the max heap property'(
-            List items, List expectedState) {
+    """max heap maintains a tree that satisfies the
+    max heap property"""(List items) {
+
+        given:
+        def heap = createMaxHeap()
 
         when:
-        def heap = createMinHeap()
         heap.addAll(items)
 
         then:
@@ -139,14 +100,14 @@ class HeapSpec extends Specification {
         satisfiesMaxHeapProperty(tree)
 
         where:
-        [items, expectedState] << [
-                [[1], [1]],
-                [[1,2], [1,2]],
-                [[1,1], [1,1]],
-                [[2,1], [1,2]],
-                [[1,2,3], [1,2,3]],
-                [[3,2,1], [1,2,3]],
-                [[3,2,1], [1,2,3]],
+        items << [
+                [1],
+                [1,2],
+                [1,1],
+                [2,1],
+                [1,2,3],
+                [3,2,1],
+                [2,3,1],
         ]
 
     }
@@ -163,7 +124,7 @@ class HeapSpec extends Specification {
 
         then:
         heap.remove() == expected
-        heap.size() == items.size() - 1
+        heap.size == items.size() - 1
         // A heap can contain duplicate items, so it's insufficient
         // to simply confirm that the removed item is absent.
         heap.getState().count(expected) == items.count(expected) - 1
@@ -186,7 +147,7 @@ class HeapSpec extends Specification {
 
         then:
         removedItem == expected
-        heap.size() == items.size() - 1
+        heap.size == items.size() - 1
         // A heap can contain duplicate items, so it's insufficient
         // to simply confirm that the removed item is absent.
         heap.getState().count(expected) == items.count(expected) - 1
@@ -206,19 +167,19 @@ class HeapSpec extends Specification {
         heap.addAll([1,2,3,4])
 
         then:
-        heap.size() == 4
+        heap.size == 4
 
         when:
         heap.remove()
 
         then:
-        heap.size() == 3
+        heap.size == 3
 
         when:
         heap.addAll([5,6,7])
 
         then:
-        heap.size() == 6
+        heap.size == 6
 
     }
 
