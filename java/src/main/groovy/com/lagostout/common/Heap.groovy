@@ -10,11 +10,22 @@ class Heap<T extends Comparable<?>> {
     int size
 
     @VisibleForTesting
-    List<Comparable<T>> getState() {
-        return new ArrayList<Comparable<T>>(state)
+    List<T> getState() {
+        new ArrayList<T>(state)
     }
 
-    private List<Comparable<T>> state
+    private List<T> state
+
+    /**
+     * For in-place sorting of items.
+     * @param heapPropertyTester
+     * @param items Sorted in place.
+     */
+    Heap(HeapPropertyTester<T> heapPropertyTester, List<T> items) {
+        this(heapPropertyTester)
+        state = items
+        size = state.size()
+    }
 
     Heap(HeapPropertyTester<T> heapPropertyTester) {
         this.heapPropertyTester = heapPropertyTester
@@ -22,44 +33,126 @@ class Heap<T extends Comparable<?>> {
         size = 0
     }
 
-    void add(Comparable<T> comparable) {
+    void add(T comparable) {
         state.add(comparable)
         size += 1
-        def currentNode = [size - 1, state] as HeapNode
-        while (currentNode != null) {
-            def parent = currentNode.parent()
-            if (!heapPropertyTester.satisfiesHeapProperty(
-                    parent, currentNode)) {
-                parent.swapValue(currentNode)
-                currentNode = parent
+        def currentNodeIndex = size - 1
+        while (true) {
+            def parent = parentNodeIndex(currentNodeIndex)
+            if (parent != null && !heapPropertyTester.satisfiesHeapProperty(
+                    state[parent], state[currentNodeIndex])) {
+                swapValue(parent, currentNodeIndex)
+                currentNodeIndex = parent
             } else {
                 break
             }
         }
     }
 
-    Comparable<T> remove() {
-        null
+    T remove() {
+        if (size == 0) return null
+        def lastNodeIndex = size - 1
+        def firstNodeIndex = 0
+        swapValue(firstNodeIndex, lastNodeIndex)
+        --size
+        pushDown(firstNodeIndex)
+        state[lastNodeIndex]
     }
 
-    void addAll(List<Comparable<T>> comparables) {
+    private void pushDown(int nodeIndex) {
+        def currentNodeIndex = nodeIndex
+        while (true) {
+            def nextNodeIndex = currentNodeIndex
+            def leftNodeIndex = leftNodeIndex(currentNodeIndex)
+            if (leftNodeIndex != null &&
+                    !heapPropertyTester.satisfiesHeapProperty(
+                            state[nextNodeIndex], state[leftNodeIndex])) {
+                nextNodeIndex = leftNodeIndex
+            }
+            def rightNodeIndex = rightNodeIndex(currentNodeIndex)
+            if (rightNodeIndex != null &&
+                    !heapPropertyTester.satisfiesHeapProperty(
+                            state[nextNodeIndex], state[rightNodeIndex])) {
+                nextNodeIndex = rightNodeIndex
+            }
+            if (nextNodeIndex == currentNodeIndex) break
+            swapValue(nextNodeIndex, currentNodeIndex)
+            currentNodeIndex = nextNodeIndex
+        }
+    }
+
+    void addAll(List<T> comparables) {
         comparables.each { this.add(it) }
     }
 
-    static void sortAscending(List<Comparable<T>> items) {
-        null
+    void sort() {
+        if (size == 0) return
+        def lastParentNodeIndex = parentIndex(size-1)
+        (lastParentNodeIndex..0).each { int nodeIndex ->
+            pushDown(nodeIndex)
+        }
+        size.times {
+            remove()
+        }
     }
 
-    static void sortDescending(List<Comparable<T>> items) {
-        null
+    private void swapValue(int nodeIndex, int otherNodeIndex) {
+        T otherValue = state[otherNodeIndex]
+        state[otherNodeIndex] = state[nodeIndex]
+        state[nodeIndex] = otherValue
     }
 
-    static <T> Heap createMinHeap() {
-        new Heap(new Heaps.MinHeapPropertyTester<T>())
+    private Integer leftNodeIndex(int parentIndex) {
+        def index = leftIndex(parentIndex)
+        index >= size ? null : index
     }
 
-    static <T> Heap createMaxHeap() {
+    private Integer rightNodeIndex(int parentIndex) {
+        def index = rightIndex(parentIndex)
+        index >= size ? null : index
+    }
+
+    private Integer parentNodeIndex(int childIndex) {
+        def index = parentIndex(childIndex)
+        index < 0 ? null : index
+    }
+
+    static <T extends Comparable<?>> void sortAscending(List<T> items) {
+        def heap = createMaxHeapInPlace(items)
+        heap.sort()
+    }
+
+    static <T extends Comparable<?>> void sortDescending(List<T> items) {
+        def heap = createMinHeapInPlace(items)
+        heap.sort()
+    }
+
+    static <T extends Comparable<?>> Heap createMinHeapInPlace() {
+        new Heap(new Heaps.MinHeapPropertyComparator<T>())
+    }
+
+    static <T extends Comparable<?>> Heap createMinHeapInPlace(List<T> items) {
+        new Heap(new Heaps.MinHeapPropertyComparator<T>(), items)
+    }
+
+    static <T extends Comparable<?>> Heap createMaxHeapInPlace() {
         new Heap(new Heaps.MaxHeapPropertyTester<T>())
+    }
+
+    static <T extends Comparable<?>> Heap createMaxHeapInPlace(List<T> items) {
+        new Heap(new Heaps.MaxHeapPropertyTester<T>(), items)
+    }
+
+    static int leftIndex(int parentNodeIndex) {
+        (parentNodeIndex * 2) + 1
+    }
+
+    static int rightIndex(int parentNodeIndex) {
+        leftIndex(parentNodeIndex) + 1
+    }
+
+    static int parentIndex(int nodeIndex) {
+        nodeIndex / 2 - 1
     }
 
 }

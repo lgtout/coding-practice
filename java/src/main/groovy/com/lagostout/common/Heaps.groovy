@@ -40,7 +40,7 @@ class Heaps {
 
     static <T extends Comparable<?>> boolean satisfiesMinHeapProperty(
             List<T> heap) {
-        satisfiesHeapProperty(heap, new MinHeapPropertyTester<T>())
+        satisfiesHeapProperty(heap, new MinHeapPropertyComparator<T>())
     }
 
     static <T extends Comparable<?>> boolean satisfiesMaxHeapProperty(
@@ -50,39 +50,37 @@ class Heaps {
 
     static <T extends Comparable<?>> boolean satisfiesHeapProperty(
             List<T> heap, HeapPropertyTester<T> heapPropertyTester) {
-        def node = new HeapNode<T>(0, heap)
-        satisfiesHeapProperty(node, heap, heapPropertyTester)
+        satisfiesHeapProperty(0, heap, heapPropertyTester)
     }
 
     static <T extends Comparable<?>> boolean satisfiesHeapProperty(
-            HeapNode<T> node, List<T> heap,
+            int nodeIndex, List<T> heap,
             HeapPropertyTester<T> heapPropertyTester) {
-        def leftNode = node.left()
-        if (leftNode.isOutsideHeap()) return true
-        def rightNode = node.right()
-        if (rightNode.isOutsideHeap()) return true
+        def leftNodeIndex = Heap.leftIndex(nodeIndex)
+        if (leftNodeIndex >= heap.size()) return true
+        def rightNodeIndex = Heap.rightIndex(nodeIndex)
+        if (rightNodeIndex >= heap.size()) return true
         if (!heapPropertyTester.satisfiesHeapProperty(
-                node, node.left()) ||
+                heap[nodeIndex], heap[leftNodeIndex]) ||
                 !heapPropertyTester.satisfiesHeapProperty(
-                        node, node.right())) {
+                        heap[nodeIndex], heap[rightNodeIndex])) {
             return false
         }
-        satisfiesHeapProperty(leftNode, heap, heapPropertyTester) &&
-                satisfiesHeapProperty(rightNode, heap, heapPropertyTester)
+        satisfiesHeapProperty(leftNodeIndex, heap, heapPropertyTester) &&
+                satisfiesHeapProperty(rightNodeIndex, heap, heapPropertyTester)
     }
 
     static interface HeapPropertyTester<T extends Comparable<?>> {
         boolean satisfiesHeapProperty(
-                HeapNode<T> parent, HeapNode<T>child)
+                T parentValue, T childValue)
     }
 
-    static class MinHeapPropertyTester<T extends Comparable<?>>
+    static class MinHeapPropertyComparator<T extends Comparable<?>>
             implements HeapPropertyTester<T> {
         @Override
         boolean satisfiesHeapProperty(
-                HeapNode<T> parent, HeapNode<T> child) {
-            return parent.isOutsideHeap() || child.isOutsideHeap() ||
-                    parent.value <= child.value
+                T parentValue, T childValue) {
+            parentValue <= childValue
         }
     }
 
@@ -90,9 +88,8 @@ class Heaps {
             implements HeapPropertyTester<T> {
         @Override
         boolean satisfiesHeapProperty(
-                HeapNode<T> parent, HeapNode<T> child) {
-            return parent.isOutsideHeap() || child.isOutsideHeap() ||
-                    parent.value >= child.value
+                T parentValue, T childValue) {
+            parentValue >= childValue
         }
     }
 }

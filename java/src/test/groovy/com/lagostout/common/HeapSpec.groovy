@@ -3,8 +3,8 @@ package com.lagostout.common
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.lagostout.common.Heap.*
 import static Heaps.heapStateIsComplete
+import static com.lagostout.common.Heap.*
 import static com.lagostout.common.Heaps.satisfiesMaxHeapProperty
 import static com.lagostout.common.Heaps.satisfiesMinHeapProperty
 
@@ -14,7 +14,7 @@ class HeapSpec extends Specification {
     'min heap maintains a complete tree'(List items) {
 
         given:
-        def heap = createMinHeap()
+        def heap = createMinHeapInPlace()
 
         when:
         heap.addAll(items)
@@ -39,7 +39,7 @@ class HeapSpec extends Specification {
     'max heap maintains a complete tree'(List items) {
 
         given:
-        def heap = createMaxHeap()
+        def heap = createMaxHeapInPlace()
 
         when:
         heap.addAll(items)
@@ -65,7 +65,7 @@ class HeapSpec extends Specification {
      the min heap property"""(List items) {
 
         when:
-        def heap = createMinHeap()
+        def heap = createMinHeapInPlace()
         heap.addAll(items)
 
         then:
@@ -90,7 +90,7 @@ class HeapSpec extends Specification {
     max heap property"""(List items) {
 
         given:
-        def heap = createMaxHeap()
+        def heap = createMaxHeapInPlace()
 
         when:
         heap.addAll(items)
@@ -113,47 +113,67 @@ class HeapSpec extends Specification {
     }
 
     @Unroll
-    'removes the max item from the heap'(
-            List items, Comparable expected) {
+    'removes the max item #expectedItem from the heap #items'(
+            List items, int expectedSize, Comparable expectedItem) {
 
         given:
-        def heap = createMaxHeap()
+        def heap = createMaxHeapInPlace()
+        heap.addAll(items)
+        def itemCount = items.count(expectedItem)
+        def expectedItemCount = itemCount >= 1 ? itemCount - 1 : 0
 
         when:
-        heap.addAll(items)
+        def maxItem = heap.remove()
 
         then:
-        heap.remove() == expected
-        heap.size == items.size() - 1
+        maxItem == expectedItem
+        heap.size == expectedSize
         // A heap can contain duplicate items, so it's insufficient
         // to simply confirm that the removed item is absent.
-        heap.getState().count(expected) == items.count(expected) - 1
+        heap.getState().take(heap.size)
+                .count(expectedItem) == expectedItemCount
 
         where:
-        [items, expected] << []
+        [items, expectedSize, expectedItem] << [
+                [[], 0, null],
+                [[4], 0, 4],
+                [[4,2,5,5,1], 4, 5],
+                [[1,1,1,4,1,1], 5, 4],
+                [[-1, -4, -8, -2], 3, -1],
+        ]
 
     }
 
     @Unroll
-    'removes the min item from the heap'(
-            List items, Comparable expected) {
+    'removes the min item #expectedItem from the heap #items'(
+            List items, int expectedSize, Comparable expectedItem) {
 
         given:
-        def heap = createMinHeap()
+        def heap = createMinHeapInPlace()
         heap.addAll(items)
+        def itemCount = items.count(expectedItem)
+        def expectedItemCount = itemCount >= 1 ? itemCount - 1 : 0
 
         when:
-        def removedItem = heap.remove()
+        def minItem = heap.remove()
 
         then:
-        removedItem == expected
-        heap.size == items.size() - 1
+        minItem == expectedItem
+        heap.size == expectedSize
         // A heap can contain duplicate items, so it's insufficient
         // to simply confirm that the removed item is absent.
-        heap.getState().count(expected) == items.count(expected) - 1
+        heap.getState().take(heap.size)
+                .count(expectedItem) == expectedItemCount
 
         where:
-        [items, expected] << []
+        [items, expectedSize, expectedItem] << [
+                [[], 0, null],
+                [[4], 0, 4],
+                [[4,4], 1, 4],
+                [[4,2,5,5,1], 4, 1],
+                [[1,1,1,4,1,1], 5, 1],
+                [[-1, -4, -8, -2], 3, -8],
+        ]
 
     }
 
@@ -161,7 +181,7 @@ class HeapSpec extends Specification {
     'reports the size of the heap'() {
 
         given:
-        def heap = createMaxHeap()
+        def heap = createMaxHeapInPlace()
 
         when:
         heap.addAll([1,2,3,4])
@@ -198,6 +218,8 @@ class HeapSpec extends Specification {
                 [[], []],
                 [[1], [1]],
                 [[1,2], [1,2]],
+                [[1,3,7,4,2], [1,2,3,4,7]],
+                [[1,2,3,7,4,7,2], [1,2,2,3,4,7,7]],
                 [[2,1], [1,2]],
                 [[7,6,5,4,3,2,1], [1,2,3,4,5,6,7]]
         ]
@@ -219,9 +241,13 @@ class HeapSpec extends Specification {
                 [[], []],
                 [[1], [1]],
                 [[1,2], [1,2]],
+                [[1,3,7,4,2], [1,2,3,4,7]],
+                [[1,2,3,7,4,7,2], [1,2,2,3,4,7,7]],
                 [[2,1], [1,2]],
                 [[7,6,5,4,3,2,1], [1,2,3,4,5,6,7]]
-        ]
+        ].collect {
+            [it[0], it[1].reverse()]
+        }
 
     }
 
