@@ -1,5 +1,7 @@
 package com.lagostout.common
 
+import org.apache.commons.collections4.Bag
+import org.apache.commons.collections4.bag.HashBag
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -14,7 +16,7 @@ class HeapSpec extends Specification {
     'min heap maintains a complete tree'(List items) {
 
         given:
-        def heap = createMinHeapInPlace()
+        def heap = createMinHeap()
 
         when:
         heap.addAll(items)
@@ -39,7 +41,7 @@ class HeapSpec extends Specification {
     'max heap maintains a complete tree'(List items) {
 
         given:
-        def heap = createMaxHeapInPlace()
+        def heap = createMaxHeap()
 
         when:
         heap.addAll(items)
@@ -65,11 +67,13 @@ class HeapSpec extends Specification {
      the min heap property"""(List items) {
 
         when:
-        def heap = createMinHeapInPlace()
+        def heap = createMinHeap()
         heap.addAll(items)
 
         then:
         def tree = heap.getState()
+
+        expect:
         satisfiesMinHeapProperty(tree)
 
         where:
@@ -90,7 +94,7 @@ class HeapSpec extends Specification {
     max heap property"""(List items) {
 
         given:
-        def heap = createMaxHeapInPlace()
+        def heap = createMaxHeap()
 
         when:
         heap.addAll(items)
@@ -113,17 +117,17 @@ class HeapSpec extends Specification {
     }
 
     @Unroll
-    'removes the max item #expectedItem from the heap #items'(
+    'pops the max item #expectedItem from the heap #items'(
             List items, int expectedSize, Comparable expectedItem) {
 
         given:
-        def heap = createMaxHeapInPlace()
+        def heap = createMaxHeap()
         heap.addAll(items)
         def itemCount = items.count(expectedItem)
         def expectedItemCount = itemCount >= 1 ? itemCount - 1 : 0
 
         when:
-        def maxItem = heap.remove()
+        def maxItem = heap.pop()
 
         then:
         maxItem == expectedItem
@@ -145,17 +149,17 @@ class HeapSpec extends Specification {
     }
 
     @Unroll
-    'removes the min item #expectedItem from the heap #items'(
+    'pops the min item #expectedItem from the heap #items'(
             List items, int expectedSize, Comparable expectedItem) {
 
         given:
-        def heap = createMinHeapInPlace()
+        def heap = createMinHeap()
         heap.addAll(items)
         def itemCount = items.count(expectedItem)
         def expectedItemCount = itemCount >= 1 ? itemCount - 1 : 0
 
         when:
-        def minItem = heap.remove()
+        def minItem = heap.pop()
 
         then:
         minItem == expectedItem
@@ -181,7 +185,7 @@ class HeapSpec extends Specification {
     'reports the size of the heap'() {
 
         given:
-        def heap = createMaxHeapInPlace()
+        def heap = createMaxHeap()
 
         when:
         heap.addAll([1,2,3,4])
@@ -190,7 +194,7 @@ class HeapSpec extends Specification {
         heap.size == 4
 
         when:
-        heap.remove()
+        heap.pop()
 
         then:
         heap.size == 3
@@ -248,6 +252,93 @@ class HeapSpec extends Specification {
         ].collect {
             [it[0], it[1].reverse()]
         }
+
+    }
+
+    @Unroll
+    'updates a max-heap item'(Heap<Integer> heap, int oldValue,
+                              int newValue, Bag<Integer> expected) {
+        when:
+        heap.update(oldValue, newValue)
+
+        then:
+        expected == new HashBag<Integer>(heap.state)
+
+        where:
+        [heap, oldValue, newValue, expected] << [
+                [[1,2,3], 2, 3],
+                [[3,4,5,9,1,2,4], 1, 9],
+        ].collect { List<Integer> items, int _oldValue, int _newValue ->
+            def _expected = new HashBag(items)
+            _expected.remove(_oldValue, 1)
+            _expected.add(_newValue)
+            def _heap = createMaxHeap()
+            _heap.addAll(items)
+            [_heap, _oldValue, _newValue, _expected]
+        }
+
+    }
+
+    @Unroll
+    'updates a min-heap item'(Heap<Integer> heap, int oldValue,
+                              int newValue, Bag<Integer> expected) {
+        when:
+        heap.update(oldValue, newValue)
+
+        then:
+        expected == new HashBag<Integer>(heap.state)
+
+        where:
+        [heap, oldValue, newValue, expected] << [
+                [[1,2,3], 2, 3],
+                [[3,4,5,9,1,2,4], 1, 9],
+        ].collect { List<Integer> items, int _oldValue, int _newValue ->
+            def _expected = new HashBag(items)
+            _expected.remove(_oldValue, 1)
+            _expected.add(_newValue)
+            def _heap = createMinHeap()
+            _heap.addAll(items)
+            [_heap, _oldValue, _newValue, _expected]
+        }
+
+    }
+
+    @Unroll
+    def 'peeks at the top of a min-heap without altering the heap'(
+            List<Integer> items, int expected) {
+
+        when:
+        def heap = createMinHeap()
+        heap.addAll(items)
+
+        then:
+        heap.peek() == expected
+        heap.size == items.size()
+
+        where:
+        [items, expected] << [
+                [[1,1,2,3], 1],
+                [[2,3,1], 1],
+                [[3,4,5,9,1,2,4], 1]]
+
+    }
+
+    def 'peeks at the top of a max-heap without altering the heap'(
+        List<Integer> items, int expected) {
+
+            when:
+            def heap = createMaxHeap()
+            heap.addAll(items)
+
+            then:
+            heap.peek() == expected
+            heap.size == items.size()
+
+            where:
+            [items, expected] << [
+                    [[1,1,2,3], 3],
+                    [[2,3,1], 3],
+                    [[3,4,5,9,1,2,4], 9]]
 
     }
 

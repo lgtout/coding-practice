@@ -1,4 +1,4 @@
-package com.lagostout.util
+package com.lagostout.common
 
 class Util {
 
