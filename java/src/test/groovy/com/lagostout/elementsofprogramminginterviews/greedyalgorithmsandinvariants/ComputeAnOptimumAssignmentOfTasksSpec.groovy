@@ -2,7 +2,6 @@ package com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvaria
 
 import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants.ComputeAnOptimumAssignmentOfTasks.Task
 import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants.ComputeAnOptimumAssignmentOfTasks.TaskPair
-import org.apache.commons.math3.util.CombinatoricsUtils
 import spock.lang.Specification
 import spock.lang.Unroll
 
