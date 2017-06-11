@@ -5,8 +5,8 @@ import org.apache.commons.collections4.bag.HashBag
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static Heaps.heapStateIsComplete
 import static com.lagostout.common.Heap.*
+import static com.lagostout.common.Heaps.heapStateIsComplete
 import static com.lagostout.common.Heaps.satisfiesMaxHeapProperty
 import static com.lagostout.common.Heaps.satisfiesMinHeapProperty
 
@@ -22,7 +22,7 @@ class HeapSpec extends Specification {
         heap.addAll(items)
 
         then:
-        heapStateIsComplete(heap.getState())
+        heapStateIsComplete(heap.getCopyOfState())
 
         where:
         items << [
@@ -47,7 +47,7 @@ class HeapSpec extends Specification {
         heap.addAll(items)
 
         then:
-        heapStateIsComplete(heap.getState())
+        heapStateIsComplete(heap.getCopyOfState())
 
         where:
         items << [
@@ -71,7 +71,7 @@ class HeapSpec extends Specification {
         heap.addAll(items)
 
         then:
-        def tree = heap.getState()
+        def tree = heap.getCopyOfState()
 
         expect:
         satisfiesMinHeapProperty(tree)
@@ -100,7 +100,7 @@ class HeapSpec extends Specification {
         heap.addAll(items)
 
         then:
-        def tree = heap.getState()
+        def tree = heap.getCopyOfState()
         satisfiesMaxHeapProperty(tree)
 
         where:
@@ -134,7 +134,7 @@ class HeapSpec extends Specification {
         heap.size == expectedSize
         // A heap can contain duplicate items, so it's insufficient
         // to simply confirm that the removed item is absent.
-        heap.getState().take(heap.size)
+        heap.getCopyOfState().take(heap.size)
                 .count(expectedItem) == expectedItemCount
 
         where:
@@ -166,7 +166,7 @@ class HeapSpec extends Specification {
         heap.size == expectedSize
         // A heap can contain duplicate items, so it's insufficient
         // to simply confirm that the removed item is absent.
-        heap.getState().take(heap.size)
+        heap.getCopyOfState().take(heap.size)
                 .count(expectedItem) == expectedItemCount
 
         where:
@@ -262,7 +262,7 @@ class HeapSpec extends Specification {
         heap.update(oldValue, newValue)
 
         then:
-        expected == new HashBag<Integer>(heap.state)
+        expected == new HashBag<Integer>(heap.copyOfState)
 
         where:
         [heap, oldValue, newValue, expected] << [
@@ -274,6 +274,7 @@ class HeapSpec extends Specification {
             _expected.add(_newValue)
             def _heap = createMaxHeap()
             _heap.addAll(items)
+            println _heap.copyOfState
             [_heap, _oldValue, _newValue, _expected]
         }
 
@@ -286,7 +287,7 @@ class HeapSpec extends Specification {
         heap.update(oldValue, newValue)
 
         then:
-        expected == new HashBag<Integer>(heap.state)
+        expected == new HashBag<Integer>(heap.copyOfState)
 
         where:
         [heap, oldValue, newValue, expected] << [

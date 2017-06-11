@@ -8,20 +8,20 @@ import org.apache.commons.collections4.multimap.HashSetValuedHashMap
 // https://www.hackerearth.com/practice/data-structures/trees/heapspriority-queues/tutorial/
 // https://www.hackerearth.com/practice/algorithms/sorting/heap-sort/tutorial/
 
-class Heap<T extends Comparable<?>> {
+class Heap<T extends Comparable<?>> implements Heapable<T> {
 
     HeapPropertyTester<T> heapPropertyTester
 
     int size
 
     @VisibleForTesting
-    List<T> getState() {
-        new ArrayList<T>(state)
+    List<T> getCopyOfState() {
+        new ArrayList<T>(state).take(size)
     }
 
-    private List<T> state
+    protected List<T> state
 
-    private MultiValuedMap<T, Integer> itemToIndicesMap
+    protected MultiValuedMap<T, Integer> itemToIndicesMap
 
     /**
      * For in-place sorting of items.
@@ -69,7 +69,7 @@ class Heap<T extends Comparable<?>> {
     }
 
     static <T extends Comparable<?>> Heap createMinHeap() {
-        new Heap(new Heaps.MinHeapPropertyComparator<T>())
+        new Heap(new Heaps.MinHeapPropertyTester<T>())
     }
 
     static <T extends Comparable<?>> Heap createMaxHeap() {
@@ -89,82 +89,81 @@ class Heap<T extends Comparable<?>> {
     }
 
     private static <T extends Comparable<?>> Heap createMinHeapInPlace(List<T> items) {
-        new Heap(new Heaps.MinHeapPropertyComparator<T>(), items)
+        new Heap(new Heaps.MinHeapPropertyTester<T>(), items)
     }
 
     private static <T extends Comparable<?>> Heap createMaxHeapInPlace(List<T> items) {
         new Heap(new Heaps.MaxHeapPropertyTester<T>(), items)
     }
 
+    @Override
     void update(T oldValue, T newValue) {
         remove(oldValue)
-        println state.toArray()
+        removeItemsOutsideHeap()
         add(newValue)
-        println state.toArray()
     }
 
+    @Override
     void add(T comparable) {
         addToState(comparable)
         def lastNodeIndex = size - 1
         pushUp(lastNodeIndex)
     }
 
-    void pushUp(int nodeIndex) {
-        def currentNodeIndex = nodeIndex
-        while (true) {
-            def parent = parentNodeIndex(currentNodeIndex)
-            if (parent != null &&
-                    !heapPropertyTester.satisfiesHeapProperty(
-                            state[parent], state[currentNodeIndex])) {
-                swapValue(parent, currentNodeIndex)
-                currentNodeIndex = parent
-            } else {
-                break
-            }
-        }
-    }
-
+    @Override
     T peek() {
         state[0]
     }
 
+    @Override
     T pop() {
-        removeAtIndex()
+        def item = removeHeapTop()
+        removeItemsOutsideHeap()
+        item
     }
 
-    void addAll(List<T> comparables) {
+    @Override
+    void addAll(Iterable<T> comparables) {
         comparables.each { this.add(it) }
     }
 
     void sort() {
         if (size == 0) return
-        def lastParentNodeIndex = parentIndex(size-1)
+        def lastParentNodeIndex = parentIndex(size - 1)
         (lastParentNodeIndex..0).each { int nodeIndex ->
             pushDown(nodeIndex)
         }
         (size as Integer).times {
-            pop()
+            removeHeapTop()
         }
     }
 
-    private void remove(T value) {
+    @Override
+    void remove(T value) {
         def index = itemToIndicesMap.get(value).first()
-        println index
-        removeAtIndex(index)
+        moveOutsideHeapFrom(index)
     }
 
-    private T removeAtIndex(int index = 0) {
-        if (size == 0) return null
-        def lastNodeIndex = size - 1
-        swapValue(index, lastNodeIndex)
-        --size
-        pushDown(index)
-        def value = state[lastNodeIndex]
-        state.remove(lastNodeIndex)
-        value
+    @Override
+    boolean isEmpty() {
+        return size == 0
     }
 
-    private void pushDown(int nodeIndex) {
+    @Override
+    List<T> asList() {
+        List<T> list = []
+        // Drain the heap
+        while (!isEmpty()) {
+            list << pop()
+        }
+        // Restore the heap
+        list.each {
+            add(it)
+        }
+        list
+    }
+
+    protected void pushDown(int nodeIndex) {
         def currentNodeIndex = nodeIndex
         while (true) {
             def nextNodeIndex = currentNodeIndex
@@ -186,24 +185,62 @@ class Heap<T extends Comparable<?>> {
         }
     }
 
-    private void addToState(T value) {
-        state.add(value)
-        itemToIndicesMap.put(value, size)
-        size++
+    protected void pushUp(int nodeIndex) {
+        def currentNodeIndex = nodeIndex
+        while (true) {
+            def parent = parentNodeIndex(currentNodeIndex)
+            if (parent != null &&
+                    !heapPropertyTester.satisfiesHeapProperty(
+                            state[parent], state[currentNodeIndex])) {
+                swapValue(parent, currentNodeIndex)
+                currentNodeIndex = parent
+            } else {
+                break
+            }
+        }
     }
 
-    private void setStateValue(int index, T value) {
-        itemToIndicesMap.put(value, index)
-        state[index] = value
-    }
-
-    private void swapValue(int nodeIndex, int otherNodeIndex) {
+    protected void swapValue(int nodeIndex, int otherNodeIndex) {
         T otherValue = state[otherNodeIndex]
         T value = state[nodeIndex]
         itemToIndicesMap.removeMapping(otherValue, otherNodeIndex)
         itemToIndicesMap.removeMapping(value, nodeIndex)
-        setStateValue(otherNodeIndex, value)
-        setStateValue(nodeIndex, otherValue)
+        setStateAt(otherNodeIndex, value)
+        setStateAt(nodeIndex, otherValue)
+    }
+
+    private T removeHeapTop() {
+        moveOutsideHeapFrom(0)
+    }
+
+    private T moveOutsideHeapFrom(int index) {
+        if (size == 0) return null
+        def lastNodeIndex = size - 1
+        swapValue(index, lastNodeIndex)
+        --size
+        if (index != 0) {
+            pushUp(index)
+        }
+        pushDown(index)
+        def value = state[lastNodeIndex]
+        value
+    }
+
+    private void removeItemsOutsideHeap() {
+        while (state.size() > size) {
+            state.removeAt(state.size() - 1)
+        }
+    }
+
+    private void addToState(T value) {
+        state.add(null)
+        setStateAt(size, value)
+        size++
+    }
+
+    private void setStateAt(int index, T value) {
+        itemToIndicesMap.put(value, index)
+        state[index] = value
     }
 
     private Integer leftNodeIndex(int parentIndex) {

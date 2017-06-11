@@ -40,7 +40,7 @@ class Heaps {
 
     static <T extends Comparable<?>> boolean satisfiesMinHeapProperty(
             List<T> heap) {
-        satisfiesHeapProperty(heap, new MinHeapPropertyComparator<T>())
+        satisfiesHeapProperty(heap, new MinHeapPropertyTester<T>())
     }
 
     static <T extends Comparable<?>> boolean satisfiesMaxHeapProperty(
@@ -75,7 +75,7 @@ class Heaps {
                 T parentValue, T childValue)
     }
 
-    static class MinHeapPropertyComparator<T extends Comparable<?>>
+    static class MinHeapPropertyTester<T extends Comparable<?>>
             implements HeapPropertyTester<T> {
         @Override
         boolean satisfiesHeapProperty(
