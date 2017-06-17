@@ -42,7 +42,7 @@ class TestIfBinaryTreeIsSymmetricSpec extends Specification {
                   [null, null, 'C'], [null, null, 'C']], false], // 16
         ].collect { List params ->
             def nodeTree = []
-            BinaryTreeNode.buildBinaryTree(0, params[0] as List, nodeTree)
+            BinaryTreeNode.buildBinaryTree(params[0] as List, nodeTree)
             [nodeTree[0], params[1]]
         }
     }

@@ -1,6 +1,6 @@
+package com.lagostout.elementsofprogramminginterviews.hashtables
 
 import com.lagostout.common.BinaryTreeNode
-import com.lagostout.elementsofprogramminginterviews.hashtables.ComputeLCA
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -44,7 +44,7 @@ class ComputeLCASpec extends Specification {
             int node1Index, int node2Index,
             List<List> rawTree, int expectedIndex ->
                 List<BinaryTreeNode> nodeTree = []
-                BinaryTreeNode.buildBinaryTree(0, rawTree, nodeTree)
+                BinaryTreeNode.buildBinaryTree(rawTree, nodeTree)
                 def _node1 = nodeTree[node1Index]
                 def _node2 = nodeTree[node2Index]
                 def result = [_node1, _node2, nodeTree[expectedIndex]]

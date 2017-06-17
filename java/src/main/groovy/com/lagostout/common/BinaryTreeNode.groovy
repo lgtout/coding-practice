@@ -56,21 +56,27 @@ class BinaryTreeNode<T> {
     }
 
     static <T> void buildBinaryTree(
-            int index, List<List<T>> rawTree,
+            List<List> rawTree,
+            List<BinaryTreeNode<T>> tree) {
+        buildBinaryTree(0, rawTree, tree)
+    }
+
+    static <T> void buildBinaryTree(
+            int rootNodeIndex, List<List<?>> rawTree,
             List<BinaryTreeNode<T>> tree) {
         if (rawTree.isEmpty()) return
-        List rawNode = rawTree.get(index)
+        List rawNode = rawTree.get(rootNodeIndex)
         BinaryTreeNode node
         if (rawNode.size() == 4) { // Configure parent
-            def parentIndex = rawNode[2] as Integer
-            BinaryTreeNode parentNode = parentIndex != null ?
-                    tree[parentIndex] : null
+            def parentNodeIndex = rawNode[2] as Integer
+            BinaryTreeNode parentNode = parentNodeIndex != null ?
+                    tree[parentNodeIndex] : null
             node = new BinaryTreeNode(rawNode[3] as T)
             node.parent = parentNode
         } else { // No parent
             node = new BinaryTreeNode(rawNode[2] as T)
         }
-        tree[index] = node
+        tree[rootNodeIndex] = node
         def leftIndex = rawNode[0] as Integer
         if (leftIndex != null) {
             buildBinaryTree(leftIndex, rawTree, tree)
