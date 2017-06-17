@@ -2,7 +2,7 @@ package com.lagostout.elementsofprogramminginterviews.binarytrees
 import com.lagostout.common.BinaryTreeNode
 
 /**
- * Problem 10.3 p
+ * Problem 10.3 p156
  */
 class ComputeLCAInBinaryTree {
 
