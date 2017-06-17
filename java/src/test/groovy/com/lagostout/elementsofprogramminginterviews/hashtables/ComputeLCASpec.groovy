@@ -45,10 +45,8 @@ class ComputeLCASpec extends Specification {
             List<List> rawTree, int expectedIndex ->
                 List<BinaryTreeNode> nodeTree = []
                 BinaryTreeNode.buildBinaryTree(0, rawTree, nodeTree)
-                def _node1 = node1Index != null ?
-                        nodeTree[node1Index] : null
-                def _node2 = node2Index != null ?
-                        nodeTree[node2Index] : null
+                def _node1 = nodeTree[node1Index]
+                def _node2 = nodeTree[node2Index]
                 def result = [_node1, _node2, nodeTree[expectedIndex]]
                 result
         }
