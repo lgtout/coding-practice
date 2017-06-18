@@ -4,9 +4,9 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 
 class BinaryTreeNode<T> {
 
-    BinaryTreeNode parent
-    BinaryTreeNode left
-    BinaryTreeNode right
+    BinaryTreeNode<T> parent
+    BinaryTreeNode<T> left
+    BinaryTreeNode<T> right
     T value
 
     BinaryTreeNode(T value) {
