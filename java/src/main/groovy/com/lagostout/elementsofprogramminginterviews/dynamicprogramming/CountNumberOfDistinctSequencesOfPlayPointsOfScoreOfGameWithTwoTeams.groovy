@@ -2,23 +2,27 @@ package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
 class CountNumberOfDistinctSequencesOfPlayPointsOfScoreOfGameWithTwoTeams {
 
-    static enum Team {
-        A, B
-    }
-
     int compute(int score) {
         0
     }
 
-    static class PlayPoints {
+    enum Team {
+        A, B
+    }
 
+    class PlayPoints {
         int points
         Team team
-
         String toString() {
             "(${team.name()},$points)"
-//            ReflectionToStringBuilder.toString(this,
-//                    new MultilineShortPrefixRecursiveToStringStyle())
+        }
+
+        static List<List<PlayPoints>> toPlayPointSequences(List<List<List>> sequences) {
+            sequences.collect {
+                it.collect {
+                    [team:it[0], points:it[1]] as PlayPoints
+                }
+            }
         }
 
         boolean equals(o) {
@@ -38,14 +42,6 @@ class CountNumberOfDistinctSequencesOfPlayPointsOfScoreOfGameWithTwoTeams {
             result = points
             result = 31 * result + team.hashCode()
             return result
-        }
-
-        static List<List<PlayPoints>> toPlayPointSequences(List<List<List>> sequences) {
-            sequences.collect {
-                it.collect {
-                    [team:it[0], points:it[1]] as PlayPoints
-                }
-            }
         }
     }
 
