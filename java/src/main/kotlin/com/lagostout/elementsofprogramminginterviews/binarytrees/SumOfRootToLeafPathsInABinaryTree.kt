@@ -25,7 +25,9 @@ fun sumOfRootToLeafPaths(root: BinaryTreeNode<Boolean>): Int {
                         0 -> frame.node.left
                         else -> frame.node.right }
                     frame.step++
-                    stack.push(Frame(node = nextNode))
+                    nextNode?.let {
+                        stack.push(Frame(node = nextNode))
+                    }
                 }
                 else -> {
                     sum += number
