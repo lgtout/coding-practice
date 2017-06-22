@@ -1,44 +1,61 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
-import com.lagostout.elementsofprogramminginterviews.dynamicprogramming.CountNumberOfDistinctSequencesOfPlayPointsOfScoreOfGameWithTwoTeams.Team.*
-import com.lagostout.elementsofprogramminginterviews.dynamicprogramming.CountNumberOfDistinctSequencesOfPlayPointsOfScoreOfGameWithTwoTeams.PlayPoints
 import org.jetbrains.spek.api.Spek
+import kotlin.test.assertEquals
 
-data class DataRow(val firstTeamScore:Int, val secondTeamScore: Int,
-                   val sequenceCount: Int, val possiblePlayPoints: List<Int>,
-                   val sequences: List<List<PlayPoints>>?)
+data class DataRow(val firstTeamScore:Int,
+                   val secondTeamScore: Int,
+                   val sequenceCount: Int)
 
 class CountNumberOfDistinctSequencesOfPlayPointsOfScoreOfGameWithTwoTeamsSpek : Spek({
-    given("the game score for two teams") {
-        allData.forEach {
-            on("computing the number of distinct sequences of play points that result in the score") {
+    allData.forEach {
+        given("the game score for two teams  ${it.firstTeamScore}, ${it.secondTeamScore}") {
+            on("computing the number of distinct sequences of play points that " +
+                    "result in the score") {
+                val sequenceCount = CountNumberOfDistinctSequencesOfPlayPointsOfScoreOfGameWithTwoTeams.
+                        countOfDistinctSequences(
+                        it.firstTeamScore, it.secondTeamScore, listOf(2,3,4))
                 it("returns the number of distinct sequences") {
-
+                    assertEquals(it.sequenceCount, sequenceCount)
                 }
             }
         }
     }
 })
 
-private val allPlayPoints = listOf(2,3,4)
+class CountNumberOfDistinctSequencesOfPlayPointsOfScoreOfGameWithTwoTeamsUsingBruteForceSpek : Spek({
+    allData.forEach {
+        given("the game score for two teams") {
+            on("computing the number of distinct sequences of play points that " +
+                    "result in the score using brute force") {
+                val sequenceCount = CountNumberOfDistinctSequencesOfPlayPointsOfScoreOfGameWithTwoTeams.
+                        countOfDistinctSequencesUsingBruteForce(
+                        it.firstTeamScore, it.secondTeamScore, listOf(2,3,4))
+                it("returns the number of distinct sequences") {
+                    assertEquals(it.sequenceCount, sequenceCount)
+                }
+            }
+        }
+    }
+})
+
 private val allData = listOf(
-        DataRow(0, 0, 1, allPlayPoints, listOf(listOf())),
-        DataRow(0, 1, 0, allPlayPoints, null),
-        DataRow(0, 2, 1, allPlayPoints, listOf(listOf(PlayPoints(2,B)))),
-        DataRow(0, 3, 1, allPlayPoints, listOf(listOf(PlayPoints(3,B)))),
-        DataRow(0, 4, 1, allPlayPoints,
-                listOf(listOf(PlayPoints(4,B)),
-                        listOf(PlayPoints(2,B), PlayPoints(2,B)))),
-        DataRow(0, 5, 2, allPlayPoints,
-                listOf(listOf(PlayPoints(2, B), PlayPoints(3,B)),
-                        listOf(PlayPoints(3,B), PlayPoints(2,B)))),
-        DataRow(1, 0, 0, allPlayPoints, null),
-        DataRow(1, 2, 0, allPlayPoints, null),
-        DataRow(1, 4, 0, allPlayPoints, null),
-        DataRow(2, 0, 1, allPlayPoints, listOf(listOf(PlayPoints(2,A)))),
-        DataRow(2, 1, 0, allPlayPoints, null),
-        DataRow(2, 2, 2, allPlayPoints, listOf(
-                listOf(PlayPoints(2,A), PlayPoints(2,B)),
-                listOf(PlayPoints(2,A), PlayPoints(2,B)))
-        )
+        DataRow(0, 0, 1),
+        DataRow(0, 1, 0),
+        DataRow(0, 2, 1)
+        ,DataRow(0, 3, 1),
+        DataRow(0, 4, 2),
+        DataRow(0, 5, 2),
+        DataRow(1, 0, 0),
+        DataRow(1, 2, 0),
+        DataRow(1, 4, 0),
+        DataRow(2, 0, 1),
+        DataRow(2, 1, 0),
+        DataRow(2, 2, 2),
+        DataRow(2, 4, 5),
+        DataRow(2, 4, 5),
+        DataRow(4, 2, 5),
+        DataRow(5, 2, 6),
+        DataRow(4, 5, 18),
+        DataRow(5, 5, 24)
 )

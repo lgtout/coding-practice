@@ -2,20 +2,49 @@ package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
 object CountNumberOfDistinctSequencesOfPlayPointsOfScoreOfGameWithTwoTeams {
 
-    // TODO Start with recursive solution.  Then add in caching.
-    fun numberOfDistinctSequences():Int {
-        return 0
+    fun countOfDistinctSequences(firstTeamScore: Int, secondTeamScore: Int,
+                              possiblePlayPoints: List<Int>): Int {
+        val sequenceCounts = mutableListOf<MutableList<Int>>()
+        (0..firstTeamScore).forEach { currentFirstTeamScore ->
+            sequenceCounts.add(mutableListOf())
+            (0..secondTeamScore).forEach { currentSecondTeamScore ->
+                sequenceCounts[currentFirstTeamScore].add(
+                        if (currentFirstTeamScore == 0 && currentSecondTeamScore == 0) 1
+                        else possiblePlayPoints.fold(0) {
+                            sequenceCount, playPoints ->
+                            var sequenceCount = sequenceCount
+                            val firstTeamPreviousScore = currentFirstTeamScore - playPoints
+                            sequenceCount += if (firstTeamPreviousScore < 0) 0
+                            else sequenceCounts[firstTeamPreviousScore][currentSecondTeamScore]
+                            val secondTeamPreviousScore = currentSecondTeamScore - playPoints
+                            sequenceCount += if (secondTeamPreviousScore < 0) 0
+                            else sequenceCounts[currentFirstTeamScore][secondTeamPreviousScore]
+                            sequenceCount
+                        })
+            }
+        }
+        return sequenceCounts[firstTeamScore][secondTeamScore]
     }
 
-    fun toPlayPointsSequence(): List<PlayPoints> {
-        return listOf()
+    fun countOfDistinctSequencesUsingBruteForce(firstTeamScore: Int, secondTeamScore: Int,
+                                                possiblePlayPoints: List<Int>): Int {
+        // 0 ways to get a negative score.
+        if (firstTeamScore < 0 || secondTeamScore < 0) return 0
+        val sequenceCount = possiblePlayPoints.fold(0) {
+            sequenceCount, playPoints ->
+            val firstTeamSequenceCount = if (firstTeamScore == 0) 1
+            else countOfDistinctSequencesUsingBruteForce(
+                    firstTeamScore - playPoints,
+                    secondTeamScore, possiblePlayPoints)
+            val secondTeamSequenceCount = if (secondTeamScore == 0) 1
+            else countOfDistinctSequencesUsingBruteForce(
+                    firstTeamScore - playPoints,
+                    secondTeamScore, possiblePlayPoints)
+            sequenceCount + firstTeamSequenceCount +
+                    secondTeamSequenceCount
+        }
+        return sequenceCount
     }
-
-    enum class Team {
-        A, B
-    }
-
-    data class PlayPoints(val points: Int, val team: Team)
 
 }
 
