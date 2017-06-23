@@ -3,17 +3,22 @@ package com.lagostout.elementsofprogramminginterviews.binarytrees
 import com.lagostout.common.BinaryTreeNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
+import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
 
 class SumOfRootToLeafPathsInABinaryTreeSpek : Spek({
     describe("sumOfRootToLeafPaths") {
         listOf(
-                TestCase(listOf(0b110, 0b111, 0b101)),
-                TestCase(listOf(0b10, 0b1100, 0b1101, 0b111))
+                TestCase(listOf(0b10, 0b11))
+                ,TestCase(listOf(0b110, 0b111, 0b101))
+                ,TestCase(listOf(0b10, 0b1100, 0b1101, 0b111))
         ).forEach {
-            it(it.label) {
-                assertEquals(it.expected, sumOfRootToLeafPaths(it.tree))
+            given("a binary tree where nodes represent bits " +
+                    "of the numbers ${it.numbers}") {
+                it(it.label) {
+                    assertEquals(it.expected, sumOfRootToLeafPaths(it.tree))
+                }
             }
         }
     }
@@ -23,8 +28,8 @@ private data class TestCase(val numbers: List<Int>) {
 
     val tree = tree(numbers)
     val expected = numbers.sum()
-    val label = "computes the sum of the root to leaf paths of a binary tree \n" +
-            "where each such node represents a single bit of the numbers $numbers as $expected"
+    val label = "computes the sum of the root to leaf paths " +
+            "of a binary tree $expected"
 
     /**
      * It's assumed that all numbers are positive.

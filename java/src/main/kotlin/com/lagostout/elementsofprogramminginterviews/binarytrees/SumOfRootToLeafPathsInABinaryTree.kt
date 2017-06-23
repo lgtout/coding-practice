@@ -15,25 +15,32 @@ fun sumOfRootToLeafPaths(root: BinaryTreeNode<Boolean>): Int {
         var number = 0
         while (stack.isNotEmpty()) {
             val frame = stack.peek()
-            number = number shl 1
+            if (frame.step in listOf(0,1)) {
+                number = when (frame.node.value) {
+                    true -> number or 1
+                    else -> number }
+            }
+            fun step0Or1(node: BinaryTreeNode<Boolean>?) {
+                node?.let {
+                    stack.push(Frame(node = node))
+                    number = number shl 1
+                }
+            }
             when (frame.step) {
-                0,1 -> {
-                    number = when (frame.node.value) {
-                        true -> number and 1
-                        else -> number }
-                    val nextNode = when (frame.step) {
-                        0 -> frame.node.left
-                        else -> frame.node.right }
-                    frame.step++
-                    nextNode?.let {
-                        stack.push(Frame(node = nextNode))
+                0 -> step0Or1(frame.node.left)
+                1 -> step0Or1(frame.node.right)
+                2 -> {
+                    if (frame.node.left == null && frame.node.right == null) {
+                        sum += number
                     }
                 }
                 else -> {
-                    sum += number
-                    number ushr 1
+                    number = number ushr 1
                     stack.pop()
                 }
+            }
+            if (frame.step in listOf(0,1,2)) {
+                frame.step++
             }
         }
         sum
