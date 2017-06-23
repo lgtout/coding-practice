@@ -2,6 +2,9 @@ package com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvaria
 
 import org.apache.commons.math3.random.RandomDataGenerator
 import org.jetbrains.spek.api.Spek
+import org.jetbrains.spek.api.dsl.given
+import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.on
 import kotlin.test.assertEquals
 
 @Suppress("UNCHECKED_CAST")

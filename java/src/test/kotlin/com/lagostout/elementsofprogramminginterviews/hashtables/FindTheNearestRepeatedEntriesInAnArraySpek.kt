@@ -1,6 +1,9 @@
 package com.lagostout.elementsofprogramminginterviews.hashtables
 
 import org.jetbrains.spek.api.Spek
+import org.jetbrains.spek.api.dsl.given
+import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.on
 import kotlin.test.assertEquals
 
 private data class DataRow(val words:List<String>, val expected:String?)

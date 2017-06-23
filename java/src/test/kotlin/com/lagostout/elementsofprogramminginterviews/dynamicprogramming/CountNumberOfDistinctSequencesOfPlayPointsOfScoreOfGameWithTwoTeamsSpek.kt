@@ -1,6 +1,9 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
 import org.jetbrains.spek.api.Spek
+import org.jetbrains.spek.api.dsl.given
+import org.jetbrains.spek.api.dsl.on
+import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
 
 data class DataRow(val firstTeamScore:Int,
