@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E07957BE0D5C08C7F14079C /* IntersectionOfTwoArrays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E07908CBB4968D0BCAB50A1 /* IntersectionOfTwoArrays.swift */; };
+		2E0795950C11A4DD54E7835A /* IntersectionOfTwoArraysSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079DFD43BD20CC35CA3E69 /* IntersectionOfTwoArraysSpec.swift */; };
 		2E0798AF80703CFC9293A98C /* NumberComplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079267D52C7F0A39E3DFA3 /* NumberComplement.swift */; };
 		2E0798F5B63266B62D2EB04A /* NumberComplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079267D52C7F0A39E3DFA3 /* NumberComplement.swift */; };
+		2E079AAA447F3E61C2CB4FF4 /* IntersectionOfTwoArrays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E07908CBB4968D0BCAB50A1 /* IntersectionOfTwoArrays.swift */; };
 		2E079F6180A2E4F4844391CF /* NumberComplementSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079081B905211D6A9BB5A8 /* NumberComplementSpec.swift */; };
 		44F3212CF89C2A97243C7D22 /* Pods_CodingPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B289D46F7B5F7DF819B3C1 /* Pods_CodingPractice.framework */; };
 		662879631E5521DE00D2EAE6 /* SumOfTwoIntegers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662879621E5521DE00D2EAE6 /* SumOfTwoIntegers.swift */; };
@@ -22,6 +25,9 @@
 		663F32251E2F2AAB0009C92D /* CodingPractice.h in Headers */ = {isa = PBXBuildFile; fileRef = 663F32171E2F2AAB0009C92D /* CodingPractice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		664BDBBF1E2F2C6D0074D723 /* HammingDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BDBBE1E2F2C6D0074D723 /* HammingDistance.swift */; };
 		664BDBC11E2F2CCE0074D723 /* HammingDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BDBBE1E2F2C6D0074D723 /* HammingDistance.swift */; };
+		664C57AF1E93FFAA00829C2A /* PaintHouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C57AE1E93FFAA00829C2A /* PaintHouse.swift */; };
+		664C57B01E93FFAA00829C2A /* PaintHouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C57AE1E93FFAA00829C2A /* PaintHouse.swift */; };
+		664C57B21E93FFBB00829C2A /* PaintHouseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C57B11E93FFBB00829C2A /* PaintHouseSpec.swift */; };
 		66699F4F1E4ACCD3009E3067 /* SingleNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66699F4E1E4ACCD3009E3067 /* SingleNumber.swift */; };
 		66699F501E4ACCD3009E3067 /* SingleNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66699F4E1E4ACCD3009E3067 /* SingleNumber.swift */; };
 		66699F521E4ACD8D009E3067 /* SingleNumberSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66699F511E4ACD8D009E3067 /* SingleNumberSpec.swift */; };
@@ -56,6 +62,9 @@
 		66D9C66A1E750BF200DD92EC /* ConstructTheRectangleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D9C6691E750BF200DD92EC /* ConstructTheRectangleSpec.swift */; };
 		66D9C66C1E750C0400DD92EC /* ConstructTheRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D9C66B1E750C0400DD92EC /* ConstructTheRectangle.swift */; };
 		66D9C66D1E750C0A00DD92EC /* ConstructTheRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D9C66B1E750C0400DD92EC /* ConstructTheRectangle.swift */; };
+		66DC37111E8B293800F5A42A /* FirstUniqueCharacterInAStringSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DC37101E8B293800F5A42A /* FirstUniqueCharacterInAStringSpec.swift */; };
+		66DC37131E8B295300F5A42A /* FirstUniqueCharacterInAString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DC37121E8B295300F5A42A /* FirstUniqueCharacterInAString.swift */; };
+		66DC37141E8B295300F5A42A /* FirstUniqueCharacterInAString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DC37121E8B295300F5A42A /* FirstUniqueCharacterInAString.swift */; };
 		66E851221E39585100E28A6A /* PalindromePermutationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851211E39585100E28A6A /* PalindromePermutationSpec.swift */; };
 		66E851241E39586F00E28A6A /* PalindromePermutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851231E39586F00E28A6A /* PalindromePermutation.swift */; };
 		66E851251E39586F00E28A6A /* PalindromePermutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E851231E39586F00E28A6A /* PalindromePermutation.swift */; };
@@ -83,7 +92,9 @@
 		1751F757E5F2BC845FC2DD45 /* Pods-CodingPracticeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingPracticeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests.release.xcconfig"; sourceTree = "<group>"; };
 		1CB0C31A56E9C6AB6B0F019B /* Pods_CodingPracticeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CodingPracticeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E079081B905211D6A9BB5A8 /* NumberComplementSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberComplementSpec.swift; sourceTree = "<group>"; };
+		2E07908CBB4968D0BCAB50A1 /* IntersectionOfTwoArrays.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntersectionOfTwoArrays.swift; sourceTree = "<group>"; };
 		2E079267D52C7F0A39E3DFA3 /* NumberComplement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberComplement.swift; sourceTree = "<group>"; };
+		2E079DFD43BD20CC35CA3E69 /* IntersectionOfTwoArraysSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntersectionOfTwoArraysSpec.swift; sourceTree = "<group>"; };
 		6616F6AF1E52D57E004C79E2 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; };
 		662879601E5521CE00D2EAE6 /* SumOfTwoIntegersSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfTwoIntegersSpec.swift; sourceTree = "<group>"; };
 		662879621E5521DE00D2EAE6 /* SumOfTwoIntegers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfTwoIntegers.swift; sourceTree = "<group>"; };
@@ -97,6 +108,8 @@
 		663F32241E2F2AAB0009C92D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		664BDBBC1E2F2C660074D723 /* HammingDistanceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HammingDistanceTests.swift; sourceTree = "<group>"; };
 		664BDBBE1E2F2C6D0074D723 /* HammingDistance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HammingDistance.swift; sourceTree = "<group>"; };
+		664C57AE1E93FFAA00829C2A /* PaintHouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaintHouse.swift; sourceTree = "<group>"; };
+		664C57B11E93FFBB00829C2A /* PaintHouseSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaintHouseSpec.swift; sourceTree = "<group>"; };
 		66699F4E1E4ACCD3009E3067 /* SingleNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleNumber.swift; sourceTree = "<group>"; };
 		66699F511E4ACD8D009E3067 /* SingleNumberSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleNumberSpec.swift; sourceTree = "<group>"; };
 		66699F541E4AD2A3009E3067 /* RelativeRanks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelativeRanks.swift; sourceTree = "<group>"; };
@@ -116,6 +129,8 @@
 		66CF07231E83325C00C2D034 /* Scratch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scratch.swift; sourceTree = "<group>"; };
 		66D9C6691E750BF200DD92EC /* ConstructTheRectangleSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructTheRectangleSpec.swift; sourceTree = "<group>"; };
 		66D9C66B1E750C0400DD92EC /* ConstructTheRectangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructTheRectangle.swift; sourceTree = "<group>"; };
+		66DC37101E8B293800F5A42A /* FirstUniqueCharacterInAStringSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstUniqueCharacterInAStringSpec.swift; sourceTree = "<group>"; };
+		66DC37121E8B295300F5A42A /* FirstUniqueCharacterInAString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstUniqueCharacterInAString.swift; sourceTree = "<group>"; };
 		66E851211E39585100E28A6A /* PalindromePermutationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PalindromePermutationSpec.swift; sourceTree = "<group>"; };
 		66E851231E39586F00E28A6A /* PalindromePermutation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PalindromePermutation.swift; sourceTree = "<group>"; };
 		66E851261E3A94D900E28A6A /* NimGameSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NimGameSpec.swift; sourceTree = "<group>"; };
@@ -212,6 +227,9 @@
 				66F25CBF1E710D6000D94152 /* AddDigits.swift */,
 				66D9C66B1E750C0400DD92EC /* ConstructTheRectangle.swift */,
 				6692F88E1E8615A800DFC8AA /* MinimumMovesToEqualArrayElements.swift */,
+				2E07908CBB4968D0BCAB50A1 /* IntersectionOfTwoArrays.swift */,
+				66DC37121E8B295300F5A42A /* FirstUniqueCharacterInAString.swift */,
+				664C57AE1E93FFAA00829C2A /* PaintHouse.swift */,
 			);
 			path = CodingPractice;
 			sourceTree = "<group>";
@@ -237,6 +255,9 @@
 				66CF07231E83325C00C2D034 /* Scratch.swift */,
 				669EBB791E847E0700AB49C8 /* RelativeRanksSpec.swift */,
 				6692F8911E8615B300DFC8AA /* MinimumMovesToEqualArrayElementsSpec.swift */,
+				2E079DFD43BD20CC35CA3E69 /* IntersectionOfTwoArraysSpec.swift */,
+				66DC37101E8B293800F5A42A /* FirstUniqueCharacterInAStringSpec.swift */,
+				664C57B11E93FFBB00829C2A /* PaintHouseSpec.swift */,
 			);
 			path = CodingPracticeTests;
 			sourceTree = "<group>";
@@ -435,7 +456,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				664C57AF1E93FFAA00829C2A /* PaintHouse.swift in Sources */,
 				66699F4F1E4ACCD3009E3067 /* SingleNumber.swift in Sources */,
+				66DC37131E8B295300F5A42A /* FirstUniqueCharacterInAString.swift in Sources */,
 				668C431A1E42F93300ED2902 /* FlipGame.swift in Sources */,
 				66F25CC01E710D6000D94152 /* AddDigits.swift in Sources */,
 				66699F521E4ACD8D009E3067 /* SingleNumberSpec.swift in Sources */,
@@ -457,6 +480,7 @@
 				66D9C66C1E750C0400DD92EC /* ConstructTheRectangle.swift in Sources */,
 				2E0798AF80703CFC9293A98C /* NumberComplement.swift in Sources */,
 				66699F581E4AD2B1009E3067 /* RelativeRanks_QuickSort_Spec.swift in Sources */,
+				2E079AAA447F3E61C2CB4FF4 /* IntersectionOfTwoArrays.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,10 +489,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				668DB3CD1E3136C40095473A /* IslandPerimeterSpec.swift in Sources */,
+				66DC37141E8B295300F5A42A /* FirstUniqueCharacterInAString.swift in Sources */,
 				669ED58A1E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift in Sources */,
 				66E851271E3A94D900E28A6A /* NimGameSpec.swift in Sources */,
 				66699F591E4AD2B1009E3067 /* RelativeRanks_QuickSort_Spec.swift in Sources */,
 				66D9C66A1E750BF200DD92EC /* ConstructTheRectangleSpec.swift in Sources */,
+				664C57B01E93FFAA00829C2A /* PaintHouse.swift in Sources */,
 				662BA94C1E2F5C930015A79F /* MaxConsecutiveOnesSpec.swift in Sources */,
 				66699F531E4ACD8D009E3067 /* SingleNumberSpec.swift in Sources */,
 				66D9C66D1E750C0A00DD92EC /* ConstructTheRectangle.swift in Sources */,
@@ -479,6 +505,7 @@
 				668C431B1E42F93300ED2902 /* FlipGame.swift in Sources */,
 				66699F501E4ACCD3009E3067 /* SingleNumber.swift in Sources */,
 				66CF07241E83325C00C2D034 /* Scratch.swift in Sources */,
+				66DC37111E8B293800F5A42A /* FirstUniqueCharacterInAStringSpec.swift in Sources */,
 				669ED5871E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift in Sources */,
 				6692F8901E8615A800DFC8AA /* MinimumMovesToEqualArrayElements.swift in Sources */,
 				668C431E1E45898F00ED2902 /* FindDisappearedNumbers.swift in Sources */,
@@ -495,9 +522,12 @@
 				668C43181E42F91E00ED2902 /* FlipGameSpec.swift in Sources */,
 				2E0798F5B63266B62D2EB04A /* NumberComplement.swift in Sources */,
 				66E8512A1E3A94EA00E28A6A /* NimGame.swift in Sources */,
+				664C57B21E93FFBB00829C2A /* PaintHouseSpec.swift in Sources */,
 				668C43201E4589A300ED2902 /* FindDisappearedNumbersSpec.swift in Sources */,
 				6674A37F1E6793DD00CB0502 /* Utils.swift in Sources */,
 				66F25CC11E710D6000D94152 /* AddDigits.swift in Sources */,
+				2E0795950C11A4DD54E7835A /* IntersectionOfTwoArraysSpec.swift in Sources */,
+				2E07957BE0D5C08C7F14079C /* IntersectionOfTwoArrays.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
