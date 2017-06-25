@@ -50,42 +50,52 @@ class BinaryTreeNode<T> {
             List<BinaryTreeNode<T>> tree) {
         rawTree.eachWithIndex { List<T> rawNode, int index ->
             if (!tree[index]) {
-                buildBinaryTree(index, rawTree, tree)
+                buildBinaryTree(index, toRawBinaryTreeNodes(rawTree), tree)
             }
         }
     }
 
+    static <T> List<BinaryTreeNode<T>> buildBinaryTree(
+            List<RawBinaryTreeNode<T>> rawTree) {
+        def tree = [] as List<BinaryTreeNode>
+        buildBinaryTree(0, rawTree, tree)
+        tree
+    }
+
+    private static List<RawBinaryTreeNode<T>> toRawBinaryTreeNodes(List<List> rawTree) {
+        rawTree.collect {
+            new RawBinaryTreeNode<T>(it[0] as Integer, it[1] as Integer,
+                    (it.size() == 4 ? it[2] : null) as Integer, it[3] as T)
+        }
+    }
     static <T> void buildBinaryTree(
             List<List> rawTree,
             List<BinaryTreeNode<T>> tree) {
-        buildBinaryTree(0, rawTree, tree)
+        buildBinaryTree(0, toRawBinaryTreeNodes(rawTree), tree)
     }
 
     static <T> void buildBinaryTree(
-            int rootNodeIndex, List<List<?>> rawTree,
+            int rootNodeIndex,
+            List<RawBinaryTreeNode<T>> rawTree,
             List<BinaryTreeNode<T>> tree) {
         if (rawTree.isEmpty()) return
-        List rawNode = rawTree.get(rootNodeIndex)
+        RawBinaryTreeNode<T> rawNode = rawTree.get(rootNodeIndex)
         BinaryTreeNode node
-        if (rawNode.size() == 4) { // Configure parent
-            def parentNodeIndex = rawNode[2] as Integer
-            BinaryTreeNode parentNode = parentNodeIndex != null ?
-                    tree[parentNodeIndex] : null
-            node = new BinaryTreeNode(rawNode[3] as T)
+        node = new BinaryTreeNode(rawNode.value as T)
+        if (rawNode.parentIndex != null) { // Configure parent
+            BinaryTreeNode parentNode = tree[rawNode.parentIndex]
             node.parent = parentNode
-        } else { // No parent
-            node = new BinaryTreeNode(rawNode[2] as T)
         }
         tree[rootNodeIndex] = node
-        def leftIndex = rawNode[0] as Integer
-        if (leftIndex != null) {
-            buildBinaryTree(leftIndex, rawTree, tree)
-            node.left = tree[leftIndex]
+        def leftChildIndex = rawNode.leftChildIndex
+        if (leftChildIndex != null) {
+            buildBinaryTree(leftChildIndex, rawTree, tree)
+            node.left = tree[leftChildIndex]
         }
-        def rightIndex = rawNode[1] as Integer
-        if (rightIndex != null) {
-            buildBinaryTree(rightIndex, rawTree, tree)
-            node.right = tree[rightIndex]
+        def rightChildIndex = rawNode.rightChildIndex
+        if (rightChildIndex != null) {
+            buildBinaryTree(rightChildIndex, rawTree, tree)
+            node.right = tree[rightChildIndex]
         }
     }
 
