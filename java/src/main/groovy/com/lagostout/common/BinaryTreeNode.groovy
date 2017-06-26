@@ -21,6 +21,19 @@ class BinaryTreeNode<T> {
         this.value == null
     }
 
+    // TODO Write tests
+    BinaryTreeNode<T> find(T value) {
+        BinaryTreeNode<T> node = null
+        if (value == T) node = this
+        if (node == null && left != null) {
+            node = left.find(value)
+        }
+        if (node == null && right != null) {
+            node = right.find(value)
+        }
+        node
+    }
+
     @Override
     String toString() {
         def style = new MultilineShortPrefixRecursiveToStringStyle()
