@@ -10,19 +10,16 @@ fun smallestSubarrayCoveringSearchWords(words: List<String>, searchWords: Set<St
     var rangeContainingSearchWords: IntRange? = null
     words.forEachIndexed {
         index, word ->
-        if (wordToIndexMap.size < searchWords.size) {
-           if (word in searchWords) {
-               // Removing it then putting it ensures that
-               // the word will change position within the
-               // map's backing list.
-               if (wordToIndexMap.containsKey(word)) {
-                   wordToIndexMap.remove(word)
-               }
-               wordToIndexMap.put(word, index)
-           }
-        } else {
-            wordToIndexMap.remove(wordToIndexMap.keys.first())
+        if (word in searchWords) {
+            // Removing it then putting it ensures that
+            // the word will change position within the
+            // map's backing list.
+            if (wordToIndexMap.containsKey(word)) {
+                wordToIndexMap.remove(word)
+            }
             wordToIndexMap.put(word, index)
+        }
+        if (wordToIndexMap.size == searchWords.size) {
             val range = (wordToIndexMap.values.first()..wordToIndexMap.values.last())
             if (rangeContainingSearchWords == null) {
                 rangeContainingSearchWords = range
