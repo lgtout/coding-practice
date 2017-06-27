@@ -6,44 +6,44 @@ import java.util.*
  * Problem 18.3.2 page 343
  */
 
-// Let's assume that a complete rotation about
-// the castle center is 100 units: 0 - 99.
+// For ease of testing, we'll assume that a complete
+// rotation about the castle center is 100 units: 0 - 99.
 
-data class Arc(val start: Int, val end: Int) {
-    val isReversed:Boolean
-        get() { return start > end }
-}
+data class Arc(val start: Int, val end: Int)
 
 fun minimumNumberOfCamerasToMonitorRobotsPatrollingACastle(
         perimeters: List<List<Arc>>): Int {
-    when (perimeters.size) {
-        0 -> return 0
-        1 -> return perimeters[0].size
-    }
+    if (perimeters.isEmpty()) return 0
     val stack = LinkedList<List<Arc>>(perimeters)
-    val accumulatedPerimeter = LinkedList<Arc>()
+    var accumulatedPerimeter = LinkedList<Arc>()
     while (stack.isNotEmpty()) {
-        val firstPerimeter = LinkedList<Arc>(stack.pop())
-        val secondPerimeter = LinkedList<Arc>(stack.pop())
-        while (firstPerimeter.isNotEmpty()) {
-            val firstPerimeterArc = firstPerimeter.peek()
-            val secondPerimeterArc = secondPerimeter.peek()
-            while (secondPerimeterArc.end < firstPerimeterArc.start) {
-                secondPerimeter.pop()
-                accumulatedPerimeter.add(secondPerimeterArc)
+        val nextAccumulatedPerimeter = LinkedList<Arc>()
+        val perimeter = LinkedList<Arc>(stack.pop())
+        while (accumulatedPerimeter.isNotEmpty() || perimeter.isNotEmpty()) {
+            val perimeterArc = perimeter.peek()
+            var nextArc = if (accumulatedPerimeter.isNotEmpty()) {
+                val accumulatedPerimeterArc = accumulatedPerimeter.peek()
+                if (accumulatedPerimeterArc.start < perimeterArc.start) {
+                    accumulatedPerimeter.pop()
+                } else {
+                    perimeter.pop()
+                }
+            } else {
+                perimeter.pop()
             }
-            while (firstPerimeterArc.end > secondPerimeterArc.start) {
-                firstPerimeter.pop()
-                accumulatedPerimeter.add(firstPerimeterArc)
-            }
-            while (secondPerimeterArc.start <= firstPerimeterArc.end) {
-                accumulatedPerimeter.add(
-                        Arc(secondPerimeterArc.start,
-                        Math.min(secondPerimeterArc.end, firstPerimeterArc.end)))
-                secondPerimeter.pop()
+            if (nextAccumulatedPerimeter.isEmpty()) {
+                nextAccumulatedPerimeter.push(nextArc)
+            } else {
+                val nextAccumulatedPerimeterArc = nextAccumulatedPerimeter.peek()
+                if (nextAccumulatedPerimeterArc.end <= nextArc.start) {
+                    nextArc = nextArc.copy(end = Math.min(
+                            nextArc.end, nextAccumulatedPerimeterArc.end))
+                    nextAccumulatedPerimeter.pop()
+                }
+                nextAccumulatedPerimeter.push(nextArc)
             }
         }
-        stack.push(accumulatedPerimeter)
+        accumulatedPerimeter = nextAccumulatedPerimeter
     }
-    return stack.pop().size
+    return accumulatedPerimeter.size
 }
