@@ -20,12 +20,6 @@ apply plugin: 'idea'
 
 repositories {
     mavenCentral()
-    maven {
-        url "http://repository.jetbrains.com/all"
-    }
-    maven {
-        url "http://dl.bintray.com/jetbrains/spek"
-    }
 }
 
 dependencies {
