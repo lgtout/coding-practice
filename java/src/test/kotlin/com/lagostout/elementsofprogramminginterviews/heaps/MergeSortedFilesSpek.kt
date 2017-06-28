@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.heaps
 
-import com.lagostout.common.takeNotLast
+import com.lagostout.common.takeIfNotLast
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
@@ -26,7 +26,7 @@ class MergeSortedFilesSpek : Spek({
                 TestCase(listOf(listOf(2,7), listOf(3,4), listOf(5,6))),
                 TestCase(listOf(listOf(), listOf()))
         )
-        testCases.takeNotLast().forEach {
+        testCases.takeIfNotLast().forEach {
             (lists, expected) ->
             given("lists $lists") {
                 it("merges the list as $expected") {

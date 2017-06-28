@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.hashtables
 
-import com.lagostout.common.takeNotLast
+import com.lagostout.common.takeIfNotLast
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
@@ -36,7 +36,7 @@ class FindSmallestSubarrayCoveringAllValuesSpek : Spek({
                     setOf("c", "d"), (3..4)),
             TestCase(listOf(), setOf(), null))
     describe("smallestSubarrayCoveringSearchWords") {
-        testCases.takeNotLast().forEach {
+        testCases.takeIfNotLast().forEach {
             (words, searchWords, expected) ->
             given("words $words and search words $searchWords") {
                 it("finds $expected as the index range of the " +
