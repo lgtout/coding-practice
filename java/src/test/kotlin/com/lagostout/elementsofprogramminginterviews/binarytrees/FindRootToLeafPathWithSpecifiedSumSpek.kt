@@ -14,7 +14,7 @@ class FindRootToLeafPathWithSpecifiedSum : Spek({
     data class TestCase(val sum: Int,
                         val rawNodes: List<RawBinaryTreeNode<Int>>,
                         val expected: Boolean) {
-        val tree = BinaryTreeNode.buildBinaryTree<Int>(rawNodes)[0]
+        val tree = (BinaryTreeNode.buildBinaryTree<Int>(rawNodes).right[0])
     }
 
     // TODO

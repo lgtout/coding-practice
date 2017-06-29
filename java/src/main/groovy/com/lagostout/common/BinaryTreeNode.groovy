@@ -1,6 +1,7 @@
 package com.lagostout.common
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
+import org.apache.commons.lang3.tuple.Pair
 
 class BinaryTreeNode<T> {
 
@@ -68,11 +69,18 @@ class BinaryTreeNode<T> {
         }
     }
 
-    static <T> List<BinaryTreeNode<T>> buildBinaryTree(
+//    static <T> List<BinaryTreeNode<T>> buildBinaryTree(
+//            List<RawBinaryTreeNode<T>> rawTree) {
+//        def tree = [] as List<BinaryTreeNode>
+//        buildBinaryTree(0, rawTree, tree)
+//        tree
+//    }
+
+    static <T> Pair<BinaryTreeNode<T>, List<BinaryTreeNode<T>>> buildBinaryTree(
             List<RawBinaryTreeNode<T>> rawTree) {
-        def tree = [] as List<BinaryTreeNode>
-        buildBinaryTree(0, rawTree, tree)
-        tree
+        def nodes = [] as List<BinaryTreeNode>
+        def root = buildBinaryTree(0, rawTree, nodes)
+        return Pair.newInstance(root, nodes)
     }
 
     private static List<RawBinaryTreeNode<T>> toRawBinaryTreeNodes(List<List> rawTree) {
