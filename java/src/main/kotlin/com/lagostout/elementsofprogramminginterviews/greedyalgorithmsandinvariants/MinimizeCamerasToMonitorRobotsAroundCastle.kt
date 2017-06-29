@@ -20,28 +20,29 @@ fun minimumNumberOfCamerasToMonitorRobotsPatrollingACastle(
         val nextAccumulatedPerimeter = LinkedList<Arc>()
         val perimeter = LinkedList<Arc>(stack.pop())
         while (accumulatedPerimeter.isNotEmpty() || perimeter.isNotEmpty()) {
-            val perimeterArc = perimeter.peek()
-            var nextArc = if (accumulatedPerimeter.isNotEmpty()) {
+            var nextArc = if (accumulatedPerimeter.isNotEmpty() &&
+                    perimeter.isNotEmpty()) {
                 val accumulatedPerimeterArc = accumulatedPerimeter.peek()
+                val perimeterArc = perimeter.peek()
                 if (accumulatedPerimeterArc.start < perimeterArc.start) {
                     accumulatedPerimeter.pop()
                 } else {
                     perimeter.pop()
                 }
-            } else {
+            } else if (perimeter.isNotEmpty()) {
                 perimeter.pop()
-            }
-            if (nextAccumulatedPerimeter.isEmpty()) {
-                nextAccumulatedPerimeter.push(nextArc)
             } else {
-                val nextAccumulatedPerimeterArc = nextAccumulatedPerimeter.peek()
-                if (nextAccumulatedPerimeterArc.end <= nextArc.start) {
+                accumulatedPerimeter.pop()
+            }
+            if (nextAccumulatedPerimeter.isNotEmpty()) {
+                val nextAccumulatedPerimeterArc = nextAccumulatedPerimeter.peekLast()
+                if (nextAccumulatedPerimeterArc.end >= nextArc.start) {
                     nextArc = nextArc.copy(end = Math.min(
                             nextArc.end, nextAccumulatedPerimeterArc.end))
                     nextAccumulatedPerimeter.pop()
                 }
-                nextAccumulatedPerimeter.push(nextArc)
             }
+            nextAccumulatedPerimeter.addLast(nextArc)
         }
         accumulatedPerimeter = nextAccumulatedPerimeter
     }
