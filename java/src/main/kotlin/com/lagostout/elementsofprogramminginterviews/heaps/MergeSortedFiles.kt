@@ -6,30 +6,32 @@ import java.util.*
  * Problem 11.1 page 178
  */
 fun mergeSortedLists(lists: List<List<Int>>): List<Int> {
-    val mergedList = mutableListOf<Int>()
-    val listToPositionMap = mutableMapOf<Int, Int>()
-    val heap = PriorityQueue<Int>()
-    val nonEmptyLists = lists.filter { it.isNotEmpty() }
-    nonEmptyLists.indices.forEach {
-        listToPositionMap.put(it, 0)
-    }
-    while (listToPositionMap.isNotEmpty()) {
-        val listsToRemove = mutableListOf<Int>()
-        listToPositionMap.entries.forEach {
-            (listIndex, position) ->
-            val list = nonEmptyLists[listIndex]
-            if (position == list.size) {
-                listsToRemove.add(listIndex)
-            } else {
-                heap.add(list[position])
-                listToPositionMap[listIndex] = position + 1
+    data class Item(val list: List<Int>) {
+        private var position = 0
+        val next: Int
+            get() {
+                val item = peek
+                position++
+                return item
             }
-        }
-        listsToRemove.forEach {
-            listToPositionMap.remove(it)
-        }
-        while (heap.isNotEmpty()) {
-            mergedList.add(heap.poll())
+        val peek: Int
+            get() {
+                return list[position]
+            }
+        val isNotEmpty: Boolean
+            get() {
+                return position < list.size
+            }
+    }
+    val mergedList = mutableListOf<Int>()
+    val heap = PriorityQueue<Item>({
+        firstList, secondList -> firstList.peek - secondList.peek})
+    heap.addAll(lists.map { Item(it) })
+    while (heap.isNotEmpty()) {
+        val item = heap.poll()
+        mergedList.add(item.next)
+        if (item.isNotEmpty) {
+            heap.add(item)
         }
     }
     return mergedList
