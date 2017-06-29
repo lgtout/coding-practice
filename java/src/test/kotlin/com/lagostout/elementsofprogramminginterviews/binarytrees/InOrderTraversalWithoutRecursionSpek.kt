@@ -11,20 +11,20 @@ import kotlin.test.assertEquals
 class InOrderTraversalWithoutRecursionSpek : Spek({
     describe("pathTakenByInOrderTraversalWithoutRecursion") {
         testCases.forEach {
-            (_, _, root, expected) ->
-            given("binary tree $root") {
-                it("computes the in order traversal path as $expected") {
-                    assertEquals(expected, pathTakenByInOrderTraversalWithoutRecursion(root))
+            given("binary tree ${it.root}") {
+                it("computes the in order traversal path as ${it.expectedPath}") {
+                    assertEquals(it.expectedPath,
+                            pathTakenByInOrderTraversalWithoutRecursion(it.root))
                 }
             }
         }
     }
 }) {
     companion object {
-        data class TestCase(val rawTree: List<RawBinaryTreeNode<Int>> = emptyList(),
-                            val nodeIndicesOfExpectedPath: List<Int> = emptyList()) {
-            var root: BinaryTreeNode<Int>
-            var expectedPath: List<BinaryTreeNode<Int>>
+        data class TestCase(private val rawTree: List<RawBinaryTreeNode<Int>> = emptyList(),
+                            private val nodeIndicesOfExpectedPath: List<Int> = emptyList()) {
+            val root: BinaryTreeNode<Int>
+            val expectedPath: List<BinaryTreeNode<Int>>
             init {
                 val (root, expectedPath) = (fun (rawTree: List<RawBinaryTreeNode<Int>>):
                         Pair<BinaryTreeNode<Int>, List<BinaryTreeNode<Int>>> {
@@ -37,8 +37,6 @@ class InOrderTraversalWithoutRecursionSpek : Spek({
                 this.root = root
                 this.expectedPath = expectedPath
             }
-            operator fun component3() = root
-            operator fun component4() = expectedPath
         }
         val testCases = listOf(
                 TestCase(),
