@@ -20,6 +20,7 @@ apply plugin: 'idea'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -38,9 +39,14 @@ dependencies {
 
     compile 'org.codehaus.groovy:groovy-all:2.4.6'
 
-    compile "org.functionaljava:functionaljava:4.4"
-    compile "org.functionaljava:functionaljava-java8:4.4"
-    compile "org.functionaljava:functionaljava-quickcheck:4.4"
+    compile 'io.reactivex.rxjava2:rxkotlin:2.0.3'
+
+    compile "org.functionaljava:functionaljava:4.7"
+    compile "org.functionaljava:functionaljava-java8:4.7"
+    compile "org.functionaljava:functionaljava-quickcheck:4.7"
+    compile "org.functionaljava:functionaljava-core:4.7"
+
+    compile "org.funktionale:funktionale-all:1.1"
 
     // Logback
     compile 'org.slf4j:slf4j-api:1.7.13'

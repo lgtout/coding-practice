@@ -21,8 +21,7 @@ fun maximumNumberOfTeamLeadChanges(firstTeamScore: Int, secondTeamScore: Int,
             currentSecondTeamScore ->
             if (currentFirstTeamScore == 0 &&
                     currentSecondTeamScore == 0) {
-                secondTeamScoresForCurrentFirstTeamScore[
-                        currentSecondTeamScore] = TeamPointCounts(0, 0)
+                secondTeamScoresForCurrentFirstTeamScore.add(TeamPointCounts(0, 0))
                 return@secondTeamScoreLoop
             }
             // Alternate approach would be to subtract combinations of play points
@@ -31,28 +30,34 @@ fun maximumNumberOfTeamLeadChanges(firstTeamScore: Int, secondTeamScore: Int,
             // need to add 0 to the possible play points to allow for consecutive
             // point scoring by the same team.  But we'd need to not count those 0
             // point scores as lead changes.
-            secondTeamScoresForCurrentFirstTeamScore[currentSecondTeamScore] = listOf(
+            secondTeamScoresForCurrentFirstTeamScore.add(listOf(
                     possiblePlayPoints.map {
                         currentFirstTeamScore - it
                     }.map {
-                        if (it < 0) null
+                        firstTeamSubscore ->
+                        if (firstTeamSubscore < 0) null
                         else {
-                            val teamPointCounts = cache[it][currentSecondTeamScore]
+                            val teamPointCounts = cache[firstTeamSubscore][currentSecondTeamScore]
                             teamPointCounts?.copy(firstTeam = teamPointCounts.firstTeam + 1)
                         }
                     },
                     possiblePlayPoints.map {
                         currentSecondTeamScore - it
                     }.map {
-                        if (it < 0) null
+                        secondTeamSubscore ->
+                        if (secondTeamSubscore < 0) null
                         else {
-                            val teamPointCounts = cache[currentFirstTeamScore][it]
+                            val teamPointCounts = cache[currentFirstTeamScore][secondTeamSubscore]
                             teamPointCounts?.copy(secondTeam = teamPointCounts.secondTeam + 1)
                         }
                     }
-            ).flatten().filterNotNull().reduce { acc, value ->
-                if (value.leadChangeCount > acc.leadChangeCount) value else acc
-            }
+            ).flatten().filterNotNull().let {
+                if (it.isEmpty()) null
+                else it.reduce {
+                    acc, value ->
+                    if (value.leadChangeCount > acc.leadChangeCount) value else acc
+                }
+            })
         }
     }
     return 0
