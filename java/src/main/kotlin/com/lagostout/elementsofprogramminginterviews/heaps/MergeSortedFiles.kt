@@ -25,8 +25,9 @@ fun mergeSortedLists(lists: List<List<Int>>): List<Int> {
     }
     val mergedList = mutableListOf<Int>()
     val heap = PriorityQueue<Item>({
-        firstList, secondList -> firstList.peek - secondList.peek})
-    heap.addAll(lists.map { Item(it) })
+        firstList, secondList ->
+        firstList.peek - secondList.peek})
+    heap.addAll(lists.filter { it.isNotEmpty() }.map { Item(it) })
     while (heap.isNotEmpty()) {
         val item = heap.poll()
         mergedList.add(item.next)

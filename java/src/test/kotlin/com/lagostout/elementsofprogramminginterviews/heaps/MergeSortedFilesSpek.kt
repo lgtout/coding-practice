@@ -1,6 +1,5 @@
 package com.lagostout.elementsofprogramminginterviews.heaps
 
-import com.lagostout.common.takeIfNotLast
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
@@ -11,25 +10,8 @@ import kotlin.test.assertEquals
 
 @RunWith(JUnitPlatform::class)
 class MergeSortedFilesSpek : Spek({
-    data class TestCase(val lists: List<List<Int>>) {
-        val expected: List<Int> = lists.flatten().sorted()
-        operator fun component2() = expected
-    }
     describe("mergedSortedLists") {
-        val testCases = listOf(
-                TestCase(listOf(listOf(), listOf())),
-//                TestCase(listOf(listOf(1), listOf())),
-//                TestCase(listOf(listOf(1), listOf(1))),
-//                TestCase(listOf(listOf(1), listOf(2))),
-//                TestCase(listOf(listOf(1,2), listOf(1))),
-//                TestCase(listOf(listOf(2), listOf(1))),
-//                TestCase(listOf(listOf(2), listOf(1,2))),
-//                TestCase(listOf(listOf(2,4), listOf(3,5))),
-//                TestCase(listOf(listOf(2,4), listOf(3,5), listOf(3,7))),
-//                TestCase(listOf(listOf(2,7), listOf(3,4), listOf(5,6))),
-                TestCase(listOf(listOf(), listOf()))
-        )
-        testCases.takeIfNotLast().forEach {
+        testCases.forEach {
             (lists, expected) ->
             given("lists $lists") {
                 it("merges the list as $expected") {
@@ -39,5 +21,25 @@ class MergeSortedFilesSpek : Spek({
 
         }
     }
-})
+}) {
+    companion object {
+        data class TestCase(val lists: List<List<Int>>) {
+            val expected: List<Int> = lists.flatten().sorted()
+            operator fun component2() = expected
+        }
+        val testCases = listOf(
+                TestCase(listOf(listOf(), listOf())),
+                TestCase(listOf(listOf(1), listOf())),
+                TestCase(listOf(listOf(1), listOf(1))),
+                TestCase(listOf(listOf(1), listOf(2))),
+                TestCase(listOf(listOf(1,2), listOf(1))),
+                TestCase(listOf(listOf(2), listOf(1))),
+                TestCase(listOf(listOf(2), listOf(1,2))),
+                TestCase(listOf(listOf(2,4), listOf(3,5))),
+                TestCase(listOf(listOf(2,4), listOf(3,5), listOf(3,7))),
+                TestCase(listOf(listOf(2,7), listOf(3,4), listOf(5,6))),
+                null
+        ).filterNotNull()
+    }
+}
 
