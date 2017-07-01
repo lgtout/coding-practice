@@ -69,18 +69,11 @@ class BinaryTreeNode<T> {
         }
     }
 
-//    static <T> List<BinaryTreeNode<T>> buildBinaryTree(
-//            List<RawBinaryTreeNode<T>> rawTree) {
-//        def tree = [] as List<BinaryTreeNode>
-//        buildBinaryTree(0, rawTree, tree)
-//        tree
-//    }
-
     static <T> Pair<BinaryTreeNode<T>, List<BinaryTreeNode<T>>> buildBinaryTree(
             List<RawBinaryTreeNode<T>> rawTree) {
         def nodes = [] as List<BinaryTreeNode>
-        def root = buildBinaryTree(0, rawTree, nodes)
-        return Pair.newInstance(root, nodes)
+        buildBinaryTree(0, rawTree, nodes)
+        return Pair.of(nodes.isEmpty() ? null : nodes[0], nodes)
     }
 
     private static List<RawBinaryTreeNode<T>> toRawBinaryTreeNodes(List<List> rawTree) {
