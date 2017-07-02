@@ -15,7 +15,8 @@ class MaximumNumberOfTeamLeadChangesSpek : Spek({
         testCases.forEach {
             (score, expected, possiblePlayPoints) ->
             given("$score") {
-                it("computes $expected as the maximum possible number of team lead changes") {
+                it("computes $expected as the maximum " +
+                        "possible number of team lead changes") {
                     assertEquals(expected, maximumNumberOfTeamLeadChanges(
                             score.firstTeam, score.secondTeam, possiblePlayPoints))
                 }
@@ -24,12 +25,12 @@ class MaximumNumberOfTeamLeadChangesSpek : Spek({
     }
 }) {
     companion object {
-        data class GameScore(val firstTeam:Int = 0, val secondTeam:Int = 0)
-        data class TestCase(val gameScore: GameScore, val expected:Int) {
+        private data class GameScore(val firstTeam:Int = 0, val secondTeam:Int = 0)
+        private data class TestCase(val gameScore: GameScore, val expected:Int) {
             val possiblePlayPoints = listOf(2,3,4)
             operator fun component3() = possiblePlayPoints
         }
-        val testCases = listOf(
+        private val testCases = listOf(
 //                TestCase(GameScore(), 0),
 //                TestCase(GameScore(1,0), 0),
 //                TestCase(GameScore(2,0), 0),
@@ -38,15 +39,15 @@ class MaximumNumberOfTeamLeadChangesSpek : Spek({
 //                TestCase(GameScore(1,1), 0),
 //                TestCase(GameScore(2,1), 0),
 //                TestCase(GameScore(4,1), 0),
-                TestCase(GameScore(2,2), 1),
+//                TestCase(GameScore(2,2), 1),
 //                TestCase(GameScore(2,3), 1),
 //                TestCase(GameScore(4,3), 2),
 //                TestCase(GameScore(3,4), 2),
 //                TestCase(GameScore(2,4), 2),
-//                TestCase(GameScore(4,4), 3),
-//                TestCase(GameScore(3,7), 1),
+                TestCase(GameScore(4,4), 3),
+//                TestCase(GameScore(3,7), 2),
 //                TestCase(GameScore(10,6), 4),
-                TestCase(GameScore(), 0)
-        ).takeIfNotLast()
+                null
+        ).filterNotNull()
     }
 }
