@@ -3,6 +3,9 @@ package com.lagostout.elementsofprogramminginterviews.binarytrees
 import com.lagostout.common.BinaryTreeNode
 import java.util.*
 
+/**
+ * Problem 10.7 page 161
+ */
 fun pathTakenByInOrderTraversalWithoutRecursion(
         root: BinaryTreeNode<Int>?): List<BinaryTreeNode<Int>>? {
     val path = mutableListOf<BinaryTreeNode<Int>>()
@@ -18,22 +21,20 @@ fun pathTakenByInOrderTraversalWithoutRecursion(
         val frame = stack.peek()
         when (frame.step) {
             0 -> {
-                val left = frame.node.left
-                left.let {
-                    stack.push(Frame(node = frame.node.left))
+                frame.node.left?.let {
+                    stack.push(Frame(node = it))
                 }
                 frame.nextStep()
             }
             1 -> {
+                path.add(frame.node)
                 frame.nextStep()
             }
             2 -> {
-                val right = frame.node.right
-                right.let {
-                    stack.push(Frame(node = frame.node.right))
-                }
-                frame.nextStep()
                 stack.pop()
+                frame.node.right?.let {
+                    stack.push(Frame(node = it))
+                }
             }
         }
     }

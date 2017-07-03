@@ -15,7 +15,8 @@ class InOrderTraversalWithoutRecursionSpek : Spek({
     describe("pathTakenByInOrderTraversalWithoutRecursion") {
         testCases.forEach {
             given("binary tree ${it.root}") {
-                it("computes the in order traversal path as ${it.expectedPath}") {
+                it("computes the in order traversal " +
+                        "path as ${it.expectedPath}") {
                     assertEquals(it.expectedPath,
                             pathTakenByInOrderTraversalWithoutRecursion(it.root))
                 }
@@ -61,11 +62,11 @@ class InOrderTraversalWithoutRecursionSpek : Spek({
                         RawBinaryTreeNode(value = 4)),
                         listOf(0,3,2,4,1)),
                 TestCase(listOf(
-                        RawBinaryTreeNode(1, 2, value = 0),
+                        RawBinaryTreeNode(1, 4, value = 0),
                         RawBinaryTreeNode(2, 3, value = 1),
                         RawBinaryTreeNode(value = 2),
                         RawBinaryTreeNode(value = 3),
-                        RawBinaryTreeNode(4, 5, value = 4),
+                        RawBinaryTreeNode(5, 6, value = 4),
                         RawBinaryTreeNode(value = 5),
                         RawBinaryTreeNode(value = 6)),
                         listOf(2,1,3,0,5,4,6)),
