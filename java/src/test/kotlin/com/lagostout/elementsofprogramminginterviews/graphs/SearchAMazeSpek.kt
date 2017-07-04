@@ -1,13 +1,16 @@
 package com.lagostout.elementsofprogramminginterviews.graphs
 
+import com.lagostout.elementsofprogramminginterviews.graphs.SearchMaze.Point
+import com.lagostout.elementsofprogramminginterviews.graphs.SearchMaze.findPathThroughMaze
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
-import com.lagostout.elementsofprogramminginterviews.graphs.SearchAMaze.Companion.Point
-import com.lagostout.elementsofprogramminginterviews.graphs.SearchAMaze.Companion.findPathThroughMaze
+import org.junit.platform.runner.JUnitPlatform
+import org.junit.runner.RunWith
 import kotlin.test.assertTrue
 
+@RunWith(JUnitPlatform::class)
 class SearchAMazeSpek : Spek({
     describe("") {
         testCases.forEach {
@@ -26,7 +29,7 @@ class SearchAMazeSpek : Spek({
     companion object {
 
         fun isValidPathThroughMaze(
-                path: List<Point>, from: Point, to: Point,
+                path: List<SearchMaze.Point>, from: Point, to: Point,
                 adjacencies: Map<Point, Set<Point>>): Boolean {
             if (path.first() != from || path.last() != to) return false
             @Suppress("LoopToCallChain")
@@ -77,6 +80,7 @@ class SearchAMazeSpek : Spek({
             })(grid)
             operator fun component5() = adjacencies
         }
+
         val testCases = listOf(
                 TestCase(listOf(
                         listOf(T)
