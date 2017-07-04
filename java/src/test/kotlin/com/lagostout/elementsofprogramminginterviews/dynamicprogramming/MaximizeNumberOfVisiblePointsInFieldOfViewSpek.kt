@@ -23,11 +23,9 @@ class MaximizeNumberOfVisiblePointsInFieldOfView : Spek({
                     val (optimalFieldOfView, visiblePoints) =
                             maximumNumberOfVisiblePointsInFieldOfView(
                                     points, fieldOfView)
-                    // TODO
-                    // Not sure about this.  What does "contains" mean?
-                    // How's it different from "equals"?
-                    // Is it sufficient?
-                    assertTrue(fieldOfView.contains(optimalFieldOfView))
+//                    println("expected fieldOfView ${expected.fieldOfView}")
+//                    println("optimalFieldOfView $optimalFieldOfView")
+                    assertTrue(expected.fieldOfView.contains(optimalFieldOfView))
                     assertEquals(expected.visiblePointCount, visiblePoints)
                 }
             }
@@ -44,30 +42,27 @@ class MaximizeNumberOfVisiblePointsInFieldOfView : Spek({
         }
         val testCases = listOf(
                 TestCase(fieldOfView = FieldOfView(0, 49),
-                        expected =
-                        Result(FieldOfView(0,99), 0)),
+                        expected = Result(FieldOfView(0,99), 0)),
                 TestCase(listOf(0), FieldOfView(0,19),
-                        Result(FieldOfView(81,19), 1)),
+                        Result(FieldOfView(0,19), 1)),
                 TestCase(listOf(0,0,0), FieldOfView(0,19),
-                        Result(FieldOfView(81,19), 3)),
+                        Result(FieldOfView(0,19), 3)),
                 TestCase(listOf(0,1), FieldOfView(0,19),
-                        Result(FieldOfView(82,19), 2)),
-                TestCase(listOf(0,1), FieldOfView(0,19),
-                        Result(FieldOfView(82,19), 2)),
+                        Result(FieldOfView(0,19), 2)),
                 TestCase(listOf(0,1,10), FieldOfView(0,19),
-                        Result(FieldOfView(91,19), 3)),
-                TestCase(listOf(0,1,10,40), FieldOfView(0,19),
-                        Result(FieldOfView(91,19), 4)),
+                        Result(FieldOfView(0,19), 3)),
+                TestCase(listOf(0,1,10,40), FieldOfView(0,40),
+                        Result(FieldOfView(0,40), 4)),
                 TestCase(listOf(0,1,10,40,41), FieldOfView(0,19),
-                        Result(FieldOfView(91,19), 3)),
+                        Result(FieldOfView(0,19), 3)),
                 TestCase(listOf(0,1,10,40,41,42), FieldOfView(0,19),
-                        Result(FieldOfView(91,19), 3)),
+                        Result(FieldOfView(40,59), 3)),
                 TestCase(listOf(0,1,10,40,41,42,43), FieldOfView(0,19),
-                        Result(FieldOfView(24,59), 4)),
+                        Result(FieldOfView(40,59), 4)),
                 TestCase(listOf(0,1,10,40,41,42,43,70,71), FieldOfView(0,19),
-                        Result(FieldOfView(24,59), 4)),
+                        Result(FieldOfView(40,59), 4)),
                 TestCase(listOf(0,1,10,40,41,42,43,70,70,80,80,70), FieldOfView(0,19),
-                        Result(FieldOfView(61,89), 5)),
+                        Result(FieldOfView(70,89), 5)),
                 null
         ).filterNotNull()
     }
