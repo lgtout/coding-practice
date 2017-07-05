@@ -64,7 +64,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder
  *
  * @since 3.4
  */
-public class MultilineShortPrefixRecursiveToStringStyle extends RecursiveToStringStyle {
+class MultilineShortPrefixRecursiveToStringStyle extends RecursiveToStringStyle {
 
     /**
      * Required for serialization support.
@@ -81,7 +81,7 @@ public class MultilineShortPrefixRecursiveToStringStyle extends RecursiveToStrin
     /**
      * Constructor.
      */
-    public MultilineShortPrefixRecursiveToStringStyle() {
+    MultilineShortPrefixRecursiveToStringStyle() {
         super()
         resetIndent()
         this.setUseShortClassName(true)
@@ -113,6 +113,13 @@ public class MultilineShortPrefixRecursiveToStringStyle extends RecursiveToStrin
             sb.append(" ")
         }
         return sb
+    }
+
+    void append(StringBuffer buffer, String fieldName, Object value,
+                       Boolean fullDetail) {
+        if (value != null) {
+            super.append(buffer, fieldName, value, fullDetail)
+        }
     }
 
     @Override
