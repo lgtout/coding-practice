@@ -18,47 +18,38 @@ class  MaximumNumberOfTeamLeadChanges {
 
         data class GameScoreLeadChanges(
                 val teamThatMostRecentlyScored: Team? = null,
-                val leadChangeCount: Int = 0) {
+                val leadChangeCount: Int = 0,
+                val teamAScore: Int,
+                val teamBScore: Int) {
 
-            fun playScoredBy(team: Team): GameScoreLeadChanges {
+            fun playScoredBy(
+                    team: Team, teamAScore: Int, teamBScore: Int):
+                   GameScoreLeadChanges {
                 return copy(teamThatMostRecentlyScored = team,
                         leadChangeCount =
                             leadChangeCount +
                                 if (teamThatMostRecentlyScored != null &&
                                         teamThatMostRecentlyScored != team)
-                                    1 else 0)
+                                    1 else 0,
+                        teamAScore = teamAScore, teamBScore = teamBScore)
             }
         }
 
-        fun maximumNumberOfTeamLeadChanges(firstTeamGameScore: Int, secondTeamGameScore: Int,
+        fun maximumNumberOfTeamLeadChanges(teamAGameScore: Int, teamBGameScore: Int,
                                            possiblePlayScores: List<Int>): Int {
             val cacheOfGameScoreLeadChanges: MutableList<List<GameScoreLeadChanges?>> =
                     mutableListOf()
-            (0..firstTeamGameScore).forEach {
-                firstTeamScore ->
-                val secondTeamLeadChanges: MutableList<GameScoreLeadChanges?> =
+            (0..teamAGameScore).forEach {
+                teamAScore ->
+                val leadChangesForCurrentTeamAScore: MutableList<GameScoreLeadChanges?> =
                         mutableListOf()
-                cacheOfGameScoreLeadChanges.add(secondTeamLeadChanges)
-                // We only need to compute firstTeamLeadChanges once per
-                // row i.e. once per firstTeamSubscore.  It is unchanged
-                // from the firstTeamLeadChanges computed for the 0th
-                // column of each row.
-                val firstTeamLeadChanges = possiblePlayScores.map {
-                    firstTeamScore - it
-                }.map {
-                    firstTeamSubscore ->
-                    if (firstTeamSubscore < 0)
-                        null
-                    else
-                        cacheOfGameScoreLeadChanges[firstTeamSubscore][0]
-                                ?.playScoredBy(Team.A)
-                }
-                (0..secondTeamGameScore).forEach secondTeamScoreLoop@ {
-                    secondTeamScore ->
-                    if (firstTeamScore == 0 &&
-                            secondTeamScore == 0) {
-                        secondTeamLeadChanges.add(GameScoreLeadChanges())
-                        return@secondTeamScoreLoop
+                cacheOfGameScoreLeadChanges.add(leadChangesForCurrentTeamAScore)
+                (0..teamBGameScore).forEach teamBScoreLoop@ {
+                    teamBScore ->
+                    if (teamAScore == 0 && teamBScore == 0) {
+                        leadChangesForCurrentTeamAScore.add(GameScoreLeadChanges(
+                                teamAScore = teamAScore, teamBScore = teamBScore))
+                        return@teamBScoreLoop
                     }
                     // Alternate approach would be to subtract combinations of play points
                     // from both scores at once. So we'd be moving in 2 dimensions at once,
@@ -66,21 +57,22 @@ class  MaximumNumberOfTeamLeadChanges {
                     // need to include 0 in the possible play points to allow for consecutive
                     // point scoring by the same team.  But later we'd need to ignore those
                     // 0 point scores as lead changes.
-                    secondTeamLeadChanges.add(listOf(
-                            firstTeamLeadChanges,
-                            possiblePlayScores.map {
-                                secondTeamScore - it
-                            }.map {
-                                secondTeamSubscore ->
-                                if (secondTeamSubscore < 0)
-                                    null
-                                else {
-                                    cacheOfGameScoreLeadChanges[
-                                            firstTeamScore][secondTeamSubscore]
-                                            ?.playScoredBy(Team.B)
-                                }
-                            }
-                    ).flatten().filterNotNull().let {
+                    leadChangesForCurrentTeamAScore.add(listOf(possiblePlayScores.map {
+                        val teamASubscore = teamAScore - it
+                        if (teamASubscore < 0) null
+                        else {
+                            val leadChanges = cacheOfGameScoreLeadChanges[teamASubscore][teamBScore]
+                            leadChanges?.playScoredBy(Team.A, teamAScore, teamBScore)
+                        }
+                    },
+                    possiblePlayScores.map {
+                        val teamBSubscore = teamBScore - it
+                        if (teamBSubscore < 0) null
+                        else {
+                            val leadChanges = cacheOfGameScoreLeadChanges[teamAScore][teamBSubscore]
+                            leadChanges?.playScoredBy(Team.B, teamAScore, teamBScore)
+                        }
+                    }).flatten().filterNotNull().let {
                         if (it.isEmpty())
                             null
                         else it.reduce {
@@ -90,8 +82,9 @@ class  MaximumNumberOfTeamLeadChanges {
                     })
                 }
             }
+            println(cacheOfGameScoreLeadChanges.joinToString(separator = "\n"))
             return cacheOfGameScoreLeadChanges[
-                    firstTeamGameScore][secondTeamGameScore]?.leadChangeCount ?: 0
+                    teamAGameScore][teamBGameScore]?.leadChangeCount ?: 0
         }
     }
 }
