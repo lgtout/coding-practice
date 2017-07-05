@@ -3,7 +3,10 @@ package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 import com.lagostout.common.BinaryTreeNode
 import java.util.*
 
-fun satisfiesBstProperty(root: BinaryTreeNode<Int>): Boolean {
+/**
+ * Problem 15.1 page 260
+ */
+fun binaryTreeSatisfiesBstProperty(root: BinaryTreeNode<Int>): Boolean {
     data class Range(var minimum: Int? = null, var maximum: Int? = null) {
         fun contains(value: Int): Boolean {
             return minimum?.let { value > it } ?: true &&
@@ -44,5 +47,5 @@ fun satisfiesBstProperty(root: BinaryTreeNode<Int>): Boolean {
         }
         frame.step++
     }
-    return false
+    return bstPropertyIsSatisfied
 }
