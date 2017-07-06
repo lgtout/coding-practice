@@ -1,8 +1,8 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
-import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants.MaximizeNumberOfVisiblePointsInFieldOfView.Companion.FieldOfView
-import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants.MaximizeNumberOfVisiblePointsInFieldOfView.Companion.Result
-import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants.MaximizeNumberOfVisiblePointsInFieldOfView.Companion.maximumNumberOfVisiblePointsInFieldOfView
+import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants.MaximizeNumberOfVisiblePointsInFieldOfView.FieldOfView
+import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants.MaximizeNumberOfVisiblePointsInFieldOfView.Result
+import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants.MaximizeNumberOfVisiblePointsInFieldOfView.maximumNumberOfVisiblePointsInFieldOfView
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
@@ -23,8 +23,6 @@ class MaximizeNumberOfVisiblePointsInFieldOfView : Spek({
                     val (optimalFieldOfView, visiblePoints) =
                             maximumNumberOfVisiblePointsInFieldOfView(
                                     points, fieldOfView)
-//                    println("expected fieldOfView ${expected.fieldOfView}")
-//                    println("optimalFieldOfView $optimalFieldOfView")
                     assertTrue(expected.fieldOfView.contains(optimalFieldOfView))
                     assertEquals(expected.visiblePointCount, visiblePoints)
                 }
