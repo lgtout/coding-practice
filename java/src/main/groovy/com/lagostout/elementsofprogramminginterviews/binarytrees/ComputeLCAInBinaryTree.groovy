@@ -67,7 +67,7 @@ class ComputeLCAInBinaryTree {
         lca
     }
 
-    static class Frame<T> {
+    private static class Frame<T> {
         int nextStep
         BinaryTreeNode<T> node
         Set<BinaryTreeNode<T>> descendantMatches = []

@@ -5,11 +5,11 @@ import java.util.*
 object SearchMaze {
 
     data class Point(val x: Int, val y: Int)
-    data class Frame(val point: Point, val adjacentPoints: Iterator<Point>)
 
     fun findPathThroughMaze(
             maze: Map<Point, Set<Point>>,
             entry: Point, exit: Point): List<Point> {
+        data class Frame(val point: Point, val adjacentPoints: Iterator<Point>)
         val stackOfFrames = LinkedList<Frame>()
         stackOfFrames.push(Frame(point = entry,
                 adjacentPoints = maze[entry]?.iterator() ?:
@@ -30,5 +30,4 @@ object SearchMaze {
         }
         return listOf()
     }
-
 }
