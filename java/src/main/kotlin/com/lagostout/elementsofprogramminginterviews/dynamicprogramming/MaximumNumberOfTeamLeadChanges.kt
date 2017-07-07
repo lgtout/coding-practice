@@ -19,8 +19,14 @@ class  MaximumNumberOfTeamLeadChanges {
         data class GameScoreLeadChanges(
                 val teamThatMostRecentlyScored: Team? = null,
                 val leadChangeCount: Int = 0,
+                val teamAPlayScoreCount: Int = 0,
+                val teamBPlayScoreCount: Int = 0,
                 val teamAScore: Int,
                 val teamBScore: Int) {
+
+            fun smallerPlayScoreCount(): Int {
+                return minOf(teamAPlayScoreCount, teamBPlayScoreCount)
+            }
 
             fun playScoredBy(
                     team: Team, teamAScore: Int, teamBScore: Int):
@@ -31,6 +37,8 @@ class  MaximumNumberOfTeamLeadChanges {
                                 if (teamThatMostRecentlyScored != null &&
                                         teamThatMostRecentlyScored != team)
                                     1 else 0,
+                        teamAPlayScoreCount =  teamAPlayScoreCount + if (team == Team.A) 1 else 0,
+                        teamBPlayScoreCount =  teamBPlayScoreCount + if (team == Team.B) 1 else 0,
                         teamAScore = teamAScore, teamBScore = teamBScore)
             }
         }
@@ -77,7 +85,12 @@ class  MaximumNumberOfTeamLeadChanges {
                             null
                         else it.reduce {
                             acc, value ->
-                            if (value.leadChangeCount > acc.leadChangeCount) value else acc
+                            val playScoreCount = if (value.teamAPlayScoreCount == 0 ||
+                                    value.teamBPlayScoreCount == 0) {
+                                maxOf(value.teamAPlayScoreCount, value.teamBPlayScoreCount)
+                            } else value.smallerPlayScoreCount()
+                            if (value.smallerPlayScoreCount() >
+                                    acc.smallerPlayScoreCount()) value else acc
                         }
                     })
                 }

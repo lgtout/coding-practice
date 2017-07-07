@@ -8,7 +8,6 @@ import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 
-@RunWith(JUnitPlatform::class)
 class MaximumNumberOfTeamLeadChangesSpek : Spek({
     describe("maximumNumberOfTeamLeadChanges") {
         testCases.forEach {
