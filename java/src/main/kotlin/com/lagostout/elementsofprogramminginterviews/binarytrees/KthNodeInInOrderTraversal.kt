@@ -5,27 +5,21 @@ import com.lagostout.common.BinaryTreeNode
 /**
  * Problem 10.9 page 163
  */
-fun kthNodeInInOrderTraversal(k: Int, root: BinaryTreeNode<Int>):
+fun kthNodeInInOrderTraversal(
+        k: Int, root: BinaryTreeNode<Int>?):
         BinaryTreeNode<Int>? {
-    fun position(node: BinaryTreeNode<Int>,
-                 parentNodePosition: Int = 0): Int {
-        return (node.value + 1) / 2 + parentNodePosition
-    }
-    var currentNode: BinaryTreeNode<Int>? = root
-    var currentNodePosition = position(root)
+    var currentNode = root
+    var relativeK = k
+    var currentNodePosition: Int
     while (currentNode != null) {
-        if (k < currentNodePosition) {
-            if (currentNode.left != null)
-                currentNodePosition = position(
-                        currentNode.left, currentNodePosition)
-            currentNode = currentNode.left
-        } else if (k > currentNodePosition) {
-            if (currentNode.right != null)
-                currentNodePosition = position(
-                        currentNode.right, currentNodePosition)
-            currentNode = currentNode.right
-        } else {
+        currentNodePosition = (currentNode.left?.value ?: 0) + 1
+        if (relativeK == currentNodePosition) {
             break
+        } else if (relativeK < currentNodePosition) {
+            currentNode = currentNode.left
+        } else if (relativeK > currentNodePosition) {
+            relativeK -= currentNodePosition
+            currentNode = currentNode.right
         }
     }
     return currentNode
