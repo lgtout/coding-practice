@@ -18,28 +18,29 @@ class  MaximumNumberOfTeamLeadChanges {
 
         data class GameScoreLeadChanges(
                 val teamThatMostRecentlyScored: Team? = null,
-                val leadChangeCount: Int = 0,
                 val teamAPlayScoreCount: Int = 0,
-                val teamBPlayScoreCount: Int = 0,
-                val teamAScore: Int,
-                val teamBScore: Int) {
+                val teamBPlayScoreCount: Int = 0) {
+
+            val leadChangeCount: Int
+                get() {
+                    return if (teamAPlayScoreCount == 0 || teamBPlayScoreCount == 0)
+                        0
+                    else if (teamAPlayScoreCount < teamBPlayScoreCount)
+                        teamAPlayScoreCount + 1
+                    else if (teamBPlayScoreCount < teamAPlayScoreCount)
+                        teamBPlayScoreCount + 1
+                    else teamBPlayScoreCount
+                }
 
             fun smallerPlayScoreCount(): Int {
                 return minOf(teamAPlayScoreCount, teamBPlayScoreCount)
             }
 
-            fun playScoredBy(
-                    team: Team, teamAScore: Int, teamBScore: Int):
+            fun playScoredBy(team: Team):
                    GameScoreLeadChanges {
                 return copy(teamThatMostRecentlyScored = team,
-                        leadChangeCount =
-                            leadChangeCount +
-                                if (teamThatMostRecentlyScored != null &&
-                                        teamThatMostRecentlyScored != team)
-                                    1 else 0,
                         teamAPlayScoreCount =  teamAPlayScoreCount + if (team == Team.A) 1 else 0,
-                        teamBPlayScoreCount =  teamBPlayScoreCount + if (team == Team.B) 1 else 0,
-                        teamAScore = teamAScore, teamBScore = teamBScore)
+                        teamBPlayScoreCount =  teamBPlayScoreCount + if (team == Team.B) 1 else 0)
             }
         }
 
@@ -55,8 +56,7 @@ class  MaximumNumberOfTeamLeadChanges {
                 (0..teamBGameScore).forEach teamBScoreLoop@ {
                     teamBScore ->
                     if (teamAScore == 0 && teamBScore == 0) {
-                        leadChangesForCurrentTeamAScore.add(GameScoreLeadChanges(
-                                teamAScore = teamAScore, teamBScore = teamBScore))
+                        leadChangesForCurrentTeamAScore.add(GameScoreLeadChanges())
                         return@teamBScoreLoop
                     }
                     // Alternate approach would be to subtract combinations of play points
@@ -70,7 +70,7 @@ class  MaximumNumberOfTeamLeadChanges {
                         if (teamASubscore < 0) null
                         else {
                             val leadChanges = cacheOfGameScoreLeadChanges[teamASubscore][teamBScore]
-                            leadChanges?.playScoredBy(Team.A, teamAScore, teamBScore)
+                            leadChanges?.playScoredBy(Team.A)
                         }
                     },
                     possiblePlayScores.map {
@@ -78,20 +78,25 @@ class  MaximumNumberOfTeamLeadChanges {
                         if (teamBSubscore < 0) null
                         else {
                             val leadChanges = cacheOfGameScoreLeadChanges[teamAScore][teamBSubscore]
-                            leadChanges?.playScoredBy(Team.B, teamAScore, teamBScore)
+                            leadChanges?.playScoredBy(Team.B)
                         }
-                    }).flatten().filterNotNull().let {
+                    }).flatten().map{
+                        it // For debugging
+                    }.filterNotNull().let {
                         if (it.isEmpty())
                             null
                         else it.reduce {
                             acc, value ->
-                            val playScoreCount = if (value.teamAPlayScoreCount == 0 ||
-                                    value.teamBPlayScoreCount == 0) {
-                                maxOf(value.teamAPlayScoreCount, value.teamBPlayScoreCount)
-                            } else value.smallerPlayScoreCount()
-                            if (value.smallerPlayScoreCount() >
-                                    acc.smallerPlayScoreCount()) value else acc
+                            if ((value.teamAPlayScoreCount == 0 &&
+                                    (value.teamBPlayScoreCount > acc.teamBPlayScoreCount)) ||
+                                    (value.teamAPlayScoreCount == 0 &&
+                                            (value.teamAPlayScoreCount > acc.teamAPlayScoreCount)) ||
+                                    (value.smallerPlayScoreCount() > acc.smallerPlayScoreCount())) {
+                                value
+                            } else acc
                         }
+                    }.also {
+                        it // For debugging
                     })
                 }
             }
