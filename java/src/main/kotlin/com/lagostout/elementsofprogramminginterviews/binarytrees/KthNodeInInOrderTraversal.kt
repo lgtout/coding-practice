@@ -9,7 +9,7 @@ fun kthNodeInInOrderTraversal(
         k: Int, root: BinaryTreeNode<Int>?):
         BinaryTreeNode<Int>? {
     var currentNode = root
-    var relativeK = k
+    var relativeK = k + 1 // So we can compare positions and counts
     var currentNodePosition: Int
     while (currentNode != null) {
         currentNodePosition = (currentNode.left?.value ?: 0) + 1
