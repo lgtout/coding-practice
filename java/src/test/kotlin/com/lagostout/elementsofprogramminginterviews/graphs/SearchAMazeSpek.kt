@@ -1,13 +1,11 @@
 package com.lagostout.elementsofprogramminginterviews.graphs
 
-import com.lagostout.elementsofprogramminginterviews.graphs.SearchMaze.Point
+import com.lagostout.elementsofprogramminginterviews.graphs.SearchMaze.Pixel
 import com.lagostout.elementsofprogramminginterviews.graphs.SearchMaze.findPathThroughMaze
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
-import org.junit.platform.runner.JUnitPlatform
-import org.junit.runner.RunWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -33,19 +31,20 @@ class SearchAMazeSpek : Spek({
     companion object {
 
         fun isPathFromEntryToExit(
-                path: List<SearchMaze.Point>, from: Point, to: Point,
-                adjacencies: Map<Point, Set<Point>>): Boolean {
+                path: List<SearchMaze.Pixel>, from: Pixel, to: Pixel,
+                adjacencies: Map<Pixel, Set<Pixel>>): Boolean {
             if (path.first() != from || path.last() != to) return false
             @Suppress("LoopToCallChain")
             var isValidPath = true
             for ((index, point) in path.withIndex()) {
-                isValidPath = if (adjacencies.containsKey(point)) {
-                    val isFirstPointInPath = index == 0
-                    isFirstPointInPath
+                val isFirstPointInPath = index == 0
+                isValidPath = adjacencies.containsKey(point) && if (isFirstPointInPath) {
+                    true
                 } else {
-                    val edgeExistsFromPreviousPointInPath =
-                            adjacencies[path[index - 1]]?.contains(point) ?: false
-                    !edgeExistsFromPreviousPointInPath
+                    // We can force (!!) here because we already checked for the
+                    // presence in the adjacencies of the previous point in the path
+                    // on the previous iteration.
+                    adjacencies[path[index - 1]]!!.contains(point)
                 }
                 if (!isValidPath) break
             }
@@ -56,45 +55,45 @@ class SearchAMazeSpek : Spek({
         val F = false
 
         data class TestCase(val grid: List<List<Boolean>>,
-                            val entry: Point, val exit: Point,
+                            val entry: Pixel, val exit: Pixel,
                             val pathExists: Boolean)
 
         val testCases = listOf(
 //                TestCase(listOf(
 //                        listOf(T)
-//                ), Point(0,0), Point(0,0), true),
+//                ), Pixel(0,0), Pixel(0,0), true),
 //                TestCase(listOf(
 //                        listOf(F)
-//                ), Point(0,0), Point(0,0), false),
+//                ), Pixel(0,0), Pixel(0,0), false),
 //                TestCase(listOf(
 //                        listOf(F,T)
-//                ), Point(0,0), Point(0,1), false),
+//                ), Pixel(0,0), Pixel(0,1), false),
 //                TestCase(listOf(
 //                        listOf(F,T)
-//                ), Point(1,0), Point(1,0), true),
-                TestCase(listOf(
-                        listOf(T,T)
-                ), Point(0,0), Point(1,0), true),
+//                ), Pixel(1,0), Pixel(1,0), true),
 //                TestCase(listOf(
 //                        listOf(T,T)
-//                ), Point(1,0), Point(0,0), true),
+//                ), Pixel(0,0), Pixel(1,0), true),
+//                TestCase(listOf(
+//                        listOf(T,T)
+//                ), Pixel(1,0), Pixel(0,0), true),
 //                TestCase(listOf(
 //                        listOf(T,F),
 //                        listOf(F,F)
-//                ), Point(1,1), Point(0,0), false),
+//                ), Pixel(1,1), Pixel(0,0), false),
 //                TestCase(listOf(
 //                        listOf(T,F),
 //                        listOf(F,F)
-//                ), Point(0,0), Point(1,1), false),
+//                ), Pixel(0,0), Pixel(1,1), false),
 //                TestCase(listOf(
 //                        listOf(T,F),
 //                        listOf(T,F)
-//                ), Point(0,0), Point(0,1), true),
-//                TestCase(listOf(
-//                        listOf(T,F),
-//                        listOf(T,T)
-//                ), Point(0,1), Point(1,1), true),
-                // TODO More!!
+//                ), Pixel(0,0), Pixel(0,1), true),
+                TestCase(listOf(
+                        listOf(T,F),
+                        listOf(T,T)
+                ), Pixel(0,1), Pixel(1,1), true),
+                // TODO More cases!
                 null
         ).filterNotNull()
     }
