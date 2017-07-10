@@ -8,17 +8,17 @@ import java.util.*
 fun rearrangeArraySoNoEqualElementsAreKOrLessApart(
         array: List<Int>, k: Int): List<Int> {
     data class ValueCount(val value: Int, var count: Int)
-    val valueToCountMap = mutableMapOf<Int, Int>()
     val sortedArray = mutableListOf<Int>()
-    array.forEach {
-        val count = valueToCountMap.getOrDefault(it, 0) + 1
-        valueToCountMap[it] = count
+    val valueToValueCountMap = mutableMapOf<Int, ValueCount>()
+    array.forEach { it ->
+        val count = valueToValueCountMap.getOrDefault(
+                it, ValueCount(value = 0, count = 0)).count + 1
+        valueToValueCountMap[it] = ValueCount(value = it, count = count)
     }
-    val sortedValueCountList = LinkedList<ValueCount>(
-            valueToCountMap.toSortedMap().map {
-                ValueCount(it.key, it.value) }.toList())
-    while (sortedValueCountList.isNotEmpty()) {
-        val iterator = sortedValueCountList.iterator().withIndex()
+    val valueCountsSortedByCount = LinkedList<ValueCount>(
+            valueToValueCountMap.values.sortedBy { it.count })
+    while (valueCountsSortedByCount.isNotEmpty()) {
+        val iterator = valueCountsSortedByCount.iterator().withIndex()
         var groupSize = 0
         val zeroCountValueIndices = mutableSetOf<Int>()
         for ((index, valueCount) in iterator) {
@@ -31,7 +31,7 @@ fun rearrangeArraySoNoEqualElementsAreKOrLessApart(
             }
         }
         zeroCountValueIndices.map {
-            sortedValueCountList.removeAt(it)
+            valueCountsSortedByCount.removeAt(it)
         }
     }
     return sortedArray
