@@ -17,7 +17,7 @@ class SearchAMazeSpek : Spek({
                 val (path, graph) = findPathThroughMaze(grid, entry, exit)
                 it("${if (pathExists) "finds" else "doesn't find"} " +
                         "a path $path from entry to exit") {
-                    if (path == null || graph == null) {
+                    if (path.isEmpty()) {
                         assertFalse(pathExists)
                     } else {
                         assertTrue(isPathFromEntryToExit(
@@ -33,7 +33,7 @@ class SearchAMazeSpek : Spek({
         fun isPathFromEntryToExit(
                 path: List<SearchMaze.Pixel>, from: Pixel, to: Pixel,
                 adjacencies: Map<Pixel, Set<Pixel>>): Boolean {
-            if (path.first() != from || path.last() != to) return false
+            if (path.isEmpty() || path.first() != from || path.last() != to) return false
             @Suppress("LoopToCallChain")
             var isValidPath = true
             for ((index, point) in path.withIndex()) {
@@ -59,41 +59,94 @@ class SearchAMazeSpek : Spek({
                             val pathExists: Boolean)
 
         val testCases = listOf(
-//                TestCase(listOf(
-//                        listOf(T)
-//                ), Pixel(0,0), Pixel(0,0), true),
-//                TestCase(listOf(
-//                        listOf(F)
-//                ), Pixel(0,0), Pixel(0,0), false),
-//                TestCase(listOf(
-//                        listOf(F,T)
-//                ), Pixel(0,0), Pixel(0,1), false),
-//                TestCase(listOf(
-//                        listOf(F,T)
-//                ), Pixel(1,0), Pixel(1,0), true),
-//                TestCase(listOf(
-//                        listOf(T,T)
-//                ), Pixel(0,0), Pixel(1,0), true),
-//                TestCase(listOf(
-//                        listOf(T,T)
-//                ), Pixel(1,0), Pixel(0,0), true),
-//                TestCase(listOf(
-//                        listOf(T,F),
-//                        listOf(F,F)
-//                ), Pixel(1,1), Pixel(0,0), false),
-//                TestCase(listOf(
-//                        listOf(T,F),
-//                        listOf(F,F)
-//                ), Pixel(0,0), Pixel(1,1), false),
-//                TestCase(listOf(
-//                        listOf(T,F),
-//                        listOf(T,F)
-//                ), Pixel(0,0), Pixel(0,1), true),
+                TestCase(listOf(
+                        listOf(T)
+                ), Pixel(0,0), Pixel(0,0), true),
+                TestCase(listOf(
+                        listOf(F)
+                ), Pixel(0,0), Pixel(0,0), false),
+                TestCase(listOf(
+                        listOf(F,T)
+                ), Pixel(0,0), Pixel(0,1), false),
+                TestCase(listOf(
+                        listOf(F,T)
+                ), Pixel(1,0), Pixel(1,0), true),
+                TestCase(listOf(
+                        listOf(T,T)
+                ), Pixel(0,0), Pixel(1,0), true),
+                TestCase(listOf(
+                        listOf(T,T)
+                ), Pixel(1,0), Pixel(0,0), true),
+                TestCase(listOf(
+                        listOf(T,F),
+                        listOf(F,F)
+                ), Pixel(1,1), Pixel(0,0), false),
+                TestCase(listOf(
+                        listOf(T,F),
+                        listOf(F,F)
+                ), Pixel(0,0), Pixel(1,1), false),
+                TestCase(listOf(
+                        listOf(T,F),
+                        listOf(T,F)
+                ), Pixel(0,0), Pixel(0,1), true),
                 TestCase(listOf(
                         listOf(T,F),
                         listOf(T,T)
                 ), Pixel(0,1), Pixel(1,1), true),
-                // TODO More cases!
+                TestCase(listOf(
+                        listOf(T,T,T),
+                        listOf(T,F,F),
+                        listOf(T,T,T),
+                        listOf(F,F,T),
+                        listOf(T,T,T)),
+                        entry = Pixel(0,4),
+                        exit = Pixel(2,0),
+                        pathExists = true),
+                TestCase(listOf(
+                        listOf(T,T,T),
+                        listOf(F,F,T),
+                        listOf(T,T,T),
+                        listOf(F,F,T),
+                        listOf(T,T,T)),
+                        entry = Pixel(0,4),
+                        exit = Pixel(2,0),
+                        pathExists = true),
+                TestCase(listOf(
+                        listOf(T,F,T),
+                        listOf(T,T,F),
+                        listOf(T,T,T),
+                        listOf(T,T,T),
+                        listOf(T,T,T)),
+                        entry = Pixel(0,4),
+                        exit = Pixel(2,0),
+                        pathExists = false),
+                TestCase(listOf(
+                        listOf(F,T,T),
+                        listOf(F,T,F),
+                        listOf(F,T,F),
+                        listOf(F,T,F),
+                        listOf(T,T,F)),
+                        entry = Pixel(0,4),
+                        exit = Pixel(2,0),
+                        pathExists = true),
+                TestCase(listOf(
+                        listOf(F,F,F),
+                        listOf(F,T,F),
+                        listOf(T,T,T),
+                        listOf(F,T,F),
+                        listOf(T,T,T)),
+                        entry = Pixel(1,2),
+                        exit = Pixel(2,0),
+                        pathExists = false),
+                TestCase(listOf(
+                        listOf(F,F,F),
+                        listOf(F,T,F),
+                        listOf(T,T,T),
+                        listOf(F,T,F),
+                        listOf(T,T,T)),
+                        entry = Pixel(0,3),
+                        exit = Pixel(1,0),
+                        pathExists = false),
                 null
         ).filterNotNull()
     }
