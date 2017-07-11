@@ -28,22 +28,22 @@ class MaximumNumberOfTeamLeadChangesSpek : Spek({
             operator fun component3() = possiblePlayPoints
         }
         private val testCases = listOf(
-//                TestCase(GameScore(), 0),
-//                TestCase(GameScore(1,0), 0),
-//                TestCase(GameScore(2,0), 0),
-//                TestCase(GameScore(4,0), 0),
-//                TestCase(GameScore(0,1), 0),
-//                TestCase(GameScore(1,1), 0),
-//                TestCase(GameScore(2,1), 0),
-//                TestCase(GameScore(4,1), 0),
-//                TestCase(GameScore(2,2), 1),
-//                TestCase(GameScore(2,3), 1),
-//                TestCase(GameScore(4,3), 2),
-//                TestCase(GameScore(3,4), 2),
-//                TestCase(GameScore(2,4), 2),
+                TestCase(GameScore(), 0),
+                TestCase(GameScore(1,0), 0),
+                TestCase(GameScore(2,0), 0),
+                TestCase(GameScore(4,0), 0),
+                TestCase(GameScore(0,1), 0),
+                TestCase(GameScore(1,1), 0),
+                TestCase(GameScore(2,1), 0),
+                TestCase(GameScore(4,1), 0),
+                TestCase(GameScore(2,2), 1),
+                TestCase(GameScore(2,3), 1),
+                TestCase(GameScore(4,3), 2),
+                TestCase(GameScore(3,4), 2),
+                TestCase(GameScore(2,4), 2),
                 TestCase(GameScore(4,4), 3),
-//                TestCase(GameScore(3,7), 2),
-//                TestCase(GameScore(10,6), 4),
+                TestCase(GameScore(3,7), 2),
+                TestCase(GameScore(10,6), 6),
                 null
         ).filterNotNull()
     }

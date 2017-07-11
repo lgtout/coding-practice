@@ -7,6 +7,8 @@ package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 // Strictly speaking, it's not necessary to compute unreachable scores as null.
 // But it allows the cache to contain information about both the lead change
 // count and reachability.  That's all the better, though not strictly relevant.
+// As an alternative approach, we could have GameScoreLeadChanges return null
+// leadChangeCount() for unreachable game scores.
 
 class  MaximumNumberOfTeamLeadChanges {
 
@@ -19,28 +21,34 @@ class  MaximumNumberOfTeamLeadChanges {
         data class GameScoreLeadChanges(
                 val teamThatMostRecentlyScored: Team? = null,
                 val teamAPlayScoreCount: Int = 0,
-                val teamBPlayScoreCount: Int = 0) {
+                val teamBPlayScoreCount: Int = 0,
+                // Next fields for debugging only
+                val teamAScore: Int = 0,
+                val teamBScore: Int = 0) {
 
             val leadChangeCount: Int
                 get() {
-                    return if (teamAPlayScoreCount == 0 || teamBPlayScoreCount == 0)
-                        0
-                    else if (teamAPlayScoreCount < teamBPlayScoreCount)
-                        teamAPlayScoreCount + 1
-                    else if (teamBPlayScoreCount < teamAPlayScoreCount)
-                        teamBPlayScoreCount + 1
-                    else teamBPlayScoreCount
+                    val pairCount = Math.min(teamAPlayScoreCount, teamBPlayScoreCount)
+                    val changesWithinPairs = pairCount
+                    val changesBetweenPairs = if (pairCount > 0) pairCount - 1 else 0
+                    val changesBetweenPairsAndNonPairs =
+                            if (pairCount > 0 && teamAPlayScoreCount != teamBPlayScoreCount) 1 else 0
+                    val changes = changesWithinPairs + changesBetweenPairs +
+                            changesBetweenPairsAndNonPairs
+                    return changes
                 }
 
             fun smallerPlayScoreCount(): Int {
                 return minOf(teamAPlayScoreCount, teamBPlayScoreCount)
             }
 
-            fun playScoredBy(team: Team):
+            fun playScoredBy(team: Team, playScore: Int):
                    GameScoreLeadChanges {
                 return copy(teamThatMostRecentlyScored = team,
                         teamAPlayScoreCount =  teamAPlayScoreCount + if (team == Team.A) 1 else 0,
-                        teamBPlayScoreCount =  teamBPlayScoreCount + if (team == Team.B) 1 else 0)
+                        teamBPlayScoreCount =  teamBPlayScoreCount + if (team == Team.B) 1 else 0,
+                        teamAScore = teamAScore + if (team == Team.A) playScore else 0,
+                        teamBScore = teamBScore + if (team == Team.B) playScore else 0)
             }
         }
 
@@ -56,7 +64,8 @@ class  MaximumNumberOfTeamLeadChanges {
                 (0..teamBGameScore).forEach teamBScoreLoop@ {
                     teamBScore ->
                     if (teamAScore == 0 && teamBScore == 0) {
-                        leadChangesForCurrentTeamAScore.add(GameScoreLeadChanges())
+                        leadChangesForCurrentTeamAScore.add(GameScoreLeadChanges(
+                                teamAScore = teamAScore, teamBScore = teamBScore))
                         return@teamBScoreLoop
                     }
                     // Alternate approach would be to subtract combinations of play points
@@ -70,7 +79,7 @@ class  MaximumNumberOfTeamLeadChanges {
                         if (teamASubscore < 0) null
                         else {
                             val leadChanges = cacheOfGameScoreLeadChanges[teamASubscore][teamBScore]
-                            leadChanges?.playScoredBy(Team.A)
+                            leadChanges?.playScoredBy(Team.A, it)
                         }
                     },
                     possiblePlayScores.map {
@@ -78,7 +87,7 @@ class  MaximumNumberOfTeamLeadChanges {
                         if (teamBSubscore < 0) null
                         else {
                             val leadChanges = cacheOfGameScoreLeadChanges[teamAScore][teamBSubscore]
-                            leadChanges?.playScoredBy(Team.B)
+                            leadChanges?.playScoredBy(Team.B, it)
                         }
                     }).flatten().map{
                         it // For debugging
@@ -100,7 +109,7 @@ class  MaximumNumberOfTeamLeadChanges {
                     })
                 }
             }
-            println(cacheOfGameScoreLeadChanges.joinToString(separator = "\n"))
+//            println(cacheOfGameScoreLeadChanges.joinToString(separator = "\n"))
             return cacheOfGameScoreLeadChanges[
                     teamAGameScore][teamBGameScore]?.leadChangeCount ?: 0
         }
