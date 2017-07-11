@@ -94,7 +94,7 @@ class KthNodeInInOrderTraversalSpek : Spek({
                         RawBinaryTreeNode(value = 3, leftChildIndex = 5),
                         RawBinaryTreeNode(value = 2, rightChildIndex = 6),
                         RawBinaryTreeNode(value = 1)
-                ), expectedNodeIndex = 4, k = 4),
+                ), expectedNodeIndex = 5, k = 4),
                 // TODO more cases
                 null).filterNotNull()
     }
