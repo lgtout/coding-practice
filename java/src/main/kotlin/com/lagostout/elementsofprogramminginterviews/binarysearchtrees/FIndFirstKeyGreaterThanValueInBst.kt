@@ -6,29 +6,27 @@ import java.util.*
 /**
  * Problem 15.2 page 263
  */
-fun firstKeyGreaterThanValueInBst(
-        root: BinaryTreeNode<Int>, value: Int): Int? {
-    var firstKeyGreaterThanValue: Int? = null
-    var upperBound: Int? = null
-    var node = root
-    while (true) {
-        if (node.value <= value) {
-            if (node.right != null) {
-                upperBound = node.value
-                node = node.right
+object FindFirstKeyGreaterThanValueInBst {
+
+    fun firstKeyGreaterThanValueInBst(
+            root: BinaryTreeNode<Int>, value: Int): Int? {
+        var firstKeyGreaterThanValue: Int?
+        var leftSubtreeUpperBound: Int? = null
+        var node = root
+        while (true) {
+            if (value >= node.value) {
+                if (node.right == null) {
+                    firstKeyGreaterThanValue = leftSubtreeUpperBound
+                    break
+                } else node = node.right
             } else {
-                firstKeyGreaterThanValue = if (node.value > value) node.value
-                else upperBound
-                break
-            }
-        } else {
-            if (node.left != null) {
-                node = node.left
-            } else {
-                firstKeyGreaterThanValue = node.value
-                break
+                if (node.left == null) {
+                    firstKeyGreaterThanValue = node.value
+                    break
+                } else node = node.left
             }
         }
+        return firstKeyGreaterThanValue
     }
-    return firstKeyGreaterThanValue
+
 }
