@@ -38,54 +38,54 @@ class KthNodeInInOrderTraversalSpek : Spek({
             }
         }
         private val testCases: List<TestCase> = listOf(
-//                TestCase(),
-//                TestCase(rawNodes = listOf(RawBinaryTreeNode(value = 1)),
-//                        expectedNodeIndex = 0),
-//                TestCase(rawNodes = listOf(
-//                        RawBinaryTreeNode(value = 2, leftChildIndex = 1),
-//                        RawBinaryTreeNode(value = 1)
-//                ), expectedNodeIndex = 1),
-//                TestCase(rawNodes = listOf(
-//                        RawBinaryTreeNode(value = 3, leftChildIndex = 1, rightChildIndex = 2),
-//                        RawBinaryTreeNode(value = 1),
-//                        RawBinaryTreeNode(value = 1)
-//                ), expectedNodeIndex = 1),
-//                TestCase(rawNodes = listOf(
-//                        RawBinaryTreeNode(value = 3, leftChildIndex = 1, rightChildIndex = 2),
-//                        RawBinaryTreeNode(value = 1),
-//                        RawBinaryTreeNode(value = 1)
-//                ), expectedNodeIndex = 0, k = 1),
-//                TestCase(rawNodes = listOf(
-//                        RawBinaryTreeNode(value = 3, leftChildIndex = 1, rightChildIndex = 2),
-//                        RawBinaryTreeNode(value = 1),
-//                        RawBinaryTreeNode(value = 1)
-//                ), expectedNodeIndex = 2, k = 2),
-//                TestCase(rawNodes = listOf(
-//                        RawBinaryTreeNode(value = 4, leftChildIndex = 1, rightChildIndex = 2),
-//                        RawBinaryTreeNode(value = 2, leftChildIndex = 3),
-//                        RawBinaryTreeNode(value = 1),
-//                        RawBinaryTreeNode(value = 1)
-//                ), expectedNodeIndex = 3, k = 3),
-//                TestCase(rawNodes = listOf(
-//                        RawBinaryTreeNode(value = 4, leftChildIndex = 1, rightChildIndex = 2),
-//                        RawBinaryTreeNode(value = 2, leftChildIndex = 3),
-//                        RawBinaryTreeNode(value = 1),
-//                        RawBinaryTreeNode(value = 1)
-//                ), expectedNodeIndex = 0, k = 2),
-//                TestCase(rawNodes = listOf(
-//                        RawBinaryTreeNode(value = 5, leftChildIndex = 1, rightChildIndex = 2),
-//                        RawBinaryTreeNode(value = 2, leftChildIndex = 3),
-//                        RawBinaryTreeNode(value = 2, rightChildIndex = 4),
-//                        RawBinaryTreeNode(value = 1),
-//                        RawBinaryTreeNode(value = 1)
-//                ), expectedNodeIndex = 4, k = 4),
-//                TestCase(rawNodes = listOf(
-//                        RawBinaryTreeNode(value = 5, leftChildIndex = 1, rightChildIndex = 2),
-//                        RawBinaryTreeNode(value = 2, leftChildIndex = 3),
-//                        RawBinaryTreeNode(value = 2, rightChildIndex = 4),
-//                        RawBinaryTreeNode(value = 1),
-//                        RawBinaryTreeNode(value = 1)
-//                ), expectedNodeIndex = 0, k = 2),
+                TestCase(),
+                TestCase(rawNodes = listOf(RawBinaryTreeNode(value = 1)),
+                        expectedNodeIndex = 0),
+                TestCase(rawNodes = listOf(
+                        RawBinaryTreeNode(value = 2, leftChildIndex = 1),
+                        RawBinaryTreeNode(value = 1)
+                ), expectedNodeIndex = 1),
+                TestCase(rawNodes = listOf(
+                        RawBinaryTreeNode(value = 3, leftChildIndex = 1, rightChildIndex = 2),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 1)
+                ), expectedNodeIndex = 1),
+                TestCase(rawNodes = listOf(
+                        RawBinaryTreeNode(value = 3, leftChildIndex = 1, rightChildIndex = 2),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 1)
+                ), expectedNodeIndex = 0, k = 1),
+                TestCase(rawNodes = listOf(
+                        RawBinaryTreeNode(value = 3, leftChildIndex = 1, rightChildIndex = 2),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 1)
+                ), expectedNodeIndex = 2, k = 2),
+                TestCase(rawNodes = listOf(
+                        RawBinaryTreeNode(value = 4, leftChildIndex = 1, rightChildIndex = 2),
+                        RawBinaryTreeNode(value = 2, leftChildIndex = 3),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 1)
+                ), expectedNodeIndex = 3, k = 3),
+                TestCase(rawNodes = listOf(
+                        RawBinaryTreeNode(value = 4, leftChildIndex = 1, rightChildIndex = 2),
+                        RawBinaryTreeNode(value = 2, leftChildIndex = 3),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 1)
+                ), expectedNodeIndex = 0, k = 2),
+                TestCase(rawNodes = listOf(
+                        RawBinaryTreeNode(value = 5, leftChildIndex = 1, rightChildIndex = 2),
+                        RawBinaryTreeNode(value = 2, leftChildIndex = 3),
+                        RawBinaryTreeNode(value = 2, rightChildIndex = 4),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 1)
+                ), expectedNodeIndex = 4, k = 4),
+                TestCase(rawNodes = listOf(
+                        RawBinaryTreeNode(value = 5, leftChildIndex = 1, rightChildIndex = 2),
+                        RawBinaryTreeNode(value = 2, leftChildIndex = 3),
+                        RawBinaryTreeNode(value = 2, rightChildIndex = 4),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 1)
+                ), expectedNodeIndex = 0, k = 2),
                 TestCase(rawNodes = listOf(
                         RawBinaryTreeNode(value = 7, leftChildIndex = 1, rightChildIndex = 2),
                         RawBinaryTreeNode(value = 2, leftChildIndex = 3),
@@ -95,7 +95,28 @@ class KthNodeInInOrderTraversalSpek : Spek({
                         RawBinaryTreeNode(value = 2, rightChildIndex = 6),
                         RawBinaryTreeNode(value = 1)
                 ), expectedNodeIndex = 5, k = 4),
-                // TODO more cases
+                TestCase(rawNodes = listOf(
+                        RawBinaryTreeNode(value = 9, leftChildIndex = 1, rightChildIndex = 2),
+                        RawBinaryTreeNode(value = 3, leftChildIndex = 3, rightChildIndex = 7),
+                        RawBinaryTreeNode(value = 5, leftChildIndex = 8, rightChildIndex = 4),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 3, leftChildIndex = 5),
+                        RawBinaryTreeNode(value = 2, rightChildIndex = 6),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 1)
+                ), expectedNodeIndex = 0, k = 3),
+                TestCase(rawNodes = listOf(
+                        RawBinaryTreeNode(value = 9, leftChildIndex = 1, rightChildIndex = 2),
+                        RawBinaryTreeNode(value = 3, leftChildIndex = 3, rightChildIndex = 7),
+                        RawBinaryTreeNode(value = 5, leftChildIndex = 8, rightChildIndex = 4),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 3, leftChildIndex = 5),
+                        RawBinaryTreeNode(value = 2, rightChildIndex = 6),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 1),
+                        RawBinaryTreeNode(value = 1)
+                ), expectedNodeIndex = 8, k = 4),
                 null).filterNotNull()
     }
 }
