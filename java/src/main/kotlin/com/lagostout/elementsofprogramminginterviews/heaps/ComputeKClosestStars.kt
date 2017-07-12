@@ -20,7 +20,7 @@ object ComputeKClosestStars {
 
         fun reduce(): Int {
             return x + y + z
-        }
+        };
 
     }
 
