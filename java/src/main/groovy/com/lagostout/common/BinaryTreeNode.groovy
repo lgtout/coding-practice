@@ -3,7 +3,7 @@ package com.lagostout.common
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 import org.apache.commons.lang3.tuple.Pair
 
-class BinaryTreeNode<T> {
+class BinaryTreeNode<T extends Comparable<T>> {
 
     BinaryTreeNode<T> parent
     BinaryTreeNode<T> left
@@ -23,10 +23,16 @@ class BinaryTreeNode<T> {
     }
 
     // TODO Write tests
+    /**
+     * Pre-order left-to-right DFS: O(n)
+     * @param value
+     * @return
+     */
     BinaryTreeNode<T> find(T value) {
+        if (value == null) return null
+        if (this.value == value) return this
         BinaryTreeNode<T> node = null
-        if (value == T) node = this
-        if (node == null && left != null) {
+        if (left != null) {
             node = left.find(value)
         }
         if (node == null && right != null) {
@@ -59,7 +65,7 @@ class BinaryTreeNode<T> {
         return super.hashCode()
     }
 
-    static <T> void buildBinaryTrees(
+    static <T extends Comparable<T>> void buildBinaryTrees(
             List<List<T>> rawTree,
             List<BinaryTreeNode<T>> tree) {
         rawTree.eachWithIndex { List<T> rawNode, int index ->
@@ -69,7 +75,7 @@ class BinaryTreeNode<T> {
         }
     }
 
-    static <T> Pair<BinaryTreeNode<T>, List<BinaryTreeNode<T>>> buildBinaryTree(
+    static <T extends Comparable<T>> Pair<BinaryTreeNode<T>, List<BinaryTreeNode<T>>> buildBinaryTree(
             List<RawBinaryTreeNode<T>> rawTree) {
         def nodes = [] as List<BinaryTreeNode>
         buildBinaryTree(0, rawTree, nodes)
@@ -82,20 +88,20 @@ class BinaryTreeNode<T> {
                     (it.size() == 4 ? it[2] : null) as Integer, it[3] as T)
         }
     }
-    static <T> void buildBinaryTree(
+    static <T extends Comparable<T>> void buildBinaryTree(
             List<List> rawTree,
             List<BinaryTreeNode<T>> tree) {
         buildBinaryTree(0, toRawBinaryTreeNodes(rawTree), tree)
     }
 
-    static <T> void buildBinaryTree(
+    static <T extends Comparable<T>> void buildBinaryTree(
             int rootNodeIndex,
             List<RawBinaryTreeNode<T>> rawTree,
             List<BinaryTreeNode<T>> tree) {
         if (rawTree.isEmpty()) return
         RawBinaryTreeNode<T> rawNode = rawTree.get(rootNodeIndex)
         BinaryTreeNode node
-        node = new BinaryTreeNode(rawNode.value as T)
+        node = new BinaryTreeNode(rawNode.value as Comparable<T>)
         if (rawNode.parentIndex != null) { // Configure parent
             BinaryTreeNode parentNode = tree[rawNode.parentIndex]
             node.parent = parentNode

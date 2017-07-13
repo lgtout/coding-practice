@@ -6,9 +6,10 @@ import com.lagostout.common.BinaryTreeNode
  */
 class ComputeLCAInBinaryTree {
 
-    static <T> BinaryTreeNode<T> computeLCA(BinaryTreeNode<T> root,
-                                            BinaryTreeNode<T> firstNode,
-                                            BinaryTreeNode<T> secondNode) {
+    static <T extends Comparable<T>> BinaryTreeNode<T> computeLCA(
+            BinaryTreeNode<T> root,
+            BinaryTreeNode<T> firstNode,
+            BinaryTreeNode<T> secondNode) {
         def lca = null
         if (root == null || firstNode == null || secondNode == null)
             return lca
@@ -67,7 +68,7 @@ class ComputeLCAInBinaryTree {
         lca
     }
 
-    private static class Frame<T> {
+    private static class Frame<T extends Comparable<T>> {
         int nextStep
         BinaryTreeNode<T> node
         Set<BinaryTreeNode<T>> descendantMatches = []

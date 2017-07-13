@@ -5,7 +5,7 @@ import com.lagostout.common.BinaryTreeNode
 /**
  * Problem 10.4 p156
  */
-fun <T> computeTheLCAWhenNodesHaveParentPointers(
+fun <T : Comparable<T>> computeTheLCAWhenNodesHaveParentPointers(
         firstNode: BinaryTreeNode<T>, secondNode: BinaryTreeNode<T>):
         BinaryTreeNode<T>? {
     val firstNodeAncestors = mutableSetOf<BinaryTreeNode<T>>()
