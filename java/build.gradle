@@ -64,6 +64,9 @@ dependencies {
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
     testCompile 'io.reactivex:rxjava:1.0.17'
 
+    testCompile 'com.natpryce:hamkrest:1.4.0.0'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+
     testRuntime 'cglib:cglib-nodep:3.2.2'
     testRuntime "org.objenesis:objenesis:2.1"
 
