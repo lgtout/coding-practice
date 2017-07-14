@@ -10,7 +10,7 @@ object FindFirstKeyGreaterThanValueInBst {
 
     fun firstKeyGreaterThanValueInBst(
             root: BinaryTreeNode<Int>, value: Int): Int? {
-        var firstKeyGreaterThanValue: Int?
+        val firstKeyGreaterThanValue: Int?
         var leftSubtreeUpperBound: Int? = null
         var node = root
         while (true) {
@@ -23,7 +23,10 @@ object FindFirstKeyGreaterThanValueInBst {
                 if (node.left == null) {
                     firstKeyGreaterThanValue = node.value
                     break
-                } else node = node.left
+                } else {
+                    leftSubtreeUpperBound = node.value
+                    node = node.left
+                }
             }
         }
         return firstKeyGreaterThanValue
