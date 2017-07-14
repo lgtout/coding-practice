@@ -22,13 +22,14 @@ fun rearrangeArraySoNoEqualElementsAreKOrLessApart(
         var groupSize = 0
         val zeroCountValueIndices = mutableSetOf<Int>()
         for ((index, valueCount) in iterator) {
-            if (groupSize >= k) break
             sortedArray.add(valueCount.value)
             valueCount.count--
-            groupSize++
             if (valueCount.count == 0) {
+//                iterator.remove()
                 zeroCountValueIndices.add(index)
             }
+            groupSize++
+            if (groupSize >= k) break
         }
         zeroCountValueIndices.map {
             valueCountsSortedByCount.removeAt(it)
