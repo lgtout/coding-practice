@@ -2,10 +2,9 @@ package com.lagostout.datastructures
 
 import com.lagostout.common.BinaryTreeNode
 import org.jetbrains.spek.api.Spek
-import org.jetbrains.spek.api.dsl.context
-import org.jetbrains.spek.api.dsl.describe
-import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.*
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -17,12 +16,17 @@ class BinarySearchTreeSpek : Spek({
 
         describe("inserting a key") {
             context("tree is empty") {
-                it("should contain only the inserted key") {
+                beforeEachTest {
                     tree.insert(key)
-                    assertTrue(contains(tree.root, key))
+                }
+                it("should have a non-null root") {
+                    assertNotNull(tree.root)
+                }
+                it("should contain only the inserted key") {
+                    assertTrue(contains(tree.root!!, key))
                 }
             }
-            context("tree is not empty") {
+            xcontext("tree is not empty") {
                 beforeEachTest {
                     tree.insert(key)
                 }
@@ -32,12 +36,12 @@ class BinarySearchTreeSpek : Spek({
                     assertTrue(tree.contains(key2))
                 }
                 it("maintains the binary search tree property") {
-                    assertTrue(maintainsBinarySearchTreeProperty(tree.root))
+                    assertTrue(maintainsBinarySearchTreeProperty(tree.root!!))
                 }
             }
         }
 
-        describe("finding a key") {
+        xdescribe("finding a key") {
             context("tree is empty") {
                 it("should return null") {
                     val keyToFind = 3

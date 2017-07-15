@@ -13,7 +13,7 @@ interface BinarySearchTreeable <T : Comparable<T>> {
     fun rangeSearch(startKey: T, endKey: T): List<BinaryTreeNode<T>>
     fun contains(key: T): Boolean
     @VisibleForTesting
-    val root: BinaryTreeNode<T>
+    var root: BinaryTreeNode<T>?
 }
 
 class BinarySearchTree<T : Comparable<T>> : BinarySearchTreeable<T> {
@@ -28,10 +28,19 @@ class BinarySearchTree<T : Comparable<T>> : BinarySearchTreeable<T> {
     }
 
     override fun insert(key: T) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val newNode = BinaryTreeNode<T>(key)
+        val insertionPoint = find(key)
+        insertionPoint?.apply {
+            if (value > key) {
+                left = newNode
+            } else {
+                right = newNode
+            }
+        } ?: return
+        root = newNode
     }
 
-    override val root: BinaryTreeNode<T>
+    override var root: BinaryTreeNode<T>? = null
         get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
     override fun contains(key: T): Boolean {
