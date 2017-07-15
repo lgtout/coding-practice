@@ -1,6 +1,5 @@
 package com.lagostout.elementsofprogramminginterviews.graphs
 
-import com.lagostout.elementsofprogramminginterviews.graphs.SearchMaze.Pixel
 import com.lagostout.elementsofprogramminginterviews.graphs.SearchMaze.findPathThroughMaze
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -31,8 +30,8 @@ class SearchAMazeSpek : Spek({
     companion object {
 
         fun isPathFromEntryToExit(
-                path: List<SearchMaze.Pixel>, from: Pixel, to: Pixel,
-                adjacencies: Map<Pixel, Set<Pixel>>): Boolean {
+                path: List<Point>, from: Point, to: Point,
+                adjacencies: Map<Point, Set<Point>>): Boolean {
             if (path.isEmpty() || path.first() != from || path.last() != to) return false
             @Suppress("LoopToCallChain")
             var isValidPath = true
@@ -55,52 +54,52 @@ class SearchAMazeSpek : Spek({
         val F = false
 
         data class TestCase(val grid: List<List<Boolean>>,
-                            val entry: Pixel, val exit: Pixel,
+                            val entry: Point, val exit: Point,
                             val pathExists: Boolean)
 
         val testCases = listOf(
                 TestCase(listOf(
                         listOf(T)
-                ), Pixel(0,0), Pixel(0,0), true),
+                ), Point(0,0), Point(0,0), true),
                 TestCase(listOf(
                         listOf(F)
-                ), Pixel(0,0), Pixel(0,0), false),
+                ), Point(0,0), Point(0,0), false),
                 TestCase(listOf(
                         listOf(F,T)
-                ), Pixel(0,0), Pixel(0,1), false),
+                ), Point(0,0), Point(0,1), false),
                 TestCase(listOf(
                         listOf(F,T)
-                ), Pixel(1,0), Pixel(1,0), true),
+                ), Point(1,0), Point(1,0), true),
                 TestCase(listOf(
                         listOf(T,T)
-                ), Pixel(0,0), Pixel(1,0), true),
+                ), Point(0,0), Point(1,0), true),
                 TestCase(listOf(
                         listOf(T,T)
-                ), Pixel(1,0), Pixel(0,0), true),
+                ), Point(1,0), Point(0,0), true),
                 TestCase(listOf(
                         listOf(T,F),
                         listOf(F,F)
-                ), Pixel(1,1), Pixel(0,0), false),
+                ), Point(1,1), Point(0,0), false),
                 TestCase(listOf(
                         listOf(T,F),
                         listOf(F,F)
-                ), Pixel(0,0), Pixel(1,1), false),
+                ), Point(0,0), Point(1,1), false),
                 TestCase(listOf(
                         listOf(T,F),
                         listOf(T,F)
-                ), Pixel(0,0), Pixel(0,1), true),
+                ), Point(0,0), Point(0,1), true),
                 TestCase(listOf(
                         listOf(T,F),
                         listOf(T,T)
-                ), Pixel(0,1), Pixel(1,1), true),
+                ), Point(0,1), Point(1,1), true),
                 TestCase(listOf(
                         listOf(T,T,T),
                         listOf(T,F,F),
                         listOf(T,T,T),
                         listOf(F,F,T),
                         listOf(T,T,T)),
-                        entry = Pixel(0,4),
-                        exit = Pixel(2,0),
+                        entry = Point(0,4),
+                        exit = Point(2,0),
                         pathExists = true),
                 TestCase(listOf(
                         listOf(T,T,T),
@@ -108,8 +107,8 @@ class SearchAMazeSpek : Spek({
                         listOf(T,T,T),
                         listOf(F,F,T),
                         listOf(T,T,T)),
-                        entry = Pixel(0,4),
-                        exit = Pixel(2,0),
+                        entry = Point(0,4),
+                        exit = Point(2,0),
                         pathExists = true),
                 TestCase(listOf(
                         listOf(T,F,T),
@@ -117,8 +116,8 @@ class SearchAMazeSpek : Spek({
                         listOf(T,T,T),
                         listOf(T,T,T),
                         listOf(T,T,T)),
-                        entry = Pixel(0,4),
-                        exit = Pixel(2,0),
+                        entry = Point(0,4),
+                        exit = Point(2,0),
                         pathExists = false),
                 TestCase(listOf(
                         listOf(F,T,T),
@@ -126,8 +125,8 @@ class SearchAMazeSpek : Spek({
                         listOf(F,T,F),
                         listOf(F,T,F),
                         listOf(T,T,F)),
-                        entry = Pixel(0,4),
-                        exit = Pixel(2,0),
+                        entry = Point(0,4),
+                        exit = Point(2,0),
                         pathExists = true),
                 TestCase(listOf(
                         listOf(F,F,F),
@@ -135,8 +134,8 @@ class SearchAMazeSpek : Spek({
                         listOf(T,T,T),
                         listOf(F,T,F),
                         listOf(T,T,T)),
-                        entry = Pixel(1,2),
-                        exit = Pixel(2,0),
+                        entry = Point(1,2),
+                        exit = Point(2,0),
                         pathExists = false),
                 TestCase(listOf(
                         listOf(F,F,F),
@@ -144,8 +143,8 @@ class SearchAMazeSpek : Spek({
                         listOf(T,T,T),
                         listOf(F,T,F),
                         listOf(T,T,T)),
-                        entry = Pixel(0,3),
-                        exit = Pixel(1,0),
+                        entry = Point(0,3),
+                        exit = Point(1,0),
                         pathExists = false),
                 null
         ).filterNotNull()
