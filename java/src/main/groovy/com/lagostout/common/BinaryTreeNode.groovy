@@ -1,5 +1,6 @@
 package com.lagostout.common
 
+import com.lagostout.datastructures.RawBinaryTreeNode
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 import org.apache.commons.lang3.tuple.Pair
 

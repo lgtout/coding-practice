@@ -1,7 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
 import com.lagostout.common.BinaryTreeNode
-import com.lagostout.common.RawBinaryTreeNode
+import com.lagostout.datastructures.RawBinaryTreeNode
 import com.lagostout.elementsofprogramminginterviews.binarysearchtrees.FindFirstKeyGreaterThanValueInBst.firstKeyGreaterThanValueInBst
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe

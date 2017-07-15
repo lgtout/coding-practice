@@ -1,6 +1,7 @@
-package com.lagostout.common
+package com.lagostout.datastructures
 
 import com.google.common.annotations.VisibleForTesting
+import com.lagostout.common.BinaryTreeNode
 
 interface BinarySearchTreeable <T : Comparable<T>> {
     fun find(key: T): BinaryTreeNode<T>?
