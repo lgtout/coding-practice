@@ -5,7 +5,6 @@ import java.util.*
 /**
  * Problem 11.4 page 180
  */
-
 object ComputeKClosestStars {
 
     data class Point(val x: Int, val y: Int, val z: Int) : Comparable<Point> {
@@ -20,7 +19,7 @@ object ComputeKClosestStars {
 
         fun reduce(): Int {
             return x + y + z
-        };
+        }
 
     }
 
