@@ -3,6 +3,7 @@ package com.lagostout.datastructures
 import com.lagostout.common.BinaryTreeNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.*
+import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -22,8 +23,11 @@ class BinarySearchTreeSpek : Spek({
                 it("should have a non-null root") {
                     assertNotNull(tree.root)
                 }
-                it("should contain only the inserted key") {
-                    assertTrue(contains(tree.root!!, key))
+                it("should contain the inserted key") {
+                    assertTrue(contains(tree.root, key))
+                }
+                it("should contain only one key") {
+                    assertTrue(size(tree.root) == 1)
                 }
             }
             xcontext("tree is not empty") {
@@ -73,11 +77,30 @@ class BinarySearchTreeSpek : Spek({
     companion object {
         fun <T : Comparable<T>> maintainsBinarySearchTreeProperty(
                 root: BinaryTreeNode<T>): Boolean {
+
             return false
         }
         fun <T : Comparable<T>> contains(
-                root: BinaryTreeNode<T>, key: T): Boolean {
+                root: BinaryTreeNode<T>?, key: T): Boolean {
+
             return false
+        }
+        fun <T : Comparable<T>> size(root: BinaryTreeNode<T>?): Int {
+            var count = 0
+            if (root == null) return count
+            val queue = LinkedList<List<BinaryTreeNode<T>>>()
+            queue.push(listOf(root))
+            while (queue.isNotEmpty()) {
+                val level = queue.poll()
+                count += level.size
+                val nextLevel = level.fold(mutableListOf<BinaryTreeNode<T>>()) {
+                    acc, node ->
+                    acc.addAll(listOf(node.left, node.right).filterNotNull())
+                    acc
+                }
+                queue.add(nextLevel)
+            }
+            return count
         }
     }
 }
