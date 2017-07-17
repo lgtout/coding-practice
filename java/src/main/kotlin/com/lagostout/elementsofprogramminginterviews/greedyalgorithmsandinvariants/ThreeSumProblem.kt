@@ -1,4 +1,4 @@
-package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
+package com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants
 
 /**
  * Problem 18.4 page 345
