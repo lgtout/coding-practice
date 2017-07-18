@@ -43,7 +43,7 @@ dependencies {
     compile "org.functionaljava:functionaljava:4.7"
     compile "org.functionaljava:functionaljava-java8:4.7"
     compile "org.functionaljava:functionaljava-quickcheck:4.7"
-//    compile "org.functionaljava:functionaljava-core:4.7"
+    compile "org.functionaljava:functionaljava-java-core:4.7"
 
     compile "org.funktionale:funktionale-all:1.1"
 
