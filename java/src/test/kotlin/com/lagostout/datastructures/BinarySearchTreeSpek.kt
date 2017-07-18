@@ -15,19 +15,25 @@ class BinarySearchTreeSpek : Spek({
         val tree = BinarySearchTree<Int>()
         val key = 1
 
-        describe("inserting a key") {
+        xdescribe("initial state") {
+            it("should have null root") {
+                assertNull(tree.root)
+            }
+        }
+
+        describe("inserting a key $key") {
             context("tree is empty") {
                 beforeEachTest {
                     tree.insert(key)
                 }
-                it("should have a non-null root") {
+                xit("should have a non-null root") {
                     assertNotNull(tree.root)
                 }
-                it("should contain the inserted key") {
+                xit("should contain the inserted key") {
                     assertTrue(contains(tree.root, key))
                 }
                 it("should contain only one key") {
-                    assertTrue(size(tree.root) == 1)
+                    assertEquals(size(tree.root), 1)
                 }
             }
             xcontext("tree is not empty") {
@@ -75,30 +81,67 @@ class BinarySearchTreeSpek : Spek({
     }
 }) {
     companion object {
+
         fun <T : Comparable<T>> maintainsBinarySearchTreeProperty(
                 root: BinaryTreeNode<T>): Boolean {
 
             return false
         }
+
         fun <T : Comparable<T>> contains(
                 root: BinaryTreeNode<T>?, key: T): Boolean {
-
-            return false
+            var found = false
+            if (root == null) return found
+            data class Frame(val node: BinaryTreeNode<T>, var step: Int = 0)
+            val stack = LinkedList<Frame>()
+            stack.add(Frame(root))
+            whileStackIsNotEmpty@ while (stack.isNotEmpty()) {
+                val frame = stack.peek()
+                val (node, step) = frame
+                when (step) {
+                    0 -> {
+                        found = node.value == key
+                        if (found) break@whileStackIsNotEmpty
+                    }
+                    1 -> {
+                        node.left?.apply {
+                            stack.push(Frame(left))
+                        }
+                    }
+                    2 -> {
+                        node.right?.apply {
+                            stack.push(Frame(right))
+                        }
+                    }
+                    else -> {
+                        stack.pop()
+                    }
+                }
+                frame.step++
+            }
+            return found
         }
+
         fun <T : Comparable<T>> size(root: BinaryTreeNode<T>?): Int {
             var count = 0
             if (root == null) return count
             val queue = LinkedList<List<BinaryTreeNode<T>>>()
             queue.push(listOf(root))
+            var limit = 0
             while (queue.isNotEmpty()) {
+                limit += 1
+                if (limit == 10) break
+                println(queue)
                 val level = queue.poll()
                 count += level.size
                 val nextLevel = level.fold(mutableListOf<BinaryTreeNode<T>>()) {
                     acc, node ->
-                    acc.addAll(listOf(node.left, node.right).filterNotNull())
+                    val childNodes = listOf(node.left, node.right).filterNotNull()
+                    if (childNodes.isNotEmpty()) acc.addAll(childNodes)
                     acc
                 }
-                queue.add(nextLevel)
+//                println(nextLevel)
+                if (nextLevel.isNotEmpty()) queue.add(nextLevel)
             }
             return count
         }

@@ -18,8 +18,10 @@ interface BinarySearchTreeable <T : Comparable<T>> {
 
 class BinarySearchTree<T : Comparable<T>> : BinarySearchTreeable<T> {
 
+    override var root: BinaryTreeNode<T>? = null
+
     override fun find(key: T): BinaryTreeNode<T>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return null
     }
 
     // AKA modified find
@@ -36,12 +38,11 @@ class BinarySearchTree<T : Comparable<T>> : BinarySearchTreeable<T> {
             } else {
                 right = newNode
             }
-        } ?: return
+            newNode.parent = this
+            return@insert
+        }
         root = newNode
     }
-
-    override var root: BinaryTreeNode<T>? = null
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
     override fun contains(key: T): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
