@@ -7,29 +7,24 @@ import com.lagostout.elementsofprogramminginterviews.heaps.ComputeKClosestStars.
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.xdescribe
-import kotlin.test.assertTrue
+import kotlin.test.assertEquals
 
 class ComputeKClosestStarsSpek : Spek({
 
-    xdescribe("computeKClosestStars") {
-
+    describe("computeKClosestStars") {
+        
     }
 
-    describe("Point") {
+    xdescribe("Point") {
         describe("compare") {
-            testCases.forEach {
+            pointComparisonTestCases.forEach {
                 (firstPoint, secondPoint,
-                        expectedVectorFromFirstPointToSecond,
-                        comparison) ->
+                        expectedComparison, comparisonString) ->
                 given("points $firstPoint $secondPoint") {
-                    it("compares them expecting firstPoint to be $comparison") {
-                        val comparison = firstPoint.compareTo(secondPoint)
-                        assertTrue {
-                            (comparison == 0 &&
-                                    expectedVectorFromFirstPointToSecond == 0) ||
-                                    comparison < 0 ==
-                                            expectedVectorFromFirstPointToSecond < 0
-                        }
+                    it("finds that firstPoint is " +
+                            "$comparisonString secondPoint") {
+                        assertEquals(expectedComparison,
+                                firstPoint.compareTo(secondPoint))
                     }
                 }
             }
@@ -40,28 +35,38 @@ class ComputeKClosestStarsSpek : Spek({
 
     companion object {
 
-        data class PointCompareTestCase(
-                val firstPoint: Point,
-                val secondPoint: Point,
-                val vectorFromFirstPointToSecond: Int,
-                val comparison: String)
+        class RandomHelper(val distanceRange: IntRange) {
 
-        val testCases: List<PointCompareTestCase> = {
-            val random = RandomDataGenerator()
-            random.reSeed(1)
-            val result = mutableListOf<PointCompareTestCase>()
-            val distanceRange = IntRange(0, 10)
+            val random: RandomDataGenerator = RandomDataGenerator()
+
+            init {
+                random.reSeed(1)
+            }
+
             fun randomDistance(): Int {
                 return random.nextInt(
                         distanceRange.start,
                         distanceRange.endInclusive)
             }
+
             fun randomPoint(): Point {
                 return Point(randomDistance(),
                         randomDistance(),
                         randomDistance())
             }
-            1.rangeTo(1_000).map {
+
+        }
+
+        data class PointComparisonTestCase(
+                val firstPoint: Point,
+                val secondPoint: Point,
+                val expectedComparison: Int,
+                val comparisonString: String)
+
+        val pointComparisonTestCases: List<PointComparisonTestCase> = {
+            val randomHelper = RandomHelper(IntRange(0, 10))
+            val result = mutableListOf<PointComparisonTestCase>()
+            1.rangeTo(100).map {
                 fun expected(firstPoint: Point, secondPoint: Point): Int {
                     val distancesFromOrigin = listOf(firstPoint, secondPoint).map({
                         (x, y, z) ->
@@ -71,16 +76,49 @@ class ComputeKClosestStarsSpek : Spek({
                             Math.sqrt(it)
                         }
                     })
-                    return distancesFromOrigin.let {
-                        Math.round(it[0] - it[1]).toInt()
+                    return distancesFromOrigin.let{
+                        println("$firstPoint $secondPoint")
+                        println (it)
+                        it[0].compareTo(it[1])
                     }
                 }
-                val firstPoint = randomPoint()
-                val secondPoint = randomPoint()
-                result.add(PointCompareTestCase(firstPoint, secondPoint,
-                        expected(firstPoint, secondPoint), ""))
+                fun comparisonString(comparison: Int): String {
+                    return if (comparison == 0) "equal to"
+                    else if (comparison < 0) "less than"
+                    else "greater than"
+                }
+                val firstPoint = randomHelper.randomPoint()
+                val secondPoint = randomHelper.randomPoint()
+                val comparison = expected(firstPoint, secondPoint)
+                result.add(PointComparisonTestCase(firstPoint, secondPoint,
+                        comparison, comparisonString(comparison)))
             }
             result
+        }()
+
+        data class ComputeKClosestStarsTestCase(
+                val stars: List<Point>, val k: Int,
+                val expected: List<Point>)
+
+        val computeKClosestStarsTestCases: List<ComputeKClosestStarsTestCase> = {
+            val random = RandomDataGenerator()
+            val cases = mutableListOf<ComputeKClosestStarsTestCase>()
+            val randomHelper = RandomHelper(IntRange(0, 10))
+            random.reSeed(1)
+            1.rangeTo(100).map {
+                val starCount = random.nextInt(0, 20)
+                var stars = emptyList<Point>()
+                if (starCount > 0) {
+                    stars = 1.rangeTo(starCount).map {
+                        randomHelper.randomPoint()
+                    }
+                }
+                val k = random.nextInt(0, starCount)
+                val expectedStars = stars.sorted().take(k)
+                val testCase = ComputeKClosestStarsTestCase(stars, k, expectedStars)
+                cases.add(testCase)
+            }
+            cases
         }()
 
     }
