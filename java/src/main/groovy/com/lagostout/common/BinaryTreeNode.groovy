@@ -83,7 +83,9 @@ class BinaryTreeNode<T extends Comparable<T>> {
         return Pair.of(nodes.isEmpty() ? null : nodes[0], nodes)
     }
 
-    private static List<RawBinaryTreeNode<T>> toRawBinaryTreeNodes(List<List> rawTree) {
+    private static <T extends Comparable> List<
+            RawBinaryTreeNode<T>> toRawBinaryTreeNodes(
+            List<List> rawTree) {
         rawTree.collect {
             new RawBinaryTreeNode<T>(it[0] as Integer, it[1] as Integer,
                     (it.size() == 4 ? it[2] : null) as Integer, it[3] as T)
