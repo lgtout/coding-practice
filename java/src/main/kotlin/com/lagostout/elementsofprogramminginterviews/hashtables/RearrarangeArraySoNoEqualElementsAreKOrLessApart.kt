@@ -1,38 +1,42 @@
 package com.lagostout.elementsofprogramminginterviews.hashtables
 
-import java.util.*
-
 /**
  * Problem 13.7.5 page 225
  */
 fun rearrangeArraySoNoEqualElementsAreKOrLessApart(
         array: List<Int>, k: Int): List<Int> {
-    data class ValueCount(val value: Int, var count: Int)
     val sortedArray = mutableListOf<Int>()
-    val valueToValueCountMap = mutableMapOf<Int, ValueCount>()
-    array.forEach { it ->
-        val count = valueToValueCountMap.getOrDefault(
-                it, ValueCount(value = 0, count = 0)).count + 1
-        valueToValueCountMap[it] = ValueCount(value = it, count = count)
-    }
-    val valueCountsSortedByCount = LinkedList<ValueCount>(
-            valueToValueCountMap.values.sortedBy { it.count })
-    while (valueCountsSortedByCount.isNotEmpty()) {
-        val iterator = valueCountsSortedByCount.iterator().withIndex()
-        var groupSize = 0
-        val zeroCountValueIndices = mutableSetOf<Int>()
-        for ((index, valueCount) in iterator) {
-            sortedArray.add(valueCount.value)
-            valueCount.count--
-            if (valueCount.count == 0) {
-//                iterator.remove()
-                zeroCountValueIndices.add(index)
+    if (array.isEmpty()) return sortedArray
+    val countToValueMap = array.groupingBy { it }.eachCount().
+            asIterable().groupBy( { it.value }, { it.key }).
+            toMutableMap().mapValues(
+            { it.value.toMutableSet().iterator() })
+    val currentCount = countToValueMap.keys.max()!!
+    // Maybe maintain 2 maps?  Would that be simpler than trying to
+    // merge used values into value sets of lower counts?
+    while (currentCount > 0) {
+        var remainingK = k
+        val nextCount = currentCount
+        while (remainingK > 0) {
+            val values = countToValueMap[currentCount]!!
+            val usedValues = mutableSetOf<Int>()
+            values.forEach {
+                usedValues.add(it)
+                values.remove()
             }
-            groupSize++
-            if (groupSize >= k) break
-        }
-        zeroCountValueIndices.map {
-            valueCountsSortedByCount.removeAt(it)
+            if (usedValues.size < remainingK) {
+                remainingK =- usedValues.size
+            }
+            var currentK = 0
+            while (currentK < k) {
+                val value = values.next()
+            }
+//            val kValues = values.take(k)
+//            if (values.)
+//            val nextValues = countToValueMap.getOrDefault(
+//                    nextCount, mutableListOf())
+//            nextValues.addAll(kValues)
+//            remainingK -= values.size
         }
     }
     return sortedArray
