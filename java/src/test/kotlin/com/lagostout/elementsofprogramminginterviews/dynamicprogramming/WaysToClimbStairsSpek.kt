@@ -27,11 +27,11 @@ class WaysToClimbStairsSpek : Spek({
                 val maxStepsAtATime: Int,
                 val expectedCount: Int)
         val testCases = listOf(
-                // k = 0
+                // stairCount = 0
                 TestCase(0, 1, 0),
                 TestCase(0, 2, 0),
-                TestCase(1, 1, 1),
                 // k = 1
+                TestCase(1, 1, 1),
                 TestCase(2, 1, 1),
                 TestCase(3, 1, 1),
                 TestCase(10, 1, 1),
