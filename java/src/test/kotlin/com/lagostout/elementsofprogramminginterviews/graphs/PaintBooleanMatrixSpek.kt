@@ -11,6 +11,10 @@ class PaintBooleanMatrixSpek : Spek({
         // be identical, except for the component in the first that contains
         // the start point.  And the graph should contain no additional
         // cells e.g. cells of the starting color.
+
+        // Cases:
+        // Empty grid
+        // Point beyond grid bounds - positive/negative
     }
 }) {
     companion object {

@@ -1,5 +1,8 @@
 package com.lagostout.elementsofprogramminginterviews.graphs
 
+/**
+ * Transforms a boolean matrix into an adjacency map of a graph.
+ */
 fun toGraph(grid: List<List<Boolean>>,
             cellValueToRetain: Boolean = true):
         Map<Point, Set<Point>> {
