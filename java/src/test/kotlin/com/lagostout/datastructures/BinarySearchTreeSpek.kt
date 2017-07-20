@@ -21,56 +21,63 @@ class BinarySearchTreeSpek : Spek({
             }
         }
 
-        describe("inserting a key $key") {
-            context("tree is empty") {
-                beforeEachTest {
-                    tree.insert(key)
-                }
-                xit("should have a non-null root") {
+        xdescribe("inserting a key") {
+            xcontext("tree is empty") {
+                tree.insert(key)
+                it("has a non-null root") {
                     assertNotNull(tree.root)
                 }
-                xit("should contain the inserted key") {
+                it("contains the inserted key") {
                     assertTrue(contains(tree.root, key))
                 }
-                it("should contain only one key") {
+                it("contains only one key") {
                     assertEquals(size(tree.root), 1)
                 }
             }
-            xcontext("tree is not empty") {
-                beforeEachTest {
-                    tree.insert(key)
+            context("tree contains a node before insertion") {
+                tree.insert(key)
+                val key2 = 2
+                tree.insert(key2)
+//                println(tree.root)
+                xit("contains the inserted key") {
+                    assertTrue(contains(tree.root, key2))
                 }
-                it("should contain the inserted and existing keys") {
-                    val key2 = 2
-                    tree.insert(key2)
-                    assertTrue(tree.contains(key2))
+                it("contains the existing key") {
+//                    println(tree.root)
+                    assertTrue(contains(tree.root, key))
                 }
-                it("maintains the binary search tree property") {
+                xit("maintains the binary search tree property") {
+//                    println(tree.root)
                     assertTrue(maintainsBinarySearchTreeProperty(tree.root!!))
                 }
             }
         }
 
-        xdescribe("finding a key") {
-            context("tree is empty") {
-                it("should return null") {
+        describe("finding a key") {
+            xcontext("tree is empty") {
+                it("returns null") {
                     val keyToFind = 3
                     assertNull(tree.find(keyToFind))
                 }
             }
             context("tree isn't empty") {
                 beforeEachTest {
-                    val keys = listOf(1,5,6,2,4)
+                    val keys = listOf(1,5,6,2,3,4)
+                    tree.root = BinaryTreeNode.buildBinaryTree(listOf(
+                            RawBinaryTreeNode(value = 4),
+                            RawBinaryTreeNode(value = 1)
+                    )).left
                     keys.forEach { tree.insert(it) }
+                    TODO("continue")
                 }
                 context("key is in tree") {
                     val keyToFind = 2
-                    it("should return the node containing the key") {
+                    it("returns the node containing the key") {
                         assertEquals(keyToFind, tree.find(keyToFind)?.value)
                     }
                 }
-                context("key isn't in tree") {
-                    it("should return null") {
+                xcontext("key isn't in tree") {
+                    it("returns null") {
                         val keyToFind = 11
                         assertNull(tree.find(keyToFind))
                     }
@@ -89,35 +96,41 @@ class BinarySearchTreeSpek : Spek({
         }
 
         fun <T : Comparable<T>> contains(
-                root: BinaryTreeNode<T>?, key: T): Boolean {
+                root: BinaryTreeNode<T>?,
+                vararg keys: T): Boolean {
             var found = false
             if (root == null) return found
             data class Frame(val node: BinaryTreeNode<T>, var step: Int = 0)
-            val stack = LinkedList<Frame>()
-            stack.add(Frame(root))
-            whileStackIsNotEmpty@ while (stack.isNotEmpty()) {
-                val frame = stack.peek()
-                val (node, step) = frame
-                when (step) {
-                    0 -> {
-                        found = node.value == key
-                        if (found) break@whileStackIsNotEmpty
-                    }
-                    1 -> {
-                        node.left?.apply {
-                            stack.push(Frame(left))
+            run {
+                keys.forEach forEachKey@ { key ->
+                    val stack = LinkedList<Frame>()
+                    stack.add(Frame(root))
+                    whileStackIsNotEmpty@ while (stack.isNotEmpty()) {
+                        val frame = stack.peek()
+                        val (node, step) = frame
+                        when (step) {
+                            0 -> {
+                                found = node.value == key
+                                if (found) break@whileStackIsNotEmpty
+                            }
+                            1 -> {
+                                node.left?.apply {
+                                    stack.push(Frame(left))
+                                }
+                            }
+                            2 -> {
+                                node.right?.apply {
+                                    stack.push(Frame(right))
+                                }
+                            }
+                            else -> {
+                                stack.pop()
+                            }
                         }
+                        frame.step++
                     }
-                    2 -> {
-                        node.right?.apply {
-                            stack.push(Frame(right))
-                        }
-                    }
-                    else -> {
-                        stack.pop()
-                    }
+                    if (!found) return@forEachKey
                 }
-                frame.step++
             }
             return found
         }
@@ -140,7 +153,6 @@ class BinarySearchTreeSpek : Spek({
                     if (childNodes.isNotEmpty()) acc.addAll(childNodes)
                     acc
                 }
-//                println(nextLevel)
                 if (nextLevel.isNotEmpty()) queue.add(nextLevel)
             }
             return count
