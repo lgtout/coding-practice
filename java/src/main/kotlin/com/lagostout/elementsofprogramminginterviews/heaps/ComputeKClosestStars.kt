@@ -26,14 +26,17 @@ object ComputeKClosestStars {
     }
 
     fun computeKClosestStars(stars: List<Point>, k: Int): List<Point> {
+        if (k < 0) throw IllegalArgumentException("k must be >= 0")
         val closestStars = PriorityQueue<Point>({
             point1, point2 ->
             point2.compareTo(point1)
         })
-        stars.forEach {
-            if (closestStars.size < k) {
-                closestStars.add(it)
-            } else if (closestStars.peek() > it) {
+        val starsIterator = stars.iterator()
+        while (closestStars.size < Math.min(k, stars.size)) {
+            closestStars.add(starsIterator.next())
+        }
+        starsIterator.forEach {
+            if (closestStars.peek() > it) {
                 closestStars.poll()
                 closestStars.add(it)
             }
