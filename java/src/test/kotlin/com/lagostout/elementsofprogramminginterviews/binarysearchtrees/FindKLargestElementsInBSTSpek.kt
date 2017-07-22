@@ -23,47 +23,47 @@ class FindKLargestElementsInBSTSpek : Spek({
 }) {
     companion object {
         data class TestCase(val rawNodes: List<RawBinaryTreeNode<Int>>,
-                            var k: Int, var expected: Set<Int>) {
+                            val k: Int, val expected: List<Int>) {
             val root: BinaryTreeNode<Int>? = buildBinaryTree(rawNodes).left
             operator fun component4() = root
         }
         val testCases: List<TestCase> = listOf(
                 // empty
-                TestCase(listOf(), 0, emptySet()),
+                TestCase(listOf(), 0, emptyList()),
                 // n
-                TestCase(listOf(RawBinaryTreeNode(value = 1)), 0, emptySet()),
-                TestCase(listOf(RawBinaryTreeNode(value = 1)), 1, setOf(1)),
-                TestCase(listOf(RawBinaryTreeNode(value = 1)), 2, setOf(1)),
+                TestCase(listOf(RawBinaryTreeNode(value = 1)), 0, emptyList()),
+                TestCase(listOf(RawBinaryTreeNode(value = 1)), 1, listOf(1)),
+                TestCase(listOf(RawBinaryTreeNode(value = 1)), 2, listOf(1)),
                 // n
                 //  \
                 //   n
                 TestCase(listOf(
                         RawBinaryTreeNode(value = 1, rightChildIndex = 1),
                         RawBinaryTreeNode(value = 2)),
-                        1, setOf(2)),
+                        1, listOf(2)),
                 TestCase(listOf(
                         RawBinaryTreeNode(value = 1, rightChildIndex = 1),
                         RawBinaryTreeNode(value = 2)),
-                        2, setOf(2,1)),
+                        2, listOf(2,1)),
                 TestCase(listOf(
                         RawBinaryTreeNode(value = 1, rightChildIndex = 1),
                         RawBinaryTreeNode(value = 2)),
-                        3, setOf(2,1)),
+                        3, listOf(2,1)),
                 //   n
                 //  /
                 // n
                 TestCase(listOf(
                         RawBinaryTreeNode(value = 2, leftChildIndex = 1),
                         RawBinaryTreeNode(value = 1)),
-                        1, setOf(2)),
+                        1, listOf(2)),
                 TestCase(listOf(
                         RawBinaryTreeNode(value = 2, leftChildIndex = 1),
                         RawBinaryTreeNode(value = 1)),
-                        2, setOf(2,1)),
+                        2, listOf(2,1)),
                 TestCase(listOf(
                         RawBinaryTreeNode(value = 2, leftChildIndex = 1),
                         RawBinaryTreeNode(value = 1)),
-                        3, setOf(2, 1)),
+                        3, listOf(2, 1)),
                 // n
                 //  \
                 //   n
@@ -73,22 +73,22 @@ class FindKLargestElementsInBSTSpek : Spek({
                         RawBinaryTreeNode(value = 2, rightChildIndex = 1),
                         RawBinaryTreeNode(value = 4, leftChildIndex = 2),
                         RawBinaryTreeNode(value = 3)),
-                        1, setOf(4)),
+                        1, listOf(4)),
                 TestCase(listOf(
                         RawBinaryTreeNode(value = 2, rightChildIndex = 1),
                         RawBinaryTreeNode(value = 4, leftChildIndex = 2),
                         RawBinaryTreeNode(value = 3)),
-                        2, setOf(4,3)),
+                        2, listOf(4,3)),
                 TestCase(listOf(
                         RawBinaryTreeNode(value = 2, rightChildIndex = 1),
                         RawBinaryTreeNode(value = 4, leftChildIndex = 2),
                         RawBinaryTreeNode(value = 3)),
-                        3, setOf(4,3,2)),
+                        3, listOf(4,3,2)),
                 TestCase(listOf(
                         RawBinaryTreeNode(value = 2, rightChildIndex = 1),
                         RawBinaryTreeNode(value = 4, leftChildIndex = 2),
                         RawBinaryTreeNode(value = 3)),
-                        4, setOf(4,3,2)),
+                        4, listOf(4,3,2)),
                 //   n
                 //  /
                 // n
@@ -97,23 +97,23 @@ class FindKLargestElementsInBSTSpek : Spek({
                 TestCase(listOf(
                         RawBinaryTreeNode(value = 4, leftChildIndex = 1),
                         RawBinaryTreeNode(value = 2, rightChildIndex = 2),
-                        RawBinaryTreeNode(value = 4)),
-                        1, setOf(4)),
+                        RawBinaryTreeNode(value = 3)),
+                        1, listOf(4)),
                 TestCase(listOf(
                         RawBinaryTreeNode(value = 4, leftChildIndex = 1),
                         RawBinaryTreeNode(value = 2, rightChildIndex = 2),
-                        RawBinaryTreeNode(value = 4)),
-                        2, setOf(4,3)),
-                TestCase(listOf(
-                        RawBinaryTreeNode(value = 2, rightChildIndex = 1),
-                        RawBinaryTreeNode(value = 4, leftChildIndex = 2),
                         RawBinaryTreeNode(value = 3)),
-                        3, setOf(4,3,2)),
+                        2, listOf(4,3)),
                 TestCase(listOf(
-                        RawBinaryTreeNode(value = 2, rightChildIndex = 1),
-                        RawBinaryTreeNode(value = 4, leftChildIndex = 2),
+                        RawBinaryTreeNode(value = 4, leftChildIndex = 1),
+                        RawBinaryTreeNode(value = 2, rightChildIndex = 2),
                         RawBinaryTreeNode(value = 3)),
-                        4, setOf(4,3,2)),
+                        3, listOf(4,3,2)),
+                TestCase(listOf(
+                        RawBinaryTreeNode(value = 4, leftChildIndex = 1),
+                        RawBinaryTreeNode(value = 2, rightChildIndex = 2),
+                        RawBinaryTreeNode(value = 3)),
+                        4, listOf(4,3,2)),
                 null
         ).filterNotNull()
     }
