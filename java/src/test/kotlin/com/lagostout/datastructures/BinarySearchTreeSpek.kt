@@ -62,16 +62,16 @@ class BinarySearchTreeSpek : Spek({
             }
             context("tree isn't empty") {
                 beforeEachTest {
-                    val keys = listOf(1,5,6,2,3,4)
                     tree.root = BinaryTreeNode.buildBinaryTree(listOf(
-                            RawBinaryTreeNode(value = 4),
+                            RawBinaryTreeNode(leftChildIndex = 1, value = 4),
                             RawBinaryTreeNode(value = 1)
                     )).left
-                    keys.forEach { tree.insert(it) }
-                    TODO("continue")
+//                    val keys = listOf(1,5,6,2,3,4)
+//                    keys.forEach { tree.insert(it) }
+//                    TODO("continue")
                 }
                 context("key is in tree") {
-                    val keyToFind = 2
+                    val keyToFind = 1
                     it("returns the node containing the key") {
                         assertEquals(keyToFind, tree.find(keyToFind)?.value)
                     }

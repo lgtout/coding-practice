@@ -6,7 +6,7 @@ import java.util.*
 
 interface BinarySearchTreeable <T : Comparable<T>> {
     fun find(key: T): BinaryTreeNode<T>?
-    fun findInsertionPoint(key: T): BinaryTreeNode<T>
+    fun findOrInsertionPoint(key: T): BinaryTreeNode<T>
     fun next(key: T): BinaryTreeNode<T>
     fun insert(key: T)
     fun delete(key: T)
@@ -36,43 +36,27 @@ class BinarySearchTree<T : Comparable<T>> : BinarySearchTreeable<T> {
     override fun find(key: T): BinaryTreeNode<T>? {
         var nodeSought: BinaryTreeNode<T>? = null
         root?.let {
-            data class Frame(val node: BinaryTreeNode<T>, var step: Int = 0)
-            val stack = LinkedList<Frame>()
-            stack.add(Frame(root!!))
-            whileStackIsNotEmpty@ while (stack.isNotEmpty()) {
-                val frame = stack.peek()
-                val (node, step) = frame
-                when (step) {
-                    0 -> {
-                        if (node.value == key) {
-                            nodeSought = node
-                            break@whileStackIsNotEmpty
+            var currentNode: BinaryTreeNode<T>? = it
+            while (currentNode != null && nodeSought == null) {
+                nodeSought = currentNode.run {
+                    if (value == key) {
+                        currentNode
+                    } else {
+                        currentNode = if (value > key) {
+                            if (right != null) right else null
+                        } else {
+                            if (left != null) left else null
                         }
-                    }
-                    1 -> {
-                        node.left?.apply {
-                            stack.push(Frame(left))
-                        }
-                    }
-                    2 -> {
-                        println(node.right)
-                        node.right?.apply {
-                            println(right)
-                            stack.push(Frame(right))
-                        }
-                    }
-                    else -> {
-                        stack.pop()
+                        null
                     }
                 }
-                frame.step++
             }
         }
         return nodeSought
     }
 
     // AKA modified find
-    override fun findInsertionPoint(key: T): BinaryTreeNode<T> {
+    override fun findOrInsertionPoint(key: T): BinaryTreeNode<T> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
