@@ -1,5 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.graphs
 
+import com.lagostout.common.nextInt
+import org.apache.commons.math3.random.RandomDataGenerator
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 
@@ -19,8 +21,39 @@ class PaintBooleanMatrixSpek : Spek({
 }) {
     companion object {
 
-        data class TestCase(val grid: List<List<Boolean>>)
+        data class TestCase(
+                val grid: List<List<Boolean>>,
+                val start: Point) {
+            val expectedUnflippedPoints = {
+                val graph = toGraph(grid, grid[start.row][start.column])
+                val components = mutableSetOf<Set<Point>>()
+//                TODO("continue here")
+//                graph.forEach
+            }()
+        }
 
+        val testCases = {
+            val testCaseCount = 1000
+            val random = RandomDataGenerator().apply { reSeed(1) }
+            val testCases = mutableListOf<TestCase>()
+            val gridDimensionRange = IntRange(0, 10)
+            1.rangeTo(testCaseCount).forEach {
+                val grid = mutableListOf<MutableList<Boolean>>()
+                val rowCount = random.nextInt(gridDimensionRange)
+                val columnCount = random.nextInt(gridDimensionRange)
+                1.rangeTo(rowCount).forEach {
+                    val row = mutableListOf<Boolean>()
+                    grid.add(row)
+                    1.rangeTo(columnCount).forEach {
+                        row.add(random.nextInt(0, 1) == 1)
+                    }
+                }
+                val start = Point(random.nextInt(0, rowCount - 1),
+                        random.nextInt(0, columnCount - 1))
+                testCases.add(TestCase(grid, start))
+            }
+            testCases
+        }()
 
     }
 }
