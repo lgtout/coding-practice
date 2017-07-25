@@ -2,11 +2,9 @@ package com.lagostout.datastructures
 
 import com.google.common.annotations.VisibleForTesting
 import com.lagostout.common.BinaryTreeNode
-import java.util.*
 
 interface BinarySearchTreeable <T : Comparable<T>> {
-    fun find(key: T): BinaryTreeNode<T>?
-    fun findOrInsertionPoint(key: T): BinaryTreeNode<T>
+    fun find(key: T): Pair<BinaryTreeNode<T>?, BinaryTreeNode<T>?>
     fun next(key: T): BinaryTreeNode<T>
     fun insert(key: T)
     fun delete(key: T)
@@ -33,46 +31,55 @@ class BinarySearchTree<T : Comparable<T>> : BinarySearchTreeable<T> {
 
     }
 
-    override fun find(key: T): BinaryTreeNode<T>? {
-        var nodeSought: BinaryTreeNode<T>? = null
-        root?.let {
-            var currentNode: BinaryTreeNode<T>? = it
-            while (currentNode != null && nodeSought == null) {
-                nodeSought = currentNode.run {
-                    if (value == key) {
-                        currentNode
-                    } else {
-                        currentNode = if (value > key) {
-                            if (right != null) right else null
-                        } else {
-                            if (left != null) left else null
-                        }
-                        null
+    /**
+     * Returns pair of nodes.  If a node with value <code>key</code>, is found
+     * it'll be the first in the pair.  Otherwise, the second in the pair will
+     * be the node that would be the sought node's parent, if the sought node
+     * were in the tree.
+     */
+    override fun find(key: T): Pair<BinaryTreeNode<T>?, BinaryTreeNode<T>?> {
+        var result: Pair<BinaryTreeNode<T>?, BinaryTreeNode<T>?>? = null
+        root?.apply {
+            var currentNode: BinaryTreeNode<T> = this
+            whileLoop@ while (true) {
+                result = if (value == key)
+                    Pair(currentNode, null)
+                else if (value > key) {
+                    currentNode.right?.apply {
+                        currentNode = currentNode.right
                     }
+                    Pair(null, currentNode)
+                } else {
+                    currentNode.left?.apply {
+                        currentNode = currentNode.left
+                    }
+                    Pair(null, currentNode)
                 }
+                result?: break
             }
         }
-        return nodeSought
-    }
-
-    // AKA modified find
-    override fun findOrInsertionPoint(key: T): BinaryTreeNode<T> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return result!!
     }
 
     override fun insert(key: T) {
         val newNode = BinaryTreeNode<T>(key)
-        val insertionPoint = find(key)
-        insertionPoint?.apply {
-            if (value > key) {
-                left = newNode
-            } else {
-                right = newNode
+        find(key).also {
+            (soughtNode, insertionPoint) ->
+            soughtNode?.apply {
+                return@insert
             }
-            newNode.parent = this
-            return@insert
+            insertionPoint?.apply {
+                if (value != key) {
+                    if (value > key)
+                        insertionPoint.left = newNode
+                    else
+                        insertionPoint.right = newNode
+                    newNode.parent = insertionPoint
+                }
+                return@insert
+            }
+            root = newNode
         }
-        root = newNode
     }
 
     override fun contains(key: T): Boolean {
