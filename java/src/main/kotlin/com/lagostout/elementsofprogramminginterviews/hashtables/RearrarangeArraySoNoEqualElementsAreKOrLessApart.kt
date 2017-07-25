@@ -5,39 +5,25 @@ package com.lagostout.elementsofprogramminginterviews.hashtables
  */
 fun rearrangeArraySoNoEqualElementsAreKOrLessApart(
         array: List<Int>, k: Int): List<Int> {
+    data class ValueCount(val value: Int, val count: Int)
     val sortedArray = mutableListOf<Int>()
     if (array.isEmpty()) return sortedArray
     val valueCount = array.size
-    val valueToCountMap = array.groupingBy { it }.eachCount().toMutableMap()
-    val indexToAvailableValueMap = mutableMapOf<Int, Int>()
-    val allAvailableValues = mutableSetOf<Int>()
-            .apply { addAll(valueToCountMap.keys) }
-    val availableValues: MutableSet<Int> = allAvailableValues
-    0.rangeTo(valueCount).forEach {
-        // If a value has been freed up in this new position,
-        // let's add it to our set of available values.
-        // TODO We still need to prioritize which value we select by occurrence count.
-        // Maybe availableValues should be a map of counts to values.
-        // Or, for O(n), we could have a list of sets of values, where
-        // we move sets to ever lower indices, where an index represents
-        // a value's remaining occurrence count.
-        indexToAvailableValueMap[it]?.let {
-            availableValues.add(it)
+    val countToValuesMap = array.groupingBy { it }.eachCount()
+            .entries.groupBy({ it.value }, { it.key })
+            .toSortedMap(Comparator { k1:Int, k2:Int -> k2.compareTo(k1)})
+    val indexToAvailableValuesMap = mutableMapOf<Int, ValueCount>()
+    val currentIndex = 0
+    // TODO Use while(values.isNotEmpty()) to drain values while possibly adding to values
+    countToValuesMap.forEach {
+        (count, values) ->
+        values.forEach {
+            sortedArray.add(it)
+            indexToAvailableValuesMap.put(
+                    sortedArray.size + k,
+                    ValueCount(it, count - 1))
         }
-        availableValues.apply {
-            val value = first()
-            remove(value)
-            valueToCountMap[value] =- 1
-            // Bump value to next index when it's available
-            if (valueToCountMap[value]!! > 0) {
-                val nextAvailableIndex = it + k
-                indexToAvailableValueMap[nextAvailableIndex] = value
-            }
-            return@forEach
-        }
-        // There's a problem:  We've run out of available values.
-        throw IllegalArgumentException("Array cannot be arranged so no " +
-                "equal elements k or less apart")
+
     }
-    return sortedArray
+    return emptyList()
 }
