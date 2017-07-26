@@ -3,6 +3,10 @@ package com.lagostout.elementsofprogramminginterviews.binarytrees
 import com.lagostout.common.BinaryTreeNode
 import com.lagostout.datastructures.RawBinaryTreeNode
 import org.jetbrains.spek.api.Spek
+import org.jetbrains.spek.api.dsl.describe
+import org.jetbrains.spek.api.dsl.given
+import org.jetbrains.spek.api.dsl.it
+import kotlin.test.assertEquals
 
 /**
  * We'll allow for degenerate cases:
@@ -13,13 +17,23 @@ import org.jetbrains.spek.api.Spek
  * is present.
  */
 class ComputeTheSuccessorSpek : Spek({
-    TODO()
+    describe("computeTheSuccessor") {
+        testCases.forEach {
+            (_, predecessor, _, root, expectedSuccessor) ->
+            given("tree $root and predecessor $predecessor") {
+                it("returns successor $expectedSuccessor") {
+                    assertEquals(expectedSuccessor,
+                            computeTheSuccessor(predecessor, root))
+                }
+            }
+        }
+    }
 }) {
     companion object {
         data class TestCase(val rawNodes: List<RawBinaryTreeNode<Int>>,
                             val predecessor: Int,
                             val expectedNodeIndex: Int? = null) {
-            val root: BinaryTreeNode<Int>
+            val root: BinaryTreeNode<Int>?
             operator fun component4() = root
             val expectedSuccessor: Int?
             operator fun component5() = expectedSuccessor
@@ -49,12 +63,12 @@ class ComputeTheSuccessorSpek : Spek({
                         RawBinaryTreeNode(leftChildIndex = 1, rightChildIndex = 2, value = 10),
                         RawBinaryTreeNode(value = 5, parentIndex = 0),
                         RawBinaryTreeNode(value = 15, parentIndex = 0)
-                ), 12, null),
+                ), 12, 2),
                 TestCase(listOf(
                         RawBinaryTreeNode(leftChildIndex = 1, rightChildIndex = 2, value = 10),
                         RawBinaryTreeNode(value = 5, parentIndex = 0),
                         RawBinaryTreeNode(value = 15, parentIndex = 0)
-                ), 7, null),
+                ), 7, 0),
                 // predecessor is in the tree and has right child
                 TestCase(listOf(
                         RawBinaryTreeNode(leftChildIndex = 1, rightChildIndex = 2, value = 10),
