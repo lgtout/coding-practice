@@ -4,8 +4,9 @@ import java.util.*
 
 object PaintBooleanMatrix {
 
-    fun flipRegionColor(grid: List<List<Boolean>>, start: Point):
-            List<List<Boolean>> {
+    fun flipRegionColor(
+            grid: List<List<Boolean>>,
+            start: Point): List<List<Boolean>> {
         if (start.row < 0 ||
                 start.column < 0 ||
                 start.row >= grid.size ||
@@ -22,7 +23,7 @@ object PaintBooleanMatrix {
         queue.add(setOf(start))
         while (queue.isNotEmpty()) {
             val points = queue.remove()
-            val nextPoints = points.map { graph[it]!! }
+            val nextPoints = points.map { graph[it]?: emptySet() }
                     .fold(mutableSetOf<Point>()) {
                         nextPoints, points -> nextPoints.apply { addAll(points) } }
             queue.add(nextPoints)

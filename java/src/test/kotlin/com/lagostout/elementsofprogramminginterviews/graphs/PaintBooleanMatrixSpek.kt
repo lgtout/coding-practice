@@ -4,6 +4,7 @@ import com.lagostout.common.nextInt
 import org.apache.commons.math3.random.RandomDataGenerator
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
+import java.util.*
 
 class PaintBooleanMatrixSpek : Spek({
     describe("flipRegionColor") {
@@ -17,6 +18,7 @@ class PaintBooleanMatrixSpek : Spek({
         // Cases:
         // Empty grid
         // Point beyond grid bounds - positive/negative
+
     }
 }) {
     companion object {
@@ -24,12 +26,30 @@ class PaintBooleanMatrixSpek : Spek({
         data class TestCase(
                 val grid: List<List<Boolean>>,
                 val start: Point) {
-            val expectedUnflippedPoints = {
+            val expectedUnflippedPoints = run {
                 val graph = toGraph(grid, grid[start.row][start.column])
                 val components = mutableSetOf<Set<Point>>()
-//                TODO("continue here")
-//                graph.forEach
-            }()
+                val exploredPoints = mutableSetOf<Point>()
+                var currentComponent: MutableSet<Point>
+                graph.keys.forEach {
+                    point ->
+                    if (exploredPoints.contains(point)) return@forEach
+                    var points = mutableSetOf<Point>().apply { add(point) }
+                    currentComponent = mutableSetOf<Point>()
+                    while (points.isNotEmpty()) {
+                        currentComponent.addAll(points)
+                        val nextPoints = mutableSetOf<Point>()
+                        points.forEach {
+                            nextPoints.addAll(graph[it]?: emptySet())
+                        }
+                        points = nextPoints
+                    }
+                    components.add(currentComponent)
+                    exploredPoints.addAll(currentComponent)
+                }
+                components.filterNot { it.contains(start) }.flatMap { it }
+            }
+            operator fun component3() = expectedUnflippedPoints
         }
 
         val testCases = {
