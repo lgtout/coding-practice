@@ -3,29 +3,32 @@ package com.lagostout.elementsofprogramminginterviews.heaps
 import java.util.*
 
 fun medianOfOnlineData(data: List<Int>): Float? {
-    val median: Float? = null
-    val queues = listOf(PriorityQueue<Int>(), PriorityQueue<Int>({
-        o1, o2 -> o2.compareTo(o1)
-    }))
-    if (data.isEmpty()) return median
-    var lesserQueue: PriorityQueue<Int>
-    var greaterQueue: PriorityQueue<Int>
-    data.forEach {
-//        val queue: PriorityQueue<Int> = if (median == null) {
-//            lesserQueue = queues[1]
-//            greaterQueue = queues[0]
-//            queues[0]
-//        } else {
-//            if (it < median) {
-//                if (queues[0].peek() )
-//
-//            } else {
-//
-//            }
-//            null
-//        }
-//        queue.add(it)
+    var median: Number? = null
+    if (data.isEmpty()) return median?.toFloat()
+    class Queues {
+        var left = PriorityQueue<Int>()
+        var right = PriorityQueue<Int>({
+            o1, o2 -> o2.compareTo(o1)
+        })
+        val size: Int
+            get() {
+                return left.size + right.size
+            }
+    }
+    val queues = Queues()
+    data.forEach { number ->
+        median = median?.run {
+            val m = queues.run { (left.peek() + right.peek()) / 2F }
+            if (number.toFloat() > this.toFloat()) {
+                queues.right.add(this.toInt())
+                queues.right.remove()
+            } else run {
+
+                null
+            }
+        }
+
 
     }
-    return median
+    return median?.toFloat()
 }

@@ -22,7 +22,7 @@ class MedianOfOnlineDataSpek : Spek({
                         val expectedMedian: Number? = null)
     companion object {
         val testCases = mutableListOf<TestCase>().apply {
-            addAll(listOf(
+            listOf(listOf(
                     TestCase(),
                     TestCase(listOf(0), 0),
                     TestCase(listOf(0,1), 1),
@@ -32,8 +32,11 @@ class MedianOfOnlineDataSpek : Spek({
                     TestCase(listOf(1,0,0), 0),
                     TestCase(listOf(0,1,1), 1),
                     TestCase(listOf(1,1,0), 1),
-                    null).filterNotNull())
-
+                    null).filterNotNull(),
+                    run {
+                        emptyList<TestCase>()
+//                        TODO("random generated cases")
+                    }).forEach { addAll(it) }
         }
     }
 }
