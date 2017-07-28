@@ -22,15 +22,15 @@ object PaintBooleanMatrix {
         val queue = LinkedList<Set<Point>>()
         queue.add(setOf(start))
         while (queue.isNotEmpty()) {
-            val points = queue.remove()
-            val nextPoints = points.map { graph[it]?: emptySet() }
-                    .fold(mutableSetOf<Point>()) {
-                        nextPoints, points -> nextPoints.apply { addAll(points) } }
-            queue.add(nextPoints)
+            var points = queue.remove()
             // Flip colors
             points.forEach {
                 result[it.row][it.column] = flippedColor
             }
+            points = points.map { graph[it]?: emptySet() }
+                    .fold(mutableSetOf<Point>()) {
+                        nextPoints, points -> nextPoints.apply { addAll(points) } }
+            queue.add(points)
         }
         return result
     }

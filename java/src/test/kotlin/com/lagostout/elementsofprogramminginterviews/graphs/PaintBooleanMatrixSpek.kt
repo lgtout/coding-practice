@@ -4,24 +4,35 @@ import com.lagostout.common.nextInt
 import org.apache.commons.math3.random.RandomDataGenerator
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
-import java.util.*
+import org.jetbrains.spek.api.dsl.given
+import org.jetbrains.spek.api.dsl.it
+import kotlin.test.assertEquals
 
 class PaintBooleanMatrixSpek : Spek({
     describe("flipRegionColor") {
-        // TODO
-        // If flip is white to black, verify by comparing components of white
-        // in the result to those of white in the input matrix.  They should
-        // be identical, except for the component in the first that contains
-        // the start point.  And the graph should contain no additional
-        // cells e.g. cells of the starting color.
-
-        // Cases:
-        // Empty grid
-        // Point beyond grid bounds - positive/negative
-
+        testCases.forEach {
+            (grid, start, expectedUnflippedPoints) ->
+            given("start point $start") {
+                it("flips color of region containing start point") {
+                    assertEquals(expectedUnflippedPoints,
+                            pointsWithColor(grid, grid[start.row][start.column]))
+                }
+            }
+        }
     }
 }) {
     companion object {
+
+        fun pointsWithColor(grid: List<List<Boolean>>, color: Boolean): Set<Point> {
+            val points = mutableSetOf<Point>()
+            0.rangeTo(grid.size - 1).forEach { row ->
+                0.rangeTo(grid[row].size - 1).forEach { column ->
+                    if (grid[row][column] == color)
+                        points.add(Point(row, column))
+                }
+            }
+            return points
+        }
 
         data class TestCase(
                 val grid: List<List<Boolean>>,
@@ -47,16 +58,17 @@ class PaintBooleanMatrixSpek : Spek({
                     components.add(currentComponent)
                     exploredPoints.addAll(currentComponent)
                 }
-                components.filterNot { it.contains(start) }.flatMap { it }
+                components.filterNot { it.contains(start) }
+                        .flatMap { it }.toSet()
             }
             operator fun component3() = expectedUnflippedPoints
         }
 
-        val testCases = {
-            val testCaseCount = 1000
+        val testCases = run {
+            val testCaseCount = 10
             val random = RandomDataGenerator().apply { reSeed(1) }
             val testCases = mutableListOf<TestCase>()
-            val gridDimensionRange = IntRange(0, 10)
+            val gridDimensionRange = IntRange(1, 10)
             1.rangeTo(testCaseCount).forEach {
                 val grid = mutableListOf<MutableList<Boolean>>()
                 val rowCount = random.nextInt(gridDimensionRange)
@@ -73,7 +85,7 @@ class PaintBooleanMatrixSpek : Spek({
                 testCases.add(TestCase(grid, start))
             }
             testCases
-        }()
+        }
 
     }
 }
