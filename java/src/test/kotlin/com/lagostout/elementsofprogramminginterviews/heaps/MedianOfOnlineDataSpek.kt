@@ -12,7 +12,7 @@ class MedianOfOnlineDataSpek : Spek({
             (data, expectedMedian) ->
             given("data $data") {
                 it("computes $expectedMedian as the median") {
-                    assertEquals(expectedMedian, medianOfOnlineData(data))
+                    assertEquals(expectedMedian?.toFloat(), medianOfOnlineData(data))
                 }
             }
         }
@@ -21,22 +21,23 @@ class MedianOfOnlineDataSpek : Spek({
     data class TestCase(val data: List<Int> = emptyList(),
                         val expectedMedian: Number? = null)
     companion object {
-        val testCases = mutableListOf<TestCase>().apply {
+        val testCases = run {
             listOf(listOf(
-                    TestCase(),
-                    TestCase(listOf(0), 0),
+//                    TestCase(),
+//                    TestCase(listOf(0), 0),
                     TestCase(listOf(0,1), 1),
-                    TestCase(listOf(1,0), 1),
-                    TestCase(listOf(1,2), 1.5),
-                    TestCase(listOf(2,1), 1.5),
-                    TestCase(listOf(1,0,0), 0),
-                    TestCase(listOf(0,1,1), 1),
-                    TestCase(listOf(1,1,0), 1),
-                    null).filterNotNull(),
+//                    TestCase(listOf(1,0), 1),
+//                    TestCase(listOf(1,2), 1.5),
+//                    TestCase(listOf(2,1), 1.5),
+//                    TestCase(listOf(1,0,0), 0),
+//                    TestCase(listOf(0,1,1), 1),
+//                    TestCase(listOf(1,1,0), 1),
+                    null),
                     run {
-                        emptyList<TestCase>()
+                       listOf(null)
+//                        emptyList<TestCase>()
 //                        TODO("random generated cases")
-                    }).forEach { addAll(it) }
+                    }).flatten().filterNotNull().apply {println(this)}
         }
     }
 }
