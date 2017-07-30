@@ -10,10 +10,18 @@ fun RandomDataGenerator.nextInt(range: IntRange): Int {
     return nextInt(range.start, range.endInclusive)
 }
 
-fun <T : Comparable<T>> BinaryTreeNode<T>.isLeftChild(): Boolean {
-    return this == parent.left
-}
+val <T : Comparable<T>> BinaryTreeNode<T>.isLeftChild: Boolean
+    get() = this == parent.left
 
-fun <T : Comparable<T>> BinaryTreeNode<T>.isRightChild(): Boolean {
-    return this == parent.right
-}
+val <T : Comparable<T>> BinaryTreeNode<T>.isRightChild: Boolean
+    get() = this == parent.right
+
+val <T : Comparable<T>> BinaryTreeNode<T>.isRoot: Boolean
+    get() = parent == null
+
+val <T : Comparable<T>> BinaryTreeNode<T>.rightAncestor: BinaryTreeNode<T>?
+    get() = if (isLeftChild) parent else null
+
+val <T : Comparable<T>> BinaryTreeNode<T>.leftAncestor: BinaryTreeNode<T>?
+    get() = if (isRightChild) parent else null
+
