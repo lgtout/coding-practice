@@ -1,6 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.graphs
 
 import com.lagostout.common.nextInt
+import com.lagostout.common.nextLevel
 import org.apache.commons.math3.random.RandomDataGenerator
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -45,15 +46,11 @@ class PaintBooleanMatrixSpek : Spek({
                 graph.keys.forEach {
                     point ->
                     if (exploredPoints.contains(point)) return@forEach
-                    var points = mutableSetOf<Point>().apply { add(point) }
+                    var points = setOf(point)
                     currentComponent = mutableSetOf<Point>()
                     while (points.isNotEmpty()) {
                         currentComponent.addAll(points)
-                        val nextPoints = mutableSetOf<Point>()
-                        points.forEach {
-                            nextPoints.addAll(graph[it]?: emptySet())
-                        }
-                        points = nextPoints
+                        points = nextLevel(graph, points, exploredPoints)
                     }
                     components.add(currentComponent)
                     exploredPoints.addAll(currentComponent)

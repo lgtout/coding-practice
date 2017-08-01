@@ -2,13 +2,10 @@ package com.lagostout.common
 
 import org.apache.commons.math3.random.RandomDataGenerator
 
-fun <T> List<T>.takeIfNotLast(): List<T> {
-    return this.take(this.size - 1)
-}
+fun <T> List<T>.takeIfNotLast() = this.take(this.size - 1)
 
-fun RandomDataGenerator.nextInt(range: IntRange): Int {
-    return nextInt(range.start, range.endInclusive)
-}
+fun RandomDataGenerator.nextInt(range: IntRange) =
+        nextInt(range.start, range.endInclusive)
 
 val <T : Comparable<T>> BinaryTreeNode<T>.isLeftChild: Boolean
     get() = this == parent.left
