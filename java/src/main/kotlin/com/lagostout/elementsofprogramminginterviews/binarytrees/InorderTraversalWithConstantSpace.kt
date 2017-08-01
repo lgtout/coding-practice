@@ -8,7 +8,7 @@ enum class Step {
     RIGHT_DESCENDANT, RIGHT_ANCESTOR, BREAK
 }
 
-fun <T : Comparable<T>> inorderTraversalWithConstantSpace(
+fun <T : Comparable<T>> inOrderTraversalWithConstantSpace(
         root: BinaryTreeNode<T>): List<T> {
     var currentNode = root
     var step: Step = LEFT_DESCENDANT
@@ -17,11 +17,10 @@ fun <T : Comparable<T>> inorderTraversalWithConstantSpace(
         when (step) {
             LEFT_DESCENDANT -> {
                 step = currentNode.left?.run {
-                    currentNode = left
+                    currentNode = this
                     LEFT_DESCENDANT
-                } ?: run {
-                    PROCESS_NODE
-                }
+                } ?: PROCESS_NODE
+
             }
             PROCESS_NODE -> {
                 traversalOrder.add(currentNode.value)
@@ -29,13 +28,13 @@ fun <T : Comparable<T>> inorderTraversalWithConstantSpace(
             }
             RIGHT_DESCENDANT -> {
                 step = currentNode.right?.run {
-                    currentNode = right
+                    currentNode = this
                     LEFT_DESCENDANT
                 } ?: RIGHT_ANCESTOR
             }
             RIGHT_ANCESTOR -> {
                 step = currentNode.rightAncestor?.run {
-                    currentNode = parent
+                    currentNode = this
                     PROCESS_NODE
                 } ?: run {
                     if (currentNode.isRoot) {
