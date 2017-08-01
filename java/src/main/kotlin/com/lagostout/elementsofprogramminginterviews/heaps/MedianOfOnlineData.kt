@@ -2,59 +2,66 @@ package com.lagostout.elementsofprogramminginterviews.heaps
 
 import java.util.*
 
-fun medianOfOnlineData(data: List<Int>): Float? {
-
-    data.apply {
-        if (isEmpty()) return null
-        else if (size == 1) return data[0].toFloat()
-    }
+// TODO Modify to take one number at a time and compute median at any point.
+object MedianOfOnlineData {
 
     class Queues {
 
-        var left = PriorityQueue<Int>()
-
-        var right = PriorityQueue<Int>({
+        var left: PriorityQueue<Int> = PriorityQueue ()
+        var right: PriorityQueue<Int> = PriorityQueue {
             o1, o2 -> o2.compareTo(o1)
-        })
+        }
 
-        val queuesBySize: List<PriorityQueue<Int>>
+        fun sort() {
+            val sortedQueues = listOf(left, right).sortedBy { it.peek() }
+            left = sortedQueues[0]
+            right = sortedQueues[1]
+        }
+
+        fun rebalance() {
+            if (left.size > right.size + 1) {
+                right.add(left.poll())
+            } else if (right.size > left.size + 1) {
+                left.add(right.poll())
+            }
+        }
+
+        val averageOfFirstItemInQueues: Double
+            get() = (left.peek() + right.peek()) / 2.0
+
+        val median: Double
             get() {
-                return if (left.size > right.size)
-                    listOf(left, right) else listOf(right, left)
+                return if (isBalanced) averageOfFirstItemInQueues
+                else (if (left.size > right.size) left.peek()
+                else right.peek()).toDouble()
             }
 
-        val needsRebalancing: Boolean
-            get() = Math.abs(left.size - right.size) > 1
+        var isBalanced: Boolean = false
+            fun get() = left.size == right.size
 
-        val averageOfFirstItemInQueues: Float
-            get() = (left.peek() - right.peek()) / 2F
-
+        fun add(number: Int) {
+            // TODO Not sure about this
+            (if (left.isEmpty()) {
+                left
+            } else if (right.isEmpty()){
+                right
+            } else null )?: (
+                if (number.toDouble() > median) {
+                    right
+                } else {
+                    left
+                }
+            ).add(number)
+            rebalance()
+        }
     }
 
     val queues = Queues()
-    var median: Number  = queues.run {
-        left.add(data[0])
-        right.add(data[1])
-        averageOfFirstItemInQueues
-    }
-    data.takeLast(data.size - 2).forEach {
-        if (it.toFloat() > median.toFloat()) {
-            queues.right
-        } else {
-            queues.left
-        }.add(it)
-        with (queues) {
-           while (needsRebalancing) {
-               queuesBySize[0].add(queuesBySize[1].poll())
-           }
-        }
-        val (left, right) = queues.queuesBySize
-        median = if (left.size == right.size) {
-            queues.averageOfFirstItemInQueues
-        } else {
-            right.peek()
-        }
+
+    fun medianAfterAdding(number: Int): Double {
+        // TODO Not sure about this. Revisit 1,2-number cases
+        queues.add(number)
+        return queues.median
     }
 
-    return median.toFloat()
 }

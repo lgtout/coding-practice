@@ -56,7 +56,7 @@ class PaintBooleanMatrixSpek : Spek({
                     exploredPoints.addAll(currentComponent)
                 }
                 components.filterNot { it.contains(start) }
-                        .flatMap { it }.toSet()
+                        .flatten().toSet()
             }
             operator fun component3() = expectedUnflippedPoints
         }
