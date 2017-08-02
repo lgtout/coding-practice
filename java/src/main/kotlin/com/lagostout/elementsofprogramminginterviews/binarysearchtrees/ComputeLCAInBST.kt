@@ -14,23 +14,21 @@ fun <T : Comparable<T>> computeLCAInBST(
     val descendants = listOf(firstDescendant, secondDescendant).sorted()
     val (lowerDescendant, higherDescendant) = descendants
     while (currentNode != null) {
-        if (lowerDescendant > currentNode.value) {
-            currentNode = currentNode.right
-        } else if (higherDescendant < currentNode.value) {
-            currentNode = currentNode.left
-        } else if ((lowerDescendant <= currentNode.value)
+        if ((lowerDescendant <= currentNode.value)
                 and (higherDescendant >= currentNode.value)) {
             @Suppress("NAME_SHADOWING")
             fun find(root: BinaryTreeNode<T>, value: T): BinaryTreeNode<T>? {
-                var node = root
-                while ((node.value != null) and
-                        (node.value != node.value)) {
+                var node: BinaryTreeNode<T>? = root
+//                println("root $root")
+//                println("value $value")
+                while (node != null && node.value != value) {
                     node = if (value < node.value) {
                         node.left
                     } else {
                         node.right
                     }
                 }
+//                println("node $node")
                 return node
             }
             if (find(currentNode, lowerDescendant) != null &&
@@ -39,6 +37,10 @@ fun <T : Comparable<T>> computeLCAInBST(
                 lca = currentNode
             }
             break
+        } else if (lowerDescendant > currentNode.value) {
+            currentNode = currentNode.right
+        } else if (higherDescendant < currentNode.value) {
+            currentNode = currentNode.left
         }
     }
     return lca

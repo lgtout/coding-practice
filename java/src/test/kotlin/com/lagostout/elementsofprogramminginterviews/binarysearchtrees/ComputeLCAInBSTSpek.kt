@@ -49,9 +49,12 @@ class ComputeLCAInBSTSpek : Spek({
                     /**
                      *  1
                      */
+                    // Descendants missing
                     TestCase(listOf(RawBinaryTreeNode(value = 1))),
+                    // Descendant missing
                     TestCase(listOf(RawBinaryTreeNode(value = 1)), firstDescendant = 1),
                     TestCase(listOf(RawBinaryTreeNode(value = 1)), secondDescendant = 1),
+                    // Descendants present
                     TestCase(listOf(RawBinaryTreeNode(value = 1)),
                             firstDescendant = 1, secondDescendant = 1, expectedLCAIndex = 0),
                     /**
@@ -59,6 +62,7 @@ class ComputeLCAInBSTSpek : Spek({
                      *   /
                      *  0
                      */
+                    // Descendants present
                     TestCase(listOf(RawBinaryTreeNode(leftChildIndex = 1, value = 1),
                             RawBinaryTreeNode(value = 0)), firstDescendant = 0,
                             secondDescendant = 1, expectedLCAIndex = 0),
@@ -82,13 +86,14 @@ class ComputeLCAInBSTSpek : Spek({
                      *   \
                      *    2
                      */
-                    TestCase(listOf(RawBinaryTreeNode(rightChildIndex = 1, value = 1),
-                            RawBinaryTreeNode(value = 2)), firstDescendant = 0,
-                            secondDescendant = 1, expectedLCAIndex = 0),
-                    // First/last descendants reversed
+                    // Descendants present
                     TestCase(listOf(RawBinaryTreeNode(rightChildIndex = 1, value = 1),
                             RawBinaryTreeNode(value = 2)), firstDescendant = 1,
-                            secondDescendant = 0),
+                            secondDescendant = 2, expectedLCAIndex = 0),
+                    // First/last descendants reversed
+                    TestCase(listOf(RawBinaryTreeNode(rightChildIndex = 1, value = 1),
+                            RawBinaryTreeNode(value = 2)), firstDescendant = 2,
+                            secondDescendant = 1, expectedLCAIndex = 0),
                     // Descendant missing
                     TestCase(listOf(RawBinaryTreeNode(rightChildIndex = 1, value = 1),
                             RawBinaryTreeNode(value = 2)), firstDescendant = 1,
@@ -97,7 +102,7 @@ class ComputeLCAInBSTSpek : Spek({
                     TestCase(listOf(RawBinaryTreeNode(rightChildIndex = 1, value = 1),
                             RawBinaryTreeNode(value = 2)), firstDescendant = 0,
                             secondDescendant = 3),
-                    // TODO More cases
+                    // TODO More cases.  Continue random BST builder.
                     null).filterNotNull()
         }
     }

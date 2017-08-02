@@ -1,5 +1,7 @@
 package com.lagostout.common
 
+import org.apache.commons.math3.random.RandomDataGenerator
+
 /**
  * For breadth-first traversal.
  */
@@ -11,4 +13,11 @@ fun <T> nextLevel(graph: Map<T, Set<T>>, currentLevel: Set<T>, explored: Set<T>)
         }
         adjacentNodes
     }
+}
+
+fun <T : Comparable<T>> buildRandomBinarySearchTree(
+        vertexCount: Int,
+        random: RandomDataGenerator = RandomDataGenerator()):
+        BinaryTreeNode<T>? {
+    return null
 }
