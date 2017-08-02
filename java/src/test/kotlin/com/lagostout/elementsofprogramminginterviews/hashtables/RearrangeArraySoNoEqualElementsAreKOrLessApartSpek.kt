@@ -28,6 +28,7 @@ class RearrangeArraySoNoEqualElementsAreKOrLessApartSpek : Spek({
                     null
             ).filterNotNull()
         }
+        // TODO Make custom hamcrest matcher.
         fun noEqualElementsAreKOrLessApart(array: List<Int>, k: Int): Boolean {
             val elementToLastOccurrenceIndex = mutableMapOf<Int, Int>()
             return array.withIndex().find { (index, element) ->
