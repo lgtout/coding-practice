@@ -4,7 +4,7 @@ import com.google.common.annotations.VisibleForTesting
 import com.lagostout.common.BinaryTreeNode
 
 interface BinarySearchTreeable <T : Comparable<T>> {
-    fun find(key: T): Pair<BinaryTreeNode<T>?, BinaryTreeNode<T>?>
+    fun find(key: T): Pair<BinaryTreeNode<T>?, BinaryTreeNode<T>?>?
     fun next(key: T): BinaryTreeNode<T>
     fun insert(key: T)
     fun delete(key: T)
@@ -19,7 +19,7 @@ class BinarySearchTree<T : Comparable<T>> : BinarySearchTreeable<T> {
 
     override var root: BinaryTreeNode<T>? = null
 
-    class Iter<T : Comparable<T>>  : Iterator<BinaryTreeNode<T>> {
+    class Iterator<T : Comparable<T>>  : kotlin.collections.Iterator<BinaryTreeNode<T>> {
 
         override fun hasNext(): Boolean {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -37,33 +37,34 @@ class BinarySearchTree<T : Comparable<T>> : BinarySearchTreeable<T> {
      * be the node that would be the sought node's parent, if the sought node
      * were in the tree.
      */
-    override fun find(key: T): Pair<BinaryTreeNode<T>?, BinaryTreeNode<T>?> {
+    override fun find(key: T): Pair<BinaryTreeNode<T>?, BinaryTreeNode<T>?>? {
         var result: Pair<BinaryTreeNode<T>?, BinaryTreeNode<T>?>? = null
         root?.apply {
             var currentNode: BinaryTreeNode<T> = this
-            whileLoop@ while (true) {
-                result = if (value == key)
-                    Pair(currentNode, null)
+            while (true) {
+                if (value == key)
+                    break
                 else if (value > key) {
                     currentNode.right?.apply {
-                        currentNode = currentNode.right
-                    }
-                    Pair(null, currentNode)
+                        currentNode = right
+                    }?: break
                 } else {
                     currentNode.left?.apply {
-                        currentNode = currentNode.left
-                    }
-                    Pair(null, currentNode)
+                        currentNode = left
+                    }?: break
                 }
-                result?: break
+            }
+            result = currentNode.let {
+                if (value == key) Pair(this, null)
+                else Pair(null, this)
             }
         }
-        return result!!
+        return result
     }
 
     override fun insert(key: T) {
         val newNode = BinaryTreeNode<T>(key)
-        find(key).also {
+        find(key)?.also {
             (soughtNode, insertionPoint) ->
             soughtNode?.apply {
                 return@insert

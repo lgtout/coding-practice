@@ -21,6 +21,10 @@ class BinarySearchTreeSpek : Spek({
             }
         }
 
+        // TODO
+        // Redo by comparing result trees with expected trees.
+        // Use DFS to compare.  Can also just use search paths
+        // to the inserted node.
         xdescribe("inserting a key") {
             xcontext("tree is empty") {
                 tree.insert(key)
@@ -61,25 +65,50 @@ class BinarySearchTreeSpek : Spek({
                 }
             }
             context("tree isn't empty") {
-                beforeEachTest {
-                    tree.root = BinaryTreeNode.buildBinaryTree(listOf(
-                            RawBinaryTreeNode(leftChildIndex = 1, value = 4),
-                            RawBinaryTreeNode(value = 1)
-                    )).left
-//                    val keys = listOf(1,5,6,2,3,4)
-//                    keys.forEach { tree.insert(it) }
-//                    TODO("continue")
-                }
                 context("key is in tree") {
-                    val keyToFind = 1
-                    it("returns the node containing the key") {
-//                        assertEquals(keyToFind, tree.find(keyToFind)?.value)
+                    val nodes = BinaryTreeNode.buildBinaryTree(listOf(
+                       RawBinaryTreeNode(leftChildIndex = 1, rightChildIndex = 2, value = 20),
+                       RawBinaryTreeNode(leftChildIndex = 3, rightChildIndex = 4, value = 10),
+                       RawBinaryTreeNode(leftChildIndex = 5, rightChildIndex = 6, value = 30),
+                       RawBinaryTreeNode(value = 5),
+                       RawBinaryTreeNode(value = 15),
+                       RawBinaryTreeNode(value = 25),
+                       RawBinaryTreeNode(value = 35)
+                    )).apply {
+                        tree.root = left
+                    }.right
+                    context("key sought is root") {
+                        it("returns the root") {
+                            assertEquals(nodes[0], tree.find(20)?.first)
+                        }
+                    }
+                    context("path to key sought involves direction changes") {
+                        context("path goes left-right") {
+                            it("returns the node for that key") {
+                                assertEquals(nodes[4], tree.find(15)?.first)
+                            }
+                        }
+                        context("path goes right-left") {
+                            it("returns the node for that key") {
+                                assertEquals(nodes[5], tree.find(25)?.first)
+                            }
+                        }
                     }
                 }
                 xcontext("key isn't in tree") {
+                    var nodes: List<BinaryTreeNode<Int>> = emptyList()
+                    beforeEachTest {
+                        BinaryTreeNode.buildBinaryTree(listOf(
+                                RawBinaryTreeNode(leftChildIndex = 1, value = 4),
+                                RawBinaryTreeNode(value = 1)
+                        )).apply {
+                            tree.root = left
+                            nodes = right
+                        }
+                    }
                     it("returns null") {
                         val keyToFind = 11
-                        assertNull(tree.find(keyToFind))
+                        assertNull(tree.find(keyToFind)?.first)
                     }
                 }
             }
