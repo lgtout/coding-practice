@@ -5,6 +5,8 @@ package com.lagostout.elementsofprogramminginterviews.hashtables
  */
 fun rearrangeArraySoNoEqualElementsAreKOrLessApart(
         array: List<Int>, k: Int): List<Int> {
+    if (k < 0) throw IllegalArgumentException("k must be non-negative")
+    // TODO What if k is too big? Put another way, array is too small for k?
     data class ValueCount(val value: Int, val count: Int)
     val sortedArray = mutableListOf<Int>()
     if (array.isEmpty()) return sortedArray
@@ -14,11 +16,8 @@ fun rearrangeArraySoNoEqualElementsAreKOrLessApart(
             // Highest to lowest (reversed) order
             .toSortedMap(Comparator { o1, o2 -> o2.compareTo(o1)} )
     val indexToFreedUpValuesMap = mutableMapOf<Int, ValueCount>()
-//    val currentIndex = 0
-    // TODO Use while(values.isNotEmpty()) to drain values while possibly adding to values
     array.indices.forEach {
-        indexToFreedUpValuesMap[it]?.also {
-            (value, count) ->
+        indexToFreedUpValuesMap[it]?.apply {
             countToValuesMap.getOrPut(count) {
                mutableListOf<Int>()
             }.add(value)
