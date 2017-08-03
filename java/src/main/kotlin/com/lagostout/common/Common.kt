@@ -19,5 +19,6 @@ fun <T : Comparable<T>> buildRandomBinarySearchTree(
         vertexCount: Int,
         random: RandomDataGenerator = RandomDataGenerator()):
         BinaryTreeNode<T>? {
-    return null
+    TODO("Implement when BinarySearchTree done")
+//    return null
 }

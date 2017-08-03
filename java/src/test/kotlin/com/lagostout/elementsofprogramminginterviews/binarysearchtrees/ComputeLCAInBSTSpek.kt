@@ -102,7 +102,21 @@ class ComputeLCAInBSTSpek : Spek({
                     TestCase(listOf(RawBinaryTreeNode(rightChildIndex = 1, value = 1),
                             RawBinaryTreeNode(value = 2)), firstDescendant = 0,
                             secondDescendant = 3),
-                    // TODO More cases.  Continue random BST builder.
+                    // More cases
+                    *(run {
+                        val tree = listOf(
+                                RawBinaryTreeNode(leftChildIndex = 1, rightChildIndex = 2, value = 20),
+                                RawBinaryTreeNode(leftChildIndex = 3, rightChildIndex = 4, value = 10),
+                                RawBinaryTreeNode(leftChildIndex = 5, rightChildIndex = 6, value = 30),
+                                RawBinaryTreeNode(value = 5),
+                                RawBinaryTreeNode(value = 15),
+                                RawBinaryTreeNode(value = 25),
+                                RawBinaryTreeNode(value = 35))
+                        listOf(TestCase(tree, firstDescendant = 25, secondDescendant = 15,
+                                expectedLCAIndex = 0),
+                                TestCase(tree, firstDescendant = 35, secondDescendant = 10,
+                                        expectedLCAIndex = 0))
+                    }.toTypedArray()),
                     null).filterNotNull()
         }
     }
