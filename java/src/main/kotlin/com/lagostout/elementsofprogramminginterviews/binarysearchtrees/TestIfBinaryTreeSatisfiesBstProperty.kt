@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
-import com.lagostout.common.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode
 import java.util.*
 
 /**
@@ -26,7 +26,7 @@ fun binaryTreeSatisfiesBstProperty(root: BinaryTreeNode<Int>): Boolean {
                     bstPropertyIsSatisfied = false
                 } else {
                     node.left?.let {
-                        frames.push(Frame(node = node.left,
+                        frames.push(Frame(node = it,
                                 range = range.copy(maximum = node.value)))
                     }
                 }
@@ -36,7 +36,7 @@ fun binaryTreeSatisfiesBstProperty(root: BinaryTreeNode<Int>): Boolean {
                     bstPropertyIsSatisfied = false
                 } else {
                     node.right?.let {
-                        frames.push(Frame(node = node.right,
+                        frames.push(Frame(node = it,
                                 range = range.copy(minimum = node.value)))
                     }
                 }

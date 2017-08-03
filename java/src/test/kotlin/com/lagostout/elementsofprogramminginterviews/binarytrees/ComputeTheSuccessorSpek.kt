@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarytrees
 
-import com.lagostout.common.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode
 import com.lagostout.datastructures.RawBinaryTreeNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe

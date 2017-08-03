@@ -1,16 +1,13 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
-import com.lagostout.common.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode
 import com.lagostout.datastructures.RawBinaryTreeNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.context
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.junit.platform.runner.JUnitPlatform
-import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 
-@RunWith(JUnitPlatform::class)
 class TestIfBinaryTreeSatisfiesBstPropertySpek : Spek({
     describe("satisfiesBstProperty") {
         testCases.forEach {
@@ -28,7 +25,7 @@ class TestIfBinaryTreeSatisfiesBstPropertySpek : Spek({
     companion object {
         data class TestCase(val rawNodes: List<RawBinaryTreeNode<Int>> = listOf(),
                             val satisfiesBstProperty: Boolean = false) {
-            var root: BinaryTreeNode<Int> = BinaryTreeNode.buildBinaryTree(rawNodes).left
+            var root: BinaryTreeNode<Int> = BinaryTreeNode.buildBinaryTree(rawNodes).first!!
             operator fun component3() = root
         }
         val testCases = listOf(

@@ -57,7 +57,7 @@ class ComputeLCAInBinaryTreeSpec extends Specification {
                   [9, 10, 'H'], [null, null, 'I'],
                   [null, null, 'J'], [null, null, 'K']],
                  2, 7, 2], // 16
-        ].collect { List<List<Character>> rawTree,
+        ].collect { List<List> rawTree,
                     Integer _firstNodeIndex,
                     Integer _secondNodeIndex,
                     Integer _expected ->

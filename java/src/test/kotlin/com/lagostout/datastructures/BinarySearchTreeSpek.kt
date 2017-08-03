@@ -1,6 +1,5 @@
 package com.lagostout.datastructures
 
-import com.lagostout.common.BinaryTreeNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.*
 import java.util.*
@@ -75,8 +74,8 @@ class BinarySearchTreeSpek : Spek({
                        RawBinaryTreeNode(value = 25),
                        RawBinaryTreeNode(value = 35)
                     )).apply {
-                        tree.root = left
-                    }.right
+                        tree.root = first
+                    }.second
                     context("key sought is root") {
                         it("returns the root") {
                             assertEquals(nodes[0], tree.find(20)?.first)
@@ -102,8 +101,8 @@ class BinarySearchTreeSpek : Spek({
                                 RawBinaryTreeNode(leftChildIndex = 1, value = 4),
                                 RawBinaryTreeNode(value = 1)
                         )).apply {
-                            tree.root = left
-                            nodes = right
+                            tree.root = first
+                            nodes = second
                         }
                     }
                     it("returns null") {
@@ -144,12 +143,12 @@ class BinarySearchTreeSpek : Spek({
                             }
                             1 -> {
                                 node.left?.apply {
-                                    stack.push(Frame(left))
+                                    stack.push(Frame(this))
                                 }
                             }
                             2 -> {
                                 node.right?.apply {
-                                    stack.push(Frame(right))
+                                    stack.push(Frame(this))
                                 }
                             }
                             else -> {

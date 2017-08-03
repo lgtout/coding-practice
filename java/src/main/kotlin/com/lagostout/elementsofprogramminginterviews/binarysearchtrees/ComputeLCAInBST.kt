@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
-import com.lagostout.common.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode
 
 /**
  * Problem 15.4 page 265

@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarytrees
 
-import com.lagostout.common.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode
 import com.lagostout.datastructures.RawBinaryTreeNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -24,24 +24,22 @@ class InOrderTraversalWithConstantSpaceSpek: Spek({
     companion object {
         data class TestCase(private val rawTree: List<RawBinaryTreeNode<Int>> = emptyList(),
                             private val nodeIndicesOfExpectedPath: List<Int> = emptyList()) {
-            val root: BinaryTreeNode<Int>
+            val root: BinaryTreeNode<Int>?
             val expectedValuesInOrderTraversed: List<Int>
             init {
-                val (root, expectedValuesInOrderTraversed) =
-                        (fun (rawTree: List<RawBinaryTreeNode<Int>>):
-                                Pair<BinaryTreeNode<Int>, List<Int>> {
-                            val (root, nodes) = BinaryTreeNode.buildBinaryTree(rawTree)
-                            val valuesInOrderTraversed = nodeIndicesOfExpectedPath.map {
-                                nodes[it].value
-                            }
-                            return Pair(root, valuesInOrderTraversed)
-                        })(rawTree)
+                val (root, expectedValuesInOrderTraversed) = run {
+                    val (root, nodes) = BinaryTreeNode.buildBinaryTree(rawTree)
+                    val valuesInOrderTraversed = nodeIndicesOfExpectedPath.map {
+                        nodes[it].value
+                    }
+                    Pair(root, valuesInOrderTraversed)
+                }
                 this.root = root
-                this.expectedValuesInOrderTraversed =
-                        expectedValuesInOrderTraversed
+                this.expectedValuesInOrderTraversed = expectedValuesInOrderTraversed
             }
         }
         val testCases = listOf(
+                TestCase(),
                 TestCase(listOf(RawBinaryTreeNode(value = 0)), listOf(0)),
                 TestCase(listOf(
                         RawBinaryTreeNode(value = 0, leftChildIndex = 1),

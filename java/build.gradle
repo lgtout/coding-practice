@@ -77,6 +77,12 @@ dependencies {
 
 }
 
+// With this, Groovy cannot depend on Kotlin.
+//compileGroovy.dependsOn = compileGroovy.taskDependencies.values - 'compileJava'
+//compileKotlin.dependsOn compileGroovy
+//compileKotlin.classpath += files(compileGroovy.destinationDir)
+//classes.dependsOn compileKotlin
+
 task wrapper(type: Wrapper) {
     gradleVersion = '3.2.1'
 }

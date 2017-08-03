@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarytrees
 
-import com.lagostout.common.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode
 import com.lagostout.datastructures.RawBinaryTreeNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -31,8 +31,8 @@ class KthNodeInInOrderTraversalSpek : Spek({
             operator fun component5() = expected
             init {
                 val result = BinaryTreeNode.buildBinaryTree(rawNodes)
-                root = result.left
-                val nodes = result.right
+                root = result.first
+                val nodes = result.second
                 expected = if (nodes != null && nodes.size > expectedNodeIndex)
                     nodes[expectedNodeIndex] else null
             }

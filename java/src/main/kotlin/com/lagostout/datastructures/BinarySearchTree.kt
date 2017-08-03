@@ -1,7 +1,6 @@
 package com.lagostout.datastructures
 
 import com.google.common.annotations.VisibleForTesting
-import com.lagostout.common.BinaryTreeNode
 
 interface BinarySearchTreeable <T : Comparable<T>> {
     fun find(key: T): Pair<BinaryTreeNode<T>?, BinaryTreeNode<T>?>?
@@ -46,11 +45,11 @@ class BinarySearchTree<T : Comparable<T>> : BinarySearchTreeable<T> {
                     break
                 else if (value > key) {
                     currentNode.right?.apply {
-                        currentNode = right
+                        currentNode = this
                     }?: break
                 } else {
                     currentNode.left?.apply {
-                        currentNode = left
+                        currentNode = this
                     }?: break
                 }
             }
@@ -63,7 +62,7 @@ class BinarySearchTree<T : Comparable<T>> : BinarySearchTreeable<T> {
     }
 
     override fun insert(key: T) {
-        val newNode = BinaryTreeNode<T>(key)
+        val newNode = BinaryTreeNode(value = key)
         find(key)?.also {
             (soughtNode, insertionPoint) ->
             soughtNode?.apply {

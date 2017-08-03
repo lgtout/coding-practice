@@ -1,6 +1,7 @@
 package com.lagostout.common
 
 import org.apache.commons.math3.random.RandomDataGenerator
+import com.lagostout.datastructures.BinaryTreeNode
 
 fun <T> List<T>.takeIfNotLast() = this.take(this.size - 1)
 

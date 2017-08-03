@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
-import com.lagostout.common.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode
 import java.util.*
 
 fun <T : Comparable<T>> findKLargestElementsInBST(

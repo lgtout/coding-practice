@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarytrees
 
-import com.lagostout.common.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode
 
 /**
  * Problem 10.10 page 164
@@ -18,23 +18,28 @@ fun <T : Comparable<T>>computeTheSuccessor(
         // or > the predecessor.
         while (true) {
             if (currentNode.value < predecessor) {
-                if (currentNode.right == null) break
-                currentNode = currentNode.right
+                currentNode.right?.run {
+                    currentNode = this
+                } ?: break
             } else if (currentNode.value > predecessor) {
-                if (currentNode.left == null) break
-                rightAncestor = currentNode
-                currentNode = currentNode.left
+                currentNode.left?.run {
+                    rightAncestor = currentNode
+                    currentNode = this
+                } ?: break
             } else break
         }
         successor = if (currentNode.value < predecessor ||
                 (currentNode.value == predecessor &&
                         currentNode.right == null)) {
             rightAncestor?.value
-        } else {
+        } else { //
             if (currentNode.value == predecessor) {
-                currentNode = currentNode.right
-                while (currentNode.left != null) {
-                    currentNode = currentNode.left
+                currentNode.right?.let {
+                    var node = it
+                    while (true) {
+                        node = node.left?: break
+                    }
+                    currentNode = node
                 }
             }
             currentNode.value

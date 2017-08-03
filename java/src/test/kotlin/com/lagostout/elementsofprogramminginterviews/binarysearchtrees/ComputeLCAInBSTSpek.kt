@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
-import com.lagostout.common.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode
 import com.lagostout.datastructures.RawBinaryTreeNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -33,8 +33,8 @@ class ComputeLCAInBSTSpek : Spek({
 
             init {
                 val result = BinaryTreeNode.buildBinaryTree(rawNodes)
-                root = result.left
-                expectedLCA = expectedLCAIndex?.run { result.right[this] }
+                root = result.first
+                expectedLCA = expectedLCAIndex?.run { result.second[this] }
             }
 
             operator fun component1() = root

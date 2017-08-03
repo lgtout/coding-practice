@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
-import com.lagostout.common.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode
 import com.lagostout.datastructures.RawBinaryTreeNode
 import com.lagostout.elementsofprogramminginterviews.binarysearchtrees.FindFirstKeyGreaterThanValueInBst.firstKeyGreaterThanValueInBst
 import org.jetbrains.spek.api.Spek
@@ -27,7 +27,7 @@ class FindFirstKeyGreaterThanValueInBstSpek : Spek({
                 val rawNodes: List<RawBinaryTreeNode<Int>>,
                 val value: Int = 0, val expected: Int? = null) {
             val root: BinaryTreeNode<Int> =
-                    BinaryTreeNode.buildBinaryTree(rawNodes).left
+                    BinaryTreeNode.buildBinaryTree(rawNodes).first!!
             operator fun component4() = root
         }
         private val testCases = listOf(

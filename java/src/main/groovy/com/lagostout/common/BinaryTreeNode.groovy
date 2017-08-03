@@ -1,6 +1,5 @@
 package com.lagostout.common
 
-import com.lagostout.datastructures.RawBinaryTreeNode
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 import org.apache.commons.lang3.tuple.Pair
 
@@ -76,6 +75,12 @@ class BinaryTreeNode<T extends Comparable<T>> {
         }
     }
 
+    static <T extends Comparable<T>> void buildBinaryTree(
+            List<List> rawTree,
+            List<BinaryTreeNode<T>> tree) {
+        buildBinaryTree(0, toRawBinaryTreeNodes(rawTree), tree)
+    }
+
     static <T extends Comparable<T>> Pair<BinaryTreeNode<T>, List<BinaryTreeNode<T>>> buildBinaryTree(
             List<RawBinaryTreeNode<T>> rawTree) {
         def nodes = [] as List<BinaryTreeNode>
@@ -87,14 +92,12 @@ class BinaryTreeNode<T extends Comparable<T>> {
             RawBinaryTreeNode<T>> toRawBinaryTreeNodes(
             List<List> rawTree) {
         rawTree.collect {
-            new RawBinaryTreeNode<T>(it[0] as Integer, it[1] as Integer,
-                    (it.size() == 4 ? it[2] : null) as Integer, it[3] as T)
+            new RawBinaryTreeNode<T>(
+                    it[0] as Integer,
+                    it[1] as Integer,
+                    (it.size() == 4 ? it[2] : null) as Integer,
+                    it[3] as T)
         }
-    }
-    static <T extends Comparable<T>> void buildBinaryTree(
-            List<List> rawTree,
-            List<BinaryTreeNode<T>> tree) {
-        buildBinaryTree(0, toRawBinaryTreeNodes(rawTree), tree)
     }
 
     static <T extends Comparable<T>> void buildBinaryTree(

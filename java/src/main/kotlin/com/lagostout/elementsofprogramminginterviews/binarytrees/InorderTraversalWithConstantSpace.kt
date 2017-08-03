@@ -1,5 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarytrees
 
+import com.lagostout.datastructures.BinaryTreeNode
 import com.lagostout.common.*
 import com.lagostout.elementsofprogramminginterviews.binarytrees.Step.*
 
@@ -9,8 +10,8 @@ enum class Step {
 }
 
 fun <T : Comparable<T>> inOrderTraversalWithConstantSpace(
-        root: BinaryTreeNode<T>): List<T> {
-    var currentNode = root
+        root: BinaryTreeNode<T>?): List<T> {
+    var currentNode = root?: return emptyList()
     var step: Step = LEFT_DESCENDANT
     val traversalOrder = mutableListOf<T>()
     whileAllNodesHaveNotBeenExplored@ while (true) {
@@ -37,12 +38,10 @@ fun <T : Comparable<T>> inOrderTraversalWithConstantSpace(
                     currentNode = this
                     PROCESS_NODE
                 } ?: run {
-                    if (currentNode.isRoot) {
-                        BREAK
-                    } else {
-                        currentNode = currentNode.parent
+                    currentNode.parent?.run {
+                        currentNode = this
                         RIGHT_ANCESTOR
-                    }
+                    }?: BREAK
                 }
             }
             BREAK -> {

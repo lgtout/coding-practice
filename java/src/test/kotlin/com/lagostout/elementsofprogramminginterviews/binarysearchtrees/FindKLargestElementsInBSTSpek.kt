@@ -1,7 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
-import com.lagostout.common.BinaryTreeNode
-import com.lagostout.common.BinaryTreeNode.buildBinaryTree
+import com.lagostout.datastructures.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode.Companion.buildBinaryTree
 import com.lagostout.datastructures.RawBinaryTreeNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -24,7 +24,7 @@ class FindKLargestElementsInBSTSpek : Spek({
     companion object {
         data class TestCase(val rawNodes: List<RawBinaryTreeNode<Int>>,
                             val k: Int, val expected: List<Int>) {
-            val root: BinaryTreeNode<Int>? = buildBinaryTree(rawNodes).left
+            val root: BinaryTreeNode<Int>? = buildBinaryTree(rawNodes).first
             operator fun component4() = root
         }
         val testCases: List<TestCase> = listOf(

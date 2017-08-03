@@ -1,22 +1,19 @@
 package com.lagostout.elementsofprogramminginterviews.binarytrees
 
-import com.lagostout.common.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode
 import com.lagostout.datastructures.RawBinaryTreeNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
-import org.junit.platform.runner.JUnitPlatform
-import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 
-@RunWith(JUnitPlatform::class)
 class FindRootToLeafPathWithSpecifiedSum : Spek({
 
     data class TestCase(val sum: Int,
                         val rawNodes: List<RawBinaryTreeNode<Int>>,
                         val expected: Boolean) {
-        val tree = (BinaryTreeNode.buildBinaryTree<Int>(rawNodes).right[0])
+        val tree = (BinaryTreeNode.buildBinaryTree(rawNodes).second[0])
     }
 
     // TODO
