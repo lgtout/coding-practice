@@ -4,6 +4,8 @@ import org.apache.commons.math3.random.RandomDataGenerator
 
 fun <T> List<T>.takeIfNotLast() = this.take(this.size - 1)
 
+fun <T> List<T>.takeFrom(index: Int) = this.takeLast(this.size - index)
+
 fun RandomDataGenerator.nextInt(range: IntRange) =
         nextInt(range.start, range.endInclusive)
 
