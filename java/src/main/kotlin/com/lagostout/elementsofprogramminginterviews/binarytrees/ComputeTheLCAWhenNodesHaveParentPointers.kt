@@ -10,9 +10,9 @@ fun <T : Comparable<T>> computeTheLCAWhenNodesHaveParentPointers(
         BinaryTreeNode<T>? {
     val firstNodeAncestors = mutableSetOf<BinaryTreeNode<T>>()
     val secondNodeAncestors = mutableSetOf<BinaryTreeNode<T>>()
-    var firstNodeAncestor:BinaryTreeNode<T>? = firstNode
-    var secondNodeAncestor:BinaryTreeNode<T>? = secondNode
-    var lca:BinaryTreeNode<T>? = null
+    var firstNodeAncestor: BinaryTreeNode<T>? = firstNode
+    var secondNodeAncestor: BinaryTreeNode<T>? = secondNode
+    var lca: BinaryTreeNode<T>? = null
     while (firstNodeAncestor != null || secondNodeAncestor != null) {
         when  {
             firstNodeAncestor != null -> {

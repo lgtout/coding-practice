@@ -1,7 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.binarytrees
 
+import com.lagostout.common.rightAncestor
 import com.lagostout.datastructures.BinaryTreeNode
-import com.lagostout.common.*
 import com.lagostout.elementsofprogramminginterviews.binarytrees.Step.*
 
 enum class Step {
