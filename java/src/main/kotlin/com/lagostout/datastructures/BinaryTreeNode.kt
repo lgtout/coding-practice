@@ -1,32 +1,15 @@
 package com.lagostout.datastructures
 
-class BinaryTreeNode<T : Comparable<T>>(var parent: BinaryTreeNode<T>? = null,
-                                        var left: BinaryTreeNode<T>? = null,
-                                        var right: BinaryTreeNode<T>? = null,
-                                        val value: T) {
-
-    val children
-        get() = listOf(left, right)
-
-    /**
-     * Pre-order left-to-right DFS: O(n)
-     * @param value
-     * @return
-     */
-    fun find(value: T): BinaryTreeNode<T>? {
-        if (this.value == value) return this
-        // Look in the left subtree
-        var node: BinaryTreeNode<T>? = left?.find(value)
-        // If not found, look in the right subtree
-        node = node?: right?.find(value)
-        return node
-    }
+open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
+                             var left: BinaryTreeNode<T>? = null,
+                             var right: BinaryTreeNode<T>? = null,
+                             val value: T) {
 
     override fun hashCode(): Int {
         var result = parent?.hashCode() ?: 0
         result = 31 * result + (left?.hashCode() ?: 0)
         result = 31 * result + (right?.hashCode() ?: 0)
-        result = 31 * result + value.hashCode()
+        result = 31 * result + (value?.hashCode() ?: 0)
         return result
     }
 
