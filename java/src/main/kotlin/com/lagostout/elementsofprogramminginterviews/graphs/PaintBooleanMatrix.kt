@@ -1,7 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.graphs
 
 import com.lagostout.common.nextLevel
-import java.util.*
 
 object PaintBooleanMatrix {
 
@@ -20,21 +19,17 @@ object PaintBooleanMatrix {
         val startCellColor = grid[start.row][start.column]
         val flippedColor = !startCellColor
         val graph = toGraph(grid, startCellColor)
-        val queue = LinkedList<Set<Point>>()
+        var currentLevel = setOf(start)
         val exploredPoints = mutableSetOf<Point>()
-        queue.add(setOf(start))
-        while (queue.isNotEmpty()) {
-            var points = queue.remove()
-            // Flip colors
-            points.forEach {
+        while (currentLevel.isNotEmpty()) {
+            currentLevel.forEach {
                 result[it.row][it.column] = flippedColor
+                exploredPoints.add(it)
             }
-            exploredPoints.addAll(points)
-            points = nextLevel(graph, points, exploredPoints)
-            queue.add(points)
+            currentLevel = nextLevel(graph, currentLevel, exploredPoints)
+            println("currentLevel $currentLevel")
         }
         return result
     }
-
 
 }

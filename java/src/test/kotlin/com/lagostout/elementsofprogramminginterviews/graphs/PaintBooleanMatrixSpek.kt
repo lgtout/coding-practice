@@ -2,6 +2,7 @@ package com.lagostout.elementsofprogramminginterviews.graphs
 
 import com.lagostout.common.nextInt
 import com.lagostout.common.nextLevel
+import com.lagostout.elementsofprogramminginterviews.graphs.PaintBooleanMatrix.flipRegionColor
 import org.apache.commons.math3.random.RandomDataGenerator
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -13,10 +14,12 @@ class PaintBooleanMatrixSpek : Spek({
     describe("flipRegionColor") {
         testCases.forEach {
             (grid, start, expectedUnflippedPoints) ->
-            given("start point $start") {
+            given("grid $grid start $start") {
                 it("flips color of region containing start point") {
                     assertEquals(expectedUnflippedPoints,
-                            pointsWithColor(grid, grid[start.row][start.column]))
+                            pointsWithColor(
+                                    flipRegionColor(grid, start),
+                                    grid[start.row][start.column]))
                 }
             }
         }
@@ -24,12 +27,15 @@ class PaintBooleanMatrixSpek : Spek({
 }) {
     companion object {
 
+        /**
+         * Filters points with color
+         */
         fun pointsWithColor(grid: List<List<Boolean>>, color: Boolean): Set<Point> {
             val points = mutableSetOf<Point>()
             0.rangeTo(grid.size - 1).forEach { row ->
                 0.rangeTo(grid[row].size - 1).forEach { column ->
                     if (grid[row][column] == color)
-                        points.add(Point(row, column))
+                        points.add(Point(column, row))
                 }
             }
             return points
@@ -77,8 +83,8 @@ class PaintBooleanMatrixSpek : Spek({
                         row.add(random.nextInt(0, 1) == 1)
                     }
                 }
-                val start = Point(random.nextInt(0, rowCount - 1),
-                        random.nextInt(0, columnCount - 1))
+                val start = Point(random.nextInt(0, columnCount - 1),
+                        random.nextInt(0, rowCount - 1))
                 testCases.add(TestCase(grid, start))
             }
             testCases
