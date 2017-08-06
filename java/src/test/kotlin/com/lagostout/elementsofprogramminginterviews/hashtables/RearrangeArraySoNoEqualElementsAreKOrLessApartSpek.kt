@@ -22,7 +22,6 @@ class RearrangeArraySoNoEqualElementsAreKOrLessApartSpek : Spek({
     companion object {
         data class TestCase(val array: List<Int> = emptyList(), val k: Int = 0)
         val testCases: List<TestCase> = run {
-
             listOf(
                     TestCase(listOf()),
                     null
