@@ -6,8 +6,8 @@ import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
-import com.lagostout.elementsofprogramminginterviews.strings.InterconvertStringsAndIntegers.Companion.stringToInteger
-import com.lagostout.elementsofprogramminginterviews.strings.InterconvertStringsAndIntegers.Companion.integerToString
+import com.lagostout.elementsofprogramminginterviews.strings.InterconvertStringsAndIntegers.stringToInteger
+import com.lagostout.elementsofprogramminginterviews.strings.InterconvertStringsAndIntegers.integerToString
 
 class InterconvertStringsAndIntegersSpek : Spek({
     describe("stringToInteger") {
