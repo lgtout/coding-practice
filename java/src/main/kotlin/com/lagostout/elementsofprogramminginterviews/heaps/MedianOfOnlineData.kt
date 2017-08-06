@@ -2,15 +2,14 @@ package com.lagostout.elementsofprogramminginterviews.heaps
 
 import java.util.*
 
-// TODO Modify to take one number at a time and compute median at any point.
 object MedianOfOnlineData {
 
     class Queues {
 
-        var left: PriorityQueue<Int> = PriorityQueue ()
-        var right: PriorityQueue<Int> = PriorityQueue {
+        var left: PriorityQueue<Int> = PriorityQueue {
             o1, o2 -> o2.compareTo(o1)
         }
+        var right: PriorityQueue<Int> = PriorityQueue ()
 
         fun sort() {
             val sortedQueues = listOf(left, right).sortedBy { it.peek() }
@@ -36,32 +35,40 @@ object MedianOfOnlineData {
                 else right.peek()).toDouble()
             }
 
-        var isBalanced: Boolean = false
-            fun get() = left.size == right.size
+        val isBalanced: Boolean
+            get() = left.size == right.size
 
         fun add(number: Int) {
-            // TODO Not sure about this
-            (if (left.isEmpty()) {
+            ((if (left.isEmpty()) {
                 left
             } else if (right.isEmpty()){
                 right
-            } else null )?: (
-                if (number.toDouble() > median) {
-                    right
-                } else {
-                    left
-                }
-            ).add(number)
+            } else null)?:
+                    (if (number.toDouble() > median) {
+                        right
+                    } else {
+                        left
+                    })).add(number)
+            if (left.size == 1 && right.size == 1) {
+                sort()
+            }
             rebalance()
+        }
+
+        override fun toString(): String {
+            return "Queues { left: $left, right: $right }"
         }
     }
 
-    val queues = Queues()
-
-    fun medianAfterAdding(number: Int): Double {
-        // TODO Not sure about this. Revisit 1,2-number cases
-        queues.add(number)
-        return queues.median
+    fun medians(numbers: List<Int>): List<Double> {
+        val queues = Queues()
+        return numbers.map {
+            queues.run {
+                add(it)
+//                println(this)
+                median
+            }
+        }
     }
 
 }
