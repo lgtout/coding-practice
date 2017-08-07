@@ -1,6 +1,9 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
-fun levenshteinDistance(from: String, to: String): Int? {
+/**
+ * Problem 17.2 page 315
+ */
+fun levenshteinDistance(from: String, to: String): Int {
 
     (if (from.isEmpty()) to.length
     else if (to.isEmpty()) from.length
@@ -11,38 +14,37 @@ fun levenshteinDistance(from: String, to: String): Int? {
     val cache = mutableListOf<MutableList<Int>>()
 
     // Build the cache
-    0.rangeTo(to.length).forEach {
+    (0..to.length).forEach {
         val row = mutableListOf<Int>()
         cache.add(row)
     }
 
     // 0th row and column are the positions before
-    // each of the two strings.  The first character
-    // of each string is at index 1 in the cache.
+    // the first character of each string.  The first
+    // character of each string is at index 1 in the
+    // cache.
 
     // Populate first row
     val firstRow = cache[0]
     firstRow += (0..from.length)
 
-    // Populate first column
+    // Populate first column, starting from second
+    // row.
     for (i in (1..to.length)) {
         cache[i].add(i)
     }
 
     // Move left to right, top to bottom
     // computing cache values.
-    for (j in (1..to.length)) {
-        for (i in (1..from.length)) {
-            val substituteOrNoActionCost = if (from[i-1] == to[j-1]) {
-                cache[i-1][j-1]
-            } else {
-                cache[i-1][j-1] + 1
-            }
-            val deleteCost = cache[i+1][j] + 1
-            val insertCost = cache[i][j-1] + 1
+    for (j in (1..to.length)) { // rows
+        for (i in (1..from.length)) { // columns
+            val substituteOrNoActionCost = cache[j-1][i-1] +
+                    if (from[i-1] == to[j-1]) 0 else 1
+            val deleteCost = cache[j][i-1] + 1 // Moving from left
+            val insertCost = cache[j-1][i] + 1 // Moving from above
             listOf(substituteOrNoActionCost,
                     deleteCost, insertCost).min()?.apply {
-                cache[i][j] = this
+                cache[j].add(this)
             }
         }
     }
