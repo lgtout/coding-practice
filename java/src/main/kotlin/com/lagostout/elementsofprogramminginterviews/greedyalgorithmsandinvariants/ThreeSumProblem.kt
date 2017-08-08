@@ -3,35 +3,37 @@ package com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvaria
 /**
  * Problem 18.4 page 345
  */
-fun canPickThreeWithRepetitionAllowedThatAddUpToNumber(
+fun canPickThreeWithRepetitionAllowedThatAddUpToSum(
         list: List<Int>, sum: Int): List<Triple<Int, Int, Int>> {
+    if (list.isEmpty()) return emptyList()
+
     val result = mutableListOf<Triple<Int, Int, Int>>()
     val sortedList = list.sorted()
-
-    // TODO
-    // What if the list is empty?
-    // What if no combination is found?
-    // What if there are fewer than 3 numbers in the list?
 
     // Find combinations containing of 2 or 3 of the same number.
     // There can only be one combination of 3 of the same number,
     // and finding combinations containing 2 will naturally find
     // it as a side-effect.
+
     var doublesIndex = 0
     var singlesIndex = sortedList.lastIndex
     while (doublesIndex <= sortedList.lastIndex) {
         val double = sortedList[doublesIndex]
         val single = sortedList[singlesIndex]
-        while (singlesIndex >= 0) {
-            val currentSum = double * 2 + single
+        var doublesSum = double * 2
+        while (singlesIndex >= 0 && doublesSum <= sum) {
+            val currentSum = doublesSum + single
             if (currentSum == sum) {
                 result.add(Triple(double, double, single))
-            }
-            if (currentSum <= sum) {
                 doublesIndex++
-            } else if (currentSum >= sum) {
                 singlesIndex--
             }
+            if (currentSum < sum) {
+                doublesIndex++
+            } else if (currentSum > sum) {
+                singlesIndex--
+            }
+            doublesSum = double * 2
         }
     }
 
