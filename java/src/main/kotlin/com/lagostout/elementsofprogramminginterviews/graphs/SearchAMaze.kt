@@ -16,7 +16,7 @@ object SearchMaze {
         if (!containsOpenPixel(grid, entry) ||
                 !containsOpenPixel(grid, exit))
             return Result(emptyList(), emptyMap())
-        val graph = toGraph(grid)
+        val graph = booleanMatrixToGraph(grid)
         val stackOfFrames = LinkedList<Frame>()
         val pixelsInPath = mutableSetOf<Point>()
         stackOfFrames.push(

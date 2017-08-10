@@ -18,7 +18,7 @@ object PaintBooleanMatrix {
         }
         val startCellColor = grid[start.row][start.column]
         val flippedColor = !startCellColor
-        val graph = toGraph(grid, startCellColor)
+        val graph = booleanMatrixToGraph(grid, startCellColor)
         var currentLevel = setOf(start)
         val exploredPoints = mutableSetOf<Point>()
         while (currentLevel.isNotEmpty()) {
