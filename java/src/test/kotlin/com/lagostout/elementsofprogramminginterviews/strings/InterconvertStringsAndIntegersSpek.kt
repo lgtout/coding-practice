@@ -11,38 +11,45 @@ import com.lagostout.elementsofprogramminginterviews.strings.InterconvertStrings
 
 class InterconvertStringsAndIntegersSpek : Spek({
     describe("stringToInteger") {
-        testCases.forEach {
+        stringToIntegerTestCases.forEach {
             (number, string) ->
             given("string $string") {
                 it("returns $number") {
-                    assertEquals(stringToInteger(string), number)
+                    println("string: $string number: $number")
+                    assertEquals(number, stringToInteger(string))
                 }
             }
         }
     }
     describe("integerToString") {
-        testCases.forEach {
+        integerToStringTestCases.forEach {
             (number, string) ->
             given("number $number") {
                 it("returns $string") {
-                    assertEquals(integerToString(number), string)
+                    assertEquals(string, integerToString(number))
                 }
             }
         }
     }
 }) {
     companion object {
-        data class TestCase(val integer: Int) {
-            val string: String = integer.toString()
+        data class TestCase(val integer: Int? = null) {
+            val string: String = integer?.toString() ?: ""
             operator fun component2() = string
         }
-        val testCases = run {
+        val randomTestCases = run {
             val random = RandomDataGenerator().apply { reSeed(1) }
             val testCaseCount = 20
+//            val range = Pair(-5, 5)
+            val range = Pair(Int.MIN_VALUE, Int.MAX_VALUE)
             (1..testCaseCount).map {
-                val number = random.nextInt(Int.MIN_VALUE, Int.MAX_VALUE)
+                val number = random.nextInt(range.first, range.second)
                 TestCase(number)
             }
         }
+        val stringToIntegerTestCases = randomTestCases.toMutableList().apply {
+            add(TestCase())
+        }
+        val integerToStringTestCases = randomTestCases
     }
 }
