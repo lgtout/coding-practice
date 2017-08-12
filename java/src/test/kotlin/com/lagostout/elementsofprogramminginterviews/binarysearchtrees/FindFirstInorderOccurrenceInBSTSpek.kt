@@ -2,7 +2,7 @@ package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
 import com.lagostout.datastructures.BinaryTreeNode
 import com.lagostout.datastructures.BinaryTreeNode.Companion.buildBinaryTree
-import com.lagostout.datastructures.RawBinaryTreeNode
+import com.lagostout.datastructures.RawBinaryTreeNode as RawNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
@@ -10,11 +10,11 @@ import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
 
 class FindFirstInorderOccurrenceInBSTSpek : Spek({
-    describe("") {
+    describe("findFirstInorderOccurrence") {
         testCases.forEach {
             (root, expectedNode, k) ->
-            given("") {
-                it("") {
+            given("tree: $root, value to find: $k") {
+                it("returns $expectedNode") {
                     assertEquals(expectedNode, findFirstInorderOccurrence(root, k))
                 }
             }
@@ -22,7 +22,7 @@ class FindFirstInorderOccurrenceInBSTSpek : Spek({
     }
 }) {
     companion object {
-        class TestCase<T : Comparable<T>>(rawNodes: List<RawBinaryTreeNode<T>> = emptyList(),
+        class TestCase<T : Comparable<T>>(rawNodes: List<RawNode<T>> = emptyList(),
                                           expectedNodeIndex: Int? = null,
                                           val k: Int = 0) {
             val root: BinaryTreeNode<T>?
@@ -38,8 +38,24 @@ class FindFirstInorderOccurrenceInBSTSpek : Spek({
             operator fun component2(): BinaryTreeNode<T>? = expected
             operator fun component3() = k
         }
-        val testCases = listOf<TestCase<Int>?>(
+        val testCases = listOf(
                 TestCase(),
+                TestCase(listOf(
+                        RawNode(1, 2, value = 10),
+                        RawNode(value = 10),
+                        RawNode(value = 15)), 1, 10),
+                TestCase(listOf(
+                        RawNode(1, 2, value = 10),
+                        RawNode(value = 5),
+                        RawNode(value = 15)), 0, 10),
+                TestCase(listOf(
+                        RawNode(1, 2, value = 10),
+                        RawNode(value = 10),
+                        RawNode(value = 10)), 1, 10),
+                TestCase(listOf(
+                        RawNode(1, 2, value = 10),
+                        RawNode(value = 5),
+                        RawNode(value = 10)), 0, 10),
                 null
         ).filterNotNull()
     }

@@ -8,11 +8,15 @@ fun <T : Comparable<T>> findFirstInorderOccurrence(
     var firstOccurrence: BinaryTreeNode<T>? = null
     var currentNode: BinaryTreeNode<T>? = root
     while (currentNode != null) {
-        currentNode = currentNode?.run {
-            if (value >= k) {
-                if (value == k) firstOccurrence = this
-                left
-            } else right
+        currentNode = currentNode.run {
+            when {
+                value >= k -> {
+                    if (value == k)
+                        firstOccurrence = currentNode
+                    left
+                }
+                else -> right
+            }
         }
     }
     return firstOccurrence
