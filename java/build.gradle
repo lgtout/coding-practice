@@ -48,7 +48,7 @@ dependencies {
     compile "org.funktionale:funktionale-all:1.1"
 
     compile 'org.hamcrest:hamcrest-all:1.3'
-    compile 'com.natpryce:hamkrest:1.4.0.0'
+//    compile 'com.natpryce:hamkrest:1.4.0.0'
 
     // Logback
     compile 'org.slf4j:slf4j-api:1.7.13'
