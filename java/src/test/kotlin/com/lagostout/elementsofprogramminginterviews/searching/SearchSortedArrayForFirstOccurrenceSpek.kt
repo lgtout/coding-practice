@@ -24,6 +24,13 @@ class SearchSortedArrayForFirstOccurrenceSpek : Spek({
                             val expected: Int? = null)
         val testCases = run {
             listOf(TestCase(0),
+                    TestCase(0, listOf(1,2)),
+                    TestCase(0, listOf(0,1,2), 0),
+                    TestCase(1, listOf(0,1,2), 1),
+                    TestCase(2, listOf(0,1,2), 2),
+                    TestCase(1, listOf(0,1,1,2), 1),
+                    TestCase(1, listOf(0,1,1,2,3), 1),
+                    TestCase(1, listOf(0,1,1,2,3,4,5), 1),
                     null).filterNotNull()
         }
     }

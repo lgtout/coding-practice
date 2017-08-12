@@ -1,9 +1,12 @@
 package com.lagostout.elementsofprogramminginterviews.searching
 
+/**
+ * Problem 12.1 page 192
+ */
 fun firstOccurrence(array: List<Int>, k: Int): Int? {
     var firstOccurrenceOfK: Int? = null
     var left = 0
-    var right = array.size - 1
+    var right = array.lastIndex
     while (left <= right) {
         val middle = left + ((right - left) / 2)
         val middleValue = array[middle]
