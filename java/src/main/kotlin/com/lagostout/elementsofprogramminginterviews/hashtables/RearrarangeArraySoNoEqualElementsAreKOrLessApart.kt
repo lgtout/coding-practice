@@ -30,6 +30,7 @@ fun rearrangeArraySoNoEqualElementsAreKOrLessApart(
                 first().apply {
                     val (count, elements) = this
                     val element = elements.removeAt(0)
+                    sortedArray.add(element)
                     val nextCount = count - 1
                     if (nextCount > 0) {
                         indexToFreedUpElementsMap[it + k + 1] =
@@ -39,7 +40,7 @@ fun rearrangeArraySoNoEqualElementsAreKOrLessApart(
                     // count, remove the entry from the sorted array so
                     // that the next set of items with the next lower
                     // count on deck for use next.
-                    if (value.size == 1) {
+                    if (elements.size == 0) {
                         entries.remove(this)
                     }
                 }
