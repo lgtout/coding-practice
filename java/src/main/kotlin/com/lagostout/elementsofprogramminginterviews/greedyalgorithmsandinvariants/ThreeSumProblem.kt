@@ -3,7 +3,13 @@ package com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvaria
 /**
  * Problem 18.4 page 345
  */
+
 fun canPickThreeWithRepetitionAllowedThatAddUpToSum(
+        list: List<Int>, sum: Int): Boolean {
+    return findCombinationsOfThreeWithRepetitionAllowedThatAddUpToSum(list, sum).isNotEmpty()
+}
+
+fun findCombinationsOfThreeWithRepetitionAllowedThatAddUpToSum(
         list: List<Int>, sum: Int): List<Triple<Int, Int, Int>> {
     if (list.isEmpty()) return emptyList()
 
@@ -17,27 +23,26 @@ fun canPickThreeWithRepetitionAllowedThatAddUpToSum(
 
     var doublesIndex = 0
     var singlesIndex = sortedList.lastIndex
-    while (doublesIndex <= sortedList.lastIndex) {
+    while (doublesIndex <= sortedList.lastIndex &&
+            singlesIndex >= 0) {
         val double = sortedList[doublesIndex]
+        val doublesSum = double * 2
         val single = sortedList[singlesIndex]
-        var doublesSum = double * 2
-        while (singlesIndex >= 0 && doublesSum <= sum) {
-            val currentSum = doublesSum + single
-            if (currentSum == sum) {
+        if (doublesSum > sum) break
+        val currentSum = doublesSum + single
+        when {
+            currentSum == sum -> {
                 result.add(Triple(double, double, single))
                 doublesIndex++
                 singlesIndex--
             }
-            if (currentSum < sum) {
-                doublesIndex++
-            } else if (currentSum > sum) {
-                singlesIndex--
-            }
-            doublesSum = double * 2
+            currentSum < sum -> doublesIndex++
+            currentSum > sum -> singlesIndex--
         }
     }
 
     // Find combinations containing 3 different numbers.
+
     var leftIndex = 0
     var rightIndex = sortedList.lastIndex
     while (leftIndex <= rightIndex - 2) {
@@ -62,5 +67,6 @@ fun canPickThreeWithRepetitionAllowedThatAddUpToSum(
             rightIndex--
         }
     }
+
     return result
 }
