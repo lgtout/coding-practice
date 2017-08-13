@@ -9,7 +9,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class SearchAMazeSpek : Spek({
-    describe("") {
+    describe("findPathThroughMaze") {
         testCases.forEach {
             (grid, entry, exit, pathExists) ->
             given("entry $entry exit $exit adjacencies $grid") {
@@ -50,8 +50,8 @@ class SearchAMazeSpek : Spek({
             return isValidPath
         }
 
-        val T = true
-        val F = false
+        private val T = true
+        private val F = false
 
         data class TestCase(val grid: List<List<Boolean>>,
                             val entry: Point, val exit: Point,
