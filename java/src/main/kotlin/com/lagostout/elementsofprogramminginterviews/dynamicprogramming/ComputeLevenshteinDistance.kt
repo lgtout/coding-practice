@@ -5,9 +5,11 @@ package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
  */
 fun levenshteinDistance(from: String, to: String): Int {
 
-    (if (from.isEmpty()) to.length
-    else if (to.isEmpty()) from.length
-    else null)?.apply {
+    (when {
+        from.isEmpty() -> to.length
+        to.isEmpty() -> from.length
+        else -> null
+    })?.apply {
         return this
     }
 
