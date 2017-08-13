@@ -16,7 +16,7 @@ object InterconvertStringsAndIntegers {
         // will encode an integer.  On the other hand, it doesn't specify if the
         // integer will fit into 32 bits.
         if ((isNegative && s.length > Int.MIN_VALUE.toString().length) ||
-                (s.length > Int.MIN_VALUE.toString().length)) {
+                (s.length > Int.MAX_VALUE.toString().length)) {
             throw IllegalArgumentException("The string provided will not fit into a 32 bit Int")
         }
         var number = 0

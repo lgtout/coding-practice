@@ -8,6 +8,7 @@ import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
 import com.lagostout.elementsofprogramminginterviews.strings.InterconvertStringsAndIntegers.stringToInteger
 import com.lagostout.elementsofprogramminginterviews.strings.InterconvertStringsAndIntegers.integerToString
+import kotlin.test.assertFailsWith
 
 class InterconvertStringsAndIntegersSpek : Spek({
     describe("stringToInteger") {
@@ -17,6 +18,28 @@ class InterconvertStringsAndIntegersSpek : Spek({
                 it("returns $number") {
                     println("string: $string number: $number")
                     assertEquals(number, stringToInteger(string))
+                }
+            }
+        }
+        describe("string longer than will fit in 1 32 bit Int") {
+            describe("string represents negative number") {
+                val stringNumber = Int.MIN_VALUE.toString() + "0"
+                given("string $stringNumber") {
+                    it("throws an IllegalArgumentException") {
+                        assertFailsWith<IllegalArgumentException> {
+                            stringToInteger(stringNumber)
+                        }
+                    }
+                }
+            }
+            describe("string represents positive number") {
+                val stringNumber = Int.MAX_VALUE.toString() + "0"
+                given("string $stringNumber") {
+                    it("throws an IllegalArgumentException") {
+                        assertFailsWith<IllegalArgumentException> {
+                            stringToInteger(stringNumber)
+                        }
+                    }
                 }
             }
         }
@@ -37,7 +60,7 @@ class InterconvertStringsAndIntegersSpek : Spek({
             val string: String = integer?.toString() ?: ""
             operator fun component2() = string
         }
-        val randomTestCases = run {
+        private val randomTestCases = run {
             val random = RandomDataGenerator().apply { reSeed(1) }
             val testCaseCount = 20
 //            val range = Pair(-5, 5)
