@@ -33,12 +33,7 @@ class MedianOfOnlineDataSpek : Spek({
                     TestCase(listOf(1,0,0), listOf(1.0,0.5,0.0)),
                     TestCase(listOf(0,1,1), listOf(0.0,0.5,1.0)),
                     TestCase(listOf(1,1,0), listOf(1.0,1.0,1.0)),
-                    null),
-                    run {
-                       listOf(null)
-//                        emptyList<TestCase>()
-//                        TODO("random generated cases")
-                    }).flatten().filterNotNull().apply {println(this)}
+                    null)).flatten().filterNotNull().apply { println(this) }
         }
     }
 }

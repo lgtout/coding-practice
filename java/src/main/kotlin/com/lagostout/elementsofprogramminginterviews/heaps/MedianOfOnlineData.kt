@@ -2,6 +2,9 @@ package com.lagostout.elementsofprogramminginterviews.heaps
 
 import java.util.*
 
+/**
+ * Problem 11.5 page 184
+ */
 object MedianOfOnlineData {
 
     class Queues {
@@ -9,6 +12,7 @@ object MedianOfOnlineData {
         var left: PriorityQueue<Int> = PriorityQueue {
             o1, o2 -> o2.compareTo(o1)
         }
+
         var right: PriorityQueue<Int> = PriorityQueue ()
 
         fun sort() {
@@ -17,7 +21,7 @@ object MedianOfOnlineData {
             right = sortedQueues[1]
         }
 
-        fun rebalance() {
+        private fun rebalance() {
             if (left.size > right.size + 1) {
                 right.add(left.poll())
             } else if (right.size > left.size + 1) {
@@ -25,7 +29,7 @@ object MedianOfOnlineData {
             }
         }
 
-        val averageOfFirstItemInQueues: Double
+        private val averageOfFirstItemInQueues: Double
             get() = (left.peek() + right.peek()) / 2.0
 
         val median: Double
@@ -35,7 +39,7 @@ object MedianOfOnlineData {
                 else right.peek()).toDouble()
             }
 
-        val isBalanced: Boolean
+        private val isBalanced: Boolean
             get() = left.size == right.size
 
         fun add(number: Int) {
