@@ -1,6 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.binarytrees
 
 import com.lagostout.datastructures.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode.Companion.toRawBinaryTreeNodes
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
@@ -54,11 +55,11 @@ data class Data(val firstNode: BinaryTreeNode<Char>,
                 val expected: BinaryTreeNode<Char>)
 
 fun toBinaryTree(rawTree: List<Any>): Data {
-    val nodeTree: MutableList<BinaryTreeNode<Char>> = mutableListOf()
-    @Suppress("UNCHECKED_CAST")
-    BinaryTreeNode.buildBinaryTree(
-            rawTree[2] as List<List<Any>>, nodeTree)
-    return Data(nodeTree[rawTree[0] as Int], nodeTree[rawTree[1] as Int],
-            nodeTree[rawTree[3] as Int])
+    val (_, nodes) = BinaryTreeNode.buildBinaryTree<Char>(
+            @Suppress("UNCHECKED_CAST")
+            toRawBinaryTreeNodes(rawTree[2] as List<List<Any>>))
+    return Data(nodes[rawTree[0] as Int],
+            nodes[rawTree[1] as Int],
+            nodes[rawTree[3] as Int])
 }
 
