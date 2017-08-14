@@ -7,6 +7,10 @@ fun <T> List<T>.takeIfNotLast() = this.take(this.size - 1)
 
 fun <T> List<T>.takeFrom(index: Int) = this.takeLast(this.size - index)
 
+//operator fun <T> List<T>.get(index: Int): T {
+//    return this[if (index < 0) size - index else index]
+//}
+
 fun RandomDataGenerator.nextInt(range: IntRange) =
         nextInt(range.start, range.endInclusive)
 
@@ -24,4 +28,3 @@ val <T : Comparable<T>> BinaryTreeNode<T>.rightAncestor: BinaryTreeNode<T>?
 
 val <T : Comparable<T>> BinaryTreeNode<T>.leftAncestor: BinaryTreeNode<T>?
     get() = if (isRightChild) parent else null
-
