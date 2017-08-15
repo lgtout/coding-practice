@@ -25,6 +25,13 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
         return true
     }
 
+    override fun toString(): String {
+        return "BinaryTreeNode { value: $value, " +
+                "parent: { value: ${parent?.value} }, " +
+                "left: { value: ${left?.value} }, " +
+                "right: { value: ${right?.value} }"
+    }
+
     companion object {
 
         fun <T : Comparable<T>> toRawBinaryTreeNodes(

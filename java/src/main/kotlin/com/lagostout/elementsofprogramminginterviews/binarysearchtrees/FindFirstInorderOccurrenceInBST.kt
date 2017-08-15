@@ -2,9 +2,11 @@ package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
 import com.lagostout.datastructures.BinaryTreeNode
 
-// TODO Does it make sense that root is nullable?
+/**
+ * Problem 15.2.2 page 264
+ */
 fun <T : Comparable<T>> findFirstInorderOccurrence(
-        root: BinaryTreeNode<T>?, k: T): BinaryTreeNode<T>? {
+        root: BinaryTreeNode<T>, k: T): BinaryTreeNode<T>? {
     var firstOccurrence: BinaryTreeNode<T>? = null
     var currentNode: BinaryTreeNode<T>? = root
     while (currentNode != null) {
