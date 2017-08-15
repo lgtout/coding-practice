@@ -4,8 +4,6 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.context
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.junit.platform.runner.JUnitPlatform
-import org.junit.runner.RunWith
 import java.util.*
 import kotlin.test.assertEquals
 
@@ -17,7 +15,6 @@ private data class TestCase(val intervals: List<Interval>, val expected: List<In
     }
 }
 
-@RunWith(JUnitPlatform::class)
 class TheIntervalCoveringProblemSpek : Spek({
     describe("minimumSizedSetOfNumbersThatCoverAllIntervals") {
         listOf(
