@@ -1,5 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarytrees
 
+import com.lagostout.datastructures.BinaryTreeNode
 import com.lagostout.datastructures.RawBinaryTreeNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -13,24 +14,25 @@ import org.hamcrest.Matchers
 class IterativePreAndPostOrderTraversalWithLinearSpaceSpek : Spek({
     describe("preOrderTraversalPath") {
         testCases.forEach {
-            (root, preOrderTraversalExpectedIndices, _) ->
+            (root, preOrderTraversalValues, _) ->
             given("root $root") {
-                it("returns $preOrderTraversalExpectedIndices") {
-                    assertThat(preOrderTraversalPath(root),
-                            Matchers.containsInAnyOrder(
-                                    *preOrderTraversalExpectedIndices.toTypedArray()))
+                it("returns $preOrderTraversalValues") {
+                    val traversalPathValues = preOrderTraversalPath(root)
+                    assertThat(traversalPathValues,
+                            Matchers.contains(
+                                    *(preOrderTraversalValues.toTypedArray())))
                 }
             }
         }
     }
     describe("postOrderTraversalPath") {
         testCases.forEach {
-            (root, _, postOrderTraversalExpectedIndices) ->
+            (root, _, postOrderTraversalValues) ->
             given("root $root") {
-                it("returns $postOrderTraversalExpectedIndices") {
+                it("returns $postOrderTraversalValues") {
                     assertThat(postOrderTraversalPath(root),
-                            Matchers.containsInAnyOrder(
-                                    *postOrderTraversalExpectedIndices.toTypedArray()))
+                            Matchers.contains(
+                                    *postOrderTraversalValues.toTypedArray()))
                 }
             }
         }
@@ -39,35 +41,43 @@ class IterativePreAndPostOrderTraversalWithLinearSpaceSpek : Spek({
     companion object {
         class TestCase<T : Comparable<T>>(
                 rawTree: List<RawBinaryTreeNode<T>> = emptyList(),
-                private val preOrderTraversalExpectedIndices: List<Int> = emptyList(),
-                private val postOrderTraversalExpectedIndices: List<Int> = emptyList()) {
-            val root = com.lagostout.datastructures.BinaryTreeNode.Companion.buildBinaryTree(rawTree).first!!
+                preOrderTraversalExpectedIndices: List<Int> = emptyList(),
+                postOrderTraversalExpectedIndices: List<Int> = emptyList()) {
+            val root: BinaryTreeNode<T>
+            private val preOrderTraversalValues: List<T>
+            private val postOrderTraversalValues: List<T>
+            init {
+                val rootAndTree = com.lagostout.datastructures.BinaryTreeNode.Companion.buildBinaryTree(rawTree)
+                root = rootAndTree.first!!
+                preOrderTraversalValues = preOrderTraversalExpectedIndices.map { rootAndTree.second[it].value }
+                postOrderTraversalValues = postOrderTraversalExpectedIndices.map { rootAndTree.second[it].value }
+            }
             operator fun component1() = root
-            operator fun component2() = preOrderTraversalExpectedIndices
-            operator fun component3() = postOrderTraversalExpectedIndices
+            operator fun component2() = preOrderTraversalValues
+            operator fun component3() = postOrderTraversalValues
 
         }
         val testCases = listOf(
-                // TODO Do we need more cases?
-                TestCase(listOf(RawBinaryTreeNode(value = 0)), listOf(0)),
-//                TestCase(listOf(
-//                        RawBinaryTreeNode(value = 0, leftChildIndex = 1),
-//                        RawBinaryTreeNode(value = 1)),
-//                        listOf(0,1),
-//                        listOf(1,0)),
+//                TestCase(listOf(RawBinaryTreeNode(value = 0)), listOf(0), listOf(0)),
+                // TODO Assign parents explicitly or modify BinaryTreeNode to deduce from left/right children.
+                TestCase(listOf(
+                        RawBinaryTreeNode(value = 0, leftChildIndex = 1),
+                        RawBinaryTreeNode(value = 1)),
+                        listOf(0,1),
+                        listOf(1,0)),
 //                TestCase(listOf(
 //                        RawBinaryTreeNode(1, 2, value = 0),
 //                        RawBinaryTreeNode(value = 1),
 //                        RawBinaryTreeNode(value = 2)),
 //                        listOf(0,1,2),
 //                        listOf(1,2,0)),
-//                //    0
-//                //     \
-//                //      1
-//                //     /
-//                //    2
-//                //   /  \
-//                //  3    4
+                //    0
+                //     \
+                //      1
+                //     /
+                //    2
+                //   /  \
+                //  3    4
 //                TestCase(listOf(
 //                        RawBinaryTreeNode(rightChildIndex = 1, value = 0),
 //                        RawBinaryTreeNode(2, value = 1),

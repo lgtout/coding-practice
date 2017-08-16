@@ -18,27 +18,24 @@ object IterativePreAndPostOrderTraversalWithLinearSpace {
         open fun onRightChild(closure : () -> Unit) {}
     }
 
-    fun <T : Comparable<T>> traversalPath(root: BinaryTreeNode<T>, order: Order): List<T> {
+    private fun <T : Comparable<T>> traversalPath(root: BinaryTreeNode<T>, order: Order): List<T> {
         val result = mutableListOf<T>()
         var node: BinaryTreeNode<T>? = root
         var previousNode: BinaryTreeNode<T>? = null
         while (node != null) {
+            println(node.value)
             when (previousNode) {
                 node.parent -> {
                     order.onParent { result.add(node!!.value) }
-                    if (order == Order.PRE)
-                        result.add(node.value)
                     previousNode = node
                     node = node.left?: node.parent
                 }
                 node.left -> {
-                    node = node.right?: node.parent
                     previousNode = node
+                    node = node.right?: node.parent
                 }
                 node.right -> {
                     order.onRightChild { result.add(node!!.value) }
-                    if (order == Order.POST)
-                        result.add(node.value)
                     previousNode = node
                     node = node.parent
                 }
