@@ -3,19 +3,18 @@ package com.lagostout.elementsofprogramminginterviews.graphs
 /**
  * Problem 19.2.2 page 365
  */
-fun computeBlackRegionContainingMostPoints(matrix: List<List<Boolean>>): Set<Point> {
+fun computeBlackRegionContainingMostPoints(
+        matrix: List<List<Boolean>>): Set<Point> {
     val graph = booleanMatrixToGraph(matrix) // Let's assume true == black
     val visited = mutableSetOf<Point>()
     var regionContainingMostPoints: Set<Point> = emptySet()
-    graph.forEach {
-        (vertex, adjacentVertices) ->
+    graph.keys.forEach { vertex ->
         if (visited.contains(vertex)) return@forEach
         var verticesToVisit = mutableSetOf(vertex)
         var vertexCount = 0
-        val currentRegion = mutableSetOf<Point>()
+        val currentRegion = mutableSetOf(vertex)
         while (verticesToVisit.isNotEmpty()) {
             vertexCount += verticesToVisit.size
-            // TODO Is this the right place to do this?
             visited.addAll(verticesToVisit)
             verticesToVisit = verticesToVisit.fold(mutableSetOf()) {
                 acc, vertex ->

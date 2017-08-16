@@ -26,10 +26,10 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
     }
 
     override fun toString(): String {
-        return "BinaryTreeNode { value: $value, " +
-                "parent: { value: ${parent?.value} }, " +
-                "left: { value: ${left?.value} }, " +
-                "right: { value: ${right?.value} }"
+        return "BinaryTreeNode(value=$value, " +
+                "parent=BinaryTreeNode(value=${parent?.value}, ...), " +
+                "left=BinaryTreeNode(value=${left?.value}, ...), " +
+                "right=BinaryTreeNode(value=${right?.value}, ...)"
     }
 
     companion object {

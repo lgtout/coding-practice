@@ -7,8 +7,6 @@ import org.jetbrains.spek.api.dsl.it
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 
-// TODO Graph with no black points
-
 class ComputeBlackRegionContainingMostPointsSpek : Spek({
     describe("computeBlackRegionContainingMostPoints") {
         testCases.forEach {
@@ -24,11 +22,14 @@ class ComputeBlackRegionContainingMostPointsSpek : Spek({
 }) {
     companion object {
         class TestCase(private val grid: List<List<Boolean>>,
-                       pointInBlackRegionContainingMostPoints: Point) {
+                       pointInBlackRegionContainingMostPoints: Point? = null) {
             private val expectedRegionContainingMostPoints = run {
                 val graph = booleanMatrixToGraph(grid)
                 val result = mutableSetOf<Point>()
-                var adjacentVertices = mutableSetOf(pointInBlackRegionContainingMostPoints)
+                var adjacentVertices = mutableSetOf<Point>()
+                pointInBlackRegionContainingMostPoints?.apply {
+                    adjacentVertices.add(this)
+                }
                 while (adjacentVertices.isNotEmpty()) {
                     result.addAll(adjacentVertices)
                     adjacentVertices = adjacentVertices.fold(mutableSetOf()) {
@@ -42,11 +43,46 @@ class ComputeBlackRegionContainingMostPointsSpek : Spek({
                         }
                     }
                 }
-                result
+                result.toSet()
             }
             operator fun component1() = grid
             operator fun component2() = expectedRegionContainingMostPoints
         }
-        val testCases = listOf<TestCase>()
+        val testCases = run {
+            val T = true
+            val F = false
+            listOf(
+                    TestCase(listOf(
+                            listOf(F,F,F),
+                            listOf(F,F,F),
+                            listOf(F,F,F),
+                            listOf(F,F,F),
+                            listOf(F,F,F)), null),
+                    TestCase(listOf(
+                            listOf(F,F,F),
+                            listOf(F,T,F),
+                            listOf(F,F,F),
+                            listOf(F,F,F),
+                            listOf(F,F,F)), Point(1,1)),
+                    TestCase(listOf(
+                            listOf(F,F,F),
+                            listOf(F,T,F),
+                            listOf(F,F,F),
+                            listOf(F,F,F),
+                            listOf(F,F,F)), Point(1,1)),
+                    TestCase(listOf(
+                            listOf(F,F,F),
+                            listOf(F,T,F),
+                            listOf(F,F,F),
+                            listOf(T,T,F),
+                            listOf(F,F,F)), Point(0,3)),
+                    TestCase(listOf(
+                            listOf(F,F,F),
+                            listOf(F,T,F),
+                            listOf(F,F,F),
+                            listOf(T,T,F),
+                            listOf(F,F,T)), Point(0,3)),
+                    null).filterNotNull()
+        }
     }
 }
