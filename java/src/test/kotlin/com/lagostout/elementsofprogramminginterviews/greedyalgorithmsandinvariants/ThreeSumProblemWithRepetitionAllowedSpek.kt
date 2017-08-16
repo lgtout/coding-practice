@@ -7,7 +7,7 @@ import org.jetbrains.spek.api.dsl.it
 import org.paukov.combinatorics3.Generator
 import kotlin.test.assertEquals
 
-class ThreeSumProblemSpek : Spek({
+class ThreeSumProblemWithRepetitionAllowedSpek : Spek({
     describe("canPickThreeWithRepetitionAllowedThatAddUpToSum") {
         testCases.forEach {
             (numbers, sum, expected) ->
