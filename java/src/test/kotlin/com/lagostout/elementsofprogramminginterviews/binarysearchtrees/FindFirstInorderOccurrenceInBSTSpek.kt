@@ -65,7 +65,7 @@ class FindFirstInorderOccurrenceInBSTSpek : Spek({
                         RawNode(rightChildIndex = 3, value = 5),
                         RawNode(value = 10),
                         RawNode(leftChildIndex = 4, value = 10),
-                        RawNode(value = 10)), 3, 10),
+                        RawNode(value = 10)), 4, 10),
                 TestCase(listOf(
                         RawNode(1, 2, value = 10),
                         RawNode(rightChildIndex = 3, value = 5),
@@ -85,13 +85,17 @@ class FindFirstInorderOccurrenceInBSTSpek : Spek({
                         RawNode(value = 5),
                         RawNode(rightChildIndex = 3, value = 15),
                         RawNode(leftChildIndex = 4, value = 30),
-                        RawNode(value = 18)), 4, 20),
+                        RawNode(value = 18)), null, 20),
                 TestCase(listOf(
                         RawNode(leftChildIndex = 1, rightChildIndex = 2, value = 10),
                         RawNode(value = 5),
                         RawNode(rightChildIndex = 3, value = 15),
                         RawNode(leftChildIndex = 4, value = 30),
                         RawNode(value = 18)), null, 12),
+                TestCase(listOf(
+                        RawNode(leftChildIndex = 1, rightChildIndex = 2, value = 10),
+                        RawNode(value = 5),
+                        RawNode(value = 15)), null, 2),
                 null
         ).filterNotNull()
     }
