@@ -7,7 +7,7 @@ fun <T> List<T>.takeIfNotLast() = this.take(this.size - 1)
 
 fun <T> List<T>.takeFrom(index: Int) = this.takeLast(this.size - index)
 
-fun <T> List<T>.getFromEnd(offset: Int): T = reversed()[offset]
+fun <T> List<T>.offsetFromLast(offset: Int): T = get(lastIndex - offset)
 
 fun RandomDataGenerator.nextInt(range: IntRange) =
         nextInt(range.start, range.endInclusive)

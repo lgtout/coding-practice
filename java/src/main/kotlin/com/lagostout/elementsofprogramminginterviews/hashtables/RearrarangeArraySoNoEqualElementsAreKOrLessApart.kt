@@ -16,7 +16,6 @@ fun rearrangeArraySoNoEqualElementsAreKOrLessApart(
             .toSortedMap(Comparator { o1, o2 -> o2.compareTo(o1)} )
     val indexToFreedUpElementsMap = mutableMapOf<Int, ValueCount>()
     array.indices.forEach {
-        println(it)
         indexToFreedUpElementsMap[it]?.apply {
             countToElementsMap.getOrPut(count) {
                 mutableListOf()
