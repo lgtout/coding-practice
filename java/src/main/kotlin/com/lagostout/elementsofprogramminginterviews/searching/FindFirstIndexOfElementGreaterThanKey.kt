@@ -1,5 +1,8 @@
 package com.lagostout.elementsofprogramminginterviews.searching
 
+/**
+ * Problem 12.1.2 page 193
+ */
 fun findFirstIndexOfElementGreaterThanKey(sortedList: List<Int>, key: Int): Int? {
     // Cases:
     // Key is less than every element in the list.
@@ -15,7 +18,7 @@ fun findFirstIndexOfElementGreaterThanKey(sortedList: List<Int>, key: Int): Int?
         if (value <= key)
             i = mid + 1
         else if (value > key)
-            j = mid - 1
+            j = mid
     }
     return if (i < sortedList.lastIndex) i else null
 }
