@@ -5,6 +5,7 @@ package com.lagostout.elementsofprogramminginterviews.strings
  */
 fun convertBase(numberInFirstBase: String,
                 firstBase: Int, secondBase: Int): String {
+    if (numberInFirstBase.isEmpty()) return ""
 
     // Convert numberInFirstBase to integer.
     val isNegative = numberInFirstBase.first().isDigit()
@@ -20,7 +21,7 @@ fun convertBase(numberInFirstBase: String,
         numberInBase10 += magnitude * (if (it.isDigit())
             digitCharInt - zeroCharInt
         else
-            firstBase + (digitCharInt - aCharInt))
+            10 + (digitCharInt - aCharInt))
         magnitude *= firstBase
     }
 
@@ -28,7 +29,8 @@ fun convertBase(numberInFirstBase: String,
     val builder = StringBuilder()
     while (numberInBase10 > 0) {
         val nextNumberInBase10 = numberInBase10 / secondBase
-        val digitInBase10 = numberInBase10 - nextNumberInBase10
+        val digitInBase10 = numberInBase10 -
+                (nextNumberInBase10 * secondBase)
         val digitCharInSecondBase = (if (digitInBase10 < 10) {
             digitInBase10 + zeroCharInt
         } else {
