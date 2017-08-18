@@ -11,9 +11,9 @@ class BaseConversionSpek : Spek({
         testCases.forEach {
             (numberInFirstBase, firstBase, secondBase,
                     expectedNumberAsStringInSecondBase) ->
-            given("number: $numberInFirstBase, " +
+            given("number: \"$numberInFirstBase\", " +
                     "first base: $firstBase, second base: $secondBase") {
-                it("returns $expectedNumberAsStringInSecondBase") {
+                it("returns \"$expectedNumberAsStringInSecondBase\"") {
                     assertEquals(expectedNumberAsStringInSecondBase,
                             convertBase(numberInFirstBase, firstBase, secondBase))
                 }
@@ -29,6 +29,7 @@ class BaseConversionSpek : Spek({
                     if (numberInFirstBase.isNotEmpty())
                         Integer.toString(Integer.parseInt(
                             numberInFirstBase, firstBase), secondBase)
+                                .toUpperCase()
                     else ""
             operator fun component4() = expectedNumberAsStringInSecondBase
         }
@@ -37,7 +38,9 @@ class BaseConversionSpek : Spek({
                 TestCase("", 2, 10),
                 TestCase("1", 2, 10),
                 TestCase("16402", 8, 13),
-                TestCase("B1CD9", 13, 8),
+                TestCase("-16402", 8, 13),
+                TestCase("B1C9", 13, 8),
+                TestCase("-B1C9", 13, 8),
             null).filterNotNull()
         }
     }

@@ -8,7 +8,7 @@ fun convertBase(numberInFirstBase: String,
     if (numberInFirstBase.isEmpty()) return ""
 
     // Convert numberInFirstBase to integer.
-    val isNegative = numberInFirstBase.first().isDigit()
+    val isNegative = numberInFirstBase.first() == '-'
     val reversedNumberInFirstBase = numberInFirstBase.run {
         takeLast(length - if (isNegative) 1 else 0)
     }.reversed()
@@ -37,6 +37,7 @@ fun convertBase(numberInFirstBase: String,
             aCharInt + digitInBase10 - 10
         }).toChar()
         builder.append(digitCharInSecondBase)
+        numberInBase10 = nextNumberInBase10
     }
 
     if (isNegative) builder.append('-')
