@@ -10,9 +10,11 @@ import com.lagostout.elementsofprogramminginterviews.binarytrees.IterativePreAnd
 import com.lagostout.elementsofprogramminginterviews.binarytrees.IterativePreAndPostOrderTraversalWithLinearSpace.postOrderTraversalPath
 import org.hamcrest.MatcherAssert.*
 import org.hamcrest.Matchers
+import com.lagostout.datastructures.BinaryTreeNode.Companion.buildBinaryTree
+import org.jetbrains.spek.api.dsl.xdescribe
 
 class IterativePreAndPostOrderTraversalWithLinearSpaceSpek : Spek({
-    describe("preOrderTraversalPath") {
+    xdescribe("preOrderTraversalPath") {
         testCases.forEach {
             (root, preOrderTraversalValues, _) ->
             given("root $root") {
@@ -47,7 +49,7 @@ class IterativePreAndPostOrderTraversalWithLinearSpaceSpek : Spek({
             private val preOrderTraversalValues: List<T>
             private val postOrderTraversalValues: List<T>
             init {
-                val rootAndTree = com.lagostout.datastructures.BinaryTreeNode.Companion.buildBinaryTree(rawTree)
+                val rootAndTree = buildBinaryTree(rawTree)
                 root = rootAndTree.first!!
                 preOrderTraversalValues = preOrderTraversalExpectedIndices.map { rootAndTree.second[it].value }
                 postOrderTraversalValues = postOrderTraversalExpectedIndices.map { rootAndTree.second[it].value }

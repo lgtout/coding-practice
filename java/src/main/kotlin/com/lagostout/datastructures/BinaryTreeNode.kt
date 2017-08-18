@@ -27,9 +27,9 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
 
     override fun toString(): String {
         return "BinaryTreeNode(value=$value, " +
-                "parent=BinaryTreeNode(value=${parent?.value}, ...), " +
-                "left=BinaryTreeNode(value=${left?.value}, ...), " +
-                "right=BinaryTreeNode(value=${right?.value}, ...)"
+                "parent=${Companion.stringify(parent)}, " +
+                "left=${Companion.stringify(left)}), " +
+                "right=${Companion.stringify(right)})"
     }
 
     companion object {
@@ -45,7 +45,7 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
         fun <T : Comparable<T>> buildBinaryTrees(
                 rawTree: List<List<Any>>,
                 tree: MutableMap<Int, BinaryTreeNode<T>>) {
-            rawTree.forEachIndexed { index, rawNode ->
+            rawTree.forEachIndexed { index, _ ->
                 tree[index] ?: run {
                     buildBinaryTree(index, toRawBinaryTreeNodes(rawTree), tree)
                 }
@@ -57,6 +57,11 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
                 Pair<BinaryTreeNode<T>?, List<BinaryTreeNode<T>>> {
             val nodes = mutableMapOf<Int, BinaryTreeNode<T>>()
             buildBinaryTree(0, rawTree, nodes)
+            nodes.values.forEach { parent ->
+                listOf(parent.left, parent.right).filterNotNull().forEach { childNode ->
+                    childNode.parent ?: run { childNode.parent = parent }
+                }
+            }
             return Pair(nodes[0], nodes.toSortedMap().values.toList())
         }
 
@@ -88,6 +93,12 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
                 buildBinaryTree(rightChildIndex, rawTree, nodes)
                 node.right = nodes[rightChildIndex]
             }
+        }
+
+        private fun <T> stringify(node: BinaryTreeNode<T>?): String {
+            return node?.run {
+                "BinaryTreeNode(value=$value)"
+            } ?: "null"
         }
     }
 }
