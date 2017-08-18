@@ -9,6 +9,15 @@ fun <T> List<T>.takeFrom(index: Int) = this.takeLast(this.size - index)
 
 fun <T> List<T>.offsetFromLast(offset: Int): T = get(lastIndex - offset)
 
+fun <K, V> Map<K, V>.mergeReduce(other: Map<K, V>, reduce: (V, V) -> V = { a, b -> b }): Map<K, V> {
+    val result = LinkedHashMap<K, V>(this.size + other.size)
+    result.putAll(this)
+    for ((key, value) in other) {
+        result[key] = result[key]?.let { reduce(value, it) } ?: value
+    }
+    return result
+}
+
 fun RandomDataGenerator.nextInt(range: IntRange) =
         nextInt(range.start, range.endInclusive)
 

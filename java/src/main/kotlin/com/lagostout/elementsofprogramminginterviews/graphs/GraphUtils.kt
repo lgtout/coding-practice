@@ -37,3 +37,33 @@ fun booleanMatrixToGraph(grid: List<List<Boolean>>,
     return adjacencies
 }
 
+/**
+ * Compute components of a graph.
+ */
+fun computeComponents(graph: Map<Point, Set<Point>>): Set<Set<Point>> {
+    val visited = mutableSetOf<Point>()
+    val components = mutableSetOf<Set<Point>>()
+    graph.keys.forEach { vertex ->
+        if (visited.contains(vertex)) return@forEach
+        var verticesToVisit = mutableSetOf(vertex)
+        var vertexCount = 0
+        val currentRegion = mutableSetOf(vertex)
+        while (verticesToVisit.isNotEmpty()) {
+            vertexCount += verticesToVisit.size
+            visited.addAll(verticesToVisit)
+            verticesToVisit = verticesToVisit.fold(mutableSetOf()) {
+                acc, vertex ->
+                graph[vertex]?.let {
+                    adjacentVertices ->
+                    acc.apply {
+                        addAll(adjacentVertices.filterNot { visited.contains(it) })
+                    }
+                } ?: acc
+            }
+            currentRegion.addAll(verticesToVisit)
+        }
+        components.add(currentRegion)
+    }
+    return components
+}
+

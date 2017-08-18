@@ -9,9 +9,9 @@ import org.hamcrest.Matchers.*
 
 class ComputeBlackRegionContainingMostPointsSpek : Spek({
     describe("computeBlackRegionContainingMostPoints") {
-        testCases.forEach {
-            (grid, expectedRegionContainingMostPoints) ->
-            given("grid $grid") {
+        testCases.forEachIndexed {
+            index, (grid, expectedRegionContainingMostPoints) ->
+            given("#${index + 1} grid $grid") {
                it("returns expectedRegion $expectedRegionContainingMostPoints") {
                     assertThat(computeBlackRegionContainingMostPoints(grid),
                             containsInAnyOrder(*expectedRegionContainingMostPoints.toTypedArray()))
@@ -48,6 +48,7 @@ class ComputeBlackRegionContainingMostPointsSpek : Spek({
             operator fun component1() = grid
             operator fun component2() = expectedRegionContainingMostPoints
         }
+        // TODO Empty graph case?
         val testCases = run {
             val T = true
             val F = false
