@@ -1,7 +1,11 @@
 package com.lagostout.common
 
+import com.google.common.collect.Range
 import org.apache.commons.math3.random.RandomDataGenerator
 import com.lagostout.datastructures.BinaryTreeNode
+
+val Range<Int>.length: Int
+    get() = upperEndpoint() - lowerEndpoint()
 
 fun <T> List<T>.takeIfNotLast() = this.take(this.size - 1)
 
