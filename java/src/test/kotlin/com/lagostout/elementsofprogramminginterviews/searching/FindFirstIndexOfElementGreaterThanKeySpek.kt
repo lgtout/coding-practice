@@ -25,7 +25,7 @@ class FindFirstIndexOfElementGreaterThanKeySpek : Spek({
                             val expectedFirstIndexOfElementGreaterThanKey: Int?)
         val testCases = run {
             val randomCases = mutableListOf<TestCase>()
-            val testCaseCount = 10
+            val testCaseCount = 50
             val listSizeRange = Pair(0,10)
             val itemRange = Pair(-10,10)
             val random = RandomDataGenerator().apply { reSeed(1) }
@@ -41,20 +41,22 @@ class FindFirstIndexOfElementGreaterThanKeySpek : Spek({
                 }
                 items.sort()
                 randomCases.apply {
-                    val key = items[random.nextInt(0, listSize - 1)]
-                    add(TestCase(items, key, items.find {
-                        it > key
-                    }))
+                    val key = if (listSize == 0) 0 else {
+                        items[random.nextInt(0, listSize - 1)]
+                    }
+                    add(TestCase(items, key, items.withIndex().find {
+                        it.value > key
+                    }?.index))
                 }
             }
             val manualCases = listOf(
                 TestCase(listOf(), 0, null),
-                TestCase(listOf(1), 0, 1),
-                TestCase(listOf(0), 1, null),
-                TestCase(listOf(0), 1, null),
+                TestCase(listOf(1,2), 0, 0),
+                TestCase(listOf(-1,0), 1, null),
+                TestCase(listOf(0,2), 1, 1),
                 null).filterNotNull()
 
-            randomCases + manualCases
+            manualCases + randomCases
         }
     }
 }

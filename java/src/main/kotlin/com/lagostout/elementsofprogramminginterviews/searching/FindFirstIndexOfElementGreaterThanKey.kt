@@ -13,12 +13,12 @@ fun findFirstIndexOfElementGreaterThanKey(sortedList: List<Int>, key: Int): Int?
     var j = sortedList.size
     // Condition i < j is safe when list is empty.
     while (i < j) {
-        val mid = j + (i - j)/2
+        val mid = i + (j - i)/2
         val value = sortedList[mid]
         if (value <= key)
             i = mid + 1
         else if (value > key)
             j = mid
     }
-    return if (i < sortedList.lastIndex) i else null
+    return if (i <= sortedList.lastIndex) i else null
 }
