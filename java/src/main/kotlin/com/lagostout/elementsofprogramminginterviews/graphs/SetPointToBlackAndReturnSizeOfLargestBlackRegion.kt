@@ -4,19 +4,9 @@ class SetPointToBlackAndReturnSizeOfLargestBlackRegion(matrix: List<List<Boolean
 
     private var sizeOfLargestBlackRegion = 0
     private val graph: Map<Point, Set<Point>> = booleanMatrixToGraph(matrix)
-    private val pointToComponentMap = computeComponents(graph).map { component ->
-        component.fold(mutableMapOf<Point, Set<Point>>()) {
-            acc, partial ->
-            acc.apply {
-                put(partial, component)
-            }
-        }
-    }.reduce {
-        acc, partial ->
-        acc.apply {
-            entries.addAll(partial.entries)
-        }
-    }
+    private val pointToComponentMap = computeComponents(graph).flatMap {
+        component -> component.map { it to component }
+    }.toMap().toMutableMap()
 
     fun setPointToBlackAndReturnSizeOfLargestBlackRegion(point: Point): Int {
         if (graph.containsKey(point)) return sizeOfLargestBlackRegion
@@ -28,7 +18,26 @@ class SetPointToBlackAndReturnSizeOfLargestBlackRegion(matrix: List<List<Boolean
         val adjacentBlackPoints = adjacentPoints.filter { graph.containsKey(it) }
         val component = mutableSetOf(point)
         pointToComponentMap[point] = component
-        return 0
+
+        // Merge components
+        adjacentBlackPoints.fold(component) {
+            acc, point ->
+            pointToComponentMap[point]?.let { component ->
+                acc.apply {
+                    addAll(component)
+                }
+            } ?: acc
+        }
+
+        // Update components of adjacent points
+        adjacentBlackPoints.forEach {
+            pointToComponentMap[it] = component
+        }
+
+        if (component.size > sizeOfLargestBlackRegion)
+            sizeOfLargestBlackRegion = component.size
+
+        return sizeOfLargestBlackRegion
     }
 
 }
