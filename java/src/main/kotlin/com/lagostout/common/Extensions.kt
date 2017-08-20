@@ -9,7 +9,7 @@ val Range<Int>.length: Int
 
 fun <T> List<T>.takeIfNotLast() = this.take(this.size - 1)
 
-fun <T> List<T>.takeFrom(indexInclusive: Int) = this.takeLast(this.size - indexInclusive)
+fun <T> List<T>.takeFrom(startIndexInclusive: Int) = this.takeLast(this.size - startIndexInclusive)
 
 fun <T> List<T>.offsetFromLast(offset: Int): T = get(lastIndex - offset)
 
