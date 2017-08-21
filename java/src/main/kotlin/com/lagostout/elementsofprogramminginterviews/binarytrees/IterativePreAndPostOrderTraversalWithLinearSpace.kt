@@ -6,38 +6,66 @@ object IterativePreAndPostOrderTraversalWithLinearSpace {
 
     enum class Order {
         PRE {
-            override fun onParent(closure: () -> Unit) {
+            override fun onBeforeLeft(closure: () -> Unit) {
                 closure()
             }
         }, POST {
-            override fun onRightChild(closure: () -> Unit) {
+            override fun onAfterRight(closure: () -> Unit) {
                 closure()
             }
         };
-        open fun onParent(closure : () -> Unit) {}
-        open fun onRightChild(closure : () -> Unit) {}
+        open fun onBeforeLeft(closure : () -> Unit) {}
+        open fun onAfterRight(closure : () -> Unit) {}
+    }
+
+    enum class Operation {
+        LEFT, RIGHT, PARENT
     }
 
     private fun <T : Comparable<T>> traversalPath(root: BinaryTreeNode<T>, order: Order): List<T> {
         val result = mutableListOf<T>()
         var node: BinaryTreeNode<T>? = root
         var previousNode: BinaryTreeNode<T>? = null
-        while (node != null) {
-            println(node.value)
-            when (previousNode) {
-                node.parent -> {
-                    order.onParent { result.add(node!!.value) }
-                    previousNode = node
-                    node = node.left?: node.parent
-                }
-                node.left -> {
-                    previousNode = node
-                    node = node.right?: node.parent
-                }
-                node.right -> {
-                    order.onRightChild { result.add(node!!.value) }
-                    previousNode = node
-                    node = node.parent
+        var finished = false
+        var operation = Operation.LEFT
+        var previousOperation: Operation? = operation
+        while (!finished) {
+//            println(node.value)
+//            when (operation) {
+//                Operation.LEFT -> {
+//                    node?.apply {
+//                        order.onBeforeLeft { result.add(value) }
+//                    }
+//                    previousOperation = operation
+//                    node = node?.left
+//                    node ?: run {
+//                        operation = Operation.PARENT
+//                    }
+//                }
+//                Operation.PARENT -> {
+//                    node = node?.parent
+//                    if (previousOperation == Operation.RIGHT)
+//                }
+//            }
+            node?.apply {
+                when (previousNode) {
+                    node -> {
+                        finished = true
+                    }
+                    parent -> {
+                        order.onBeforeLeft { result.add(value) }
+                        previousNode = this
+                        node = left ?: right ?: this
+                    }
+                    left -> {
+                        previousNode = this
+                        node = right ?: parent
+                    }
+                    right -> {
+                        order.onAfterRight { result.add(value) }
+                        previousNode = this
+                        node = parent
+                    }
                 }
             }
         }
