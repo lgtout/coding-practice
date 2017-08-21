@@ -1,5 +1,8 @@
 package com.lagostout.elementsofprogramminginterviews.searching
 
+/**
+ * Problem 12.1.4 page 193
+ */
 fun <T : Comparable<T>>findIntervalEnclosingInteger(
         sortedList: List<T>, k: T): Pair<Int, Int> {
     var i = 0
@@ -25,12 +28,12 @@ fun <T : Comparable<T>>findIntervalEnclosingInteger(
 
     val left = i
     j = sortedList.size
-    while (i < j - 1) {
+    while (i < j) {
         val mid = i + ((j - i) / 2)
-        if (sortedList[mid] > k) j = mid - 1
-        else i = mid
+        if (sortedList[mid] > k) j = mid
+        else i = mid + 1
     }
-    val right = j
+    val right = j - 1
 
     return Pair(left, right)
 }
