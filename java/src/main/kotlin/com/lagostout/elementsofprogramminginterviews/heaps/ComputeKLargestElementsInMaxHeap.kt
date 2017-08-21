@@ -21,9 +21,8 @@ fun kLargestElementsInMaxHeap(heap: List<Int>, k: Int): Set<Int> {
     var currentLevelIndices = setOf(0)
     val kLargestElementsIndices = mutableSetOf<Int>()
     val nextToLastLevelOfLargestElements = log2Floor(largestElementsCount)
-    println("nextToLastLevelOfLargestElements $nextToLastLevelOfLargestElements")
     while (currentLevelIndices.isNotEmpty() &&
-            log2Floor(kLargestElementsIndices.size + currentLevelIndices.size) <=
+            log2Floor(kLargestElementsIndices.size + currentLevelIndices.size) <
                     nextToLastLevelOfLargestElements) {
         kLargestElementsIndices.addAll(currentLevelIndices)
         currentLevelIndices = currentLevelIndices.fold(mutableSetOf()) {

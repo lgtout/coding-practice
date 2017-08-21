@@ -1,12 +1,12 @@
 package com.lagostout.elementsofprogramminginterviews.heaps
 
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.containsInAnyOrder
+import org.hamcrest.Matchers.empty
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
-import org.jetbrains.spek.api.dsl.xdescribe
 import kotlin.test.assertFailsWith
 
 class ComputeKLargestElementsInMaxHeapSpek : Spek({
@@ -25,7 +25,7 @@ class ComputeKLargestElementsInMaxHeapSpek : Spek({
                 }
             }
         }
-        xdescribe("Throws an IllegalArgumentException when k is negative") {
+        describe("Throws an IllegalArgumentException when k is negative") {
             val k = -1
             given("k $k") {
                 it("throws exception") {
@@ -39,15 +39,16 @@ class ComputeKLargestElementsInMaxHeapSpek : Spek({
 }) {
     companion object {
         data class TestCase(val heap: List<Int> = emptyList(), val k: Int = 0) {
-            operator fun component3() = heap.sorted().take(k)
+            operator fun component3() = heap.sorted().reversed().take(k)
         }
         val testCases = listOf(
-//                TestCase(),
-//                TestCase(k = 1),
-//                TestCase(listOf(2,1)),
-//                TestCase(listOf(2,1), 3),
-//                TestCase(listOf(10,8,9,4,5,6,7), 7),
+                TestCase(),
+                TestCase(k = 1),
+                TestCase(listOf(2,1)),
+                TestCase(listOf(2,1), 3),
+                TestCase(listOf(10,8,9,4,5,6,7), 7),
                 TestCase(listOf(10,8,9,4,5,6,7), 5),
+                TestCase(listOf(10,8,9,4,5,6,7), 12),
                 null).filterNotNull()
     }
 }
