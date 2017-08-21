@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.hashtables
 
-import com.lagostout.common.takeIfNotLast
+import com.lagostout.common.takeExceptLast
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
@@ -36,7 +36,7 @@ class ShortestSubarrayOfDistinctValuesSpek : Spek({
                 TestCase(listOf(1,2,2,3,3,2,1,1), 4..6),
                 TestCase(listOf(1,2,3,1,2,3,2,3,3,4), 3..9),
                 TestCase(listOf(), null)
-        ).takeIfNotLast()
+        ).takeExceptLast()
     }
 }
 

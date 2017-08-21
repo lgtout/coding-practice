@@ -7,23 +7,29 @@ fun <T : Comparable<T>> mergeTwoSortedLists(
     firstList ?: return secondList
     secondList ?: return firstList
     val mergedListHead: ListNode<T>
-    var otherList: ListNode<T>?
+    var otherListCurrentNode: ListNode<T>?
     val lists = listOf(firstList, secondList).sortedWith(
             Comparator { (data), (data2) -> data.compareTo(data2) })
     mergedListHead = lists[0]
-    otherList = lists[1]
+    otherListCurrentNode = lists[1]
     var mergedListCurrentNode = mergedListHead
-    while (true) {
-        otherList?.let { otherListNode ->
-            mergedListCurrentNode.next?.let { mergedListNextNode ->
-                if (otherListNode.data < mergedListNextNode.data) {
-                    otherList = otherListNode.next
-                    mergedListCurrentNode.next = otherListNode
-                    mergedListCurrentNode = otherListNode
+    var finished = false
+    while (!finished) {
+        finished = otherListCurrentNode?.let { otherNode ->
+            mergedListCurrentNode.next?.let { mergedNextNode ->
+                if (otherNode.data < mergedNextNode.data) {
+                    otherListCurrentNode = otherNode.next
+                    mergedListCurrentNode.next = otherNode
+                    mergedListCurrentNode = otherNode
                 }
-                mergedListCurrentNode.next = mergedListNextNode
+                mergedListCurrentNode.next = mergedNextNode
+                false
+            } ?: run {
+                otherListCurrentNode = otherNode.next
+                mergedListCurrentNode.next = otherNode.next
+                true
             }
-        } ?: break
+        } ?: true
     }
     return mergedListHead
 }

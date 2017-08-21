@@ -7,7 +7,7 @@ import com.lagostout.datastructures.BinaryTreeNode
 val Range<Int>.length: Int
     get() = upperEndpoint() - lowerEndpoint()
 
-fun <T> List<T>.takeIfNotLast() = this.take(this.size - 1)
+fun <T> List<T>.takeExceptLast() = this.take(this.size - 1)
 
 fun <T> List<T>.takeFrom(startIndexInclusive: Int) = this.takeLast(this.size - startIndexInclusive)
 
