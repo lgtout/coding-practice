@@ -1,11 +1,18 @@
 package com.lagostout.common
 
+import com.google.common.collect.BoundType
 import com.google.common.collect.Range
 import org.apache.commons.math3.random.RandomDataGenerator
 import com.lagostout.datastructures.BinaryTreeNode
 
 val Range<Int>.length: Int
-    get() = upperEndpoint() - lowerEndpoint()
+    get() = upperEndpoint() - lowerEndpoint() +
+            if (lowerBoundType() == BoundType.CLOSED)
+                if (upperBoundType() == BoundType.CLOSED) 1
+                else 0
+            else
+                if (upperBoundType() == BoundType.CLOSED) 0
+                else -1
 
 fun <T> List<T>.takeExceptLast() = this.take(this.size - 1)
 
