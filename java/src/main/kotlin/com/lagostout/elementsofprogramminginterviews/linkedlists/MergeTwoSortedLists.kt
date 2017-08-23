@@ -2,6 +2,9 @@ package com.lagostout.elementsofprogramminginterviews.linkedlists
 
 data class ListNode<T>(var data: T, var next: ListNode<T>? = null)
 
+/**
+ * Problem 8.1 page 115
+ */
 fun <T : Comparable<T>> mergeTwoSortedLists(
         firstList: ListNode<T>?, secondList: ListNode<T>?): ListNode<T>? {
     firstList ?: return secondList
@@ -21,12 +24,13 @@ fun <T : Comparable<T>> mergeTwoSortedLists(
                     otherListCurrentNode = otherNode.next
                     mergedListCurrentNode.next = otherNode
                     mergedListCurrentNode = otherNode
+                    mergedListCurrentNode.next = mergedNextNode
+                } else {
+                    mergedListCurrentNode = mergedNextNode
                 }
-                mergedListCurrentNode.next = mergedNextNode
                 false
             } ?: run {
-                otherListCurrentNode = otherNode.next
-                mergedListCurrentNode.next = otherNode.next
+                mergedListCurrentNode.next = otherNode
                 true
             }
         } ?: true
