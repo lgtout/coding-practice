@@ -45,7 +45,7 @@ class PaintBooleanMatrixSpek : Spek({
                 val grid: List<List<Boolean>>,
                 val start: Point) {
             val expectedUnflippedPoints = run {
-                val graph = booleanMatrixToGraph(grid, grid[start.row][start.column])
+                val graph = toGraph(grid, grid[start.row][start.column])
                 val components = mutableSetOf<Set<Point>>()
                 val exploredPoints = mutableSetOf<Point>()
                 var currentComponent: MutableSet<Point>

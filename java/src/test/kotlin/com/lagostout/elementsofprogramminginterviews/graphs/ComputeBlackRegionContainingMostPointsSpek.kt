@@ -24,7 +24,7 @@ class ComputeBlackRegionContainingMostPointsSpek : Spek({
         class TestCase(private val grid: List<List<Boolean>>,
                        pointInBlackRegionContainingMostPoints: Point? = null) {
             private val expectedRegionContainingMostPoints = run {
-                val graph = booleanMatrixToGraph(grid)
+                val graph = toGraph(grid)
                 val result = mutableSetOf<Point>()
                 var adjacentVertices = mutableSetOf<Point>()
                 pointInBlackRegionContainingMostPoints?.apply {

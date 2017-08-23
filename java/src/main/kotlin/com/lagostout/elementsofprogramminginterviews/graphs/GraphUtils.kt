@@ -4,11 +4,11 @@ package com.lagostout.elementsofprogramminginterviews.graphs
  * Transforms a boolean matrix into an adjacency map of a graph.
  * Edges are 2-way.
  */
-fun booleanMatrixToGraph(grid: List<List<Boolean>>,
-                         cellValueToRetain: Boolean = true):
-        Map<Point, Set<Point>> {
+fun toGraph(booleanMatrix: List<List<Boolean>>,
+            cellValueToRetain: Boolean = true):
+        MutableMap<Point, MutableSet<Point>> {
     val adjacencies: MutableMap<Point, MutableSet<Point>> = mutableMapOf()
-    grid.forEachIndexed { rowIndex, list ->
+    booleanMatrix.forEachIndexed { rowIndex, list ->
         list.forEachIndexed {
             columnIndex, cellValue ->
             if (cellValue == cellValueToRetain) {

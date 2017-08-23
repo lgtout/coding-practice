@@ -5,6 +5,6 @@ package com.lagostout.elementsofprogramminginterviews.graphs
  */
 fun computeBlackRegionContainingMostPoints(
         matrix: List<List<Boolean>>): Set<Point> {
-    val graph = booleanMatrixToGraph(matrix) // Let's assume true == black
+    val graph = toGraph(matrix) // Let's assume true == black
     return computeComponents(graph).maxBy { it.size } ?: emptySet()
 }
