@@ -10,7 +10,7 @@ class SetPointToBlackAndGetLargestBlackRegionSize(
     private val graph: MutableMap<Point, MutableSet<Point>> =
             toGraph(matrix)
     private val pointToComponentMap = computeComponents(graph).flatMap {
-        component -> component.map { it to component }
+        component -> component.map { it to component.toMutableSet() }
     }.toMap().toMutableMap()
 
     fun setToBlackAndGetLargestBlackRegionSize(point: Point): Int {
@@ -34,25 +34,28 @@ class SetPointToBlackAndGetLargestBlackRegionSize(
 
         // Merge components
         adjacentBlackPoints.fold(component) {
-            acc, point ->
-            pointToComponentMap[point]?.let { component ->
-                acc.apply {
-                    addAll(component)
-                }
-            } ?: acc
+            acc, adjacentBlackPoint ->
+            pointToComponentMap[adjacentBlackPoint]?.apply {
+                acc.addAll(this)
+            }
+            acc
         }
 
+        println("adjacentBlackPoints $adjacentBlackPoints")
+        println()
         // Update components of adjacent points
         adjacentBlackPoints.forEach {
-            pointToComponentMap[it] = component
+            pointToComponentMap[it]?.addAll(component)
         }
 
         if (component.size > sizeOfLargestBlackRegion)
             sizeOfLargestBlackRegion = component.size
 
         println("graph $graph")
+        println()
         println("component $component")
-//        println("pointToComponentMap $pointToComponentMap")
+        println()
+        println("pointToComponentMap $pointToComponentMap")
 
         return sizeOfLargestBlackRegion
     }

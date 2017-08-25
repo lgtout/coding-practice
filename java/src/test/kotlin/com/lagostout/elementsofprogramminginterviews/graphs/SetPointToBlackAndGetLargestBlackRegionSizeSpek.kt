@@ -54,15 +54,15 @@ class SetPointToBlackAndGetLargestBlackRegionSizeSpek : Spek({
                                 ToBlack(Point(2,1), 3),
                                 ToBlack(Point(2,2), 4),
                                 ToBlack(Point(0,0), 8))),
-                TestCase(listOf(
-                        listOf(F,F,F),
-                        listOf(F,T,F),
-                        listOf(F,T,F),
-                        listOf(F,F,F),
-                        listOf(F,F,F)),
-                        listOf(
-                                ToBlack(Point(1,4), 1),
-                                ToBlack(Point(1,3), 4))),
+//                TestCase(listOf(
+//                        listOf(F,F,F),
+//                        listOf(F,T,F),
+//                        listOf(F,T,F),
+//                        listOf(F,F,F),
+//                        listOf(F,F,F)),
+//                        listOf(
+//                                ToBlack(Point(1,4), 1),
+//                                ToBlack(Point(1,3), 4))),
                 null).filterNotNull()
     }
 }
