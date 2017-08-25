@@ -1,7 +1,5 @@
 package com.lagostout.elementsofprogramminginterviews.linkedlists
 
-data class ListNode<T>(var data: T, var next: ListNode<T>? = null)
-
 /**
  * Problem 8.1 page 115
  */
