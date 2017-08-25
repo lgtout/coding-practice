@@ -26,20 +26,22 @@ class ComputeSpreadsheetColumnEncodingSpek : Spek({
                 val stringBuilder = StringBuilder()
                 while (number > 0) {
                     println(number)
-                    stringBuilder.append(((number % 26) + 1 + 'A'.toInt()).toChar())
-                    // TODO ???
-                    number /= 26
+                    stringBuilder.append((((number - 1) % 26) + 'A'.toInt()).toChar())
+                    number /= 27
                 }
                 stringBuilder.reverse().toString()
             }
             operator fun component2() = alphabeticEncoding
         }
+        // We only need numeric encodings > 0 because
+        // alphabetic encoding starts at A, which is
+        // numerically encoded as 1.
         val testCases = listOf(
-//                TestCase(1),
-//                TestCase(4),
-                TestCase(26),
-                TestCase(27),
-//                TestCase(702),
+                TestCase(1), // A
+                TestCase(4), // D
+                TestCase(26), // Z
+                TestCase(27), // AA
+                TestCase(702), // ZZ
                 null).filterNotNull()
     }
 }

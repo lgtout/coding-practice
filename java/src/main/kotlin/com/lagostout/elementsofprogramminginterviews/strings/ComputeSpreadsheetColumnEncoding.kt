@@ -1,12 +1,13 @@
 package com.lagostout.elementsofprogramminginterviews.strings
 
+/**
+ * Problem 7.3.1 page 98
+ */
 fun numericEncodingOfColumn(alphabeticEncoding: String): Int {
     if (alphabeticEncoding.isEmpty())
         throw IllegalArgumentException(
-                "Alphabetic encoding must be one or more characters")
+                "Alphabetic encoding must contain at least one character")
     alphabeticEncoding.find { !it.isLetter() }?.apply {
-        println("****")
-        println(alphabeticEncoding)
         throw IllegalArgumentException(
                 "Alphabetic encoding must contain only letters") }
     var magnitude = 1
