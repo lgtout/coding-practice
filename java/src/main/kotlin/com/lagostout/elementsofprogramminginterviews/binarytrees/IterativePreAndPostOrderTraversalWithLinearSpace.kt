@@ -9,16 +9,16 @@ object IterativePreAndPostOrderTraversalWithLinearSpace {
 
     enum class Order {
         PRE {
-            override fun onBeforeLeft(closure: () -> Unit) {
+            override fun onPreOrder(closure: () -> Unit) {
                 closure()
             }
         }, POST {
-            override fun onAfterRight(closure: () -> Unit) {
+            override fun onPostOrder(closure: () -> Unit) {
                 closure()
             }
         };
-        open fun onBeforeLeft(closure : () -> Unit) {}
-        open fun onAfterRight(closure : () -> Unit) {}
+        open fun onPreOrder(closure : () -> Unit) {}
+        open fun onPostOrder(closure : () -> Unit) {}
     }
 
     enum class Operation {
@@ -27,70 +27,35 @@ object IterativePreAndPostOrderTraversalWithLinearSpace {
 
     private fun <T : Comparable<T>> traversalPath(root: BinaryTreeNode<T>, order: Order): List<T> {
         val result = mutableListOf<T>()
-        var node: BinaryTreeNode<T> = root
+        var node: BinaryTreeNode<T>? = root
         var previousNode: BinaryTreeNode<T>? = null
         var finished = false
-        var operation = LEFT
-        var previousOperation: Operation? = operation
-        while (!finished) {
-//            println(node.value)
-            when (operation) {
-                LEFT -> {
-                    order.onBeforeLeft { result.add(node.value) }
-                    previousOperation = operation
-                    node.left?.apply {
-                        operation = LEFT
-                        node = this
-                    } ?: run {
-                        operation = PARENT
+//        var operation = LEFT
+//        var previousOperation: Operation? = operation
+        while (node != null) {
+            node.apply {
+                if (previousNode !in listOf(left, right)) {
+                    order.onPreOrder { result.add(value) }
+                }
+                when (previousNode) {
+                    parent -> node = left ?: right ?: run {
+                        order.onPostOrder { result.add(value) }
+                        parent
+                    }
+                    left -> node = right ?: run {
+                        order.onPostOrder { result.add(value) }
+                        parent
+                    }
+                    right -> node = parent ?: run {
+                        order.onPostOrder { result.add(value) }
+                        parent
                     }
                 }
-                PARENT -> {
-                    node.parent?.apply {
-                        node = this
-                        operation = when (previousOperation) {
-                            LEFT -> {
-                                RIGHT
-                            }
-                            RIGHT, PARENT -> {
-                                order.onAfterRight { result.add(value) }
-                                PARENT
-                            }
-                            else -> { throw IllegalStateException() }
-                        }
-                    } ?: run {
-                        finished = true
-                    }
-                }
-            }
-//            node?.apply {
-//                when (previousNode) {
-//                    node -> {
-//                        parent?.let {
-//                            node = it
-//                        } ?: run { finished = true }
-//                    }
-//                    parent -> {
-//                        order.onBeforeLeft { result.add(value) }
-//                        previousNode = this
-//                        node = left ?: right ?: this.apply {
-//                            order.onAfterRight { result.add(value) }
-//                        }
-//                    }
-//                    left -> {
-//                        previousNode = this
-//                        node = right ?: run {
-//                            order.onAfterRight { result.add(value) }
-//                            parent
-//                        }
-//                    }
-//                    right -> {
-//                        order.onAfterRight { result.add(value) }
-//                        previousNode = this
-//                        node = parent
-//                    }
+//                if (node == parent && right == null) {
+//                    order.onPostOrder { result.add(value) }
 //                }
-//            }
+                previousNode = this
+            }
         }
         return result
     }
