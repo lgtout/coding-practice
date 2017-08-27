@@ -1,22 +1,53 @@
 package com.lagostout.elementsofprogramminginterviews.hashtables
 
-import org.apache.commons.lang3.Range
+object FindSmallestSubarraySequentiallyCoveringAllValues {
 
-fun smallestSubarraySequentiallyCoveringAllValues(
-        paragraph: List<String>, keywords: LinkedHashSet<String>): Range<Int>? {
-    var rangeOfSmallestSubarray: Range<Int>? = null
-    var nextStringSoughtToStartStringIndexMap = mutableMapOf<String, Int?>()
-    var nextStringSoughtSet = mutableSetOf(keywords.first())
-    paragraph.forEachIndexed {
-        index, word ->
-        var entry: Pair<String, Int>? = when (word) {
-            keywords.first() -> word to index
-            in nextStringSoughtToStartStringIndexMap ->
-                nextStringSoughtToStartStringIndexMap[word]?.let {
-                    word to (it + 1)
-                }
-            else -> null
-        }
+    data class Range(val start: Int = 0, val end: Int = 0) {
+        val size: Int
+            get() = end - start + 1
     }
-    return rangeOfSmallestSubarray
+
+    fun smallestSubarraySequentiallyCoveringAllValues(
+            paragraph: List<String>, keywords: List<String>): Range? {
+        if (paragraph.isEmpty() || keywords.isEmpty() ||
+                paragraph.size < keywords.size)
+            return null
+        if (paragraph.size == 1) {
+            if (keywords.first() != paragraph.first())
+                return null
+            return Range()
+        }
+        val keywordToIndexMap = keywords.withIndex().map {
+            it.value to it.index }.toMap()
+        var rangeOfSmallestSubarray: Range? = null
+        var nextWordSoughtToStartStringIndexMap =
+                mutableMapOf<String, Int?>()
+        paragraph.forEachIndexed {
+            index, word ->
+            when (word) {
+                keywords.first() ->
+                    nextWordSoughtToStartStringIndexMap[keywords[1]] = index
+                in nextWordSoughtToStartStringIndexMap ->
+                    if (nextWordSoughtToStartStringIndexMap.containsKey(word)) {
+                        val nextKeywordIndex = keywordToIndexMap[word]!! + 1
+                        if (nextKeywordIndex > keywords.lastIndex) {
+                            val currentRange = Range(
+                                    nextWordSoughtToStartStringIndexMap[word]!!,
+                                    index)
+                            if (rangeOfSmallestSubarray == null ||
+                                    (rangeOfSmallestSubarray?.let {
+                                        it.size < currentRange.size
+                                    } == true)) {
+                                rangeOfSmallestSubarray = currentRange
+                            }
+                        }
+                        nextWordSoughtToStartStringIndexMap[
+                                keywords[keywordToIndexMap[word]!! + 1]] =
+                                nextWordSoughtToStartStringIndexMap[word]
+                        nextWordSoughtToStartStringIndexMap.remove(word)
+                    }
+            }
+        }
+        return rangeOfSmallestSubarray
+    }
 }
