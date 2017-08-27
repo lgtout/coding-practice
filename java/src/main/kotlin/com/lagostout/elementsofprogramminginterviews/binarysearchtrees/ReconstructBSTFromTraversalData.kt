@@ -21,14 +21,23 @@ fun <T : Comparable<T>> reconstructBSTFromPostorderTraversal(path: List<T>): Bin
                 previousNode.right = currentNode
             }
             value < previousNode.value -> {
-                while (true) {
-                    previousNode.parent?.let { parent ->
-                        if (previousNode.isRightChild && value < parent.value)
-                            previousNode = parent
-                    } ?: break
+                run run@ {
+                    while (true) {
+                        previousNode.parent?.let { parent ->
+                            if (previousNode.isRightChild && value < parent.value)
+                                previousNode = parent
+                            else {
+                                // TODO Should this be outside the while loop?
+                                currentNode.parent = previousNode
+                                previousNode.left = currentNode
+                                return@run
+                            }
+                        } ?: run {
+                            previousNode.parent = currentNode
+                            return@run
+                        }
+                    }
                 }
-                currentNode.parent = previousNode
-                previousNode.left = currentNode
             }
         }
     }

@@ -28,7 +28,7 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
     override fun toString(): String {
         return "BinaryTreeNode(value=$value, " +
                 "parent=${Companion.stringify(parent)}, " +
-                "left=${Companion.stringify(left)}), " +
+                "left=${Companion.stringify(left)}, " +
                 "right=${Companion.stringify(right)})"
     }
 
