@@ -41,21 +41,13 @@ class SetPointToBlackAndGetLargestBlackRegionSize(
             acc
         }
 
-        println("adjacentBlackPoints $adjacentBlackPoints")
-        println()
         // Update components of adjacent points
-        adjacentBlackPoints.forEach {
+        component.forEach {
             pointToComponentMap[it]?.addAll(component)
         }
 
         if (component.size > sizeOfLargestBlackRegion)
             sizeOfLargestBlackRegion = component.size
-
-        println("graph $graph")
-        println()
-        println("component $component")
-        println()
-        println("pointToComponentMap $pointToComponentMap")
 
         return sizeOfLargestBlackRegion
     }
