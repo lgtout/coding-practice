@@ -33,10 +33,10 @@ fun RandomDataGenerator.nextInt(range: IntRange) =
         nextInt(range.start, range.endInclusive)
 
 val <T : Comparable<T>> BinaryTreeNode<T>.isLeftChild: Boolean
-    get() = this == parent?.left
+    get() = this === parent?.left
 
 val <T : Comparable<T>> BinaryTreeNode<T>.isRightChild: Boolean
-    get() = this == parent?.right
+    get() = this === parent?.right
 
 val <T : Comparable<T>> BinaryTreeNode<T>.isRoot: Boolean
     get() = parent == null
