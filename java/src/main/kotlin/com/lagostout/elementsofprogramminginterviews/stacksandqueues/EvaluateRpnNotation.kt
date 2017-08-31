@@ -5,64 +5,36 @@ import java.util.*
 /**
  * Problem 9.2 page 136
  */
-// TODO Not sure if this approach will work.  Is it possible to have nested expressions on the right side of an operation?
-fun evaluateRpnNotation(arithmeticExpression: String) {
+fun evaluateRpnExpression(expression: String): Int? {
+    if (expression.isEmpty()) return null
     val stack = LinkedList<Int>()
-    var index = 0
-    var result = 0
-    val parts = arithmeticExpression.split(',')
-    // TODO arithmeticExpression may be empty.
-    val operation =
-            fun (operand1: Int, operand2: Int, operator: String): Int{
-                return when (operator) {
+    val parts = expression.split(',')
+    parts.forEach {
+        when (it in listOf("+", "-", "x", "/")) {
+            true -> {
+                val second = stack.pop()
+                val first = stack.pop()
+                when (it) {
                     "+" -> {
-                        operand1 + operand2
+                        first + second
                     }
                     "-" -> {
-                        operand1 - operand2
+                        first - second
                     }
                     "x" -> {
-                        operand1 * operand2
+                        first * second
                     }
-                    "/" -> {
-                        operand1 / operand2
+                    else -> { // "/"
+                        first / second
                     }
-                    else -> throw IllegalArgumentException()
+                }.let {
+                    stack.push(it)
                 }
             }
-//    for (part in parts) {
-//        val operation = when (part) {
-//            "+" -> {
-//
-//            }
-//            "-" -> {
-//
-//            }
-//        }
-//    }
-    while (true) {
-//        if ()
-        val builder = StringBuilder()
-        while (index <= arithmeticExpression.lastIndex) {
-            val char = arithmeticExpression[index]
-            if (char == '-' || char.isDigit()) {
-                builder.append(char)
-                index++
-            } else break
+            false -> {
+                stack.push(Integer.parseInt(it))
+            }
         }
-        if (builder.isNotEmpty())
-            stack.push(builder.reverse().toString().toInt())
-        if (index >= arithmeticExpression.lastIndex) break
-        val char = arithmeticExpression[index]
-        if (char == ',') index++
-        val operators = listOf('+','-','x','/')
-//        val expressions = listOf(stack.remove(), stack.remove()).
-//        if (char in operators) {
-//            when (char) {
-//                '+' -> {
-//                    listOf(1,2).reduce
-//                }
-//            }
-//        }
     }
+    return stack.pop()
 }
