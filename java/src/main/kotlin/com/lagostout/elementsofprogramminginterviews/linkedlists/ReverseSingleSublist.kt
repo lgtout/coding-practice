@@ -1,37 +1,47 @@
 package com.lagostout.elementsofprogramminginterviews.linkedlists
 
 fun <T> reverseSingleSublist(list: ListNode<T>, start: Int, end: Int) {
+    if (start < 1 || end < 1) {
+        throw IllegalArgumentException("Start and end positions must be >= 1")
+    }
+    // Simplifying solution to only handle start <= end
     if (start > end) {
-        // TODO Does it have to be?  Why not allow reversal in the backward direction?
         throw IllegalArgumentException("End position must be >= start position")
     }
-    val start = if (start < 0) 1 else start
+    if (list.next == null || start == end)
+        return
+    // TODO Handle empty list
     // TODO No fast way to check if end exceeds list length, so we'll check as we move in the list.
-    var endNode: ListNode<T>? = null
-    var nodeBeforeStart: ListNode<T>? = null
-    var nextPosition = 1
-    var currentNode = list
+    var nodeBeforeSublistStart: ListNode<T>? = null
+    var sublistEndNode: ListNode<T>? = null
+    var currentPosition = 0
+    var currentNode = ListNode<T>()
+    currentNode.next = list
     while (true) {
-        if (nextPosition == start) {
-            nodeBeforeStart = currentNode
-        } else if (nextPosition - 1 == end) {
-            endNode = currentNode
+        if (currentPosition + 1 == start)
+            nodeBeforeSublistStart = currentNode
+        if (currentPosition == end) {
+            sublistEndNode = currentNode
             break
         }
         currentNode.next?.apply {
             currentNode = this
-            ++nextPosition
+            ++currentPosition
         } ?: break
     }
-    if (nodeBeforeStart == null || endNode == null) {
+    if (nodeBeforeSublistStart == null || sublistEndNode == null) {
         throw IllegalArgumentException(
-                "Start and end positions must be from 1 to the length of the list ($nextPosition)")
+                "Start and end position values must be in the range " +
+                        "1 to the length of the list (${currentPosition + 1})")
     }
-    while (nodeBeforeStart !== endNode) {
-        val nodeToMove = nodeBeforeStart?.next
-        nodeBeforeStart = nodeBeforeStart?.next
-        val nodeAfterEndNode = endNode.next
-        endNode.next = nodeToMove
-        nodeToMove?.next = nodeAfterEndNode
+    // TODO Verify for null cases (end of list)
+    while (nodeBeforeSublistStart.next !== sublistEndNode) {
+        nodeBeforeSublistStart.next?.let {
+            nodeBeforeSublistStart?.next = it.next
+            val nodeAfterSublistEndNode = sublistEndNode?.next
+            sublistEndNode?.next = it
+            it.next = nodeAfterSublistEndNode
+            sublistEndNode = it
+        }
     }
 }
