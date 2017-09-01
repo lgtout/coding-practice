@@ -2,6 +2,9 @@ package com.lagostout.elementsofprogramminginterviews.heaps
 
 import java.util.*
 
+/**
+ * Problem 11.7.1 page 187
+ */
 class StackUsingHeap<T> {
     data class PriorityQueueItem<out T>(val value: T, val priority: Int)
 
@@ -16,6 +19,10 @@ class StackUsingHeap<T> {
 
     fun pop(): T {
         return heap.remove().value
+    }
+
+    fun isNotEmpty(): Boolean {
+        return heap.isNotEmpty()
     }
 
     override fun toString(): String {
