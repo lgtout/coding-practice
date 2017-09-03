@@ -38,8 +38,8 @@ object TowersOfHanoi {
             rings.add(ring)
         }
 
-        @Suppress("NAME_SHADOWING")
         fun push(ringCount: Int) {
+            @Suppress("NAME_SHADOWING")
             var ringCount = ringCount
             while (ringCount > 0){
                 rings.add(Ring(ringCount--))
@@ -84,8 +84,8 @@ object TowersOfHanoi {
             positionToPegMap[ringsPeg]?.push(ringCount)
         }
 
-        fun at(position: PegPosition): Peg? {
-            return positionToPegMap[position]
+        fun at(position: PegPosition): Peg {
+            return positionToPegMap[position]!!
         }
 
         fun extra(pegs: List<Peg>): Peg {
@@ -123,22 +123,17 @@ object TowersOfHanoi {
 
     fun transferRingsFromOnePegToAnother(pegs: Pegs, from: PegPosition, to: PegPosition,
                                          countOfRingsToMove: Int, operations: MutableList<RingMove>) {
-        println("pegs: $pegs")
-        println("from: $from, to: $to, ringCount: $countOfRingsToMove")
-        println("operations: $operations")
-        println()
         if (from == to) return
         if (countOfRingsToMove < 1) return
         val fromPeg = pegs.at(from)
         val toPeg = pegs.at(to)
-        // TODO Keep the double-bangs or no?
-        val extraPeg = pegs.extra(listOf(fromPeg!!, toPeg!!))
+        val extraPeg = pegs.extra(listOf(fromPeg, toPeg))
         transferRingsFromOnePegToAnother(
                 pegs, from, extraPeg.position,
                 countOfRingsToMove - 1,
                 operations)
-        fromPeg?.pop()?.let {
-            toPeg?.push(it)
+        fromPeg.pop().let {
+            toPeg.push(it)
             operations.add(RingMove(from, to, it))
         }
         transferRingsFromOnePegToAnother(pegs, extraPeg.position,
