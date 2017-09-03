@@ -7,8 +7,8 @@ import com.lagostout.datastructures.BinaryTreeNode
 /**
  * Problem 15.5 page 266
  */
-
-fun <T : Comparable<T>> reconstructBSTFromPostorderTraversal(path: List<T>): BinaryTreeNode<T>? {
+fun <T : Comparable<T>> reconstructBSTFromPostorderTraversal(
+        path: List<T>): BinaryTreeNode<T>? {
     if (path.isEmpty()) return null
     val pathIterator = path.reversed().iterator()
     val root = BinaryTreeNode(value = pathIterator.next())
@@ -40,11 +40,13 @@ fun <T : Comparable<T>> reconstructBSTFromPostorderTraversal(path: List<T>): Bin
                 }
             }
         }
+        previousNode = currentNode
     }
     return root
 }
 
-fun <T : Comparable<T>> reconstructBSTFromPreorderTraversal(path: List<T>): BinaryTreeNode<T>? {
+fun <T : Comparable<T>> reconstructBSTFromPreorderTraversal(
+        path: List<T>): BinaryTreeNode<T>? {
     if (path.isEmpty()) return null
     val pathIterator = path.iterator()
     val root = BinaryTreeNode(value = pathIterator.next())

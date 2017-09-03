@@ -5,6 +5,7 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.xdescribe
 import kotlin.test.assertEquals
 
 class ReconstructBSTFromPostorderTraversalDataSpek : Spek({
@@ -48,7 +49,7 @@ class ReconstructBSTFromPostorderTraversalDataSpek : Spek({
 }
 
 class ReconstructBSTFromPreorderTraversalDataSpek : Spek({
-    describe("reconstructBSTFromPreorderTraversal") {
+    xdescribe("reconstructBSTFromPreorderTraversal") {
         testCases.forEach { (path) ->
             given("preorder path: $path") {
                 it("returns a BST that has the same preorder path") {
