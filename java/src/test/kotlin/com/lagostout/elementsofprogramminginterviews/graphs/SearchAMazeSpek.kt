@@ -30,8 +30,8 @@ class SearchAMazeSpek : Spek({
     companion object {
 
         fun isPathFromEntryToExit(
-                path: List<Point>, from: Point, to: Point,
-                adjacencies: Map<Point, Set<Point>>): Boolean {
+                path: List<Point<Boolean>>, from: Point<Boolean>, to: Point<Boolean>,
+                adjacencies: Map<Point<Boolean>, Set<Point<Boolean>>>): Boolean {
             if (path.isEmpty() || path.first() != from || path.last() != to) return false
             @Suppress("LoopToCallChain")
             var isValidPath = true
@@ -54,7 +54,7 @@ class SearchAMazeSpek : Spek({
         private val F = false
 
         data class TestCase(val grid: List<List<Boolean>>,
-                            val entry: Point, val exit: Point,
+                            val entry: Point<Boolean>, val exit: Point<Boolean>,
                             val pathExists: Boolean)
 
         val testCases = listOf(

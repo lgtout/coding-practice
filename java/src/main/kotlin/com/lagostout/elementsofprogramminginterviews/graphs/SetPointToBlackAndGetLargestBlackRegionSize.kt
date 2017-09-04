@@ -7,13 +7,13 @@ class SetPointToBlackAndGetLargestBlackRegionSize(
         matrix: List<List<Boolean>>) {
 
     private var sizeOfLargestBlackRegion = 0
-    private val graph: MutableMap<Point, MutableSet<Point>> =
+    private val graph: MutableMap<Point<Boolean>, MutableSet<Point<Boolean>>> =
             toGraph(matrix)
     private val pointToComponentMap = computeComponents(graph).flatMap {
         component -> component.map { it to component.toMutableSet() }
     }.toMap().toMutableMap()
 
-    fun setToBlackAndGetLargestBlackRegionSize(point: Point): Int {
+    fun setToBlackAndGetLargestBlackRegionSize(point: Point<Boolean>): Int {
         if (graph.containsKey(point)) return sizeOfLargestBlackRegion
 
         val adjacentPoints = mutableSetOf(

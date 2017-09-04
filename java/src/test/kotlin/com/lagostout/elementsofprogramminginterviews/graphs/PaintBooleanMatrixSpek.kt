@@ -30,10 +30,10 @@ class PaintBooleanMatrixSpek : Spek({
         /**
          * Filters points with color
          */
-        fun pointsWithColor(grid: List<List<Boolean>>, color: Boolean): Set<Point> {
-            val points = mutableSetOf<Point>()
-            0.rangeTo(grid.size - 1).forEach { row ->
-                0.rangeTo(grid[row].size - 1).forEach { column ->
+        fun pointsWithColor(grid: List<List<Boolean>>, color: Boolean): Set<Point<Boolean>> {
+            val points = mutableSetOf<Point<Boolean>>()
+            (0 until grid.size).forEach { row ->
+                (0 until grid[row].size).forEach { column ->
                     if (grid[row][column] == color)
                         points.add(Point(column, row))
                 }
@@ -43,17 +43,17 @@ class PaintBooleanMatrixSpek : Spek({
 
         data class TestCase(
                 val grid: List<List<Boolean>>,
-                val start: Point) {
-            val expectedUnflippedPoints = run {
+                val start: Point<Boolean> ) {
+            private val expectedUnflippedPoints = run {
                 val graph = toGraph(grid, grid[start.row][start.column])
-                val components = mutableSetOf<Set<Point>>()
-                val exploredPoints = mutableSetOf<Point>()
-                var currentComponent: MutableSet<Point>
+                val components = mutableSetOf<Set<Point<Boolean>>>()
+                val exploredPoints = mutableSetOf<Point<Boolean>>()
+                var currentComponent: MutableSet<Point<Boolean>>
                 graph.keys.forEach {
                     point ->
                     if (exploredPoints.contains(point)) return@forEach
                     var points = setOf(point)
-                    currentComponent = mutableSetOf<Point>()
+                    currentComponent = mutableSetOf()
                     while (points.isNotEmpty()) {
                         currentComponent.addAll(points)
                         points = nextLevel(graph, points, exploredPoints)
@@ -83,7 +83,7 @@ class PaintBooleanMatrixSpek : Spek({
                         row.add(random.nextInt(0, 1) == 1)
                     }
                 }
-                val start = Point(random.nextInt(0, columnCount - 1),
+                val start = Point<Boolean>(random.nextInt(0, columnCount - 1),
                         random.nextInt(0, rowCount - 1))
                 testCases.add(TestCase(grid, start))
             }

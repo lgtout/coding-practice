@@ -1,3 +1,3 @@
 package com.lagostout.elementsofprogramminginterviews.graphs
 
-data class Point(val column: Int, val row: Int)
+data class Point<out T> (val column: Int, val row: Int, val value: T? = null)

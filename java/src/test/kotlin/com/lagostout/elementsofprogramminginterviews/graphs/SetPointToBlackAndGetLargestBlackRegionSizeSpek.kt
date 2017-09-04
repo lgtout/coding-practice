@@ -28,7 +28,7 @@ class SetPointToBlackAndGetLargestBlackRegionSizeSpek : Spek({
     }
 }) {
     companion object {
-        data class ToBlack(val point: Point,
+        data class ToBlack(val point: Point<Boolean>,
                            val largestBlackRegionSize: Int = 0) {
             private val count = Companion.count
             operator fun component3() = count

@@ -6,7 +6,7 @@ object PaintBooleanMatrix {
 
     fun flipRegionColor(
             grid: List<List<Boolean>>,
-            start: Point): List<List<Boolean>> {
+            start: Point<Boolean>): List<List<Boolean>> {
         if (start.row < 0 ||
                 start.column < 0 ||
                 start.row >= grid.size ||
@@ -20,7 +20,7 @@ object PaintBooleanMatrix {
         val flippedColor = !startCellColor
         val graph = toGraph(grid, startCellColor)
         var currentLevel = setOf(start)
-        val exploredPoints = mutableSetOf<Point>()
+        val exploredPoints = mutableSetOf<Point<Boolean>>()
         while (currentLevel.isNotEmpty()) {
             currentLevel.forEach {
                 result[it.row][it.column] = flippedColor
