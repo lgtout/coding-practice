@@ -1,6 +1,9 @@
 package com.lagostout.elementsofprogramminginterviews.graphs
 
-
+/**
+ * Transforms a boolean matrix into an adjacency map of a graph.
+ * Edges are 2-way.
+ */
 fun toGraph(booleanMatrix: List<List<Boolean>>):
         MutableMap<Point<Boolean>, MutableSet<Point<Boolean>>> {
     val adjacencies1 = toGraph(booleanMatrix)
@@ -10,12 +13,14 @@ fun toGraph(booleanMatrix: List<List<Boolean>>):
 
 /**
  * Transforms a boolean matrix into an adjacency map of a graph.
- * Edges are 2-way.
+ * The map will only contain adjacencies for cells with the value
+ * specified by <code>cellValueToRetain</code>.  Edges are 2-way.
  */
 fun toGraph(booleanMatrix: List<List<Boolean>>,
             cellValueToRetain: Boolean = true):
         MutableMap<Point<Boolean>, MutableSet<Point<Boolean>>> {
-    val adjacencies: MutableMap<Point<Boolean>, MutableSet<Point<Boolean>>> = mutableMapOf()
+    val adjacencies: MutableMap<Point<Boolean>, MutableSet<Point<Boolean>>> =
+            mutableMapOf()
     booleanMatrix.forEachIndexed { rowIndex, list ->
         list.forEachIndexed {
             columnIndex, cellValue ->
