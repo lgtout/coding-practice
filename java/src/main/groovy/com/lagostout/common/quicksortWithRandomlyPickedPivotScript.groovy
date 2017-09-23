@@ -9,7 +9,7 @@ static int partition(int[] a, int l, int r) {
     int j = l
     // j always points to the rightmost element, in the examined left
     // segment of the array, that's <= the pivot.
-    // i is the most recently examined element, the rightmost element
+    // i is the current element to examine, the rightmost element
     // of the examined segment of the array.
     // In essence, partition grows the partitioned segment from a
     // subarray containing just the pivot and occupying the first
