@@ -1,9 +1,15 @@
 package com.lagostout.elementsofprogramminginterviews.linkedlists
 
-class ReverseSingleSublist {
+object ReverseSingleSublist {
     data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null)
 
+    @Suppress("NAME_SHADOWING")
     fun <T> reverseSingleSublist(list: ListNode<T>, start: Int, end: Int) {
+        if (start == end) return
+
+        var start = start
+        var end = end
+
         var lastNode = list
         var listSize = 1
         while (true) {
@@ -12,14 +18,17 @@ class ReverseSingleSublist {
                 lastNode = it
             } ?: break
         }
-        if (listOf(start, end).find { it < 1 || it > listSize} != null) {
+        listOf(start, end).find { it < 1 || it > listSize} ?:
             throw IllegalArgumentException("Start and end positions must be >= 1 and <= list size")
-        }
-        // Nodes point in one direction only - left to right.
-        // So let's simplify solution by constraining start and end.
+
+        if (listSize == 1) return
+
         if (start > end) {
-            throw IllegalArgumentException("End position must be >= start position")
+            val temp = start
+            start = end
+            end = temp
         }
+
         var nodeBeforeSublistStart: ListNode<T>? = null
         var sublistEnd: ListNode<T>? = null
         var currentPosition = 0
@@ -28,7 +37,7 @@ class ReverseSingleSublist {
         while (true) {
             if (currentPosition + 1 == start)
                 nodeBeforeSublistStart = currentNode
-            if (currentPosition == end) {
+            else if (currentPosition == end) {
                 sublistEnd = currentNode
                 break
             }
