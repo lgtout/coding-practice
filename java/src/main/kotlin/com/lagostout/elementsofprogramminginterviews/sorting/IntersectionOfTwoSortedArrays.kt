@@ -12,27 +12,35 @@ fun <T : Comparable<T>> intersectionOfSortedArrays(
     val intersection = mutableListOf<T>()
     val firstIterator = PeekingIterator<T>(firstArray.iterator())
     val secondIterator = PeekingIterator<T>(secondArray.iterator())
-    while (true) {
+    fun fastForwardToNextPageIndex(iterator: PeekingIterator<T>) {
+        if (!iterator.hasNext()) return
+        val firstValue = iterator.peek()
+        do {
+            iterator.next()
+        } while (iterator.hasNext() &&
+                iterator.peek() == firstValue)
+    }
+    fun fastForwardToPageIndex(iterator: PeekingIterator<T>, pageIndex: T) {
+        if (!iterator.hasNext()) return
+        while (firstIterator.peek() < pageIndex) {
+            firstIterator.next()
+        }
+    }
+    var done = false
+    while (!done) {
         if (firstIterator.peek() == secondIterator.peek()) {
-            intersection.add(firstIterator.next())
-            secondIterator.next()
-            while (firstIterator.hasNext() &&
-                    firstIterator.peek() == secondIterator.peek()) {
-                firstIterator.next()
+            val duplicate = firstIterator.peek()
+            intersection.add(duplicate)
+            fastForwardToNextPageIndex(firstIterator)
+            fastForwardToNextPageIndex(secondIterator)
+        } else {
+            while (true) {
+                done = !firstIterator.hasNext() || !secondIterator.hasNext()
+                if (done) break
+                fastForwardToPageIndex(firstIterator, secondIterator.peek())
+                fastForwardToPageIndex(secondIterator, firstIterator.peek())
             }
         }
-        // TODO Continue here.  Avoid having to use optional/null - it complicates matters.
-        var currentFirstValue: T? = null
-        while (firstIterator.hasNext() &&
-                firstIterator.peek() < secondIterator.peek()) {
-            currentFirstValue = firstIterator.next()
-        }
-//        while (secondIterator.hasNext() &&
-//                secondIterator.peek() < currentFirstValue) {
-//            secondIterator.next()
-//        }
-        if (!firstIterator.hasNext() || !secondIterator.hasNext())
-            break
     }
     return intersection
 }
