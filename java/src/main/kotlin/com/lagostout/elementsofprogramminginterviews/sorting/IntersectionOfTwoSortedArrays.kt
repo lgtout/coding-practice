@@ -12,33 +12,36 @@ fun <T : Comparable<T>> intersectionOfSortedArrays(
     val intersection = mutableListOf<T>()
     val firstIterator = PeekingIterator<T>(firstArray.iterator())
     val secondIterator = PeekingIterator<T>(secondArray.iterator())
-    fun fastForwardToNextPageIndex(iterator: PeekingIterator<T>) {
-        if (!iterator.hasNext()) return
-        val firstValue = iterator.peek()
-        do {
-            iterator.next()
-        } while (iterator.hasNext() &&
-                iterator.peek() == firstValue)
+    fun seekLastOccurrenceOfPageIndex(iterator: PeekingIterator<T>, pageIndex: T) {
+        while (iterator.peek() == pageIndex) {
+           iterator.next()
+        }
     }
-    fun fastForwardToPageIndex(iterator: PeekingIterator<T>, pageIndex: T) {
+    fun seekPageIndex(iterator: PeekingIterator<T>, pageIndex: T) {
         if (!iterator.hasNext()) return
-        while (firstIterator.peek() < pageIndex) {
-            firstIterator.next()
+        while (true) {
+            firstIterator.peek()?.let {
+                if (it < pageIndex) firstIterator.next()
+            } ?: break
         }
     }
     var done = false
     while (!done) {
-        if (firstIterator.peek() == secondIterator.peek()) {
-            val duplicate = firstIterator.peek()
-            intersection.add(duplicate)
-            fastForwardToNextPageIndex(firstIterator)
-            fastForwardToNextPageIndex(secondIterator)
-        } else {
-            while (true) {
-                done = !firstIterator.hasNext() || !secondIterator.hasNext()
-                if (done) break
-                fastForwardToPageIndex(firstIterator, secondIterator.peek())
-                fastForwardToPageIndex(secondIterator, firstIterator.peek())
+        listOf(firstIterator.peek(), secondIterator.peek()).let {
+            (firstPageIndex, secondPageIndex) ->
+            if (listOf(firstPageIndex, secondPageIndex).contains(null)) done = true
+            else if (firstPageIndex == secondPageIndex) {
+                intersection.add(firstPageIndex)
+                seekLastOccurrenceOfPageIndex(firstIterator, firstPageIndex)
+                seekLastOccurrenceOfPageIndex(secondIterator, firstPageIndex)
+            } else {
+                while (true) {
+                    // TODO ?
+//                    done = !firstIterator.hasNext() || !secondIterator.hasNext()
+//                    if (done) break
+                    seekPageIndex(firstIterator, secondIterator.peek())
+                    seekPageIndex(secondIterator, firstIterator.peek())
+                }
             }
         }
     }
