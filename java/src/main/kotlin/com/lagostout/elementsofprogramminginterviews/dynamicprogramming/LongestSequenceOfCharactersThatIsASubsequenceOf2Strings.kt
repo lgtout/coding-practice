@@ -1,9 +1,15 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
+
+// TODO Implement recursive solution to improve understanding of DP solution.
+fun recursiveLongestSequenceOfCharactersThatIsASubsequenceOfStrings() {
+
+}
+
 /**
  * Problem 17.2.3 page 316
  */
-fun longestSequenceOfCharactersThatIsASubsequenceOf(
+fun longestSequenceOfCharactersThatIsASubsequenceOfStrings(
         string1: String, string2: String): String {
     data class Position(val row: Int, val column: Int) {
         val aboveLeft
