@@ -7,12 +7,13 @@ import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
 
 class DutchNationalFlagSpek : Spek({
-    describe("rearrangeAsDutchNationalFlag") {
+    describe("arrangeAsDutchNationalFlag") {
         testCases.forEach { (array, pivotIndex, expected) ->
-            given("array: $array, pivot $pivotIndex") {
+            given(" array: $array, pivot $pivotIndex") {
                 it("rearranges array as $expected") {
                     val mutableArray = array.toMutableList()
-                    rearrangeAsDutchNationalFlag(mutableArray, pivotIndex)
+                    arrangeAsDutchNationalFlag(
+                            mutableArray, pivotIndex)
                     assertEquals(expected, mutableArray)
                 }
             }
@@ -46,6 +47,10 @@ class DutchNationalFlagSpek : Spek({
                 TestCase(listOf(1,1), 1),
                 TestCase(listOf(1,1,0), 0),
                 TestCase(listOf(1,1,0), 2),
+                TestCase(listOf(2,1,1,0), 0),
+                TestCase(listOf(2,1,1,0), 2),
+                TestCase(listOf(2,1,1,0), 1),
+                TestCase(listOf(2,3,1,1,0), 0),
                 null).filterNotNull()
     }
 }
