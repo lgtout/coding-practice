@@ -3,10 +3,15 @@ package com.lagostout.elementsofprogramminginterviews.linkedlists
 import com.lagostout.common.takeFrom
 import org.jetbrains.spek.api.Spek
 import com.lagostout.elementsofprogramminginterviews.linkedlists.ReverseSingleSublist.ListNode
+import com.lagostout.elementsofprogramminginterviews.linkedlists.ReverseSingleSublist.reverseSingleSublist
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.data_driven.Data3
+import org.jetbrains.spek.data_driven.data
+import org.jetbrains.spek.data_driven.on
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 // Cases:
 // Empty list
@@ -19,42 +24,56 @@ import kotlin.test.assertEquals
 
 class ReverseSingleSublistSpek : Spek({
     describe("reverseSingleSublist") {
-        testCases.forEach { (start, end, list, expected) ->
-            // TODO Will value output for list be pre or post reversal?
-            given("start: $start end: $end list: $list") {
+        fun toLinkedList(list: List<Int>): ListNode<Int> {
+            val head = ListNode(list.first())
+            var tail = head
+            list.takeFrom(1).forEach {
+                val node = ListNode(it)
+                tail.next = node
+                tail = node
+            }
+            return head
+        }
+        describe("valid start and end positions") {
+            val data = listOf(
+                    data(1, 1, toLinkedList(listOf(1)),
+                            expected = toLinkedList(listOf(1))),
+                    data(2, 2, toLinkedList(listOf(1, 2, 3)),
+                            expected = toLinkedList(listOf(1, 2, 3))),
+                    null
+            ).filterNotNull().toTypedArray()
+            on("start: %s end: %s list: %s", with = *data) { start, end, list, expected ->
                 it("returns $expected") {
+                    // TODO Will value output for list be pre or post reversal?
                     ReverseSingleSublist.reverseSingleSublist(list, start, end)
                     assertEquals(expected, list)
                 }
             }
         }
-    }
-}) {
-    companion object {
-        class TestCase(list: List<Int> = emptyList(),
-                       private val start: Int = 1,
-                       private val end: Int = 1,
-                       expected: List<Int> = emptyList()) {
-            private fun toLinkedList(list: List<Int>): ListNode<Int> {
-                val head = ListNode(list.first())
-                var tail = head
-                list.takeFrom(1).forEach {
-                    val node = ListNode(it)
-                    tail.next = node
-                    tail = node
+        describe("invalid start position") {
+            val start = 0
+            val end = 1
+            val list = toLinkedList(listOf(1))
+            given("start: $start, end: $end, list: $list") {
+                it("throws exception") {
+                    assertFailsWith<IllegalArgumentException> {
+                        reverseSingleSublist(list, start, end)
+                    }
                 }
-                return head
             }
-            private val linkedList: ListNode<Int> = toLinkedList(list)
-            private val expectedLinkedList: ListNode<Int> = toLinkedList(expected)
-            operator fun component1() = start
-            operator fun component2() = end
-            operator fun component3() = linkedList
-            operator fun component4() = expectedLinkedList
         }
-        val testCases = listOf(
-                TestCase(),
-                null
-        ).filterNotNull()
+        describe("invalid end position") {
+            val start = 1
+            val end = 2
+            val list = toLinkedList(listOf(1))
+            given("start: $start, end: $end, list: $list") {
+                it("throws exception") {
+                    assertFailsWith<IllegalArgumentException> {
+                        reverseSingleSublist(list, start, end)
+                    }
+                }
+            }
+
+        }
     }
-}
+})

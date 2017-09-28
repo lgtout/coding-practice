@@ -3,6 +3,7 @@ package com.lagostout.elementsofprogramminginterviews.linkedlists
 object ReverseSingleSublist {
     data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null)
 
+    // 1-based start and end
     @Suppress("NAME_SHADOWING")
     fun <T> reverseSingleSublist(list: ListNode<T>, start: Int, end: Int) {
         if (start == end) return
