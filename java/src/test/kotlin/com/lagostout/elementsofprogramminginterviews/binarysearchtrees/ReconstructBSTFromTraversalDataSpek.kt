@@ -15,9 +15,10 @@ class ReconstructBSTFromPostorderTraversalDataSpek : Spek({
                 it("returns a BST that has the same postorder path") {
                     val bst = reconstructBSTFromPostorderTraversal(path)
                     println(bst)
-                    val bstPath = mutableListOf<Int>()
-                    postOrderTraversal(bst, bstPath)
-                    assertEquals(path, bstPath)
+                    println(bst?.parent)
+                    val expectedPath = mutableListOf<Int>()
+                    postOrderTraversal(bst, expectedPath)
+                    assertEquals(path, expectedPath)
                 }
             }
         }
@@ -31,9 +32,9 @@ class ReconstructBSTFromPostorderTraversalDataSpek : Spek({
 //                    TestCase(listOf(10)),
 //                    TestCase(listOf(10,20)),
 //                    TestCase(listOf(30,20)),
-//                    TestCase(listOf(20,30)),
+                    TestCase(listOf(20,30)),
 //                    TestCase(listOf(10,20,30)),
-                    TestCase(listOf(30,20,10)),
+//                    TestCase(listOf(30,20,10)),
 //                    TestCase(listOf(10,30,20)),
 //                    TestCase(listOf(20,10,30)),
 //                    TestCase(listOf(20,30,10)),

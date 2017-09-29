@@ -13,31 +13,27 @@ fun <T : Comparable<T>> reconstructBSTFromPostorderTraversal(
     val pathIterator = path.reversed().iterator()
     val root = BinaryTreeNode(value = pathIterator.next())
     var previousNode = root
+    // TODO Understand cases and make sure following covers them all.
     pathIterator.forEach { value ->
         val currentNode = BinaryTreeNode(value = value)
         when {
-            value > previousNode.value -> {
+            currentNode.value > previousNode.value -> {
                 currentNode.parent = previousNode
                 previousNode.right = currentNode
             }
-            value < previousNode.value -> {
-                run run@ {
+            currentNode.value < previousNode.value -> {
+                run wh@ {
                     while (true) {
-                        previousNode.parent?.let { parent ->
-                            if (previousNode.isRightChild && value < parent.value)
-                                previousNode = parent
-                            else {
-                                // TODO Should this be outside the while loop?
-                                currentNode.parent = previousNode
-                                previousNode.left = currentNode
-                                return@run
-                            }
-                        } ?: run {
-                            previousNode.parent = currentNode
-                            return@run
+                        previousNode.parent?.let { previousNodeParent ->
+                            if (previousNode.isRightChild &&
+                                    currentNode.value < previousNodeParent.value)
+                                previousNode = previousNodeParent
+                            else return@wh
                         }
                     }
                 }
+                currentNode.parent = previousNode
+                previousNode.left = currentNode
             }
         }
         previousNode = currentNode
