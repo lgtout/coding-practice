@@ -52,6 +52,10 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
             }
         }
 
+        /**
+         * Constructs a binary tree.
+         * @return A [Pair] of the tree's root and a list of all the tree's nodes.
+         */
         fun <T : Comparable<T>> buildBinaryTree(
                 rawTree: List<RawBinaryTreeNode<T>>):
                 Pair<BinaryTreeNode<T>?, List<BinaryTreeNode<T>>> {
