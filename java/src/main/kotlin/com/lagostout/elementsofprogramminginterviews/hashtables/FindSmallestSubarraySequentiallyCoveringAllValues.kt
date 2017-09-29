@@ -39,4 +39,5 @@ object FindSmallestSubarraySequentiallyCoveringAllValues {
 //        nextWordToSubarrayStart.filterKeys { it == keywords.last() }.maxBy { it.value }
         return rangeOfSmallestSubarray
     }
+
 }
