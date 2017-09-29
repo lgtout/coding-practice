@@ -18,29 +18,32 @@ fun <T : Comparable<T>> intersectionOfSortedArrays(
         }
     }
     fun seekPageIndex(iterator: PeekingIterator<T>, pageIndex: T) {
-        if (!iterator.hasNext()) return
         while (true) {
-            firstIterator.peek()?.let {
-                if (it < pageIndex) firstIterator.next()
-            } ?: break
+            iterator.peek()?.let {
+                if (it < pageIndex) iterator.next() else null
+            } ?: return
         }
     }
     var done = false
     while (!done) {
         listOf(firstIterator.peek(), secondIterator.peek()).let {
             (firstPageIndex, secondPageIndex) ->
-            if (listOf(firstPageIndex, secondPageIndex).contains(null)) done = true
-            else if (firstPageIndex == secondPageIndex) {
-                intersection.add(firstPageIndex)
-                seekLastOccurrenceOfPageIndex(firstIterator, firstPageIndex)
-                seekLastOccurrenceOfPageIndex(secondIterator, firstPageIndex)
-            } else {
-                while (true) {
-                    // TODO ?
-//                    done = !firstIterator.hasNext() || !secondIterator.hasNext()
-//                    if (done) break
-                    seekPageIndex(firstIterator, secondIterator.peek())
-                    seekPageIndex(secondIterator, firstIterator.peek())
+            when {
+                listOf(firstPageIndex, secondPageIndex).contains(null) ->
+                    done = true
+                firstPageIndex == secondPageIndex -> {
+                    intersection.add(firstPageIndex)
+                    seekLastOccurrenceOfPageIndex(firstIterator, firstPageIndex)
+                    seekLastOccurrenceOfPageIndex(secondIterator, secondPageIndex)
+                }
+                else -> while (true) {
+                    secondIterator.peek()?.let {
+                        seekPageIndex(firstIterator, it)
+                    } ?: break
+                    firstIterator.peek()?.let {
+                        seekPageIndex(secondIterator, it)
+                    } ?: break
+                    if (firstIterator.peek() == secondIterator.peek()) break
                 }
             }
         }

@@ -13,7 +13,8 @@ class IntersectionOfTwoSortedArraysSpek : Spek({
             given("first array: $firstArray, second array: $secondArray") {
                 it("returns $expected") {
                     assertEquals(expected,
-                            intersectionOfSortedArrays(firstArray, secondArray))
+                            intersectionOfSortedArrays(
+                                    firstArray, secondArray))
                 }
             }
         }
@@ -36,9 +37,11 @@ class IntersectionOfTwoSortedArraysSpek : Spek({
                 TestCase(listOf(1), listOf(1,2)),
                 TestCase(listOf(2), listOf(1,2)),
                 TestCase(listOf(1,2), listOf(1,1,2)),
+                TestCase(listOf(1,2), listOf(3,4)),
                 TestCase(listOf(1,2), listOf(2,2,2)),
                 TestCase(listOf(1,2,2), listOf(2,2,2)),
                 TestCase(listOf(1,2,2,3,4,5), listOf(2,5)),
+                TestCase(listOf(1,3,4,5), listOf(2,5)),
                 TestCase(listOf(1,2,2,3,4,5,6), listOf(2,5,7)),
                 TestCase(listOf(2,5,7), listOf(1,2,2,3,4,5,6)),
                 null).filterNotNull()
