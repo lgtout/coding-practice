@@ -2,32 +2,35 @@ package com.lagostout.elementsofprogramminginterviews.stacksandqueues
 
 import java.util.*
 
+/**
+ * Problem 9.2.2 page 136
+ */
 object EvaluateRpnExpressionWhenOperatorPrecedesOperands {
 
     enum class Operation(val symbol: String) {
 
         ADD("+") {
-            override fun compute(first: Int, second: Int): Int {
-                return first + second
+            override fun compute(firstOperand: Int, secondOperand: Int): Int {
+                return firstOperand + secondOperand
             }
         },
         SUBTRACT("-") {
-            override fun compute(first: Int, second: Int): Int {
-                return first - second
+            override fun compute(firstOperand: Int, secondOperand: Int): Int {
+                return firstOperand - secondOperand
             }
         },
         MULTIPLY("x") {
-            override fun compute(first: Int, second: Int): Int {
-                return first * second
+            override fun compute(firstOperand: Int, secondOperand: Int): Int {
+                return firstOperand * secondOperand
             }
         },
         DIVIDE("/") {
-            override fun compute(first: Int, second: Int): Int {
-                return first / second
+            override fun compute(firstOperand: Int, secondOperand: Int): Int {
+                return firstOperand / secondOperand
             }
         };
 
-        abstract fun compute(first: Int, second: Int): Int
+        abstract fun compute(firstOperand: Int, secondOperand: Int): Int
 
         companion object {
             fun valueFor(symbol: String): Operation? {
@@ -43,8 +46,8 @@ object EvaluateRpnExpressionWhenOperatorPrecedesOperands {
         val parts = expression.split(',')
         parts.reversed().forEach {
             Operation.valueFor(it)?.let { op ->
-                val rightOperand = stack.pop()
                 val leftOperand = stack.pop()
+                val rightOperand = stack.pop()
                 stack.push(op.compute(leftOperand, rightOperand))
             } ?: stack.push(Integer.parseInt(it))
         }
