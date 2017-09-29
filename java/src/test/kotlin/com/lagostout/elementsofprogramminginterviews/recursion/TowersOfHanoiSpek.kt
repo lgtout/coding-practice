@@ -19,9 +19,9 @@ class TowersOfHanoiSpek : Spek({
                 it("moves rings between pegs") {
                     val pegs = Pegs(ringCount, fromPegPosition)
                     val operations = mutableListOf<RingMove>()
-                    transferRingsFromOnePegToAnother(pegs, fromPegPosition,
-                            toPegPosition, ringCount, operations)
-                    assertEquals(pegs, pegsFromOperations(
+                    transferRingsFromOnePegToAnother(pegs, pegs.at(fromPegPosition),
+                            pegs.at(toPegPosition), ringCount, operations)
+                    assertEquals(pegs, pegsFromRunningOperations(
                             ringCount, fromPegPosition, operations))
                 }
             }
@@ -45,7 +45,7 @@ class TowersOfHanoiSpek : Spek({
                 TestCase(RIGHT, LEFT, 5),
                 null).filterNotNull()
 
-        fun pegsFromOperations(
+        fun pegsFromRunningOperations(
                 ringCount: Int,
                 fromPosition: PegPosition,
                 operations: List<TowersOfHanoi.RingMove>): Pegs {

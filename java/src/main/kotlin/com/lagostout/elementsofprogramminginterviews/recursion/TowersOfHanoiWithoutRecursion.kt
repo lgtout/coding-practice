@@ -5,7 +5,10 @@ import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.Peg
 import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.RingMove
 import java.util.*
 
-object TowersOfHanoiWithoutRecursionSpek {
+/**
+ * Problem 16.1.2 page 290
+ */
+object TowersOfHanoiWithoutRecursion {
 
     fun transferRingsBetweenPegsWithoutRecursion(
             pegs: Pegs, fromPeg: Peg, toPeg: Peg,
@@ -31,7 +34,7 @@ object TowersOfHanoiWithoutRecursionSpek {
             // This ensures the last operation pushed will be
             // the first operation executed.
 
-            // 3rd: Move rings set aside in extraPeg to toPeg
+            // 3rd: Move rings set aside on extraPeg to toPeg
             stack.push(frame.copy(from = extraPeg, to = toPeg,
                     countOfRingsToMove = frame.countOfRingsToMove - 1))
             // 2nd: Move bottom ring from fromPeg to toPeg

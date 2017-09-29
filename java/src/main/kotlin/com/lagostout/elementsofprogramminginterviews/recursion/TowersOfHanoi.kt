@@ -121,22 +121,22 @@ object TowersOfHanoi {
 
     data class RingMove(val from: PegPosition, val to: PegPosition, val ring: Ring)
 
-    fun transferRingsFromOnePegToAnother(pegs: Pegs, from: PegPosition, to: PegPosition,
-                                         countOfRingsToMove: Int, operations: MutableList<RingMove>) {
+    fun transferRingsFromOnePegToAnother(pegs: Pegs, from: Peg, to: Peg,
+                                         countOfRingsToMove: Int,
+                                         operations: MutableList<RingMove>) {
         if (from == to) return
         if (countOfRingsToMove < 1) return
-        val fromPeg = pegs.at(from)
-        val toPeg = pegs.at(to)
-        val extraPeg = pegs.extra(listOf(fromPeg, toPeg))
+        val extraPeg = pegs.extra(listOf(from, to))
         transferRingsFromOnePegToAnother(
-                pegs, from, extraPeg.position,
+                pegs, from, extraPeg,
                 countOfRingsToMove - 1,
                 operations)
-        fromPeg.pop().let {
-            toPeg.push(it)
-            operations.add(RingMove(from, to, it))
+        from.pop().let {
+            to.push(it)
+            operations.add(RingMove(from.position, to.position, it))
         }
-        transferRingsFromOnePegToAnother(pegs, extraPeg.position,
+        transferRingsFromOnePegToAnother(
+                pegs, extraPeg,
                 to, countOfRingsToMove - 1, operations)
     }
 
