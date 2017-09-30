@@ -12,47 +12,42 @@ fun recursiveLongestSequenceOfCharactersThatIsASubsequenceOfStrings() {
 fun longestSequenceOfCharactersThatIsASubsequenceOfStrings(
         string1: String, string2: String): String {
     data class Position(val row: Int, val column: Int) {
-        val aboveLeft
-            get() = copy(row = row - 1, column = column - 1)
-        val left
-            get() = copy(column = column - 1)
-        val above
-            get() = copy(row = row - 1)
+        val belowRight
+            get() = below.right
+        val right
+            get() = copy(column = column + 1)
+        val below
+            get() = copy(row = row + 1)
         val possiblePreviousPositions
-            get() = listOf(left, aboveLeft, above)
+            get() = listOf(right, below, belowRight)
     }
-    val levenshteinDistanceCache = levenshteinDistanceCache(string1, string2)
-    val longestSequenceCache = Array(string2.length + 1,
-            { IntArray(string1.length + 1) })
-    (1..longestSequenceCache.size).forEach { rowIndex ->
-        val row = longestSequenceCache[rowIndex]
-        (1..row.size).forEach { columnIndex ->
-            listOf(Position(rowIndex - 1, columnIndex - 1), // above-left
-                    Position(rowIndex - 1, columnIndex), // above
-                    Position(rowIndex, columnIndex - 1) // left
-            ).filter {
-                levenshteinDistanceCache[it.row][it.column] <=
-                        levenshteinDistanceCache[rowIndex][columnIndex]
-            }.maxBy { longestSequenceCache[it.row][it.column] }?.let {
-                longestSequenceCache[rowIndex][columnIndex] +=
-                        if (string1[it.column] == string2[it.row]) 1 else 0
+    // Build cache
+    val cache = mutableListOf<MutableList<Int>>().apply {
+        val row = mutableListOf<Int>().apply {
+            (0..(string2.length + 1)).forEach { add(0) }
+        }
+        (0..(string1.length + 1)).forEach {
+            add(mutableListOf(*row.toTypedArray()))
+        }
+    }
+    cache.indices.reversed().forEach { rowIndex ->
+        cache[rowIndex].reversed().forEach { colIndex ->
+            val currentCellPosition = Position(rowIndex, colIndex)
+            // TODO Reduce duplication
+            val rightCellMatchCount = currentCellPosition.right.run {
+                cache[row][column]
             }
+            val belowCellMatchCount = currentCellPosition.below.run {
+                cache[row][column]
+            }
+            val belowRightCellMatchCount = if (string1[currentCellPosition.column] == string2[currentCellPosition.row]) {
+                currentCellPosition.belowRight.run { cache[row][column] }
+            } else null
         }
     }
-    var longestSequenceLength = longestSequenceCache.last().last()
-    var rowIndex = longestSequenceCache.lastIndex
-    var columnIndex = longestSequenceCache.last().lastIndex
-    while (true) {
-        val sequenceLength = longestSequenceCache[rowIndex][columnIndex]
-        if (sequenceLength == 0) break
-        val position = Position(rowIndex, columnIndex)
-        position.possiblePreviousPositions.filter {
-            Math.abs(sequenceLength - longestSequenceCache[it.row][it.column]) <= 1
-        }
-        // TODO
-//                . {
-//            longestSequenceCache[it.row][it.column] <= longestSequenceCache[rowIndex][columnIndex]
-//        }
-    }
+
+    // Build common sequence from matrix
+
     return ""
+
 }
