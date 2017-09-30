@@ -6,7 +6,7 @@ package com.lagostout.elementsofprogramminginterviews.graphs
  */
 fun toGraph(booleanMatrix: List<List<Boolean>>):
         MutableMap<Point<Boolean>, MutableSet<Point<Boolean>>> {
-    val adjacencies1 = toGraph(booleanMatrix)
+    val adjacencies1 = toGraph(booleanMatrix, true)
     val adjacencies2 = toGraph(booleanMatrix, false)
     return (adjacencies1 + adjacencies2).toMutableMap()
 }
