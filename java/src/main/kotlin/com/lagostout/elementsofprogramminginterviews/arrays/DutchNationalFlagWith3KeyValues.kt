@@ -1,29 +1,27 @@
 package com.lagostout.elementsofprogramminginterviews.arrays
 
 /**
- * Problem 6.1.1 page 62
+ * Problem 6.1.2 page 65
  */
-fun arrangeAsDutchNationalFlag(array: MutableList<Int>, pivotIndex: Int) {
+fun arrangeAsDutchNationalFlag(array: MutableList<Int>) {
     if (array.isEmpty() || array.size == 1) return
-    if (pivotIndex > array.lastIndex || pivotIndex < 0)
-        throw IllegalArgumentException(
-                "Argument pivotIndex must be > 0 and <= array last index")
+    var key = array[0]
     fun swap(array: MutableList<Int>, index1: Int, index2: Int) {
         val temp = array[index1]
         array[index1] = array[index2]
         array[index2] = temp
     }
-    val pivotValue = array[pivotIndex]
-    swap(array, 0, pivotIndex)
-    var boundaryIndex = 0
+    var boundaryIndex = 1
     (1 until array.size).forEach { currentIndex ->
-        if (array[currentIndex] < pivotValue) {
+        if (array[currentIndex] == key) {
             swap(array, currentIndex, boundaryIndex++)
         }
     }
+    if (boundaryIndex == array.size) return
+    key = array[boundaryIndex++]
     (boundaryIndex until array.size).forEach {
         currentIndex ->
-        if (array[currentIndex] == pivotValue) {
+        if (array[currentIndex] == key) {
             swap(array, currentIndex, boundaryIndex++)
         }
     }
