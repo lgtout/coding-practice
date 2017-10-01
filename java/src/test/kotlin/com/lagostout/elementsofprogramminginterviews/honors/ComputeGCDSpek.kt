@@ -12,8 +12,20 @@ class ComputeGCDSpek : Spek({
         testCases.forEach { (integers, gcd) ->
             given("integers: $integers") {
                 it("returns gcd $gcd") {
-                    assertEquals(gcd,
-                            computeGCD(integers.first, integers.second))
+                    assertEquals(
+                            gcd, computeGCD(
+                            integers.first, integers.second))
+                }
+            }
+        }
+    }
+    describe("computeGCDRecursively") {
+        testCases.forEach { (integers, gcd) ->
+            given("integers: $integers") {
+                it("returns gcd $gcd") {
+                    assertEquals(
+                            gcd, computeGCDRecursively(
+                            integers.first, integers.second))
                 }
             }
         }
@@ -24,11 +36,13 @@ class ComputeGCDSpek : Spek({
             private val gcd = ArithmeticUtils.gcd(integers.first, integers.second)
             operator fun component2() = gcd
         }
-        val testCases = listOf(TestCase(Pair(1,1)),
-                TestCase(Pair(15,10)),
-                TestCase(Pair(10,15)),
-                TestCase(Pair(3,5)),
-                TestCase(Pair(5,3)),
+        val testCases = listOf(
+//                TestCase(Pair(1,1)),
+//                TestCase(Pair(15,10)),
+//                TestCase(Pair(10,15)),
+//                TestCase(Pair(3,5)),
+//                TestCase(Pair(5,3)),
+                TestCase(Pair(-15,10)),
                 null).filterNotNull()
     }
 }
