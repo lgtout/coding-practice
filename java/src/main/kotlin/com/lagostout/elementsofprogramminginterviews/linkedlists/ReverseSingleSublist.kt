@@ -1,12 +1,15 @@
 package com.lagostout.elementsofprogramminginterviews.linkedlists
 
+/**
+ * Problem 8.2.1 page 116
+ */
 object ReverseSingleSublist {
     data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null)
 
     // 1-based start and end
     @Suppress("NAME_SHADOWING")
-    fun <T> reverseSingleSublist(list: ListNode<T>, start: Int, end: Int) {
-        if (start == end) return
+    fun <T> reverseSingleSublist(list: ListNode<T>, start: Int, end: Int): ListNode<T> {
+        if (start == end) return list
 
         var start = start
         var end = end
@@ -14,15 +17,15 @@ object ReverseSingleSublist {
         var lastNode = list
         var listSize = 1
         while (true) {
-            ++listSize
             lastNode.next?.let {
+                ++listSize
                 lastNode = it
             } ?: break
         }
-        listOf(start, end).find { it < 1 || it > listSize} ?:
+        listOf(start, end).find { it < 1 || it > listSize } ?.let {
             throw IllegalArgumentException("Start and end positions must be >= 1 and <= list size")
-
-        if (listSize == 1) return
+        }
+        if (listSize == 1) return list
 
         if (start > end) {
             val temp = start
@@ -47,6 +50,7 @@ object ReverseSingleSublist {
                 ++currentPosition
             } ?: break
         }
+
         while (nodeBeforeSublistStart?.next !== sublistEnd) {
             nodeBeforeSublistStart?.next?.let {
                 nodeBeforeSublistStart?.next = it.next
@@ -56,5 +60,7 @@ object ReverseSingleSublist {
                 }
             }
         }
+
+        return head.next!!
     }
 }
