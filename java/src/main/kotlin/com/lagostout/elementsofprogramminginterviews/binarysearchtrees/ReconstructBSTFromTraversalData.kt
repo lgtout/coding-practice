@@ -2,6 +2,7 @@ package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
 import com.lagostout.common.isLeftChild
 import com.lagostout.common.isRightChild
+import com.lagostout.common.isRoot
 import com.lagostout.datastructures.BinaryTreeNode
 
 /**
@@ -13,28 +14,52 @@ fun <T : Comparable<T>> reconstructBSTFromPostorderTraversal(
     val pathIterator = path.reversed().iterator()
     val root = BinaryTreeNode(value = pathIterator.next())
     var previousNode = root
-    // TODO Understand cases and make sure following covers them all.
     pathIterator.forEach { value ->
         val currentNode = BinaryTreeNode(value = value)
-        when {
-            currentNode.value > previousNode.value -> {
-                currentNode.parent = previousNode
+        if (previousNode.isRoot) {
+            currentNode.parent = previousNode
+            if (currentNode.value < previousNode.value) {
+                previousNode.left = currentNode
+            } else {
                 previousNode.right = currentNode
             }
-            currentNode.value < previousNode.value -> {
-                run wh@ {
-                    while (true) {
-                        previousNode.parent?.let { previousNodeParent ->
-                            if (previousNode.isRightChild &&
-                                    currentNode.value < previousNodeParent.value)
-                                previousNode = previousNodeParent
-                            else return@wh
-                        }
-                    }
-                }
-                currentNode.parent = previousNode
-                previousNode.left = currentNode
+        } else if (previousNode.isLeftChild &&
+                currentNode.value < previousNode.value) {
+            previousNode.left = currentNode
+            currentNode.parent = previousNode
+        } else if (previousNode.isRightChild &&
+                currentNode.value > previousNode.value) {
+            previousNode.right = currentNode
+            currentNode.parent = previousNode
+        } else {
+            while (true) {
+                // Climb toward root.
+                // Attach currentNode as left if previousNode is
+                // rightChild, or as right if previousNode is
+                // leftChild.
+                // Attach when currentNode value is <
+                // previousNode.parent value when previousNode is
+                // leftChild.
+                // Or, when currentNode value is >
+                // previousNode.parent value when previousNode is
+                // rightChild.
             }
+//            previousNode.parent?.let {
+//                if (currentNode.value < it.value) {
+//                    previousNode.right = currentNode
+//                    currentNode.parent = previousNode
+//                } else {
+//                    previousNode = it
+//                }
+//            }
+//            if (currentNode.value > previousNode.value) {
+//                previousNode.right = currentNode
+//                currentNode.parent = previousNode
+//            }
+//            previousNode.parent?.let {
+//                if (currentNode.value > it.value)
+//                    previousNode = it
+//            }
         }
         previousNode = currentNode
     }
