@@ -16,27 +16,43 @@ object FindSmallestSubarraySequentiallyCoveringAllValues {
                 return null
             return Pair(1,1)
         }
-        // We'll use this to figure out what the To be able to
         val keywordToIndexMap = keywords.withIndex().map {
             it.value to it.index }.toMap()
-//        val subarrays = Array<Set<Int>>(keywords.size, { mutableSetOf() })
         val nextWordToSubarrayStart = mutableMapOf<String, Int>()
         var rangeOfSmallestSubarray: Pair<Int, Int>? = null
         paragraph.forEachIndexed {
             index, word ->
-            val nextWord = keywords[keywordToIndexMap[word]!! + 1]
-            if (!nextWordToSubarrayStart.containsKey(nextWord) ||
-                    nextWordToSubarrayStart[word]!! >
-                    nextWordToSubarrayStart[nextWord]!!) {
-                val start = if (word == keywords.first())
-                    index else nextWordToSubarrayStart[word]!!
-                nextWordToSubarrayStart[nextWord] = start
+            val nextWordToSubarrayStartPair = when {
+                word == keywords.first() -> Pair(keywords[1], index)
+                nextWordToSubarrayStart.containsKey(word) -> {
+                    val subarrayStart = nextWordToSubarrayStart.remove(word)!!
+                    // TODO Need a check here to see if we're at the last word.
+                    // If so, we won't have a next keyword to use as key when
+                    // we update the map.  We'll need to store it in the
+                    // map using a distinct special key.  Or we update our
+                    // best result so far.  Either way, we'll need to return
+                    // null for this branch of the when block.
+                    if (word != keywords.last()) {
+                        Pair(keywords[keywordToIndexMap[word]!! + 1], subarrayStart)
+                    } else {
+                        rangeOfSmallestSubarray = rangeOfSmallestSubarray?.let { currentRange ->
+                            if (currentRange.second - currentRange.first >
+                                    index - subarrayStart) {
+                                Pair(subarrayStart, index)
+                            } else currentRange
+                        }
+                        null
+                    }
+                }
+                else -> return@forEachIndexed
             }
-            if (word != keywords.first()) {
-                nextWordToSubarrayStart.remove(word)
+            nextWordToSubarrayStartPair?.let { (word, start) ->
+                if (!nextWordToSubarrayStart.contains(word) ||
+                        nextWordToSubarrayStart[word]!! < start) {
+                    nextWordToSubarrayStart[word] = start
+                }
             }
         }
-//        nextWordToSubarrayStart.filterKeys { it == keywords.last() }.maxBy { it.value }
         return rangeOfSmallestSubarray
     }
 
