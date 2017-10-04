@@ -13,54 +13,66 @@ object ComputeEnclosedRegionsSpek : Spek({
         val x = true
         val o = false
         val data = listOf(
-//                data(listOf(
-//                        mlo(x,x,x,x),
-//                        mlo(x,x,x,x),
-//                        mlo(x,x,x,x),
-//                        mlo(x,x,x,x),
-//                        mlo(x,x,x,x)),
-//                        expected = listOf(
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x))),
-//                data(listOf(
-//                        mlo(x,x,x,x),
-//                        mlo(o,x,x,x),
-//                        mlo(x,x,x,x),
-//                        mlo(x,x,x,x),
-//                        mlo(x,x,x,x)),
-//                        expected = listOf(
-//                                mlo(x,x,x,x),
-//                                mlo(o,x,x,x),
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x))),
-//                data(listOf(
-//                        mlo(x,x,x,x),
-//                        mlo(x,x,x,x),
-//                        mlo(x,o,x,x),
-//                        mlo(x,x,x,x),
-//                        mlo(x,x,x,x)),
-//                        expected = listOf(
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x))),
-//                data(listOf(
-//                        mlo(x,x,x,x),
-//                        mlo(x,x,x,x),
-//                        mlo(x,o,o,x),
-//                        mlo(x,x,o,x),
-//                        mlo(x,x,x,x)),
-//                        expected = listOf(
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x),
-//                                mlo(x,x,x,x))),
+                data(listOf(
+                        mlo(x,x,x,x),
+                        mlo(x,x,x,x),
+                        mlo(x,x,x,x),
+                        mlo(x,x,x,x),
+                        mlo(x,x,x,x)),
+                        expected = listOf(
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x))),
+                data(listOf(
+                        mlo(x,x,x,x),
+                        mlo(o,x,x,x),
+                        mlo(x,x,x,x),
+                        mlo(x,x,x,x),
+                        mlo(x,x,x,x)),
+                        expected = listOf(
+                                mlo(x,x,x,x),
+                                mlo(o,x,x,x),
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x))),
+                data(listOf(
+                        mlo(x,x,x,x),
+                        mlo(x,x,x,x),
+                        mlo(x,o,x,x),
+                        mlo(x,x,x,x),
+                        mlo(x,x,x,x)),
+                        expected = listOf(
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x))),
+                data(listOf(
+                        mlo(x,x,x,x),
+                        mlo(x,x,x,x),
+                        mlo(x,o,o,x),
+                        mlo(x,x,o,x),
+                        mlo(x,x,x,x)),
+                        expected = listOf(
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x))),
+                data(listOf(
+                        mlo(x,x,x,x),
+                        mlo(o,x,x,x),
+                        mlo(x,x,x,x),
+                        mlo(o,x,x,x),
+                        mlo(x,x,x,x)),
+                        expected = listOf(
+                                mlo(x,x,x,x),
+                                mlo(o,x,x,x),
+                                mlo(x,x,x,x),
+                                mlo(o,x,x,x),
+                                mlo(x,x,x,x))),
                 data(listOf(
                         mlo(x,x,x,x),
                         mlo(x,x,x,x),
@@ -70,21 +82,35 @@ object ComputeEnclosedRegionsSpek : Spek({
                         expected = listOf(
                                 mlo(x,x,x,x),
                                 mlo(x,x,x,x),
+                                mlo(o,o,x,x),
+                                mlo(x,x,x,x),
+                                mlo(x,x,x,x))),
+                data(listOf(
+                        mlo(x,x,x,x),
+                        mlo(o,o,o,x),
+                        mlo(x,o,o,x),
+                        mlo(x,x,o,x),
+                        mlo(x,x,x,x)),
+                        expected = listOf(
+                                mlo(x,x,x,x),
+                                mlo(o,o,o,x),
+                                mlo(x,o,o,x),
+                                mlo(x,x,o,x),
+                                mlo(x,x,x,x))),
+                data(listOf(
+                        mlo(x,x,x,x),
+                        mlo(o,o,o,x),
+                        mlo(x,x,x,x),
+                        mlo(x,o,o,x),
+                        mlo(x,o,o,x),
+                        mlo(x,x,x,x)),
+                        expected = listOf(
+                                mlo(x,x,x,x),
+                                mlo(o,o,o,x),
+                                mlo(x,x,x,x),
                                 mlo(x,x,x,x),
                                 mlo(x,x,x,x),
                                 mlo(x,x,x,x))),
-//                data(listOf(
-//                        mlo(x,x,x,x),
-//                        mlo(o,o,o,x),
-//                        mlo(x,o,o,x),
-//                        mlo(x,x,o,x),
-//                        mlo(x,x,x,x)),
-//                        expected = listOf(
-//                                mlo(x,x,x,x),
-//                                mlo(o,o,o,x),
-//                                mlo(x,o,o,x),
-//                                mlo(x,x,o,x),
-//                                mlo(x,x,x,x))),
                 null
         ).filterNotNull().toTypedArray()
         on("grid %s", with = *data) {

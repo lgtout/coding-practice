@@ -9,6 +9,7 @@ import java.util.*
 typealias Cell = Point<Boolean>
 
 fun computeEnclosedRegionsAndFill(booleanMatrix: List<MutableList<Boolean>>) {
+
     // Let's assume true = black, false = white
     val adjacencies = toGraph(booleanMatrix)
     val exploredCells = mutableSetOf<Cell>()
