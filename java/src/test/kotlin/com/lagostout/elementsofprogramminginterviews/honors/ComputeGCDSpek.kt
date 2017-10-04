@@ -5,6 +5,7 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.xdescribe
 import kotlin.test.assertEquals
 
 class ComputeGCDSpek : Spek({
@@ -42,6 +43,7 @@ class ComputeGCDSpek : Spek({
 //                TestCase(Pair(10,15)),
 //                TestCase(Pair(3,5)),
 //                TestCase(Pair(5,3)),
+                // TODO Handle negative values
                 TestCase(Pair(-15,10)),
                 null).filterNotNull()
     }
