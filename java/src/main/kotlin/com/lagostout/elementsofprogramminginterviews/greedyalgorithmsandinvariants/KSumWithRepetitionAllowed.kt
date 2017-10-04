@@ -8,19 +8,32 @@ fun kElementsAddUpToNumberWithRepetitionAllowed(
     return false
 }
 
+// TODO Verify
 fun permutationsWithRepetition(
-        elements: List<Int>, repeatCount: Int = 1,
-        startIndex: Int = 0): List<List<Int>> {
-    // TODO This algorithm for generating permutations isn't right yet.
-    return if (repeatCount == 0) {
-        // Should we be returning the same number of empty lists as
-        // the size of the elements list?
-        emptyList()
-    } else {
-        (startIndex..elements.lastIndex).map { index ->
-            permutationsWithRepetition(elements, repeatCount - 1, index).map {
-                listOf(index) + it
-            }.flatten()
+        elements: List<Int>, repeatCount: Int = 1):
+        List<List<Int>> {
+    val permutations = listOf(elements)
+    var currentRepeatCount = 1
+    val elementToPermutationGroupStartIndex = elements.withIndex()
+            .map {
+                (index, i) ->
+                i to index
+            }.toMap().toMutableMap()
+    while (currentRepeatCount < repeatCount) {
+        val nextPermutations = mutableListOf<List<Int>>()
+        elements.forEachIndexed { index, currentElement ->
+            val permutationGroupStartIndex =
+                    elementToPermutationGroupStartIndex[currentElement]!!
+            var permutationCount = 0
+            (permutationGroupStartIndex..permutations.lastIndex).forEach { index ->
+                nextPermutations.add(listOf(currentElement) + permutations[index])
+                permutationCount++
+            }
+            elementToPermutationGroupStartIndex[currentElement] = permutationCount +
+                    (if (index == 0) 0
+                    else elementToPermutationGroupStartIndex[elements[index-1]]!!)
         }
+        currentRepeatCount++
     }
+    return permutations
 }

@@ -4,7 +4,6 @@ import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvarian
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.jetbrains.spek.data_driven.Data2
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 import kotlin.test.assertEquals
