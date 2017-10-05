@@ -11,10 +11,12 @@ import kotlin.test.assertEquals
 object ReplaceAndRemoveSpek : Spek({
     describe("replaceAndRemove()") {
         val data = listOf(
-                data(listOf('c'), expected = listOf('c')),
-                data(listOf('d'), expected = listOf('d')),
-                data(listOf('d','d'), expected = listOf('d','d')),
-                data(listOf('e','d'), expected = listOf('e','d')),
+//                data(listOf('c'), expected = listOf('c')),
+//                data(listOf('d'), expected = listOf('d')),
+//                data(listOf('d','d'), expected = listOf('d','d')),
+//                data(listOf('e','d'), expected = listOf('e','d')),
+                data(listOf('a', null), expected = listOf<Char?>('d', 'd')),
+//                data(listOf('e','d','a'), expected = listOf('e','d','d')),
                 null
         ).filterNotNull().toTypedArray()
         on("replace and remove operations on %s", with = *data) {
