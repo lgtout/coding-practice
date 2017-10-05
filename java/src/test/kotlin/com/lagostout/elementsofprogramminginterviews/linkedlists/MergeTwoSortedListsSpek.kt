@@ -1,5 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.linkedlists
 
+import com.lagostout.elementsofprogramminginterviews.linkedlists.MergeTwoSortedLists.mergeTwoSortedLists
+import com.lagostout.elementsofprogramminginterviews.linkedlists.MergeTwoSortedLists.ListNode
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
