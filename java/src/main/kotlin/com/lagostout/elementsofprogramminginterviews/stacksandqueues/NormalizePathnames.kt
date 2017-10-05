@@ -6,38 +6,56 @@ import java.util.*
  * Problem 9.4 page 139
  */
 fun shortestEquivalentPath(path: String): String {
-    var shortestPath: String = ""
+    var shortestPath  = ""
     if (path.isEmpty()) return shortestPath
+
+    // Break path into parts
     val stack = LinkedList<String>()
-    val locations = path.split("/").filter {
-        it.isNotEmpty()
-    }
-    // Preserve absolute path when necessary
-    path[0].let {
-        if (it == '/') stack.push(it.toString())
-    }
-    locations.forEach {
+    val delimiters = Regex("(?<=/)|(?=/)|(?<=\\.\\.)|(?=\\.\\.)|(?<=\\.!\\.)")
+    val pathParts = path.split(delimiters).filterNot { it.isEmpty() }
+    pathParts.forEach {
         when (it) {
-            "." -> {
-                if (stack.isEmpty())
+            "/" -> {
+                if (stack.peek() != it)
                     stack.push(it)
             }
+            "." -> Unit
             ".." -> {
-                if (stack.isEmpty() || stack.peek() == "/")
-                    stack.push(it)
-                else stack.pop()
-            }
-            else -> {
-                // Handles "./a" -> "a"
-                if (stack.peek() == ".")
-                    stack.pop()
-                stack.push(it)
+
             }
         }
     }
 
-    shortestPath = if (stack.isEmpty()) "."
-    else stack.toList().reversed().joinToString("/")
-
+//    val stack = LinkedList<String>()
+//    val locations = path.split("/").filterNot {
+//        it.isEmpty()
+//    }
+//    locations.forEach {
+//        when (it) {
+//            "." -> {
+//                if (stack.isEmpty())
+//                    stack.push(it)
+//            }
+//            ".." -> {
+//                if (stack.isEmpty() || stack.peek() == "/")
+//                    stack.push(it)
+//                else stack.pop()
+//            }
+//            else -> {
+//                // Handles "./a" -> "a"
+//                if (stack.peek() == ".")
+//                    stack.pop()
+//                stack.push(it)
+//            }
+//        }
+//    }
+//
+//    shortestPath = if (stack.isEmpty()) "."
+//    else stack.toList().reversed().joinToString("/")
+//    // Preserve absolute path when necessary
+//    path[0].let {
+//        if (it == '/')
+//            shortestPath = it + shortestPath
+//    }
     return shortestPath
 }
