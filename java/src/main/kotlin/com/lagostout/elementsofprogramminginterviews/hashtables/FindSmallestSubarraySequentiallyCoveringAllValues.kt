@@ -10,11 +10,12 @@ object FindSmallestSubarraySequentiallyCoveringAllValues {
         if (paragraph.isEmpty() || keywords.isEmpty() ||
                 paragraph.size < keywords.size)
             return null
-        // TODO This may not be necessary as a special case - handled by general case
+        // General case assumes there's at least 2 words in the paragraph,
+        // so we need to explicitly handle when there's 1.
         if (paragraph.size == 1) {
             if (keywords.first() != paragraph.first())
                 return null
-            return Pair(1,1)
+            return Pair(0,0)
         }
         val keywordToIndexMap = keywords.withIndex().map {
             it.value to it.index }.toMap()
@@ -22,34 +23,47 @@ object FindSmallestSubarraySequentiallyCoveringAllValues {
         var rangeOfSmallestSubarray: Pair<Int, Int>? = null
         paragraph.forEachIndexed {
             index, word ->
-            val nextWordToSubarrayStartPair = when {
-                word == keywords.first() -> Pair(keywords[1], index)
-                nextWordToSubarrayStart.containsKey(word) -> {
-                    val subarrayStart = nextWordToSubarrayStart.remove(word)!!
-                    // TODO Need a check here to see if we're at the last word.
-                    // If so, we won't have a next keyword to use as key when
-                    // we update the map.  We'll need to store it in the
-                    // map using a distinct special key.  Or we update our
-                    // best result so far.  Either way, we'll need to return
-                    // null for this branch of the when block.
-                    if (word != keywords.last()) {
-                        Pair(keywords[keywordToIndexMap[word]!! + 1], subarrayStart)
-                    } else {
-                        rangeOfSmallestSubarray = rangeOfSmallestSubarray?.let { currentRange ->
-                            if (currentRange.second - currentRange.first >
-                                    index - subarrayStart) {
-                                Pair(subarrayStart, index)
-                            } else currentRange
-                        }
-                        null
-                    }
-                }
-                else -> return@forEachIndexed
+            val isLastWord = word == keywords.last()
+            // TODO This is a mess.  Needs work, clarity.  Break out when blocks.
+            if (isLastWord) {
+                val subarrayStart = nextWordToSubarrayStart.remove(word)!!
+
             }
-            nextWordToSubarrayStartPair?.let { (word, start) ->
-                if (!nextWordToSubarrayStart.contains(word) ||
-                        nextWordToSubarrayStart[word]!! < start) {
-                    nextWordToSubarrayStart[word] = start
+            val nextWordToSubarrayStartContainsWord =
+                    nextWordToSubarrayStart.containsKey(word)
+            when {
+                word == keywords.first() -> Pair(keywords[1], index)
+                isLastWord || nextWordToSubarrayStartContainsWord -> {
+                    val subarrayStart = nextWordToSubarrayStart.remove(word)!!
+                    when {
+                        isLastWord -> {
+                            rangeOfSmallestSubarray = rangeOfSmallestSubarray?.let {
+                                currentRange ->
+                                val currentSmallestSubarrayLength =
+                                        currentRange.second - currentRange.first
+                                val candidateSmallestSubarrayLength = index - subarrayStart
+                                if ( currentSmallestSubarrayLength > candidateSmallestSubarrayLength) {
+                                    Pair(subarrayStart, index)
+                                } else currentRange
+                            }
+                        }
+                        nextWordToSubarrayStartContainsWord -> {
+                            if (word != keywords.last()) {
+                                val nextKeyword = keywords[keywordToIndexMap[word]!! + 1]
+                                if (!nextWordToSubarrayStart.contains(nextKeyword) ||
+                                        nextWordToSubarrayStart[nextKeyword]!! > subarrayStart) {
+                                    nextWordToSubarrayStart[nextKeyword] = subarrayStart
+                                }
+                            } else {
+                                rangeOfSmallestSubarray = rangeOfSmallestSubarray?.let { currentRange ->
+                                    if (currentRange.second - currentRange.first >
+                                            index - subarrayStart) {
+                                        Pair(subarrayStart, index)
+                                    } else currentRange
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
