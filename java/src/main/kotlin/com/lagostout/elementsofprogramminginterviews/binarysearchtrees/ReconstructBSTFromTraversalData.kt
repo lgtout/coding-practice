@@ -14,52 +14,34 @@ fun <T : Comparable<T>> reconstructBSTFromPostorderTraversal(
     val pathIterator = path.reversed().iterator()
     val root = BinaryTreeNode(value = pathIterator.next())
     var previousNode = root
+    // TODO Needs work
     pathIterator.forEach { value ->
         val currentNode = BinaryTreeNode(value = value)
         if (previousNode.isRoot) {
-            currentNode.parent = previousNode
             if (currentNode.value < previousNode.value) {
                 previousNode.left = currentNode
             } else {
                 previousNode.right = currentNode
             }
-        } else if (previousNode.isLeftChild &&
-                currentNode.value < previousNode.value) {
-            previousNode.left = currentNode
+            // TODO Duplicated
             currentNode.parent = previousNode
-        } else if (previousNode.isRightChild &&
-                currentNode.value > previousNode.value) {
+        } else if (currentNode.value > previousNode.value) {
             previousNode.right = currentNode
             currentNode.parent = previousNode
         } else {
             while (true) {
-                // Climb toward root.
-                // Attach currentNode as left if previousNode is
-                // rightChild, or as right if previousNode is
-                // leftChild.
-                // Attach when currentNode value is <
-                // previousNode.parent value when previousNode is
-                // leftChild.
-                // Or, when currentNode value is >
-                // previousNode.parent value when previousNode is
-                // rightChild.
+                previousNode.parent?.let { parent ->
+                    if (previousNode.isLeftChild && parent.value > currentNode.value) {
+
+                    }
+                }
+                previousNode.parent?.let {
+                    it.value
+                }
             }
-//            previousNode.parent?.let {
-//                if (currentNode.value < it.value) {
-//                    previousNode.right = currentNode
-//                    currentNode.parent = previousNode
-//                } else {
-//                    previousNode = it
-//                }
-//            }
-//            if (currentNode.value > previousNode.value) {
-//                previousNode.right = currentNode
-//                currentNode.parent = previousNode
-//            }
-//            previousNode.parent?.let {
-//                if (currentNode.value > it.value)
-//                    previousNode = it
-//            }
+            previousNode.left = currentNode
+            currentNode.parent = previousNode
+
         }
         previousNode = currentNode
     }
