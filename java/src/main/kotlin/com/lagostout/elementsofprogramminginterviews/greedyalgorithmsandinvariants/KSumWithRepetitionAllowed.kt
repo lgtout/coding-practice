@@ -5,6 +5,7 @@ package com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvaria
  */
 fun kElementsAddUpToNumberWithRepetitionAllowed(
         k: Int, allElements: List<Int>, s: Int): Boolean {
+//    permutations.
     return false
 }
 
