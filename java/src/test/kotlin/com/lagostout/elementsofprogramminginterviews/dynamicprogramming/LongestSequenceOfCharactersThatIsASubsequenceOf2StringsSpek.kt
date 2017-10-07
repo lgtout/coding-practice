@@ -1,10 +1,12 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
+import org.hamcrest.MatcherAssert
+import org.hamcrest.Matchers.contains
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
-import kotlin.test.assertTrue
+import kotlin.test.assertEquals
 
 class LongestSequenceOfCharactersThatIsASubsequenceOf2StringsSpek: Spek({
     describe("levenshteinDistance") {
@@ -12,8 +14,12 @@ class LongestSequenceOfCharactersThatIsASubsequenceOf2StringsSpek: Spek({
             (string1, string2, expected) ->
             given("string1: $string1 string2: $string2") {
                 it("returns one of $expected") {
-                    assertTrue(expected.contains(
-                            longestCommonSubsequence(string1, string2)))
+                    val result = longestCommonSubsequence(string1, string2)
+                    assertEquals(expected.first, result.length)
+                    println(expected)
+                    if (expected.first != 0)
+                        MatcherAssert.assertThat(expected.second, contains(result))
+                    else assertEquals("", result)
                 }
             }
         }
@@ -21,45 +27,42 @@ class LongestSequenceOfCharactersThatIsASubsequenceOf2StringsSpek: Spek({
 }) {
     companion object {
 
-        // Not the most efficient.  But it captures the essential idea
-        // of a recursive solution.
-        fun bruteForceLongestCommonSubsequence(
-                string1: String, string2: String): List<String> {
-            val subsequences = mutableListOf<String>()
-            bruteForceCommonSubsequences(subsequences, string1, string2)
-            return subsequences.apply {
-                sortByDescending { it.length }
-            }.let {
-                it.filter { it.length < subsequences[0].length }
-            }
-        }
-
-        // TODO
-        private fun bruteForceCommonSubsequences(
-                commonSubsequences: MutableList<String>,
+        fun bruteForceLongestCommonSubsequences(
                 string1: String, string2: String,
-                string1Start: Int = 0, string2Start: Int = 0) {
-            // Could use better names for these cases
-//            val lengthWhenFirstCharacterNotIncluded =
-//                    bruteForceCommonSubsequences(commonSubsequences)
-            val lengthWhenFirstCharacterIncluded = 0
-            val lengthWhenFirstCharactersMatch = 0
+                string1Start: Int = 0, string2Start: Int = 0):
+                Pair<Int, List<String>> {
+            val noMatches = Pair<Int, List<String>>(0, emptyList())
+            if (string1Start > string1.lastIndex ||
+                    string2Start > string2.lastIndex)
+               return noMatches
+            val right = bruteForceLongestCommonSubsequences(
+                    string1, string2, string1Start + 1, string2Start)
+            val below = bruteForceLongestCommonSubsequences(
+                    string1, string2, string1Start, string2Start + 1)
+            val belowRight = bruteForceLongestCommonSubsequences(
+                    string1, string2, string1Start + 1, string2Start + 1).let {
+                if (string1[string1Start] == string2[string2Start]) {
+                    Pair(it.first + 1, it.second.map {
+                        string1[string1Start] + it })
+                } else it
+            }
+            return listOf(right, below, belowRight).maxBy { it.first } ?: noMatches
         }
 
         data class TestCase(val string1: String, val string2: String) {
-            val expected = bruteForceLongestCommonSubsequence(string1, string2)
+            val expected = bruteForceLongestCommonSubsequences(string1, string2)
             operator fun component3() = expected
         }
 
         val testCases: List<TestCase> = run {
             listOf(
-                    TestCase("saturday", "sundays"),
-                    TestCase("carthorse", "orchestra"),
                     TestCase("", ""),
-                    TestCase("", "a"),
-                    TestCase("a", ""),
-                    TestCase("a", "a"),
-                    TestCase("a", "b"),
+//                    TestCase("", "a"),
+//                    TestCase("a", ""),
+//                    TestCase("a", "a"),
+//                    TestCase("a", "b"),
+//                    TestCase("saturday", "sundays"),
+//                    TestCase("carthorse", "orchestra"),
                     null
             ).filterNotNull()
         }

@@ -18,9 +18,9 @@ fun longestCommonSubsequence(
     // string1 -> vertical, string2 -> horizontal
     val cache = mutableListOf<MutableList<Int>>().apply {
         val row = mutableListOf<Int>().apply {
-            (0..string2.length).forEach { add(0) }
+            (0 until string2.length).forEach { add(0) }
         }
-        (0..string1.length).forEach {
+        (0 until string1.length).forEach {
             add(row.toMutableList())
         }
     }
@@ -46,20 +46,22 @@ fun longestCommonSubsequence(
     }
 
     // Build common sequence from walking the grid
-    var position = Position(0,0)
     val longestSequence = StringBuilder()
-    run {
-        while (true) {
-            with (position) {
-                val currentPositionMatchCount = cache[row][column]
-                if (currentPositionMatchCount == 0) return@run
-                position = if (string1[row] == string2[column]) {
-                    longestSequence.append(string1[row])
-                    position.belowRight
-                } else {
-                    listOf(position.below, position.right).find { (r, c) ->
-                        cache[r][c] == currentPositionMatchCount
-                    }!!
+    if (string1.isNotEmpty() && string2.isNotEmpty()) {
+        var position = Position(0,0)
+        run {
+            while (true) {
+                with (position) {
+                    val currentPositionMatchCount = cache[row][column]
+                    if (currentPositionMatchCount == 0) return@run
+                    position = if (string1[row] == string2[column]) {
+                        longestSequence.append(string1[row])
+                        position.belowRight
+                    } else {
+                        listOf(position.below, position.right).find { (r, c) ->
+                            cache[r][c] == currentPositionMatchCount
+                        }!!
+                    }
                 }
             }
         }
