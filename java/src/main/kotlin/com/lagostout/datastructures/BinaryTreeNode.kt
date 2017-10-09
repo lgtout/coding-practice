@@ -5,6 +5,9 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
                              var right: BinaryTreeNode<T>? = null,
                              val value: T) {
 
+    val isRoot: Boolean
+        get() = parent == null
+
     override fun hashCode(): Int {
         var result = parent?.hashCode() ?: 0
         result = 31 * result + (left?.hashCode() ?: 0)
