@@ -10,9 +10,9 @@ import kotlin.test.assertEquals
 object ParityOfAWordSpek : Spek({
     describe("computeParity()") {
         val data = listOf(
-                data(arrayOf(), expected = listOf()),
-                data(arrayOf<Long>(0), expected = listOf(0)),
-                data(arrayOf<Long>(0,3,5,7,11), expected = listOf(0,0,0,1,1)),
+                data(listOf(), expected = listOf()),
+                data(listOf<Long>(0), expected = listOf(0)),
+                data(listOf<Long>(0,3,5,7,11), expected = listOf(0,0,0,1,1)),
                 null
         ).filterNotNull().toTypedArray()
         on("compute parity of words %s", with = *data) { words, expected ->
