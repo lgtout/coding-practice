@@ -10,26 +10,24 @@ import kotlin.test.assertEquals
 object NormalizePathnamesSpek : Spek({
     describe("shortestEquivalentPath()") {
         val data = listOf(
-//                data("", expected = ""),
-//                data(".", expected = "."),
+                data("", expected = ""),
+                data(".", expected = "."),
                 data("/", expected = "/"),
-//                data("..", expected = ".."),
-//                data("//", expected = "/"),
-//                data("/a", expected = "/a"),
-//                data("/a/b", expected = "/a/b"),
-//                data("a", expected = "a"),
-//                data("a/b", expected = "a/b"),
-//                data("./a", expected = "./a"),
-//                data("././a", expected = "a"),
-//                data("./a/././b", expected = "a/b"),
-//                data("/.", expected = "/"),
-//                data("/..", expected = "/.."),
-//                data("../", expected = ".."),
-//                data("../a", expected = "../a"),
-//                data("./../a", expected = "../a"),
-//                data("/./../a", expected = "../a"),
-//                data("/a/b/../../", expected = "/"),
-//                data("a/b/../../", expected = "."),
+                data("//", expected = "/"),
+                data("/a", expected = "/a"),
+                data("/a/b", expected = "/a/b"),
+                data("a", expected = "a"),
+                data("a/b", expected = "a/b"),
+                data("..", expected = ".."),
+                data("./a", expected = "a"),
+                data("././a", expected = "a"),
+                data("./a/././b", expected = "a/b"),
+                data("/.", expected = "/"),
+                data("../", expected = ".."),
+                data("../a", expected = "../a"),
+                data("./../a", expected = "../a"),
+                data("/a/b/../../", expected = "/"),
+                data("a/b/../../", expected = "."),
 //                data("a/b/c../../", expected = "a"),
 //                data("a/b/.//./c///../../", expected = "a"),
                 null
@@ -39,5 +37,11 @@ object NormalizePathnamesSpek : Spek({
                 assertEquals(expected, shortestEquivalentPath(path))
             }
         }
+        // Exception cases
+//        val data2 = listOf(
+//                data("/./../a", expected = "../a"),
+//                data("/..", expected = "/.."),
+//                null
+//        ).filterNotNull().toTypedArray()
     }
 })
