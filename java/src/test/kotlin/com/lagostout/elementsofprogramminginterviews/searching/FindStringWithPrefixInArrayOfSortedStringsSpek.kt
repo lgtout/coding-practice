@@ -11,14 +11,15 @@ import kotlin.test.assertEquals
 object FindStringWithPrefixInArrayOfSortedStringsSpek : Spek({
     describe("findStringWithPrefix()") {
         val data = listOf<Data2<List<String>, String, String?>?>(
-//                data(listOf("a"), "", expected = null),
-//                data(listOf("a"), "a", expected = "a"),
+                data(listOf("a"), "", expected = null),
+                data(listOf("a"), "a", expected = "a"),
                 data(listOf("a","b"), "a", expected = "a"),
-//                data(listOf("a","b"), "b", expected = "b"),
-//                data(listOf("ab","bc"), "b", expected = "bc"),
-//                data(listOf("ab","bc"), "a", expected = "ab"),
-//                data(listOf("ab","ac"), "a", expected = "ab"),
-//                data(listOf("ab","ac","bc","bd","cd","cee"), "ce", expected = "cee"),
+                data(listOf("a","b"), "b", expected = "b"),
+                data(listOf("ab","bc"), "b", expected = "bc"),
+                data(listOf("ab","bc"), "a", expected = "ab"),
+                data(listOf("ab","ac"), "a", expected = "ac"),
+                data(listOf("ab","ac","bc","bd","cd","cee"), "ce", expected = "cee"),
+                data(listOf("ab","ac","bc","bd","cd","cee","cae"), "ce", expected = "cee"),
                 null
         ).filterNotNull().toTypedArray()
         on("strings: %s prefix: %s", with = *data) {

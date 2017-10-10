@@ -9,7 +9,7 @@ fun findStringWithPrefix(prefix: String, strings: List<String>): String? {
     var result: String? = null
     if (strings.isEmpty() || prefix.isEmpty()) return result
     run {
-        while (lo < hi) {
+        while (lo <= hi) {
             val mid = (hi - lo)/2 + lo
             when (prefix.compareTo(strings[mid].substring(0, prefix.length))) {
                 0 -> {
