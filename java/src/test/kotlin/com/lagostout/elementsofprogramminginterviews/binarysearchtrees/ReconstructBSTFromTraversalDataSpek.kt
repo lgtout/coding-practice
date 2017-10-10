@@ -29,10 +29,10 @@ class ReconstructBSTFromPostorderTraversalDataSpek : Spek({
         val testCases = run {
             listOf(
 //                    TestCase(),
-//                    TestCase(listOf(10)),
+                    TestCase(listOf(10)),
 //                    TestCase(listOf(10,20)),
 //                    TestCase(listOf(30,20)),
-                    TestCase(listOf(20,30)),
+//                    TestCase(listOf(20,30)),
 //                    TestCase(listOf(10,20,30)),
 //                    TestCase(listOf(30,20,10)),
 //                    TestCase(listOf(10,30,20)),
