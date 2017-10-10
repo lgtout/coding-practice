@@ -15,13 +15,19 @@ object FindSmallestSubarraySequentiallyCoveringAllValuesSpek : Spek({
             return words.split(" ").filterNot { it.isEmpty() }
         }
         val data = arrayOf<Data2<String, String, Pair<Int, Int>?>?>(
-//                data("", "", expected = null),
-//                data("apple", "", expected = null),
-//                data("apple", "banana", expected = null),
-//                data("apple", "apple", expected = Pair(0, 0)),
+                data("", "", expected = null),
+                data("apple", "", expected = null),
+                data("apple", "banana", expected = null),
+                data("apple", "apple", expected = Pair(0, 0)),
                 data("banana apple", "apple", expected = Pair(1, 1)),
-//                data("banana banana", "banana", expected = Pair(0, 0)),
-//                data("apple banana mango", "banana mango", expected = Pair(0, 0)),
+                data("banana banana", "banana", expected = Pair(0, 0)),
+                data("apple banana mango", "banana mango", expected = Pair(1, 2)),
+                data("apple banana mango apple banana apple mango", "banana mango",
+                        expected = Pair(1, 2)),
+                data("apple banana apple mango apple banana apple mango", "banana mango",
+                        expected = Pair(1, 3)),
+                data("apple banana apple apple mango apple banana banana mango banana banana",
+                        "banana mango", expected = Pair(7, 8)),
                 null)
                 .filterNotNull()
                 .map {
