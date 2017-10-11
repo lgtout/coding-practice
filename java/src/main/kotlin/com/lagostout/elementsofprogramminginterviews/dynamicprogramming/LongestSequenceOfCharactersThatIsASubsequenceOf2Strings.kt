@@ -18,16 +18,16 @@ fun longestCommonSubsequence(
     // string1 -> vertical, string2 -> horizontal
     val cache = mutableListOf<MutableList<Int>>().apply {
         val row = mutableListOf<Int>().apply {
-            (0 until string2.length).forEach { add(0) }
+            (0..string2.length).forEach { add(0) }
         }
-        (0 until string1.length).forEach {
+        (0..string1.length).forEach {
             add(row.toMutableList())
         }
     }
 
     // Compute grid cache match counts
-    cache.indices.reversed().forEach { rowIndex ->
-        cache[rowIndex].reversed().forEach { colIndex ->
+    ((cache.lastIndex - 1) downTo 0).forEach { rowIndex ->
+        ((cache[rowIndex].lastIndex - 1) downTo 0).forEach { colIndex ->
             val currentCellPosition = Position(rowIndex, colIndex)
             val rightCellMatchCount = currentCellPosition.right.run {
                 cache[row][column]
@@ -36,8 +36,8 @@ fun longestCommonSubsequence(
                 cache[row][column]
             }
             val belowRightCellMatchCount =
-                    if (string1[currentCellPosition.column] ==
-                            string2[currentCellPosition.row]) {
+                    if (string1[currentCellPosition.row] ==
+                            string2[currentCellPosition.column]) {
                         currentCellPosition.belowRight.run { cache[row][column] } + 1
                     } else 0
             cache[rowIndex][colIndex] = listOf(rightCellMatchCount,
@@ -53,7 +53,9 @@ fun longestCommonSubsequence(
             while (true) {
                 with (position) {
                     val currentPositionMatchCount = cache[row][column]
-                    if (currentPositionMatchCount == 0) return@run
+                    if (currentPositionMatchCount == 0) {
+                        return@run
+                    }
                     position = if (string1[row] == string2[column]) {
                         longestSequence.append(string1[row])
                         position.belowRight
@@ -67,6 +69,6 @@ fun longestCommonSubsequence(
         }
     }
 
-    return longestSequence.reverse().toString()
+    return longestSequence.toString()
 
 }
