@@ -1,5 +1,55 @@
 package com.lagostout.elementsofprogramminginterviews.graphs
 
+import org.apache.commons.lang3.builder.EqualsBuilder
+import org.apache.commons.lang3.builder.HashCodeBuilder
+
+data class DigraphNode<T>(val value: T,
+                          val adjacentNodes: MutableList<DigraphNode<T>> = mutableListOf()) {
+    private val id: Int = ID++
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is DigraphNode<*>) {
+            return false
+        }
+        if (this === other) {
+            return true
+        }
+        return EqualsBuilder().append(
+                this.id, other.id).isEquals
+    }
+
+    override fun hashCode(): Int {
+        return HashCodeBuilder()
+                .append(this.id)
+                .toHashCode()
+    }
+
+    override fun toString(): String {
+        return "DigraphNode(value=$value, adjacentNodes=${adjacentNodes.map { it.value }}, id=$id)"
+    }
+
+    companion object {
+        var ID = 0
+    }
+}
+
+data class RawDigraphNode<out T>(val value: T,
+                                 val adjacentNodes: List<Int> = emptyList())
+
+fun <T> toDigraph(rawNodes: List<RawDigraphNode<T>>):
+        List<DigraphNode<T>> {
+    val digraph = mutableListOf<DigraphNode<T>>()
+    rawNodes.forEach {
+        digraph.add(DigraphNode(it.value))
+    }
+    digraph.forEachIndexed { index, node ->
+        rawNodes[index].adjacentNodes.forEach {
+            node.adjacentNodes.add(digraph[it])
+        }
+    }
+    return digraph
+}
+
 /**
  * Transforms a boolean matrix into an adjacency map of a graph.
  * Edges are 2-way.
