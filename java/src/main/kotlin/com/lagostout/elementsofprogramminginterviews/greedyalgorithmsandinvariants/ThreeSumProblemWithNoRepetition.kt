@@ -9,6 +9,34 @@ fun canPickThreeWithNoRepetitionThatAddUpToSum(
     return findCombinationsOfThreeWithNoRepetitionThatAddUpToSum(list, sum).isNotEmpty()
 }
 
+fun findCombinationsOfThreeWithNoRepetitionThatAddUpToSumSimpler(
+        list: List<Int>, sum: Int): List<Triple<Int, Int, Int>> {
+    if (list.isEmpty()) return emptyList()
+
+    val result = mutableListOf<Triple<Int, Int, Int>>()
+    val sortedList = list.toSet().sorted()
+
+    var leftIndex = 0
+    var rightIndex = sortedList.lastIndex
+    while (leftIndex < rightIndex - 1) {
+        val left = sortedList[leftIndex]
+        val right = sortedList[rightIndex]
+        val leftRightSum = left + right
+        val remainder = sum - leftRightSum
+        when {
+            remainder < sortedList[leftIndex + 1] -> --rightIndex
+            remainder > sortedList[rightIndex - 1] -> ++leftIndex
+            else -> (leftIndex + 1 until rightIndex - 1).forEach {
+                val middle = list[it]
+                if (left + middle + right == sum)
+                    result.add(Triple(left, middle, right))
+            }
+        }
+    }
+
+    return result
+}
+
 fun findCombinationsOfThreeWithNoRepetitionThatAddUpToSum(
         list: List<Int>, sum: Int): List<Triple<Int, Int, Int>> {
     if (list.isEmpty()) return emptyList()
@@ -18,7 +46,7 @@ fun findCombinationsOfThreeWithNoRepetitionThatAddUpToSum(
 
     var leftIndex = 0
     var rightIndex = sortedList.lastIndex
-    while (leftIndex <= rightIndex - 2) {
+    while (leftIndex < rightIndex - 1) {
         val left = sortedList[leftIndex]
         val right = sortedList[rightIndex]
         val leftRightSum = left + right
