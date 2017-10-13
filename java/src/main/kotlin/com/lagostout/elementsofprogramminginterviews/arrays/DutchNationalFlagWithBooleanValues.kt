@@ -1,5 +1,8 @@
 package com.lagostout.elementsofprogramminginterviews.arrays
 
+/**
+ * Problem 6.1.4 page 65
+ */
 @Suppress("NAME_SHADOWING")
 fun arrangeAsDutchNationalFlag(array: MutableList<Boolean>) {
     var firstTrueIndex = 0
