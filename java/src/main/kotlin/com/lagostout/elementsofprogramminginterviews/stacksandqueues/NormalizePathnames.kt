@@ -7,6 +7,10 @@ import java.util.*
  * Problem 9.4 page 139
  */
 fun shortestEquivalentPath(path: String): String {
+    // We'll assume the paths are well-formed because
+    // validating well-formedness is non-trivial.
+    // But we'll throw an exception if you try to go up
+    // a directory when you're at the root: "/..".
     var shortestPath  = ""
     if (path.isEmpty()) return shortestPath
     // Break path into parts
@@ -14,19 +18,18 @@ fun shortestEquivalentPath(path: String): String {
     val delimiters = Regex("(?<=/)|(?=/)|(?<=\\.\\.)|" +
             "(?=\\.\\.)|(?<=\\.!\\.)|(?=\\.!\\.)")
     val pathParts = path.split(delimiters).filterNot { it.isEmpty() }
-    val pathPartsIterator = PeekingIterator(pathParts.iterator())
-    println(pathParts)
-    pathPartsIterator.forEach {
-        when (it) {
+    val pathPartsIterator = PeekingIterator(pathParts.withIndex().iterator())
+//    println(pathParts)
+    pathPartsIterator.forEach { (index, pathPart) ->
+        when (pathPart) {
             "/" -> {
-                // TODO If the stack is empty, don't push "/" if it
-                // isn't the first part in the path.
-                if (stack.peek() != it)
-                    stack.push(it)
+                if (stack.peek() == ".") stack.pop()
+                if (index == 0 || (stack.isNotEmpty() && stack.peek() != pathPart))
+                    stack.push(pathPart)
             }
             "." -> {
-                if (pathPartsIterator.peek() == "/")
-                    pathPartsIterator.next()
+                if (stack.isEmpty())
+                    stack.push(pathPart)
             }
             ".." -> {
                 if (stack.peek() == "/") {
@@ -34,13 +37,13 @@ fun shortestEquivalentPath(path: String): String {
                         throw IllegalArgumentException()
                     stack.pop()
                 }
-                if (stack.isEmpty()) stack.push(it)
+                if (stack.isEmpty()) stack.push(pathPart)
                 else if (stack.isNotEmpty() && stack.peek() == "..") {
                     stack.push("/")
                     stack.push("..")
                 } else stack.pop()
             }
-            else -> stack.push(it)
+            else -> stack.push(pathPart)
         }
     }
     if (stack.isEmpty()) stack.push(".")

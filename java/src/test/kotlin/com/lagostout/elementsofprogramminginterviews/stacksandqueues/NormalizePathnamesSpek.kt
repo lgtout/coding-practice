@@ -28,8 +28,9 @@ object NormalizePathnamesSpek : Spek({
                 data("./../a", expected = "../a"),
                 data("/a/b/../../", expected = "/"),
                 data("a/b/../../", expected = "."),
-//                data("a/b/c../../", expected = "a"),
-//                data("a/b/.//./c///../../", expected = "a"),
+                data("a/b/c/../../", expected = "a"),
+                data("a/b/.//./c///../../", expected = "a"),
+                data("1/2/.//./3///../../", expected = "1"),
                 null
         ).filterNotNull().toTypedArray()
         on("path = %s", with = *data) { path, expected ->
@@ -37,11 +38,5 @@ object NormalizePathnamesSpek : Spek({
                 assertEquals(expected, shortestEquivalentPath(path))
             }
         }
-        // Exception cases
-//        val data2 = listOf(
-//                data("/./../a", expected = "../a"),
-//                data("/..", expected = "/.."),
-//                null
-//        ).filterNotNull().toTypedArray()
     }
 })
