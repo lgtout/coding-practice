@@ -9,8 +9,7 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
         get() = parent == null
 
     override fun hashCode(): Int {
-        var result = parent?.hashCode() ?: 0
-        result = 31 * result + (left?.hashCode() ?: 0)
+        var result = (left?.hashCode() ?: 0)
         result = 31 * result + (right?.hashCode() ?: 0)
         result = 31 * result + (value?.hashCode() ?: 0)
         return result
@@ -20,7 +19,6 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
         if (this === other) return true
         if (other !is BinaryTreeNode<*>) return false
 
-        if (parent != other.parent) return false
         if (left != other.left) return false
         if (right != other.right) return false
         if (value != other.value) return false

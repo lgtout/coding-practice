@@ -13,7 +13,7 @@ fun <T> reconstructBinaryTreeFromTraversal(
     val root: BinaryTreeNode<T> = BinaryTreeNode(
             value = preorderTraversalIterator.next())
     val keyToInorderPositionMap = inorderTraversal.mapIndexed {
-        index, element -> element to index}.toMap()
+        index, element -> element to index }.toMap()
     var currentNode = root
     while (preorderTraversalIterator.hasNext()) {
         val key = preorderTraversalIterator.next()
