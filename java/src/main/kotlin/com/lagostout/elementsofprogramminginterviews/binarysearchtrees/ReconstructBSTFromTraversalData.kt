@@ -9,36 +9,29 @@ import com.lagostout.datastructures.BinaryTreeNode
 fun <T : Comparable<T>> reconstructBSTFromPostorderTraversal(
         path: List<T>): BinaryTreeNode<T>? {
     if (path.isEmpty()) return null
-    val elementToPostorderIndex = path.withIndex().map {
-        it.value to it.index
-    }.toMap()
-    val pathIterator = path.iterator()
-    var root: BinaryTreeNode<T>? = null
-    var treeNode = BinaryTreeNode(value = pathIterator.next())
+    val pathIterator = path.reversed().iterator()
+    val root = BinaryTreeNode(value = pathIterator.next())
+    var treeNode = root
     while (true) {
         if (!pathIterator.hasNext()) break
         val node = BinaryTreeNode(value = pathIterator.next())
-        compareValues(elementToPostorderIndex[node.value],
-                elementToPostorderIndex[treeNode.value]).let {
-            when (it) {
-                1 -> {
+        if (node.value > treeNode.value) {
+            treeNode.right = node
+            node.parent = treeNode
+        } else {
+            // TODO
+            // Not sure about this. How do we climb up the tree?
+            // _node_ may be the left child of the _treeNode_, or
+            // the left child of one of _treeNode_'s left ancestors.
+            // But we don't want to have to find out if _treeNode_
+            // has a left ancestor, every time we need to add a left
+            // child. How do we avoid this?
+            run {
+                while (true) {
                     treeNode.parent?.let {
+                        if (it.isLeftChild) return@run
                         treeNode = it
-                    }?: run {
-                        node.left = treeNode
-                        treeNode.parent = node
-                        root = node
                     }
-                }
-                else -> {
-                    if (node.value < treeNode.value) {
-                        treeNode.left = node
-                        node.parent = treeNode
-                    } else {
-                        treeNode.right = node
-                        node.parent = treeNode
-                    }
-                    treeNode = node
                 }
             }
         }
@@ -46,7 +39,7 @@ fun <T : Comparable<T>> reconstructBSTFromPostorderTraversal(
     return root
 }
 
-// TODO Redo like postorder, taking advantage of position in preorder.
+// TODO Redo like postorder, taking advantage of position in preorder. (Maybe not?)
 fun <T : Comparable<T>> reconstructBSTFromPreorderTraversal(
         path: List<T>): BinaryTreeNode<T>? {
     if (path.isEmpty()) return null
