@@ -89,6 +89,10 @@ object TowersOfHanoi {
         }
 
         fun extra(pegs: List<Peg>): Peg {
+            return extra(*pegs.toTypedArray())
+        }
+
+        fun extra(vararg pegs: Peg): Peg {
             return list.filter { it !in pegs }[0]
         }
 
@@ -119,7 +123,10 @@ object TowersOfHanoi {
 
     }
 
-    data class RingMove(val from: PegPosition, val to: PegPosition, val ring: Ring)
+    data class RingMove(val from: PegPosition, val to: PegPosition, val ring: Ring) {
+        constructor(fromPeg: Peg, toPeg: Peg, ring: Ring) :
+                this(fromPeg.position, toPeg.position, ring)
+    }
 
     fun transferRingsFromOnePegToAnother(pegs: Pegs, from: Peg, to: Peg,
                                          countOfRingsToMove: Int,

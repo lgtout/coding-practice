@@ -1,14 +1,13 @@
 package com.lagostout.elementsofprogramminginterviews.recursion
 
+import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition
+import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.RingMove
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition.*
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.Pegs
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.RingMove
 
 // There's a lot of duplication with TowersOfHanoiSpek, but solving
 // that problem is less valuable than moving on to other EPIJ problems.
@@ -24,7 +23,7 @@ class TowersOfHanoiWithoutRecursionSpek : Spek({
                             transferRingsBetweenPegsWithoutRecursion(
                                     pegs, pegs.at(fromPegPosition),
                             pegs.at(toPegPosition), operations)
-                    assertEquals(pegs, pegsFromRunningOperations(
+                    assertEquals(pegs, TowersOfHanoiSpek.pegsFromRunningOperations(
                             ringCount, fromPegPosition, operations))
                 }
             }
@@ -48,19 +47,5 @@ class TowersOfHanoiWithoutRecursionSpek : Spek({
                 TestCase(RIGHT, LEFT, 5),
                 null).filterNotNull()
 
-        fun pegsFromRunningOperations(
-                ringCount: Int,
-                fromPosition: PegPosition,
-                operations: List<TowersOfHanoi.RingMove>): Pegs {
-            val pegs = Pegs(ringCount, fromPosition)
-            operations.forEach { (fromPosition, toPosition) ->
-                pegs.at(toPosition).let { toPeg ->
-                    pegs.at(fromPosition).let { fromPeg ->
-                        toPeg.push(fromPeg.pop())
-                    }
-                }
-            }
-            return pegs
-        }
     }
 }

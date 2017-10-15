@@ -2,7 +2,6 @@ package com.lagostout.elementsofprogramminginterviews.recursion
 
 import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition
 import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition.*
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.Pegs
 import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.RingMove
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -13,21 +12,6 @@ import kotlin.test.assertEquals
 object TowersOfHanoiMinimumOperationsWithOnePegAlwaysInvolvedSpek : Spek({
 
     describe("minimumNumberOfOperationsWithOnePegAlwaysInvolved") {
-
-        fun pegsFromRunningOperations(
-                ringCount: Int,
-                fromPosition: PegPosition,
-                operations: List<TowersOfHanoi.RingMove>): Pegs {
-            val pegs = Pegs(ringCount, fromPosition)
-            operations.forEach { (fromPosition, toPosition) ->
-                pegs.at(toPosition).let { toPeg ->
-                    pegs.at(fromPosition).let { fromPeg ->
-                        toPeg.push(fromPeg.pop())
-                    }
-                }
-            }
-            return pegs
-        }
 
         data class TestCase(val fromPegPosition: PegPosition,
                             val toPegPosition: PegPosition,
@@ -68,7 +52,7 @@ object TowersOfHanoiMinimumOperationsWithOnePegAlwaysInvolvedSpek : Spek({
                     // However, I did go through all the steps for one case (moving 3 rings
                     // from left to middle peg), so I can verify expected operation count
                     // for that one.
-                    assertEquals(pegs, pegsFromRunningOperations(
+                    assertEquals(pegs, TowersOfHanoiSpek.pegsFromRunningOperations(
                             ringCount, fromPegPosition, operations))
                     expectedOperationCount?.let {
                         assertEquals(it, operations.size)
