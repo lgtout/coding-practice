@@ -3,7 +3,7 @@ package com.lagostout.elementsofprogramminginterviews.sorting
 /**
  * Problem 14.2 page 242
  */
-fun mergeSortedArrays(toArray: Array<Int?>, fromArray: Array<Int?>) {
+fun mergeSortedArrays(toArray: MutableList<Int?>, fromArray: List<Int?>) {
     // We'll assume that empty spaces are contiguous and exist only at
     // the end of toArray.
     // Also, the size of toArray will be equal to or
@@ -14,12 +14,15 @@ fun mergeSortedArrays(toArray: Array<Int?>, fromArray: Array<Int?>) {
     // looking for firstNonEmptyToArrayIndex at toArray.lastIndex
     val nonNullElementCount = toArray.withIndex().find {
         it.value == null
-    }?.index!!
-    (0 until nonNullElementCount).forEach { index ->
-        toArray[index + nonNullElementCount] = toArray[index]
+    }?.index ?: 0
+    val firstNonNullElementIndexAfterMove =
+            toArray.size - nonNullElementCount
+    (nonNullElementCount - 1 downTo 0).forEach { index ->
+        toArray[firstNonNullElementIndexAfterMove + index] = toArray[index]
         // Not necessary, but might be useful during debugging.
         toArray[index] = null
     }
+    println(toArray)
     var toArrayIndex = toArray.size - nonNullElementCount
     var mergedArrayIndex = 0
     var fromArrayIndex = 0
@@ -32,6 +35,7 @@ fun mergeSortedArrays(toArray: Array<Int?>, fromArray: Array<Int?>) {
             compareValues(fromValue, toValue).let {
                 when (it) {
                     1,0 -> {
+                        toArray[toArrayIndex] = null
                         ++toArrayIndex
                         toValue
                     }
