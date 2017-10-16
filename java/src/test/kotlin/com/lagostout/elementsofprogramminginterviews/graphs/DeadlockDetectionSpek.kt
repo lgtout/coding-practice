@@ -17,6 +17,8 @@ object DeadlockDetectionSpek : Spek({
                 data(toDigraph(listOf(RawNode('A', listOf(1)), RawNode('B', listOf(0)))), expected = true),
                 data(toDigraph(listOf(RawNode('A', listOf(1,2)), RawNode('B', listOf(2)),
                         RawNode('C', listOf(1,3)), RawNode('D'))), expected = true),
+                data(toDigraph(listOf(RawNode('A', listOf(1)), RawNode('B', listOf(2,3)),
+                        RawNode('C', listOf(3)), RawNode('D', listOf(4)), RawNode('E'))), expected = true),
                 null
         ).filterNotNull().toTypedArray()
         on("digraph: %s", with = *data) { digraph, expected ->
