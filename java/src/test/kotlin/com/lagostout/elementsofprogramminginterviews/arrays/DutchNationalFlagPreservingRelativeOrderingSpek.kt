@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 
 object DutchNationalFlagPreservingRelativeOrderingSpek : Spek({
     describe("arrangeAsDutchNationalFlag()") {
-        fun toElements(list: List<Boolean>): List<Element> {
+        fun toElements(list: List<Boolean>): MutableList<Element> {
             var trueCount = 1
             return list.map {
                 // All false elements will have order 0.
@@ -19,20 +19,27 @@ object DutchNationalFlagPreservingRelativeOrderingSpek : Spek({
                 // rightwards.
                 if (it) Element(trueCount++, it)
                 else Element(0, it)
-            }
+            }.toMutableList()
         }
         fun expectedOrder(array: List<Element>): List<Int> {
             return array.run { filter { !it.value }.map { 0 } +
                     filter { it.value }.map { it.order } }
         }
         val data = listOf(
-                toElements(mutableListOf(false)),
-                toElements(mutableListOf(true)),
-                toElements(mutableListOf(false, true)),
-                toElements(mutableListOf(true, false)),
-                toElements(mutableListOf(true, true, true)),
-                toElements(mutableListOf(false, true, false)),
-                toElements(mutableListOf(true, false, false, true, false, true)),
+                toElements(listOf(false)),
+                toElements(listOf(true)),
+                toElements(listOf(false, true)),
+                toElements(listOf(true, true)),
+                toElements(listOf(false, false)),
+                toElements(listOf(true, true, false)),
+                toElements(listOf(false, false, true, true)),
+                toElements(listOf(true, false, true)),
+                toElements(listOf(true, true, false, true)),
+                toElements(listOf(true, true, true, false, false, true, true)),
+                toElements(listOf(true, false)),
+                toElements(listOf(true, true, true)),
+                toElements(listOf(false, true, false)),
+                toElements(listOf(true, false, false, true, false, true)),
                 null
         ).filterNotNull()
         data.forEach {
@@ -40,6 +47,7 @@ object DutchNationalFlagPreservingRelativeOrderingSpek : Spek({
                 it("arranges array, preserving relative order of 'false' elements") {
                     val expected = expectedOrder(it)
                     arrangeAsDutchNationalFlag(it)
+                    println(it)
                     assertEquals(expected, it.map { it.order })
                 }
             }
