@@ -10,10 +10,11 @@ object ReverseSingleSublistKNodesAtATime {
     fun <T> reverseSingleSublistKNodesAtATime(
             list: ListNode<T>, k: Int): ListNode<T>? {
         val nodeBeforeFirstInList = ListNode(next = list)
-        var nodeBeforeGroup = nodeBeforeFirstInList
+        val nodeBeforeGroup = nodeBeforeFirstInList.copy()
         var firstNodeInGroup = nodeBeforeFirstInList.next
         while (true) {
             var lastNodeInGroup = firstNodeInGroup
+
             // Find the group's tail node
             var groupNodeCount = 1
             while (groupNodeCount < k ) {
@@ -22,8 +23,10 @@ object ReverseSingleSublistKNodesAtATime {
                 } ?: break
                 ++groupNodeCount
             }
+
             // Not enough nodes to make a group
             if (groupNodeCount < k) break
+
             // Reverse the nodes in the group
             val firstNodeInReversedGroup = lastNodeInGroup
             val lastNodeInReversedGroup = firstNodeInGroup
@@ -33,14 +36,14 @@ object ReverseSingleSublistKNodesAtATime {
                 node.next = firstNodeInReversedGroup?.next
                 firstNodeInReversedGroup?.next = node
             }
+
             // Reverse the group in the list
-            firstNodeInGroup = lastNodeInReversedGroup?.next
-            // TODO Figure out if/how to update nodeBeforeGroup
-//            nodeBeforeGroup = lastNodeInReversedGroup!!
-            val firstNodeInList = nodeBeforeFirstInList.next
-            nodeBeforeFirstInList.next = firstNodeInReversedGroup
-            lastNodeInReversedGroup?.next = firstNodeInList
-            nodeBeforeGroup.next = firstNodeInGroup
+            firstNodeInGroup = firstNodeInReversedGroup
+            lastNodeInGroup = lastNodeInReversedGroup!!
+//            nodeBeforeGroup = lastNodeInGroup
+            nodeBeforeGroup.next = lastNodeInGroup.next
+            lastNodeInGroup.next = nodeBeforeFirstInList.next
+            nodeBeforeFirstInList.next = firstNodeInGroup
         }
         return null
     }
