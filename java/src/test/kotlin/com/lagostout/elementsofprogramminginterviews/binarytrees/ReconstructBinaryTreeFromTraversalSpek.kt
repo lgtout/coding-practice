@@ -15,7 +15,7 @@ object ReconstructBinaryTreeFromTraversalSpek : Spek({
     describe("reconstructBinaryTreeFromTraversal") {
         fun buildBinaryTree(rawTree: List<RawNode>): BinaryTreeNode<Char> {
             val pair = BinaryTreeNode.buildBinaryTree(rawTree)
-            println(pair)
+//            println(pair)
             return pair.first!!
 //                    .second.first()
         }
@@ -48,7 +48,10 @@ object ReconstructBinaryTreeFromTraversalSpek : Spek({
         on("inorder: %s, preorder: %s", with = *data) {
             inorder, preorder, expected ->
             it("returns $expected") {
-                assertEquals(expected, reconstructBinaryTreeFromTraversal(inorder, preorder))
+                val tree = reconstructBinaryTreeFromTraversal(inorder, preorder)
+                // TODO 'E' is getting dropped by the algorithm.
+                println(tree?.treeToString())
+                assertEquals(expected, tree)
             }
         }
     }

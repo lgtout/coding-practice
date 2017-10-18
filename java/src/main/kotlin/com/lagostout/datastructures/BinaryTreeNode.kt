@@ -1,5 +1,7 @@
 package com.lagostout.datastructures
 
+import java.util.*
+
 open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
                              var left: BinaryTreeNode<T>? = null,
                              var right: BinaryTreeNode<T>? = null,
@@ -29,8 +31,22 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
     override fun toString(): String {
         return "BinaryTreeNode(value=$value, " +
                 "parent=${Companion.stringify(parent)}, " +
-                "left=${Companion.stringify(left)}, " +
-                "right=${Companion.stringify(right)})"
+                "left=${left.toString()}, " +
+                "right=${right.toString()})"
+    }
+
+    fun shallowToString(): String {
+        return "BinaryTreeNode(value=$value, " +
+                "parent=${parent?.value}, " +
+                "left=${left?.value}, " +
+                "right=${right?.value})"
+    }
+
+    fun treeToString(): String {
+        val list = BinaryTreeNode.toList(this)
+        return list.joinToString {
+            it.shallowToString()
+        }
     }
 
     companion object {
@@ -105,5 +121,27 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
                 "BinaryTreeNode(value=$value)"
             } ?: "null"
         }
+
+        fun <T> toList(root: BinaryTreeNode<T>?): List<BinaryTreeNode<T>>{
+            if (root == null) return emptyList()
+            val stack = LinkedList<List<BinaryTreeNode<T>>>()
+            val nodes = mutableListOf<BinaryTreeNode<T>>()
+            // Breadth-first traversal
+            stack.push(listOf(root))
+            while (!stack.isEmpty()) {
+                val levelNodes = stack.pop()
+                nodes.addAll(levelNodes)
+                val nextLevelNodes = mutableListOf<BinaryTreeNode<T>>()
+                levelNodes.forEach {
+                    listOf(it.left, it.right).filterNotNull().forEach {
+                        nextLevelNodes.add(it)
+                    }
+                }
+                if (nextLevelNodes.isNotEmpty())
+                    stack.push(nextLevelNodes)
+            }
+            return nodes
+        }
+
     }
 }
