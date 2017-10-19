@@ -22,16 +22,13 @@ object MergeSortedArraysSpek : Spek({
                         expected = listOf(1, 2, 3, 4, null)),
                 data(mutableListOf(5, 6, 8, null, null), listOf<Int?>(2, 7),
                         expected = listOf<Int?>(2, 5, 6, 7, 8)),
-                // This following 2 inputs cover an interesting case.
-                // The example given in the problem merges 2 arrays where no entry
-                // appears in both arrays.  So it seems to be implied that that will
-                // always be the case.  Since it's not explicit, though, we'll handle
-                // when duplication exists.
-                data(mutableListOf<Int?>(1, 2), listOf<Int?>(1, 2), expected = listOf<Int?>(1, 2)),
-                data(mutableListOf(1, 2, null), listOf<Int?>(1, 2, 3), expected = listOf<Int?>(1, 2, 3)),
+                // This following 2 inputs cover the case where the same entry appears in
+                // both arrays.  According to the book forums, duplicates should be preserved.
+                data(mutableListOf(1, 2, null, null), listOf<Int?>(1, 2), expected = listOf<Int?>(1, 1, 2, 2)),
+                data(mutableListOf(1, 2, null, null, null, null), listOf<Int?>(1, 2, 3),
+                        expected = listOf(1, 1, 2, 2, 3, null)),
                 null
         ).filterNotNull().toTypedArray()
-        println(data.toList())
         on("merging %s and %s", with = *data) {
             array1: MutableList<Int?>, array2: List<Int?>, expected: List<Int?> ->
             it("modifies the first array to $expected") {

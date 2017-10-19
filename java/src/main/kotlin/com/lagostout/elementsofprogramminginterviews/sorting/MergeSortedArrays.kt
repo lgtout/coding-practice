@@ -10,11 +10,12 @@ fun mergeSortedArrays(toArray: MutableList<Int?>, fromArray: List<Int?>) {
     // greater than the number of elements in both arrays.
     if (fromArray.isEmpty()) return
     // At this point we know that, since fromArray is not empty,
-    // toArray has at least one empty position.  So we can start
-    // looking for firstNonEmptyToArrayIndex at toArray.lastIndex
+    // toArray has at least one empty position.
     val nonNullElementCount = toArray.withIndex().find {
         it.value == null
-    }?.index ?: 0
+    }!!.index
+    // This step could be eliminated if we merged going from right to
+    // left in the arrays, instead of left to right.
     val firstNonNullElementIndexAfterMove =
             toArray.size - nonNullElementCount
     (nonNullElementCount - 1 downTo 0).forEach { index ->
@@ -22,7 +23,6 @@ fun mergeSortedArrays(toArray: MutableList<Int?>, fromArray: List<Int?>) {
         // Not necessary, but might be useful during debugging.
         toArray[index] = null
     }
-    println(toArray)
     var toArrayIndex = toArray.size - nonNullElementCount
     var mergedArrayIndex = 0
     var fromArrayIndex = 0
