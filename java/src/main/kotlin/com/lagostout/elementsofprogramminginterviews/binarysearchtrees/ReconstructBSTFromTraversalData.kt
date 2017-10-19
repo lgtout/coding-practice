@@ -1,70 +1,76 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
-import com.lagostout.common.isLeftChild
 import com.lagostout.datastructures.BinaryTreeNode
+import java.util.*
 
 /**
  * Problem 15.5 page 266
  */
+// TODO Can postorder and preorder reconstruction share code?
+// TODO This solution needs work.
 fun <T : Comparable<T>> reconstructBSTFromPostorderTraversal(
         path: List<T>): BinaryTreeNode<T>? {
     if (path.isEmpty()) return null
-    val pathIterator = path.reversed().iterator()
+//    val pathIterator = path.reversed().iterator()
+    val pathIterator = path.iterator()
     val root = BinaryTreeNode(value = pathIterator.next())
     var treeNode = root
+    val rightAncestors = LinkedList<BinaryTreeNode<T>>()
     while (true) {
         if (!pathIterator.hasNext()) break
         val node = BinaryTreeNode(value = pathIterator.next())
-        if (node.value > treeNode.value) {
-            treeNode.right = node
+        if (node.value < treeNode.value) {
+            treeNode.left = node
             node.parent = treeNode
+            rightAncestors.push(treeNode)
         } else {
-            // TODO
-            // Not sure about this. How do we climb up the tree?
-            // _node_ may be the left child of the _treeNode_, or
-            // the left child of one of _treeNode_'s left ancestors.
-            // But we don't want to have to find out if _treeNode_
-            // has a left ancestor, every time we need to add a left
-            // child. How do we avoid this?
-            run {
-                while (true) {
-                    treeNode.parent?.let {
-                        if (it.isLeftChild) return@run
-                        treeNode = it
-                    }
-                }
+            var parent = treeNode
+            while (rightAncestors.isNotEmpty()) {
+                if (rightAncestors.peek().value > node.value) {
+                    parent = rightAncestors.pop()
+                } else break
             }
+            node.parent = parent
+            parent.right = node
         }
+        treeNode = node
     }
     return root
 }
 
-// TODO Redo like postorder, taking advantage of position in preorder. (Maybe not?)
+// Alternative approach to using a stack to backtrack up the tree
+// is to take advantage of what's revealed by the relative position
+// of a pair of nodes in a preorder traversal: A node cannot be the
+// right child of another node if the former appears before the
+// latter in a preorder traversal.
+
+// This solution is done!
 fun <T : Comparable<T>> reconstructBSTFromPreorderTraversal(
         path: List<T>): BinaryTreeNode<T>? {
     if (path.isEmpty()) return null
     val pathIterator = path.iterator()
     val root = BinaryTreeNode(value = pathIterator.next())
-    var previousNode = root
-    pathIterator.forEach { value ->
-        val currentNode = BinaryTreeNode(value = value)
-        when {
-            value < previousNode.value -> {
-                currentNode.parent = previousNode
-                previousNode.left = currentNode
+    var treeNode = root
+    val rightAncestors = LinkedList<BinaryTreeNode<T>>()
+    while (true) {
+        if (!pathIterator.hasNext()) break
+        val node = BinaryTreeNode(value = pathIterator.next())
+        if (node.value < treeNode.value) {
+            treeNode.left = node
+            node.parent = treeNode
+            rightAncestors.push(treeNode)
+        } else {
+            var parent = treeNode
+            while (rightAncestors.isNotEmpty()) {
+                if (rightAncestors.peek().value > node.value) {
+                    parent = rightAncestors.pop()
+                } else break
             }
-            value > previousNode.value -> {
-                while (true) {
-                    previousNode.parent?.let { parent ->
-                        if (previousNode.isLeftChild && value > parent.value)
-                            previousNode = parent
-                    } ?: break
-                }
-                currentNode.parent = previousNode
-                previousNode.right = currentNode
-            }
+            node.parent = parent
+            parent.right = node
         }
-        previousNode = currentNode
+        treeNode = node
     }
     return root
 }
+

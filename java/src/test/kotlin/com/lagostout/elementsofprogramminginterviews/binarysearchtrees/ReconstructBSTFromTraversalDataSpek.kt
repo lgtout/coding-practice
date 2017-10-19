@@ -27,16 +27,17 @@ class ReconstructBSTFromPostorderTraversalDataSpek : Spek({
     companion object {
         data class TestCase(val path: List<Int> = emptyList())
         val testCases = run {
+            // TODO Verify test cases make sense for postorder.
             listOf(
 //                    TestCase(),
 //                    TestCase(listOf(10)),
 //                    TestCase(listOf(10,20)),
 //                    TestCase(listOf(30,20)),
 //                    TestCase(listOf(20,30)),
-                    TestCase(listOf(10,20,30)),
+//                    TestCase(listOf(10,20,30)),
 //                    TestCase(listOf(30,20,10)),
 //                    TestCase(listOf(10,30,20)),
-//                    TestCase(listOf(20,10,30)),
+                    TestCase(listOf(20,10,30)),
 //                    TestCase(listOf(20,30,10)),
                     null).filterNotNull()
         }
@@ -49,8 +50,9 @@ class ReconstructBSTFromPostorderTraversalDataSpek : Spek({
     }
 }
 
+// Done!
 class ReconstructBSTFromPreorderTraversalDataSpek : Spek({
-    xdescribe("reconstructBSTFromPreorderTraversal") {
+    describe("reconstructBSTFromPreorderTraversal") {
         testCases.forEach { (path) ->
             given("preorder path: $path") {
                 it("returns a BST that has the same preorder path") {
@@ -68,6 +70,14 @@ class ReconstructBSTFromPreorderTraversalDataSpek : Spek({
         val testCases = run {
             listOf(
                     TestCase(),
+                    TestCase(listOf(10)),
+                    TestCase(listOf(20,10)),
+                    TestCase(listOf(20,30)),
+                    TestCase(listOf(30,20)),
+                    TestCase(listOf(10,20,30)),
+                    TestCase(listOf(30,20,10)),
+                    TestCase(listOf(10,30,20)),
+                    TestCase(listOf(20,10,30)),
                     null).filterNotNull()
         }
         fun preorderTraversal(root: BinaryTreeNode<Int>?, path: MutableList<Int>) {
