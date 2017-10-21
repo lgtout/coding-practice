@@ -10,13 +10,16 @@ import kotlin.test.assertEquals
 
 object SwapBitsSpek : Spek({
     describe("swapBits()") {
-        // Negative numbers aren't a special case.
         val data = listOf<Data3<Long, Int, Int, Long>?>(
                 data(0, 0, 0, 0),
                 data(0, 1, 2, 0),
                 data(1, 0, 1, 2),
                 data(1, 0, 1, 2),
-                data(10, 0, 1, 2),
+                // Negative numbers aren't a special case.
+                // So no need to have more than one such case.
+                data(-2, 0, 1, -3),
+                data(10, 0, 1, 9),
+                data(0b1010, 1, 2, 0b1100),
                 null
         ).filterNotNull().toTypedArray()
         on("number %s, from %s, to %s", with = *data) {

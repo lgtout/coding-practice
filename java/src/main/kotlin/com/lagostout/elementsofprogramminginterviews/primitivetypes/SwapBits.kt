@@ -8,6 +8,7 @@ fun swapBits(number: Long, from: Int, to: Int): Long {
     val toMask = (1L shl to)
     val fromValue = number and fromMask
     val toValue = number and toMask
+    // No point in swapping if bit values are equal
     if (fromValue != toValue) {
         listOf(fromValue to toMask, toValue to fromMask).forEach {
             (value, mask) ->
