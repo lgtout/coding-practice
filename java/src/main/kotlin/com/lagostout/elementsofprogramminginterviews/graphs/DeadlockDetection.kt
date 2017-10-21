@@ -2,10 +2,10 @@ package com.lagostout.elementsofprogramminginterviews.graphs
 
 import java.util.*
 
-fun <T> detectDeadlock(digraph: List<DigraphNode<T>>): Boolean {
+fun <T> detectDeadlock(digraph: List<GraphNode<T>>): Boolean {
     var deadlockFound = false
-    val stack = LinkedList<DigraphNode<T>>()
-    val exploredNodes = mutableSetOf<DigraphNode<T>>()
+    val stack = LinkedList<GraphNode<T>>()
+    val exploredNodes = mutableSetOf<GraphNode<T>>()
     val digraphIterator = digraph.iterator()
     while (digraphIterator.hasNext()) {
         stack.push(digraphIterator.next())

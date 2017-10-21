@@ -3,12 +3,12 @@ package com.lagostout.elementsofprogramminginterviews.graphs
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
 
-data class DigraphNode<T>(val value: T,
-                          val adjacentNodes: MutableList<DigraphNode<T>> = mutableListOf()) {
+data class GraphNode<T>(val value: T,
+                        val adjacentNodes: MutableList<GraphNode<T>> = mutableListOf()) {
     private val id: Int = ID++
 
     override fun equals(other: Any?): Boolean {
-        if (other !is DigraphNode<*>) {
+        if (other !is GraphNode<*>) {
             return false
         }
         if (this === other) {
@@ -25,7 +25,7 @@ data class DigraphNode<T>(val value: T,
     }
 
     override fun toString(): String {
-        return "DigraphNode(value=$value, adjacentNodes=${adjacentNodes.map { it.value }}, id=$id)"
+        return "GraphNode(value=$value, adjacentNodes=${adjacentNodes.map { it.value }}, id=$id)"
     }
 
     companion object {
@@ -33,14 +33,14 @@ data class DigraphNode<T>(val value: T,
     }
 }
 
-data class RawDigraphNode<out T>(val value: T,
-                                 val adjacentNodes: List<Int> = emptyList())
+data class RawGraphNode<out T>(val value: T,
+                               val adjacentNodes: List<Int> = emptyList())
 
-fun <T> toDigraph(rawNodes: List<RawDigraphNode<T>>):
-        List<DigraphNode<T>> {
-    val digraph = mutableListOf<DigraphNode<T>>()
+fun <T> toDigraph(rawNodes: List<RawGraphNode<T>>):
+        List<GraphNode<T>> {
+    val digraph = mutableListOf<GraphNode<T>>()
     rawNodes.forEach {
-        digraph.add(DigraphNode(it.value))
+        digraph.add(GraphNode(it.value))
     }
     digraph.forEachIndexed { index, node ->
         rawNodes[index].adjacentNodes.forEach {

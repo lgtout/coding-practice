@@ -7,7 +7,7 @@ import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 import kotlin.test.assertEquals
 
-typealias RawNode = RawDigraphNode<Char>
+typealias RawNode = RawGraphNode<Char>
 
 object DeadlockDetectionSpek : Spek({
     describe("detectDeadlock()") {

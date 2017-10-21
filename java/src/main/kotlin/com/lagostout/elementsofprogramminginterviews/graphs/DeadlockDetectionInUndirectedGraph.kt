@@ -2,7 +2,7 @@ package com.lagostout.elementsofprogramminginterviews.graphs
 
 import java.util.*
 
-fun <T> detectDeadlock(graph: Map<T, List<T>>): Boolean {
+fun <T> detectDeadlock(graph: Map<T, Set<T>>): Boolean {
     val nodeIterator = graph.keys.iterator()
     val stack = LinkedList<T>()
     val nodesInStack = mutableSetOf<T>()
@@ -25,12 +25,12 @@ fun <T> detectDeadlock(graph: Map<T, List<T>>): Boolean {
             explored.add(node)
             run {
                 graph[node]?.forEach {
-                    if (node in nodesInStack) {
+                    if (it in nodesInStack) {
                         cycleDetected = true
                         return@run
                     }
-                    stack.push(node)
-                    nodesInStack.add(node)
+                    stack.push(it)
+                    nodesInStack.add(it)
                 }
             }
         }
