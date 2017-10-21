@@ -12,22 +12,28 @@ object TelexEncodingSpek : Spek({
 
     describe("encodeAsTelex()") {
         val data = listOf(
-                "", " ", "A", "A A",
+//                "",
+//                " ",
+//                "A",
+//                " A",
+//                "A ",
+//                "A A",
                 "A. AB;?  C!",
                 null
         ).filterNotNull().map { string ->
             var encodedString = string
             TelexEncoding.punctuationToEncodingMap.forEach {
                 encodedString = encodedString.replace(
-                        Regex("\\" + it.key.toString()), it.value.toString())
+                        Regex("\\" + it.key.toString()), it.value.joinToString(""))
             }
+            println(encodedString)
             val chars: MutableList<Char?> =
                     List(encodedString.length, { string[it] }).toMutableList()
             data(chars, encodedString.toList())
         }.toTypedArray()
         on("chars: %s", with = *data) { chars, expected ->
-            println(chars)
-            println(expected)
+//            println(chars)
+//            println(expected)
             it("returns $expected") {
                 encodeAsTelex(chars)
                 assertEquals(expected, chars.toList())

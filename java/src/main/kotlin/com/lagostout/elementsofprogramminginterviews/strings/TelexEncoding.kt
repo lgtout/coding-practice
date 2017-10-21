@@ -8,9 +8,11 @@ object TelexEncoding {
             '.' to "DOT",
             ',' to "COMMA",
             '?' to "QUESTION MARK",
-            '!' to "EXCLAMATION MARK").map {
-        it.key to it.value.toCharArray().toList()
-    }.toMap()
+            ';' to "SEMICOLON",
+            '!' to "EXCLAMATION MARK")
+            .mapValues {
+                it.value.toCharArray().toList()
+            }
 
     fun encodeAsTelex(chars: MutableList<Char?>) {
         // To simplify things, we'll drop characters pushed
@@ -20,21 +22,33 @@ object TelexEncoding {
         var extraSpace = 0
         chars.forEach { char ->
             punctuationToEncodingMap[char]?.let {
-                extraSpace += it.size - 1
+                // Need extra single space to separate encoded
+                // punctuation from preceding word.
+                extraSpace += it.size // - 1
             }
         }
         // Find the last character
         var index = chars.lastIndex
+        var destinationIndex = index + extraSpace
+        println("extraSpace $extraSpace")
         while (index >= 0) {
-            val char = chars[index--]
+            println("index $index")
+            val char = chars[index]
+            // TODO
+            // Figure out how to work in space before encoded
+            // punctuation, while maintaining indices, and
+            // accounting for no space at beginning of encoded
+            // string when first character in string is punctuation.
             (punctuationToEncodingMap[char] ?: listOf(char)).let {
+                println("char '$char'")
                 it.forEach { char ->
-                    val offsetIndex = index + extraSpace--
-                    if (offsetIndex <= chars.lastIndex) {
-                        chars[offsetIndex] = char
+                    if (destinationIndex <= chars.lastIndex) {
+                        chars[destinationIndex] = char
                     }
+                    --destinationIndex
                 }
             }
+            --index
         }
     }
 }
