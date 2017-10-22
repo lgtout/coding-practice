@@ -73,6 +73,7 @@ dependencies {
     testRuntime 'cglib:cglib-nodep:3.2.2'
     testRuntime 'org.objenesis:objenesis:2.1'
 
+    testCompile 'org.assertj:assertj-core:3.8.0'
     testCompile 'org.jetbrains.spek:spek-api:1.1.2'
     testCompile 'org.jetbrains.spek:spek-subject-extension:1.1.2'
     testCompile 'org.jetbrains.spek:spek-data-driven-extension:1.1.2'
