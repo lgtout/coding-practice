@@ -14,8 +14,6 @@ class ReconstructBSTFromPostorderTraversalDataSpek : Spek({
             given("postorder path: $path") {
                 it("returns a BST that has the same postorder path") {
                     val bst = reconstructBSTFromPostorderTraversal(path)
-                    println(bst)
-                    println(bst?.parent)
                     val postorderPathOfReconstructedBST = mutableListOf<Int>()
                     postOrderTraversal(bst, postorderPathOfReconstructedBST)
                     assertEquals(path, postorderPathOfReconstructedBST)
@@ -27,18 +25,17 @@ class ReconstructBSTFromPostorderTraversalDataSpek : Spek({
     companion object {
         data class TestCase(val path: List<Int> = emptyList())
         val testCases = run {
-            // TODO Verify test cases make sense for postorder.
             listOf(
-//                    TestCase(),
-//                    TestCase(listOf(10)),
-//                    TestCase(listOf(10,20)),
-//                    TestCase(listOf(30,20)),
-//                    TestCase(listOf(20,30)),
-//                    TestCase(listOf(10,20,30)),
-//                    TestCase(listOf(30,20,10)),
-//                    TestCase(listOf(10,30,20)),
+                    TestCase(),
+                    TestCase(listOf(10)),
+                    TestCase(listOf(10,20)),
+                    TestCase(listOf(30,20)),
+                    TestCase(listOf(20,30)),
+                    TestCase(listOf(10,20,30)),
+                    TestCase(listOf(30,20,10)),
+                    TestCase(listOf(10,30,20)),
                     TestCase(listOf(20,10,30)),
-//                    TestCase(listOf(20,30,10)),
+                    TestCase(listOf(20,30,10)),
                     null).filterNotNull()
         }
         fun postOrderTraversal(root: BinaryTreeNode<Int>?, path: MutableList<Int>) {
@@ -50,7 +47,6 @@ class ReconstructBSTFromPostorderTraversalDataSpek : Spek({
     }
 }
 
-// Done!
 class ReconstructBSTFromPreorderTraversalDataSpek : Spek({
     describe("reconstructBSTFromPreorderTraversal") {
         testCases.forEach { (path) ->
