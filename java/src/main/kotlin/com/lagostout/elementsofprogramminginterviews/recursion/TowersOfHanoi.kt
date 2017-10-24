@@ -11,7 +11,11 @@ object TowersOfHanoi {
         LEFT, MIDDLE, RIGHT
     }
 
-    data class Ring(val size: Int)
+    data class Ring(val size: Int) : Comparable<Ring> {
+        override fun compareTo(other: Ring): Int {
+            return size - other.size
+        }
+    }
 
     class Peg(val position: PegPosition,
               private val rings: MutableList<Ring> = mutableListOf()) {
@@ -49,6 +53,14 @@ object TowersOfHanoi {
         fun pop(): Ring {
             return rings.removeAt(rings.lastIndex)
         }
+
+        fun peek(countFromTop: Int = 0): Ring? {
+            return if (rings.isEmpty()) null
+            else rings[rings.size - countFromTop]
+        }
+
+        val bottom: Ring?
+            get() = if (rings.isEmpty()) null else rings.first()
 
         override fun equals(other: Any?): Boolean {
             if (this === other) return true

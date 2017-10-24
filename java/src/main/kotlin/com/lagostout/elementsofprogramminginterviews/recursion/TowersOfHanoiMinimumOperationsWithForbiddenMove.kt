@@ -7,7 +7,7 @@ import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.Peg
 import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition.*
 import java.util.*
 
-fun minimumNUmberOfOperationsWithForbiddenMove(
+fun minimumNumberOfOperationsWithForbiddenMove(
         pegs: Pegs, fromPeg: Peg, toPeg: Peg,
         operations: MutableList<RingMove>) {
 

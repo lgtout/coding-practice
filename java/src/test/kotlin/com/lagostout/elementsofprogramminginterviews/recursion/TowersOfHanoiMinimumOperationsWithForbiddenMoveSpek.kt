@@ -10,7 +10,7 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
 
-object TowersOfHanoiWithForbiddenMoveSpek : Spek({
+object TowersOfHanoiMinimumOperationsWithForbiddenMoveSpek : Spek({
 
     data class TestCase(val fromPegPosition: PegPosition,
                         val toPegPosition: PegPosition,
@@ -45,7 +45,7 @@ object TowersOfHanoiWithForbiddenMoveSpek : Spek({
             it("moves rings between pegs ${ expectedOperationCount?.let {"in $it moves"} }") {
                 val pegs = TowersOfHanoi.Pegs(ringCount, fromPegPosition)
                 val operations = mutableListOf<RingMove>()
-                minimumNUmberOfOperationsWithForbiddenMove(
+                minimumNumberOfOperationsWithForbiddenMove(
                         pegs, pegs.at(fromPegPosition),
                         pegs.at(toPegPosition), operations)
                 println(operations)
