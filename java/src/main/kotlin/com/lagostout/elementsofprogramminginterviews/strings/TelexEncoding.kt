@@ -1,18 +1,24 @@
 package com.lagostout.elementsofprogramminginterviews.strings
 
+import com.lagostout.common.takeExceptLast
+import com.lagostout.common.takeFrom
+
 object TelexEncoding {
 
     // Not bothering to include all punctuation.
     // This is sufficient.
     val punctuationToEncodingMap = mapOf(
-            '.' to "DOT",
-            ',' to "COMMA",
-            '?' to "QUESTION MARK",
-            ';' to "SEMICOLON",
-            '!' to "EXCLAMATION MARK")
+            '.' to " DOT",
+            ',' to " COMMA",
+            '?' to " QUESTION MARK",
+            ';' to " SEMICOLON",
+            '!' to " EXCLAMATION MARK")
             .mapValues {
                 it.value.toCharArray().toList()
             }
+    val reversedPunctuationToEncodingMap = punctuationToEncodingMap.mapValues {
+        it.value.reversed()
+    }
 
     fun encodeAsTelex(chars: MutableList<Char?>) {
         // To simplify things, we'll drop characters pushed
@@ -24,23 +30,27 @@ object TelexEncoding {
             punctuationToEncodingMap[char]?.let {
                 // Need extra single space to separate encoded
                 // punctuation from preceding word.
-                extraSpace += it.size // - 1
+                extraSpace += it.size - 1
             }
         }
         // Find the last character
         var index = chars.lastIndex
         var destinationIndex = index + extraSpace
-        println("extraSpace $extraSpace")
+//        println("extraSpace $extraSpace")
+        var firstNonSpaceCharIndex: Int? = null
         while (index >= 0) {
-            println("index $index")
+//            println("index $index")
             val char = chars[index]
-            // TODO
-            // Figure out how to work in space before encoded
-            // punctuation, while maintaining indices, and
-            // accounting for no space at beginning of encoded
-            // string when first character in string is punctuation.
-            (punctuationToEncodingMap[char] ?: listOf(char)).let {
-                println("char '$char'")
+            firstNonSpaceCharIndex = firstNonSpaceCharIndex?: run {
+                if (char != ' ') index else null
+            }
+            (reversedPunctuationToEncodingMap[char]?.let {
+                if (index == firstNonSpaceCharIndex) it
+                // In reversed order, space is last char
+                else it.takeExceptLast()
+            } ?: listOf(char)).let {
+                println(it)
+//                println("char '$char'")
                 it.forEach { char ->
                     if (destinationIndex <= chars.lastIndex) {
                         chars[destinationIndex] = char
@@ -50,5 +60,6 @@ object TelexEncoding {
             }
             --index
         }
+//        println(chars)
     }
 }
