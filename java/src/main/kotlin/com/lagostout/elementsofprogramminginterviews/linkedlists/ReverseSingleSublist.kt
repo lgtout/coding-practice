@@ -4,7 +4,6 @@ package com.lagostout.elementsofprogramminginterviews.linkedlists
  * Problem 8.2.1 page 116
  */
 object ReverseSingleSublist {
-    data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null)
 
     // 1-based start and end
     @Suppress("NAME_SHADOWING")

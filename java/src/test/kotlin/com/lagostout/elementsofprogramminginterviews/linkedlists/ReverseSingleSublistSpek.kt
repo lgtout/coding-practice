@@ -1,7 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.linkedlists
 
 import com.lagostout.common.takeFrom
-import com.lagostout.elementsofprogramminginterviews.linkedlists.ReverseSingleSublist.ListNode
 import com.lagostout.elementsofprogramminginterviews.linkedlists.ReverseSingleSublist.reverseSingleSublist
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe

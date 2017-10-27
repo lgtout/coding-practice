@@ -5,14 +5,9 @@ package com.lagostout.elementsofprogramminginterviews.linkedlists
  */
 object ReverseSingleSublistKNodesAtATime {
 
-    data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null) {
-        val hasNext: Boolean
-            get() = next != null
-    }
-
     @Suppress("UnnecessaryVariable")
     fun <T> reverseSingleSublistKNodesAtATime(
-            list: ListNode<T>, k: Int): ListNode<T>? {
+            list: ListNode<T>, k: Int): ListNode<T> {
         var firstInList = list
         val pointerToLastNodeInPreviousGroup = firstInList.copy()
 
@@ -20,7 +15,7 @@ object ReverseSingleSublistKNodesAtATime {
             var currentNode: ListNode<T> = firstNodeInGroup
             var groupCount = 0
             while (groupCount < k) {
-                currentNode = currentNode.next?: break
+                currentNode = currentNode.next ?: break
                 ++groupCount
             }
             return if (groupCount < k) null else currentNode
@@ -28,10 +23,14 @@ object ReverseSingleSublistKNodesAtATime {
 
         // Find last node of last group
         var lastNodeOfLastGroup: ListNode<T> = firstInList
-        var firstNodeOfGroup = firstInList
+        var firstNodeOfGroup: ListNode<T> = firstInList
         while (true) {
-            lastNodeOfLastGroup = seekLastNodeOfGroup(firstNodeOfGroup)?.also {
-                firstNodeOfGroup = it
+            lastNodeOfLastGroup = seekLastNodeOfGroup(firstNodeOfGroup)?.let {
+                lastNode ->
+                lastNode.next?.let {
+                    firstNodeOfGroup = it
+                    lastNode
+                }
             }?: break
         }
 
@@ -54,7 +53,9 @@ object ReverseSingleSublistKNodesAtATime {
             firstNodeInGroup = firstNodeInReversedGroup
             lastNodeInGroup = lastNodeInReversedGroup
 
-            // Reverse the group in the list
+            // Reverse the group in the list: insert it after
+            // the last node of the rightmost group that will
+            // be reversed.
             firstInList = lastNodeInGroup.next!!
             lastNodeInGroup.next = lastNodeOfLastGroup.next
             lastNodeOfLastGroup.next = firstNodeInGroup

@@ -5,14 +5,13 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
-import com.lagostout.elementsofprogramminginterviews.linkedlists.ReverseSingleSublist.ListNode
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 
 class ReverseListSpek : Spek({
     describe("reverseSingleSublist()") {
         fun toLinkedList(list: List<Int>): ListNode<Int> {
-            val head = ReverseSingleSublist.ListNode(list.first())
+            val head = ListNode(list.first())
             var tail = head
             list.takeFrom(1).forEach {
                 val node = ListNode(it)

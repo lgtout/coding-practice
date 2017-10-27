@@ -1,7 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.linkedlists
 
 import com.lagostout.elementsofprogramminginterviews.linkedlists.ReverseSingleSublist.reverseSingleSublist
-import com.lagostout.elementsofprogramminginterviews.linkedlists.ReverseSingleSublist.ListNode
 
 fun <T> reverseList(list: ListNode<T>): ListNode<T> {
     var nodeCount = 1
