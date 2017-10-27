@@ -1,5 +1,7 @@
 package com.lagostout.datastructures
 
+import org.apache.commons.lang3.builder.EqualsBuilder
+import org.apache.commons.lang3.builder.HashCodeBuilder
 import java.util.*
 
 open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
@@ -7,25 +9,21 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
                              var right: BinaryTreeNode<T>? = null,
                              val value: T) {
 
+    val id = nextId
+
     val isRoot: Boolean
         get() = parent == null
 
     override fun hashCode(): Int {
-        var result = (left?.hashCode() ?: 0)
-        result = 31 * result + (right?.hashCode() ?: 0)
-        result = 31 * result + (value?.hashCode() ?: 0)
-        return result
+        return HashCodeBuilder().append(id).toHashCode()
     }
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is BinaryTreeNode<*>) return false
-
-        if (left != other.left) return false
-        if (right != other.right) return false
-        if (value != other.value) return false
-
-        return true
+        return when {
+            other !is BinaryTreeNode<*> -> false
+            this === other -> true
+            else -> EqualsBuilder().append(id, other.id).isEquals
+        }
     }
 
     override fun toString(): String {
@@ -50,6 +48,11 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
     }
 
     companion object {
+
+        private var _id = 0
+
+        val nextId
+            get() = _id++
 
         fun <T : Comparable<T>> toRawBinaryTreeNodes(
                 rawTree: List<List<Any>>): List<RawBinaryTreeNode<T>> {
