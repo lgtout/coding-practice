@@ -2,6 +2,9 @@ package com.lagostout.elementsofprogramminginterviews.sorting
 
 import java.util.*
 
+/**
+ * Problem 14.3 page 243
+ */
 object RemoveFirstNameDuplicates {
     data class Name (val first: String, val last: String) : Comparable<Name> {
         override fun compareTo(other: Name): Int {
@@ -22,10 +25,9 @@ object RemoveFirstNameDuplicates {
             }
             ++currentNameIndex
         }
-        println(lastUniqueFirstNameIndex)
         if (lastUniqueFirstNameIndex < array.lastIndex) {
             array.subList((lastUniqueFirstNameIndex + 1),
-                    array.lastIndex).clear()
+                    array.size).clear()
         }
     }
 }

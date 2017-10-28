@@ -19,6 +19,9 @@ object RemoveFirstNameDuplicatesSpek : Spek({
                 data(listOf(Name("a","b"), Name("a", "d"),
                         Name("c", "d"), Name("a", "e")),
                         listOf("a","c")),
+                data(listOf(Name("c", "d"), Name("a","b"),
+                        Name("a", "d"), Name("b", "e")),
+                        listOf("a","b","c")),
                 null).filterNotNull().toTypedArray()
         on("names: %s", with = *data) { array: List<Name>, expected: List<String> ->
             it("removes duplicates from array so it contains ${expected.size} " +
