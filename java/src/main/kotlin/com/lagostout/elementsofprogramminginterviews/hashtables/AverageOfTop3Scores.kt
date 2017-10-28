@@ -25,7 +25,7 @@ object AverageOfTop3Scores {
                 it.averageScore?.let { averageScore ->
                     val studentAverageScore = StudentScore(id, averageScore)
                     topStudentAverageScore = topStudentAverageScore?.let {
-                        if (it.score < averageScore) studentAverageScore
+                        if (it.score <= averageScore) studentAverageScore
                         else it
                     } ?: studentAverageScore
                 }
