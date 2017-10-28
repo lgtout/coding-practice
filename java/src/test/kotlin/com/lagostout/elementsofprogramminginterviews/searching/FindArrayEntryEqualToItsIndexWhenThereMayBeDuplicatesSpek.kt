@@ -12,22 +12,23 @@ import org.jetbrains.spek.data_driven.on
 
 object FindArrayEntryEqualToItsIndexWhenThereMayBeDuplicatesSpek : Spek({
     describe("findArrayEntryEqualToItsIndexWhenThereMayBeDuplicates()") {
-        val data = listOf<Data1<List<Int>, List<Int>>?>(
-//                data(emptyList(), emptyList()),
+        val data = listOf(
+                data(emptyList(), emptyList()),
                 data(listOf(1), emptyList()),
-//                data(listOf(-1), emptyList()),
-//                data(listOf(-1,0), emptyList()),
-//                data(listOf(0), listOf(0)),
-//                data(listOf(0,1), listOf(0,1)),
-//                data(listOf(0,0,2), listOf(0)),
-//                data(listOf(-1,1), listOf(1)),
-//                data(listOf(-1,-1,1), emptyList()),
-//                data(listOf(-1,1,1,1,1,1,1), listOf(1)),
-//                data(listOf(-1,1,1,2,3,4,6,7,8,9,10), listOf(1)),
-//                data(listOf(-1,0,1,2,3,4,5,7,8,9,10), listOf(7,8,9,10)),
-//                data(listOf(-1,0,1,2,3,4,5,6,6,9,11), listOf(9)),
-                // TODO More cases - especially those that examine both sides of mid
-//                data(listOf(), listOf()),
+                data(listOf(-1), emptyList()),
+                data(listOf(-1,0), emptyList()),
+                data(listOf(0), listOf(0)),
+                data(listOf(0,1), listOf(0,1)),
+                data(listOf(0,0,2), listOf(0)),
+                data(listOf(-1,1), listOf(1)),
+                data(listOf(-1,-1,1), emptyList()),
+                data(listOf(-1,-1,-1), emptyList()),
+                data(listOf(4,4,4), emptyList()),
+                data(listOf(4,5,6), emptyList()),
+                data(listOf(-1,1,1,1,1,1,1), listOf(1)),
+                data(listOf(-1,1,1,2,3,4,6,7,8,9,10), listOf(1)),
+                data(listOf(-1,0,1,2,3,4,5,7,8,9,10), listOf(7,8,9,10)),
+                data(listOf(-1,0,1,2,3,4,5,6,6,9,11), listOf(9)),
                 null
         ).filterNotNull().toTypedArray()
         on("array %s", with = *data) { array, expected ->
