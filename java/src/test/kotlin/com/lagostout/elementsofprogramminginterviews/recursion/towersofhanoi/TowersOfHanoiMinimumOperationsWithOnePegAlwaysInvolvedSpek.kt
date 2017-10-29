@@ -1,8 +1,8 @@
-package com.lagostout.elementsofprogramminginterviews.recursion
+package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition.*
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.RingMove
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
@@ -39,10 +39,10 @@ object TowersOfHanoiMinimumOperationsWithOnePegAlwaysInvolvedSpek : Spek({
                 it("moves rings between pegs") {
                     val pegs = TowersOfHanoi.Pegs(ringCount, fromPegPosition)
                     val operations = mutableListOf<RingMove>()
-                            minimumNumberOfOperationsWithOnePegAlwaysInvolved(
-                                    pegs, pegs.at(fromPegPosition),
-                                    pegs.at(toPegPosition), pegs.at(requiredPegPosition),
-                                    operations)
+                    minimumNumberOfOperationsWithOnePegAlwaysInvolved(
+                            pegs, pegs.at(fromPegPosition),
+                            pegs.at(toPegPosition), pegs.at(requiredPegPosition),
+                            operations)
                     println(operations.size)
                     // Too much work, by hand, to figure out what the expected number
                     // of operations should be.  And I don't want to spend time on an

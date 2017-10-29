@@ -1,6 +1,6 @@
-package com.lagostout.elementsofprogramminginterviews.recursion
+package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
 
 /**
  * Problem 16.1 page 288

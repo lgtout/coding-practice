@@ -1,8 +1,7 @@
-package com.lagostout.elementsofprogramminginterviews.recursion
+package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition.*
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.RingMove
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
@@ -19,9 +18,8 @@ class TowersOfHanoiWithoutRecursionSpek : Spek({
                 it("moves rings between pegs") {
                     val pegs = TowersOfHanoi.Pegs(ringCount, fromPegPosition)
                     val operations = mutableListOf<RingMove>()
-                    TowersOfHanoiWithoutRecursion.
-                            transferRingsBetweenPegsWithoutRecursion(
-                                    pegs, pegs.at(fromPegPosition),
+                    TowersOfHanoiWithoutRecursion.transferRingsBetweenPegsWithoutRecursion(
+                            pegs, pegs.at(fromPegPosition),
                             pegs.at(toPegPosition), operations)
                     assertEquals(pegs, TowersOfHanoiSpek.pegsFromRunningOperations(
                             ringCount, fromPegPosition, operations))
@@ -32,12 +30,8 @@ class TowersOfHanoiWithoutRecursionSpek : Spek({
 }) {
     companion object {
 
-        data class TestCase(val fromPegPosition: PegPosition,
-                            val toPegPosition: PegPosition,
-                            val ringCount: Int = 0)
-
         val testCases = listOf(
-                TestCase(TowersOfHanoi.PegPosition.LEFT, MIDDLE),
+                TestCase(LEFT, MIDDLE),
                 TestCase(LEFT, MIDDLE, 1),
                 TestCase(LEFT, MIDDLE, 2),
                 TestCase(LEFT, MIDDLE, 3),

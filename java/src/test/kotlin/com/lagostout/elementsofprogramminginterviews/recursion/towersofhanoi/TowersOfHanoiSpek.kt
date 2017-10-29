@@ -1,10 +1,10 @@
-package com.lagostout.elementsofprogramminginterviews.recursion
+package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition.*
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.Pegs
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.RingMove
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.transferRingsFromOnePegToAnother
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Pegs
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.transferRingsFromOnePegToAnother
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
@@ -29,10 +29,6 @@ class TowersOfHanoiSpek : Spek({
     }
 }) {
     companion object {
-
-        data class TestCase(val fromPegPosition: PegPosition,
-                            val toPegPosition: PegPosition,
-                            val ringCount: Int = 0)
 
         val testCases = listOf(
                 TestCase(LEFT, MIDDLE),

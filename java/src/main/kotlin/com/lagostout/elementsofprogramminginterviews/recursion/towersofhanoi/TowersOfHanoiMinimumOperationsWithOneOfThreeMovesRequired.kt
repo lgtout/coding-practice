@@ -1,9 +1,9 @@
-package com.lagostout.elementsofprogramminginterviews.recursion
+package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.Peg
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.Pegs
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.RingMove
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Peg
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Pegs
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
 import java.util.*
 
 /**

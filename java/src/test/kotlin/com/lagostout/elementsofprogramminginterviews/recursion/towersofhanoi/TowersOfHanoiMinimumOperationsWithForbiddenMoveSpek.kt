@@ -1,8 +1,7 @@
-package com.lagostout.elementsofprogramminginterviews.recursion
+package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.PegPosition.*
-import com.lagostout.elementsofprogramminginterviews.recursion.TowersOfHanoi.RingMove
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 import org.jetbrains.spek.api.Spek
@@ -11,11 +10,6 @@ import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
 
 object TowersOfHanoiMinimumOperationsWithForbiddenMoveSpek : Spek({
-
-    data class TestCase(val fromPegPosition: PegPosition,
-                        val toPegPosition: PegPosition,
-                        val ringCount: Int = 0,
-                        val expectedOperationCount: Int? = null)
 
     val testCases = listOf(
             TestCase(LEFT, MIDDLE, expectedOperationCount = 0),
