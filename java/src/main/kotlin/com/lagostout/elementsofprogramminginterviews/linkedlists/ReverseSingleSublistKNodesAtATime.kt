@@ -9,11 +9,11 @@ object ReverseSingleSublistKNodesAtATime {
     fun <T> reverseSingleSublistKNodesAtATime(
             list: ListNode<T>, k: Int): ListNode<T> {
         var firstInList = list
-        val pointerToLastNodeInPreviousGroup = firstInList.copy()
+        val lastNodeInPreviousGroup = firstInList.copy()
 
         fun seekLastNodeOfGroup(firstNodeInGroup: ListNode<T>): ListNode<T>? {
             var currentNode: ListNode<T> = firstNodeInGroup
-            var groupCount = 0
+            var groupCount = 1
             while (groupCount < k) {
                 currentNode = currentNode.next ?: break
                 ++groupCount
@@ -25,13 +25,13 @@ object ReverseSingleSublistKNodesAtATime {
         var lastNodeOfLastGroup: ListNode<T> = firstInList
         var firstNodeOfGroup: ListNode<T> = firstInList
         while (true) {
-            lastNodeOfLastGroup = seekLastNodeOfGroup(firstNodeOfGroup)?.let {
-                lastNode ->
-                lastNode.next?.let {
+            println("firstNodeOfGroup $firstNodeOfGroup")
+            seekLastNodeOfGroup(firstNodeOfGroup)?.let {
+                lastNodeOfLastGroup = it
+                it.next?.let {
                     firstNodeOfGroup = it
-                    lastNode
                 }
-            }?: break
+            } ?: break
         }
 
         // Reverse list
@@ -41,12 +41,16 @@ object ReverseSingleSublistKNodesAtATime {
             if (firstInList == lastNodeOfLastGroup) break
             var lastNodeInGroup = seekLastNodeOfGroup(firstNodeInGroup)!!
 
+            // TODO
+            // This isn't right yet.
+            // Where is lastNodeInPreviousGroup updated?
+
             // Reverse the nodes in the group
             val firstNodeInReversedGroup = lastNodeInGroup
             val lastNodeInReversedGroup = firstNodeInGroup
-            while (firstNodeInReversedGroup != pointerToLastNodeInPreviousGroup.next) {
-                val node = pointerToLastNodeInPreviousGroup.next!!
-                pointerToLastNodeInPreviousGroup.next = node.next
+            while (firstNodeInReversedGroup != lastNodeInPreviousGroup.next) {
+                val node = lastNodeInPreviousGroup.next!!
+                lastNodeInPreviousGroup.next = node.next
                 node.next = firstNodeInReversedGroup.next
                 firstNodeInReversedGroup.next = node
             }

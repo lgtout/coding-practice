@@ -1,8 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.linkedlists
 
-import org.apache.commons.lang3.builder.EqualsBuilder
-import org.apache.commons.lang3.builder.HashCodeBuilder
-import org.apache.commons.lang3.builder.ToStringBuilder
+import org.apache.commons.lang3.builder.*
 
 data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null) {
 
@@ -12,9 +10,8 @@ data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null) {
         get() = next != null
 
     override fun toString(): String {
-        return ToStringBuilder(this)
-                .append("data", data)
-                .append("next", next?.data).toString()
+        return ReflectionToStringBuilder(
+                this, ToStringStyle.SHORT_PREFIX_STYLE).toString()
     }
 
     override fun hashCode(): Int {
@@ -38,7 +35,7 @@ fun <T> toLinkedList(values: List<T>): ListNode<T> {
         ListNode(it)
     }.apply {
         forEachIndexed { index, listNode ->
-            listNode.next = if (index < lastIndex) get(index)
+            listNode.next = if (index < lastIndex) get(index + 1)
             else null
         }
     }.first()

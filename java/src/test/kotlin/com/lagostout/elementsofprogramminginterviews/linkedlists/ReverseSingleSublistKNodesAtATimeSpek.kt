@@ -21,6 +21,7 @@ object ReverseSingleSublistKNodesAtATimeSpek : Spek({
         }.toTypedArray()
         on("list: %s, k: %s", with = *data) { list, k, expected ->
             it("modifies list to $expected") {
+                println("list $list")
                 assertThat(reverseSingleSublistKNodesAtATime(list, k))
                         .isEqualTo(expected)
             }
