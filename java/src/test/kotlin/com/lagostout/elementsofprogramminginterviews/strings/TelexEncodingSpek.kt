@@ -13,12 +13,13 @@ object TelexEncodingSpek : Spek({
 
     describe("encodeAsTelex()") {
         val data = listOf(
-//                "",
-//                " ",
-//                "A",
-//                " A",
-//                "A ",
-//                "A A",
+                "",
+                " ",
+                "A",
+                " A",
+                "A ",
+                "A A",
+                ";",
                 "A. AB;?  C!",
                 null
         ).filterNotNull().map { string ->
@@ -28,7 +29,6 @@ object TelexEncodingSpek : Spek({
                         Regex("\\" + it.key.toString()),
                         it.value.joinToString(""))
             }
-//            println(encodedString)
             val chars: MutableList<Char?> =
                     List(encodedString.length, {
                         if (it < string.length) string[it] else null
@@ -36,11 +36,8 @@ object TelexEncodingSpek : Spek({
             data(chars, encodedString.toList())
         }.toTypedArray()
         on("chars: %s", with = *data) { chars, expected ->
-//            println(chars)
-//            println(expected)
             it("returns $expected") {
                 encodeAsTelex(chars)
-//                println(chars)
                 assertThat(chars).containsExactlyElementsOf(expected)
             }
         }
