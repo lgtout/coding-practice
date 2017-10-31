@@ -50,24 +50,21 @@ fun <T> inorderTraversal(root: BinaryTreeNode<T>): List<Pair<Int, T>> {
         push(Frame(root))
     }
     while (true) {
-        stack.pollFirst()?.let { (node, action) ->
+        stack.poll()?.also { (node, action) ->
             when (action) {
                 0 -> {
                     stack.push(Frame(node, action + 1))
-                    with (node) {
-                        left?.let {
-                            stack.push(Frame(it))
-                        }
-                    }
+                    node.left?.let { stack.push(Frame(it)) }
                 }
                 else -> {
-                    node.apply { traversal.add(Pair(id, value)) }
                     with (node) {
+                        traversal.add(Pair(id, value))
                         right?.let { stack.push(Frame(it)) }
                     }
                 }
             }
         } ?: break
     }
+//    println(traversal)
     return traversal
 }

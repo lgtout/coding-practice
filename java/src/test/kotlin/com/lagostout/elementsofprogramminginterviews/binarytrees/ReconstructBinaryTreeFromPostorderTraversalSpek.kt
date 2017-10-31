@@ -9,14 +9,15 @@ import org.jetbrains.spek.api.dsl.it
 object ReconstructBinaryTreeFromPostorderTraversalSpek : Spek({
     describe("reconstructBinaryTreeFromPostorderTraversal") {
         val data = listOf(
-                Pair(listOf('A'), listOf('A')),
-                Pair(listOf('B','A'), listOf('B','B')),
-                Pair(listOf('B','A'), listOf('A','B')),
-                Pair(listOf('B','A','C'), listOf('A','B','C')),
-                Pair(listOf('D','E','B','C','A'), listOf('A','B','D','E','C')),
-                Pair(listOf('D','B','E','A','C'), listOf('A','B','D','E','C')),
-                Pair(listOf('D','E','B','A','C'), listOf('A','B','D','E','C')),
-                Pair(listOf('D','E','C','B','A'), listOf('A','B','D','E','C')),
+//                Pair(listOf('A'), listOf('A')),
+//                Pair(listOf('B','A'), listOf('B','A')),
+//                Pair(listOf('B','A'), listOf('A','B')),
+//                Pair(listOf('B','A','C'), listOf('A','B','C')),
+//                Pair(listOf('D','E','B','C','A'), listOf('E','D','B','C','A')),
+                Pair(listOf('D','E','B','A','C'), listOf('E','D','B','C','A')),
+//                Pair(listOf('D','E','C','B','A'), listOf('A','B','D','E','C')),
+                // TODO inorder postorder don't match
+//                Pair(listOf('D','B','E','A','C'), listOf('A','B','D','E','C')),
                 null
         ).filterNotNull()
         data.forEach { (inorder, postorder) ->
@@ -24,6 +25,7 @@ object ReconstructBinaryTreeFromPostorderTraversalSpek : Spek({
                 it("returns a tree that has the same traversal orders") {
                     reconstructBinaryTreeFromPostorderTraversal(
                             inorder, postorder)?.let {
+                        println(it)
                         with (SoftAssertions()) {
                             assertThat(postorderTraversal(it).map { it.second })
                                     .`as`("postorder traversal")
