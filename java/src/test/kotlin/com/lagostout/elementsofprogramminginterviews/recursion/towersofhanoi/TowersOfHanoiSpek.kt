@@ -45,7 +45,15 @@ class TowersOfHanoiSpek : Spek({
                 ringCount: Int,
                 fromPosition: PegPosition,
                 operations: List<TowersOfHanoi.RingMove>): Pegs {
-            val pegs = Pegs(ringCount, fromPosition)
+            return pegsFromRunningOperations(
+                    (1..ringCount).toList(), fromPosition, operations)
+        }
+
+        fun pegsFromRunningOperations(
+                rings: List<Int>,
+                fromPosition: PegPosition,
+                operations: List<TowersOfHanoi.RingMove>): Pegs {
+            val pegs = Pegs(rings, fromPosition)
             operations.forEach { (fromPosition, toPosition) ->
                 pegs.at(toPosition).let { toPeg ->
                     pegs.at(fromPosition).let { fromPeg ->

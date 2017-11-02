@@ -34,20 +34,7 @@ object TowersOfHanoi {
 
         fun push(ring: Ring) {
             if (isNotEmpty && ring.size > topRingSize)
-                throw IllegalStateException(
-                        "Placing a ring on top of " +
-                                "a smaller one is verbotten." +
-                                "\n peg: $this " +
-                                "\n ring: $ring")
             rings.add(ring)
-        }
-
-        fun push(ringCount: Int) {
-            @Suppress("NAME_SHADOWING")
-            var ringCount = ringCount
-            while (ringCount > 0){
-                rings.add(Ring(ringCount--))
-            }
         }
 
         fun pop(): Ring {
@@ -84,7 +71,10 @@ object TowersOfHanoi {
 
     }
 
-    class Pegs(ringCount: Int, ringsPeg: PegPosition) {
+    class Pegs(rings: List<Int>, ringsPeg: PegPosition) {
+
+        constructor (ringCount: Int, ringsPeg: PegPosition) :
+                this((0..ringCount).toList(), ringsPeg)
 
         private val left: Peg = Peg(LEFT)
         private val middle: Peg = Peg(MIDDLE)
@@ -93,7 +83,11 @@ object TowersOfHanoi {
 
         init {
             positionToPegMap = list.map { it.position to it }.toMap()
-            positionToPegMap[ringsPeg]?.push(ringCount)
+            positionToPegMap[ringsPeg]?.apply {
+                rings.reversed().forEach {
+                    push(Ring(it))
+                }
+            }
         }
 
         fun at(position: PegPosition): Peg {
