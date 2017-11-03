@@ -6,9 +6,9 @@ package com.lagostout.elementsofprogramminginterviews.arrays
 @Suppress("NAME_SHADOWING")
 fun multiplyTwoArbitraryPrecisionIntegers(
         first: List<Int>, second: List<Int>): List<Int> {
+    if (first.isEmpty()) return second
+    else if (second.isEmpty()) return first
     val result = MutableList(first.size + second.size, { 0 })
-    var product: Int
-    var excess = 0
     val (sign, numbers) = listOf(first, second)
             .filter { it.isNotEmpty() }
             .map {
@@ -24,8 +24,10 @@ fun multiplyTwoArbitraryPrecisionIntegers(
                 })
             }
     val (first, second) = numbers
-    first.forEachIndexed { firstIndex, firstValue ->
-        second.forEachIndexed { secondIndex, secondValue ->
+    var product: Int
+    var excess = 0
+    first.reversed().forEachIndexed { firstIndex, firstValue ->
+        second.reversed().forEachIndexed { secondIndex, secondValue ->
             val resultIndex = result.lastIndex -
                     (firstIndex + secondIndex)
             product = result[resultIndex] + excess +
@@ -34,7 +36,12 @@ fun multiplyTwoArbitraryPrecisionIntegers(
             result[resultIndex] = product - excess
         }
     }
-    return result.apply {
-        set(0, first() * sign)
+    return result.let { sum ->
+        // Trim extra 0s on left side and set sign
+        sum.find { it != 0 }?.let {
+            sum.subList(it, sum.size).also {
+                it[0] = it.first() * sign
+            }
+        } ?: listOf(0)
     }
 }
