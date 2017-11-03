@@ -46,3 +46,7 @@ val <T : Comparable<T>> BinaryTreeNode<T>.rightAncestor: BinaryTreeNode<T>?
 
 val <T : Comparable<T>> BinaryTreeNode<T>.leftAncestor: BinaryTreeNode<T>?
     get() = if (isRightChild) parent else null
+
+fun Long.toBinaryString(): String = java.lang.Long.toBinaryString(this)
+
+fun Int.toBinaryString(): String = java.lang.Integer.toBinaryString(this)
