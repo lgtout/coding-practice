@@ -11,19 +11,30 @@ import org.jetbrains.spek.data_driven.on
 object ReverseSingleSublistKNodesAtATimeSpek : Spek({
     describe("reverseSingleSublistKNodesAtATime()") {
         val data = listOf(
-//                Triple(listOf(1), 0, listOf(1)),
-//                Triple(listOf(1), 1, listOf(1)),
-//                Triple(listOf(1), 2, listOf(1)),
-                Triple(listOf(1,2), 1, listOf(2,1)),
+                // (node values, k, expected node indices when
+                // iterated after reversal)
+                Triple(listOf(1), 0, listOf(0)),
+                Triple(listOf(1), 1, listOf(0)),
+                // We handle the case of k > len(list)
+                // same as when (len(list) % k) > 0,
+                // i.e. we ignore the excess.
+                Triple(listOf(1), 2, listOf(0)),
+                Triple(listOf(1,2), 1, listOf(1,0)),
+                Triple(listOf(1,2), 2, listOf(1,0)),
+                Triple(listOf(1,2,3,4), 2, listOf(3,2,1,0)),
+                Triple(listOf(1,2,3,4,5), 2, listOf(3,2,1,0,4)),
+                Triple(listOf(1,2,3,4,5), 3, listOf(2,1,0,3,4)),
                 null
         ).filterNotNull().map {
-            data(toLinkedList(it.first), it.second, toLinkedList(it.third))
+            val linkedList = toLinkedList(it.first)
+            val list = linkedList.toList()
+            val expected = it.third.map { list[it] }
+            data(linkedList, it.second, expected)
         }.toTypedArray()
         on("list: %s, k: %s", with = *data) { list, k, expected ->
             it("modifies list to $expected") {
-                println("list $list")
-                assertThat(reverseSingleSublistKNodesAtATime(list, k))
-                        .isEqualTo(expected)
+                assertThat(reverseSingleSublistKNodesAtATime(list, k)
+                        .toList()).isEqualTo(expected)
             }
         }
     }

@@ -28,6 +28,7 @@ data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null) {
         val nextId: Int
             get() = ++_id
     }
+
 }
 
 fun <T> toLinkedList(values: List<T>): ListNode<T> {
@@ -39,4 +40,17 @@ fun <T> toLinkedList(values: List<T>): ListNode<T> {
             else null
         }
     }.first()
+}
+
+@Suppress("NAME_SHADOWING")
+fun <T> ListNode<T>.toList(): List<ListNode<T>> {
+    var node: ListNode<T>? = this
+    return mutableListOf<ListNode<T>>().apply {
+        while (true) {
+            node?.let {
+                add(it)
+                node = it.next
+            } ?: break
+        }
+    }
 }
