@@ -81,7 +81,8 @@ class BinaryTreeNode<T extends Comparable<T>> {
         buildBinaryTree(0, toRawBinaryTreeNodes(rawTree), tree)
     }
 
-    static <T extends Comparable<T>> Pair<BinaryTreeNode<T>, List<BinaryTreeNode<T>>> buildBinaryTree(
+    static <T extends Comparable<T>> Pair<BinaryTreeNode<T>,
+            List<BinaryTreeNode<T>>> buildBinaryTree(
             List<RawBinaryTreeNode<T>> rawTree) {
         def nodes = [] as List<BinaryTreeNode>
         buildBinaryTree(0, rawTree, nodes)

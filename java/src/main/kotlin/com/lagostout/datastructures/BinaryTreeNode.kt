@@ -2,6 +2,7 @@ package com.lagostout.datastructures
 
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
+import org.apache.commons.lang3.builder.ToStringBuilder
 import java.util.*
 
 open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
@@ -28,6 +29,7 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
 
     override fun toString(): String {
         return "BinaryTreeNode(value=$value, " +
+                "id=$id, " +
                 "parent=${Companion.stringify(parent)}, " +
                 "left=${left.toString()}, " +
                 "right=${right.toString()})"
@@ -35,6 +37,7 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
 
     fun shallowToString(): String {
         return "BinaryTreeNode(value=$value, " +
+                "id=$id, " +
                 "parent=${parent?.value}, " +
                 "left=${left?.value}, " +
                 "right=${right?.value})"
