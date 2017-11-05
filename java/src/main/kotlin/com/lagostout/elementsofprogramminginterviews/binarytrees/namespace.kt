@@ -31,7 +31,8 @@ fun <T> postorderTraversal(root: BinaryTreeNode<T>): List<Pair<Int, T>> {
                 0 -> {
                     stack.push(Frame(node, action + 1))
                     with (node) {
-                        listOf(left, right).filterNotNull().forEach {
+                        listOf(left, right).filterNotNull()
+                                .reversed().forEach {
                             stack.push(Frame(it))
                         }
                     }

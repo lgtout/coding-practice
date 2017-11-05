@@ -35,6 +35,7 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
                 "right=${right.toString()})"
     }
 
+    @Suppress("MemberVisibilityCanPrivate")
     fun shallowToString(): String {
         return "BinaryTreeNode(value=$value, " +
                 "id=$id, " +
@@ -43,6 +44,7 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
                 "right=${right?.value})"
     }
 
+    @Suppress("MemberVisibilityCanPrivate", "unused")
     fun treeToString(): String {
         val list = BinaryTreeNode.toList(this)
         return list.joinToString {

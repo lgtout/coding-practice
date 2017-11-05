@@ -27,9 +27,10 @@ fun <T> reconstructBinaryTreeFromPostorderTraversal(
         } else {
             while (leftAncestors.isNotEmpty()) {
                 val leftAncestor = leftAncestors.peek()
-                if (compareValues(keyToInorderPositionMap[leftAncestor.value],
-                        keyToInorderPositionMap[key]) > 0) break
-                else currentNode = leftAncestors.pop()
+                if (compareValues(keyToInorderPositionMap[key],
+                        keyToInorderPositionMap[leftAncestor.value]) > 0) {
+                    break
+                } else currentNode = leftAncestors.pop()
             }
             currentNode.left = nextNode
         }
