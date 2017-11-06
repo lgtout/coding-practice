@@ -3,6 +3,8 @@ package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Pegs
+import org.assertj.core.api.Assertions.assertThatCode
 import org.assertj.core.api.SoftAssertions
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -19,48 +21,44 @@ object TowersOfHanoiMinimumOperationsWithRelaxedConstraintSpek : Spek({
 
     describe("minimumOperationsWithRelaxedConstraint()") {
         val testCases = listOf(
-                TestCase(LEFT, MIDDLE, expectedOperationCount = 0),
-                TestCase(MIDDLE, RIGHT, expectedOperationCount = 0),
-                TestCase(RIGHT, LEFT, expectedOperationCount = 0),
-                TestCase(LEFT, RIGHT, expectedOperationCount = 0),
-                TestCase(RIGHT, MIDDLE, expectedOperationCount = 0),
-                TestCase(MIDDLE, LEFT, expectedOperationCount = 0),
-                TestCase(LEFT, MIDDLE, listOf(1,2), 2),
-                TestCase(MIDDLE, RIGHT, listOf(), 1),
-                TestCase(RIGHT, LEFT, listOf(), 1),
-                TestCase(LEFT, RIGHT, listOf(), 1),
-                TestCase(RIGHT, MIDDLE, listOf(), 1),
-                TestCase(MIDDLE, LEFT, listOf(), 1),
-                TestCase(LEFT, MIDDLE, listOf(), 7),
-                TestCase(LEFT, MIDDLE, listOf()),
-                TestCase(RIGHT, RIGHT, listOf()),
-                TestCase(MIDDLE, RIGHT, listOf()),
-                TestCase(RIGHT, MIDDLE, listOf()),
-                TestCase(RIGHT, LEFT, listOf()),
+//                TestCase(LEFT, MIDDLE, expectedOperationCount = 0),
+//                TestCase(MIDDLE, RIGHT, expectedOperationCount = 0),
+//                TestCase(RIGHT, LEFT, expectedOperationCount = 0),
+//                TestCase(LEFT, RIGHT, expectedOperationCount = 0),
+//                TestCase(RIGHT, MIDDLE, expectedOperationCount = 0),
+//                TestCase(MIDDLE, LEFT, expectedOperationCount = 0),
+                TestCase(LEFT, MIDDLE, listOf(1,2), 4),
+                // TODO More cases
                 null).filterNotNull()
 
-        testCases.forEach {
-            (fromPegPosition, toPegPosition, rings, expectedOperationCount) ->
+        testCases.forEachIndexed {
+            index, (fromPegPosition, toPegPosition, rings, expectedOperationCount) ->
             given("rings: $rings, from peg: $fromPegPosition, " +
                     "to peg: $toPegPosition") {
-                it("moves rings between pegs ${ expectedOperationCount?.let {"in $it moves"} }") {
+                it("#$index moves rings between pegs " +
+                        "${ expectedOperationCount?.let {"in $it moves"} }") {
                     val pegs = TowersOfHanoi.Pegs(rings, fromPegPosition)
                     val operations = mutableListOf<RingMove>()
                     minimumOperationsWithRelaxedConstraint(
                             pegs, pegs.at(fromPegPosition),
                             pegs.at(toPegPosition), operations)
-//                    println(operations)
-//                    println(operations.size)
-                    assertEquals(pegs, TowersOfHanoiSpek.pegsFromRunningOperations(
-                            rings, fromPegPosition, operations))
+                    // TODO Are soft assertions appropriate, since an exception thrown obviates assertions that follow?
                     with (SoftAssertions()) {
                         // Verify that during operations the bottom ring of any peg is always
                         // the largest.
-                        // TODO
+                        var pegsFromRunningOperations: Pegs? = null
+                        assertThatCode({
+                            pegsFromRunningOperations = TowersOfHanoiSpek.pegsFromRunningOperations(
+                                    rings, fromPegPosition, operations)
+                        }).doesNotThrowAnyException()
+                        pegsFromRunningOperations?.let {
+                            assertThat(pegs).isEqualTo(pegsFromRunningOperations)
+                        }
                         // I'm only verifying expected operation count for trivial cases since
                         // expected counts have to be computed by hand.
                         expectedOperationCount?.let {
-                            assertThat(expectedOperationCount).isEqualTo(operations.size)
+                            assertThat(expectedOperationCount)
+                                    .isEqualTo(operations.size)
                         }
                         assertAll()
                     }

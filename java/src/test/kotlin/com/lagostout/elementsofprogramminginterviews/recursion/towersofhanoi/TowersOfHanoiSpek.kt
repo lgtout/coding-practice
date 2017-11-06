@@ -2,6 +2,8 @@ package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Peg
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Ring
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Pegs
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.transferRingsFromOnePegToAnother
@@ -52,12 +54,15 @@ class TowersOfHanoiSpek : Spek({
         fun pegsFromRunningOperations(
                 rings: List<Int>,
                 fromPosition: PegPosition,
-                operations: List<TowersOfHanoi.RingMove>): Pegs {
+                operations: List<TowersOfHanoi.RingMove>,
+                constraint: (from: Peg, to: Peg, ring: Ring) -> Unit = { _, _, _ -> }): Pegs {
             val pegs = Pegs(rings, fromPosition)
             operations.forEach { (fromPosition, toPosition) ->
                 pegs.at(toPosition).let { toPeg ->
                     pegs.at(fromPosition).let { fromPeg ->
-                        toPeg.push(fromPeg.pop())
+                        val ring = fromPeg.pop()
+                        toPeg.push(ring)
+                        constraint(fromPeg, toPeg, ring)
                     }
                 }
             }

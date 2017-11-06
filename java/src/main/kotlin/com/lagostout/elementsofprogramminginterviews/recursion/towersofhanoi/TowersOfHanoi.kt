@@ -20,7 +20,7 @@ object TowersOfHanoi {
     class Peg(val position: PegPosition,
               private val rings: MutableList<Ring> = mutableListOf()) {
 
-        private val topRingSize: Int
+        private val bottomRingSize: Int
             get() = rings.last().size
 
         val isEmpty: Boolean
@@ -33,7 +33,6 @@ object TowersOfHanoi {
             get() = rings.size
 
         fun push(ring: Ring) {
-            if (isNotEmpty && ring.size > topRingSize)
             rings.add(ring)
         }
 
@@ -41,9 +40,9 @@ object TowersOfHanoi {
             return rings.removeAt(rings.lastIndex)
         }
 
-        fun peek(countFromTop: Int = 0): Ring? {
+        fun peek(): Ring? {
             return if (rings.isEmpty()) null
-            else rings[rings.size - countFromTop]
+            else rings.last()
         }
 
         val bottom: Ring?

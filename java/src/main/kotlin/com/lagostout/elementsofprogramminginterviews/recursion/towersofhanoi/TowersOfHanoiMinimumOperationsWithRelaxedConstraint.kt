@@ -28,10 +28,10 @@ fun minimumOperationsWithRelaxedConstraint(
     while (stack.isNotEmpty()) {
         stack.pop().let { (from, to, countOfRingsToMove) ->
             if (countOfRingsToMove == 1) {
-                if (toPeg.bottom == null ||
-                        compareValues(toPeg.bottom, from.peek()) > 0) {
+                if (to.bottom == null ||
+                        compareValues(to.bottom, from.peek()) > 0) {
                     from.pop().let {
-                        toPeg.push(it)
+                        to.push(it)
                         operations.add(RingMove(from.position, to.position, it))
                     }
                 } else {
