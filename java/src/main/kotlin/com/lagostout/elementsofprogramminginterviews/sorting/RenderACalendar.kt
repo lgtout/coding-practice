@@ -4,6 +4,9 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 import org.apache.commons.lang3.builder.ToStringStyle
 import java.util.*
 
+/**
+ * Problem 14.4.1 page 244
+ */
 object RenderACalendar {
     data class Event(val start: Int = 0, val end: Int = 0)
     class Level : Comparable<Level> {
@@ -25,9 +28,11 @@ object RenderACalendar {
     fun computeMaximumNumberOfEventsThatCanTakePlaceConcurrently(
             events: List<Event>): Int {
         val levels = PriorityQueue<Level>(Comparator { l1, l2 ->
-            l2.compareTo(l1)
+            l1.compareTo(l2)
         }).apply { if (events.isNotEmpty()) add(Level()) }
-        events.sortedBy { it.start }.forEach { event ->
+        events.sortedBy {
+            it.start
+        }.forEach { event ->
             levels.peek()?.let { levelWithEarliestEnd ->
                 if (levelWithEarliestEnd.end > event.start) {
                     levels.add(Level().apply { add(event) })
@@ -36,7 +41,6 @@ object RenderACalendar {
                 }
             }
         }
-//        println(PriorityQueue(levels))
         return levels.size
     }
 }
