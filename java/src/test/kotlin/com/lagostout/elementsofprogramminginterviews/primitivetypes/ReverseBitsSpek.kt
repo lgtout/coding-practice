@@ -10,18 +10,26 @@ import org.jetbrains.spek.data_driven.on
 
 object ReverseBitsSpek : Spek({
     describe("reverseBits()") {
-        val data = listOf(
-//                data(0b0, 0b0),
-                data(0b1, 0b1.toLong() shl 63),
-//                data(0b10, 0b01),
-//                data(0b101, 0b101),
-//                data(0b110, 0b011),
-//                data(0b110101100, 0b001101011),
+        val data = listOf<Long?>(
+//               0b0,
+                0b1,
+//                0b10,
+//                0b101,
+//                0b110,
+//                0b110101100
                 null
-        ).filterNotNull().toTypedArray()
+        ).filterNotNull().map { number ->
+            listOf(number ushr 32, number shl 32 ushr 32).map {
+                Integer.reverse(it.toInt()).toLong()
+            }.reversed().let {
+                it[0] shl 32 or it[1]
+            }.let { reversed ->
+                data(number, reversed)
+            }
+        }.toTypedArray()
         on("number: %s", with = *data) { number, expected ->
             it ("returns ${expected.toBinaryString()}") {
-                assertThat(reverseBits(number.toLong()))
+                assertThat(reverseBits(number))
                         .inBinary()
                         .isEqualTo(expected)
             }

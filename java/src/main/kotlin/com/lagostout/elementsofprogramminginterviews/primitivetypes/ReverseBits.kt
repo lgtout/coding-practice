@@ -15,6 +15,30 @@ fun reverseBits(number: Long): Long {
         }
     }
     printCache()
+    println()
+
+    // TODO Continue redo
+    var bitCount = 2
+    while (bitCount < 16) {
+        (IntMath.pow(2, bitCount) until
+                IntMath.pow(2, bitCount + 1)).forEach { number ->
+            val rightHalfShift = 32 - bitCount
+            Pair(number ushr bitCount,
+                    number shl rightHalfShift ushr rightHalfShift).let {
+                Pair(cache[it.second]!! shl (32 - bitCount),
+                        cache[it.first]!! shl (32 - (2 * bitCount))).also {
+                    cache[number] = it.first and it.second
+                }.also {
+                    println("${it.first.toBinaryString()}, " +
+                            it.second.toBinaryString())
+                }
+            }
+        }
+
+        bitCount *= 2
+        break
+    }
+
     var exponent = 1
 //    while (exponent <= 15) {
     while (exponent <= 4) {
