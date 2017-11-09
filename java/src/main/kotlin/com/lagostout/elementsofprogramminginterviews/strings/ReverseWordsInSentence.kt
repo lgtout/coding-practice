@@ -9,12 +9,11 @@ fun reverseWordsInSentence(sentence: String): String {
                      right: Int) {
         var left = left
         var right = right
-        val builder = StringBuilder(sentence)
         while (left < right) {
-            val char = builder[left]
-            builder[left] = builder[right]
-            builder[right] = char
-            --left
+            val char = sentence[left]
+            sentence[left] = sentence[right]
+            sentence[right] = char
+            ++left
             --right
         }
     }
@@ -35,5 +34,5 @@ fun reverseWordsInSentence(sentence: String): String {
         }
         left = right + 1
     }
-    return builder.reverse().toString()
+    return builder.toString()
 }
