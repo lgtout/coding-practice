@@ -12,34 +12,42 @@ fun multiplyTwoArbitraryPrecisionIntegers(
     val (sign, numbers) = listOf(first, second)
             .filter { it.isNotEmpty() }
             .map {
-                val negative = if (it.first() < 0) -1 else 1
+                // Extract the sign and make the number
+                // absolute.
+                val signum = Integer.signum(it.first())
                 val integer = it.toMutableList().apply {
-                    set(0, first() * negative)
+                    set(0, first() * signum)
                 }
-                Pair(negative, integer)
+                Pair(signum, integer)
             }
             .fold(Pair(1, mutableListOf<List<Int>>())) { acc, pair ->
+                // Compute a pair of the product of the signs
+                // and a list of the absolute numbers.
                 Pair(acc.first * pair.first, acc.second.apply {
                     add(pair.second)
                 })
             }
     val (first, second) = numbers
     var product: Int
-    var excess = 0
     first.reversed().forEachIndexed { firstIndex, firstValue ->
+        var excess = 0
+        var resultIndex = result.lastIndex - firstIndex
         second.reversed().forEachIndexed { secondIndex, secondValue ->
-            val resultIndex = result.lastIndex -
-                    (firstIndex + secondIndex)
+            resultIndex -= secondIndex
             product = result[resultIndex] + excess +
                     firstValue * secondValue
             excess = product / 10
-            result[resultIndex] = product - excess
+            result[resultIndex] = product.rem(10)
         }
+        result[resultIndex - 1] = excess
     }
-    return result.let { sum ->
+    println("$first $second")
+    println(result)
+    return result.let { product ->
         // Trim extra 0s on left side and set sign
-        sum.find { it != 0 }?.let {
-            sum.subList(it, sum.size).also {
+        product.indexOfFirst { it != 0 }.let {
+            if (it == -1) null
+            else product.subList(it, product.size).also {
                 it[0] = it.first() * sign
             }
         } ?: listOf(0)
