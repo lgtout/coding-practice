@@ -17,6 +17,10 @@ object ComputeMinimumCharsToDeleteToMakePalindromeSpek : Spek({
             data("aaab", 1),
             data("aaba", 1),
             data("abaa", 1),
+            data("abcd", 3),
+            data("abcdefg", 6),
+            data("aaaaaaa", 0),
+//            data("fabcdae", 4),
             null
     ).filterNotNull().toTypedArray()
     describe("computeMinimumCharsToDeleteToMakePalindrome()") {
