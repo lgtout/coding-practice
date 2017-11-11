@@ -20,9 +20,6 @@ object TowersOfHanoi {
     class Peg(val position: PegPosition,
               private val rings: MutableList<Ring> = mutableListOf()) {
 
-        private val bottomRingSize: Int
-            get() = rings.last().size
-
         val isEmpty: Boolean
             get() = rings.isEmpty()
 
