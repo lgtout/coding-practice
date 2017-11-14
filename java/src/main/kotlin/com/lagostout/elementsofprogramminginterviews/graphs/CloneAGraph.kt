@@ -2,6 +2,9 @@ package com.lagostout.elementsofprogramminginterviews.graphs
 
 import java.util.*
 
+/**
+ * Problem 19.5 page 369
+ */
 object CloneAGraph {
 
     data class Vertex(val label: Int, val adjacents: MutableList<Vertex> = mutableListOf())
@@ -11,7 +14,10 @@ object CloneAGraph {
         val vertices = vertices.toMutableSet()
         val stack = LinkedList<Vertex>()
         val vertexToCloneMap = mutableMapOf<Vertex, Vertex>()
-                .withDefault { key -> Vertex(key.label) }
+        fun computeIfAbsent(vertex: Vertex): Vertex {
+            return vertexToCloneMap.computeIfAbsent(vertex) {
+                key -> Vertex(key.label) }
+        }
         while (vertices.isNotEmpty()) {
             val explored = mutableSetOf<Vertex>()
             stack.push(vertices.first())
@@ -20,18 +26,20 @@ object CloneAGraph {
                 if (vertex in explored) continue
                 explored.add(vertex)
                 vertices.remove(vertex)
-                vertexToCloneMap.getValue(vertex).let { clone ->
+                computeIfAbsent(vertex).let { clone ->
                     // We haven't visited this vertex before, so it's
                     // not possible to add duplicate adjacent vertices.
-                    println(clone)
+//                    println("vertexToCloneMap $vertexToCloneMap")
+//                    println("clone $clone")
                     vertex.adjacents.forEach {
                         clone.adjacents.add(
-                                vertexToCloneMap.getValue(it))
+                                computeIfAbsent(it))
                     }
                 }
+//                println("vertexToCloneMap $vertexToCloneMap")
             }
         }
-        println(vertexToCloneMap)
+//        println(vertexToCloneMap)
         return vertexToCloneMap.values.toList()
     }
 

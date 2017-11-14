@@ -10,8 +10,22 @@ import org.jetbrains.spek.api.dsl.it
 object CloneAGraphSpek : Spek({
     describe("cloneGraph()") {
         val data = listOf(
-                listOf(Pair(0, emptyList<Int>())),
+//                listOf(Pair(0, emptyList())),
 //                listOf(Pair(0, listOf(1)), Pair(1, emptyList())),
+//                listOf(Pair(0, listOf(1)), Pair(1, emptyList()),
+//                        Pair(2, listOf())),
+//                listOf(Pair(0, listOf(1)), Pair(1, emptyList()),
+//                        Pair(2, listOf(3)), Pair(3, emptyList())),
+//                listOf(Pair(0, listOf(1)), Pair(1, emptyList()),
+//                        Pair(2, listOf(1)), Pair(3, emptyList())),
+//                listOf(Pair(0, listOf(1)), Pair(1, emptyList()),
+//                        Pair(2, listOf(1,3)), Pair(3, emptyList())),
+//                listOf(Pair(0, listOf(1,3,2)), Pair(1, emptyList()),
+//                        Pair(2, listOf(1,3)), Pair(3, emptyList())),
+//                listOf(Pair(0, listOf(1,2,3)), Pair(1, emptyList()),
+//                        Pair(2, listOf(1,3)), Pair(3, listOf(1))),
+                listOf(Pair(0, listOf(1,2,3)), Pair(1, emptyList()),
+                        Pair(2, listOf(1,3)), Pair(3, listOf(2))),
                 null
         ).filterNotNull().map {
             it.map { Pair(CloneAGraph.Vertex(it.first), it.second) }.run {
@@ -27,22 +41,28 @@ object CloneAGraphSpek : Spek({
             given("vertices $vertices") {
                 it("#$index returns a clone of the graph") {
                     val clone = cloneGraph(vertices)
-//                    assertThat(clone).containsExactlyInAnyOrder(
-//                            *vertices.toTypedArray())
-//                    vertices.filter { vertex ->
-//                        clone.any { it === vertex }
-//                    }.let {
-//                        assertThat(it).containsExactlyInAnyOrder(
-//                                *clone.toTypedArray())
-//                    }
-                    assertThat(clone).containsExactlyInAnyOrder(
-                            *vertices.toTypedArray())
-                    vertices.filter { vertex ->
+                    // Remove any non-clone vertices from the set
+                    // of clones.
+                    vertices.filterNot { vertex ->
                         clone.any { it === vertex }
                     }.let {
-                        assertThat(it).containsExactlyInAnyOrder(
-                                *clone.toTypedArray())
+                        // Now verify both sets contains nodes
+                        // that are the same value when compared
+                        // by value.
+                        assertThat(it).usingElementComparator({ o1, o2 ->
+                            o1.label.compareTo(o2.label)
+                        }).containsExactlyInAnyOrder(*clone.toTypedArray())
                     }
+//                    println("vertices $vertices")
+//                    println("clone $clone")
+//                    assertThat(clone).usingElementComparator({ o1, o2 ->
+//                        println(o1 == o2)
+//                        println(o1 !== o2)
+//                        println("o1 $o1")
+//                        println("o2 $o2")
+//                        @Suppress("SuspiciousEqualsCombination")
+//                        if (o1 == o2 && o1 !== o2) 0 else 1
+//                    }).containsExactlyInAnyOrder(*vertices.toTypedArray())
                 }
             }
         }
