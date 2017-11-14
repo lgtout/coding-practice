@@ -41,8 +41,6 @@ fun multiplyTwoArbitraryPrecisionIntegers(
         }
         result[resultIndex - 1] = excess
     }
-    println("$first $second")
-    println(result)
     return result.let { product ->
         // Trim extra 0s on left side and set sign
         product.indexOfFirst { it != 0 }.let {
