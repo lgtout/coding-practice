@@ -1,6 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.primitivetypes
 
 import com.google.common.math.IntMath
+import com.lagostout.common.positionOfMostSignificantBit
 import com.lagostout.common.toBinaryString
 
 /**
@@ -18,53 +19,37 @@ fun reverseBits(number: Long): Long {
     println()
 
     // TODO Continue redo
-    var bitCount = 2
-    while (bitCount < 16) {
-        (IntMath.pow(2, bitCount) until
-                IntMath.pow(2, bitCount + 1)).forEach { number ->
-            val rightHalfShift = 32 - bitCount
-            Pair(number ushr bitCount,
+    var exponent = 1
+    while (exponent < 16) {
+        (IntMath.pow(2, exponent) until
+                IntMath.pow(2, exponent + 1)).forEach { number ->
+            println()
+            println("number $number")
+            println("number ${number.toBinaryString()}")
+            val halfLength = IntMath.pow(2, exponent - 1)
+            println("halfLength $halfLength")
+            val rightHalfShift = 32 - halfLength
+            Pair(number ushr halfLength,
                     number shl rightHalfShift ushr rightHalfShift).let {
-                Pair(cache[it.second]!! shl (32 - bitCount),
-                        cache[it.first]!! shl (32 - (2 * bitCount))).also {
-                    cache[number] = it.first and it.second
+                println("left ${it.first} right ${it.second}")
+                Pair(cache[it.second]!!, cache[it.first]!! shr halfLength).also {
+                    println("left ${it.first} right ${it.second}")
+                    println("left msb ${it.first.positionOfMostSignificantBit()} " +
+                            "right msb ${it.second.positionOfMostSignificantBit()}")
+                    println("anded: ${it.first and it.second}")
+                    cache[number] = it.first or it.second
                 }.also {
                     println("${it.first.toBinaryString()}, " +
                             it.second.toBinaryString())
+                    println(cache[number]?.toBinaryString())
                 }
             }
         }
-
-        bitCount *= 2
-        break
+        exponent *= 2
+//        break
     }
+    println(cache)
 
-    var exponent = 1
-//    while (exponent <= 15) {
-    while (exponent <= 4) {
-        IntMath.pow(2, exponent).let {
-            IntRange(it, it * 2 - 1)
-        }.forEach { cacheNumber ->
-            ((exponent + 1) / 2).let { bitCount ->
-                val rightHalfShift = 32 - bitCount
-//                println("cacheNumber ${cacheNumber.toBinaryString()}")
-                Pair(cacheNumber ushr bitCount,
-                        cacheNumber shl rightHalfShift ushr rightHalfShift).let {
-//                    println("${it.first.toBinaryString()}, " +
-//                            "${it.second.toBinaryString()}")
-                    Pair(cache[it.second]!! shl (32 - bitCount),
-                            cache[it.first]!! shl (32 - (2 * bitCount))).also {
-                        cache[cacheNumber] = it.first and it.second
-                    }.also {
-                        println("${it.first.toBinaryString()}, " +
-                                it.second.toBinaryString())
-                    }
-                }
-            }
-        }
-        ++exponent
-    }
-//    println(cache)
     // Reverse bits
     return (0..3).map {
         (number shl it * 16 ushr 48).toInt()

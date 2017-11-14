@@ -50,3 +50,13 @@ val <T : Comparable<T>> BinaryTreeNode<T>.leftAncestor: BinaryTreeNode<T>?
 fun Long.toBinaryString(): String = java.lang.Long.toBinaryString(this)
 
 fun Int.toBinaryString(): String = java.lang.Integer.toBinaryString(this)
+
+fun Int.positionOfMostSignificantBit(): Int {
+    var i = 0
+    var number = this
+    while (number != 0) {
+        ++i
+        number = number ushr 1
+    }
+    return i
+}
