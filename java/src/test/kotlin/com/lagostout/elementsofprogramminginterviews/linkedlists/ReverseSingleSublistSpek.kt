@@ -1,6 +1,5 @@
 package com.lagostout.elementsofprogramminginterviews.linkedlists
 
-import com.lagostout.common.takeFrom
 import com.lagostout.elementsofprogramminginterviews.linkedlists.ReverseSingleSublist.reverseSingleSublist
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -22,16 +21,6 @@ import kotlin.test.assertFailsWith
 
 class ReverseSingleSublistSpek : Spek({
     describe("reverseSingleSublist") {
-        fun toLinkedList(list: List<Int>): ListNode<Int> {
-            val head = ListNode(list.first())
-            var tail = head
-            list.takeFrom(1).forEach {
-                val node = ListNode(it)
-                tail.next = node
-                tail = node
-            }
-            return head
-        }
         describe("valid start and end positions") {
             val data = listOf(
                     data(1, 1, toLinkedList(listOf(1)),

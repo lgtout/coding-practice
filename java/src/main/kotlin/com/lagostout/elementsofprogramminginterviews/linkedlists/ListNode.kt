@@ -1,5 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.linkedlists
 
+import com.google.common.base.MoreObjects
+import com.lagostout.common.MultilineShortPrefixRecursiveToStringStyle
 import org.apache.commons.lang3.builder.*
 
 data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null) {
@@ -10,17 +12,23 @@ data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null) {
         get() = next != null
 
     override fun toString(): String {
+//        return ReflectionToStringBuilder(
+//                this, ToStringStyle.SHORT_PREFIX_STYLE).toString()
         return ReflectionToStringBuilder(
-                this, ToStringStyle.SHORT_PREFIX_STYLE).toString()
+                this, MultilineShortPrefixRecursiveToStringStyle()).toString()
+//        val list = toList().map {
+//            MoreObjects.toStringHelper().add()
+//
+//        }
     }
 
-    override fun hashCode(): Int {
-        return HashCodeBuilder().append(id).toHashCode()
-    }
+    override fun hashCode(): Int =
+            HashCodeBuilder().append(id).toHashCode()
 
-    // TODO Is this right?
-    override fun equals(other: Any?): Boolean {
-        return EqualsBuilder.reflectionEquals(this, other)
+    override fun equals(other: Any?): Boolean = when (other) {
+        null -> false
+        !is ListNode<*> -> false
+        else -> other.id == id
     }
 
     companion object {
@@ -31,25 +39,18 @@ data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null) {
 
 }
 
-fun <T> toLinkedList(values: List<T>): ListNode<T> {
-    return values.map {
-        ListNode(it)
-    }.apply {
-        forEachIndexed { index, listNode ->
-            listNode.next = if (index < lastIndex) get(index + 1)
-            else null
-        }
-    }.first()
-}
-
 @Suppress("NAME_SHADOWING")
 fun <T> ListNode<T>.toList(): List<ListNode<T>> {
     var node: ListNode<T>? = this
     return mutableListOf<ListNode<T>>().apply {
+        val explored = mutableSetOf(node)
         while (true) {
-            node?.let {
+            node = node?.let {
                 add(it)
-                node = it.next
+                it.next?.let {
+                    if (it in explored) null
+                    else it.also { explored.add(it) }
+                }
             } ?: break
         }
     }
