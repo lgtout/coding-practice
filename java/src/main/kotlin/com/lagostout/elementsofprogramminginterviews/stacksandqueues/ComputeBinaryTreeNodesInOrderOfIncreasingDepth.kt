@@ -1,4 +1,4 @@
-package com.lagostout.elementsofprogramminginterviews.linkedlists
+package com.lagostout.elementsofprogramminginterviews.stacksandqueues
 
 import com.lagostout.datastructures.BinaryTreeNode
 import java.util.*

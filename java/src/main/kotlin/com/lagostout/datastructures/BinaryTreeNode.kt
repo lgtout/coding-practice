@@ -15,19 +15,18 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
     val isRoot: Boolean
         get() = parent == null
 
-    override fun hashCode(): Int {
-        return HashCodeBuilder().append(id).toHashCode()
+    override fun hashCode(): Int = HashCodeBuilder().append(id).toHashCode()
+
+    override fun equals(other: Any?): Boolean = when {
+        other !is BinaryTreeNode<*> -> false
+        this === other -> true
+        else -> EqualsBuilder().append(id, other.id).isEquals
     }
 
-    override fun equals(other: Any?): Boolean {
-        return when {
-            other !is BinaryTreeNode<*> -> false
-            this === other -> true
-            else -> EqualsBuilder().append(id, other.id).isEquals
-        }
-    }
+    override fun toString(): String = shallowToString()
 
-    override fun toString(): String {
+    @Suppress("MemberVisibilityCanPrivate", "unused")
+    fun deepToString(): String {
         return "BinaryTreeNode(value=$value, " +
                 "id=$id, " +
                 "parent=${Companion.stringify(parent)}, " +

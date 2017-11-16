@@ -1,15 +1,12 @@
-package com.lagostout.elementsofprogramminginterviews.linkedlists
+package com.lagostout.elementsofprogramminginterviews.stacksandqueues
 
 import com.lagostout.datastructures.BinaryTreeNode.Companion.buildBinaryTree
-import com.lagostout.datastructures.RawBinaryTreeNode
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
-
-typealias RBT = RawBinaryTreeNode<Int>
 
 object ComputeBinaryTreeNodesInOrderOfIncreasingDepthSpek : Spek({
     describe("computeBinaryTreeNodesInOrderOfIncreasingDepth()") {
