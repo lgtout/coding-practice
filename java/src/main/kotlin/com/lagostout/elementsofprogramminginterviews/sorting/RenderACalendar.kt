@@ -1,5 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.sorting
 
+import com.lagostout.elementsofprogramminginterviews.sorting.RenderACalendar.EventTimeType.END
+import com.lagostout.elementsofprogramminginterviews.sorting.RenderACalendar.EventTimeType.START
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 import org.apache.commons.lang3.builder.ToStringStyle
 import java.util.*
@@ -8,6 +10,31 @@ import java.util.*
  * Problem 14.4.1 page 244
  */
 object RenderACalendar {
+    enum class EventTimeType {
+        START, END
+    }
+    data class Event(var start: Int = 0, var end: Int = 0)
+    data class EventTime(val type: EventTimeType, val time: Int)
+    fun computeMaximumNumberOfEventsThatCanTakePlaceConcurrently(
+            events: List<Event>): Int {
+        return events.flatMap {
+            listOf(EventTime(START, it.start), EventTime(END, it.end))
+        }.sortedBy { it.time }.let {
+            var maxLevel = 0
+            var level = 0
+            it.forEach {
+                when (it.type) {
+                    START -> ++level
+                    END -> --level
+                }
+                maxLevel = maxOf(level, maxLevel)
+            }
+            maxLevel
+        }
+    }
+}
+
+object RenderACalendar_PriorityQueue {
     data class Event(val start: Int = 0, val end: Int = 0)
     class Level : Comparable<Level> {
         private val events = mutableListOf<Event>()
