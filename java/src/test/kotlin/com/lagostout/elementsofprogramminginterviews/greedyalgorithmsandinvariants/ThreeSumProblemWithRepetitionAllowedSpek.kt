@@ -35,6 +35,7 @@ class ThreeSumProblemWithRepetitionAllowedSpek : Spek({
                 TestCase(listOf(1,2,3), sum = 4),
                 TestCase(listOf(1,2,3), sum = 6),
                 TestCase(listOf(1,2,4), sum = 7),
+                TestCase(listOf(4,2,1), sum = 7),
                 null
         ).filterNotNull()
         fun bruteForceCanPickThreeWithRepetitionAllowedThatAddUpToSum(
