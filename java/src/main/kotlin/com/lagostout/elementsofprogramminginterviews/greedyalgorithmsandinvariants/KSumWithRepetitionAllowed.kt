@@ -3,10 +3,20 @@ package com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvaria
 /**
  * Problem 18.4.3 page 346
  */
-fun kElementsAddUpToNumberWithRepetitionAllowed(
-        k: Int, allElements: List<Int>, s: Int): Boolean {
-//    permutations.
-    return false
+
+fun canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
+        list: List<Int>, k: Int, sum: Int): Boolean =
+        findCombinationsOfKNumbersThatAddUpToSumWithRepetitionAllowed(list, k, sum).isNotEmpty()
+
+fun findCombinationsOfKNumbersThatAddUpToSumWithRepetitionAllowed(
+        list: List<Int>, k: Int, sum: Int): List<List<Int>> {
+    if (list.isEmpty()) return emptyList()
+    return list.sorted().flatMap { firstNumber ->
+        findCombinationsOfTwoThatAddUpToSumWithRepetitionAllowed(list, sum - firstNumber)
+                .map {
+                    listOf(firstNumber, it.first, it.second)
+                }
+    }
 }
 
 // TODO Verify
