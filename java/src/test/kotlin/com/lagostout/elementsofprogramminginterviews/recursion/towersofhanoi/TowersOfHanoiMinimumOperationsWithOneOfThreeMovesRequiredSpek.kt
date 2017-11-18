@@ -45,7 +45,7 @@ object TowersOfHanoiMinimumOperationsWithOneOfThreeMovesRequiredSpek : Spek({
                             pegs, pegs.at(fromPegPosition),
                             pegs.at(toPegPosition), operations)
                     println(operations.size)
-                    assertEquals(pegs, TowersOfHanoiSpek.pegsFromRunningOperations(
+                    assertEquals(pegs, pegsFromRunningOperations(
                             ringCount, fromPegPosition, operations))
                     // Verify that operations performed are only the ones permitted.
                     assertThat(operations.map { Pair(it.from, it.to) }, not(contains(

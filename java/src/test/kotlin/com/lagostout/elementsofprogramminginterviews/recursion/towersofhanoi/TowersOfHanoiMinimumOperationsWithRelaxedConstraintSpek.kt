@@ -47,7 +47,7 @@ object TowersOfHanoiMinimumOperationsWithRelaxedConstraintSpek : Spek({
                             pegs.at(toPegPosition), operations)
                     var pegsFromRunningOperations: Pegs? = null
                     assertThatCode({
-                        pegsFromRunningOperations = TowersOfHanoiSpek.pegsFromRunningOperations(
+                        pegsFromRunningOperations = pegsFromRunningOperations(
                                 rings, fromPegPosition, operations, { from, to, ring ->
                             if (to.bottom?.let { it.size < ring.size} == true) {
                                 throw IllegalStateException("Not allowed to place a " +

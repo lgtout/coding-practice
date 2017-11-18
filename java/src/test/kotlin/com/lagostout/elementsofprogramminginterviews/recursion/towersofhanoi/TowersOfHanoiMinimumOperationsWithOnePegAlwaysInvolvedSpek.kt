@@ -52,7 +52,7 @@ object TowersOfHanoiMinimumOperationsWithOnePegAlwaysInvolvedSpek : Spek({
                     // However, I did go through all the steps for one case (moving 3 rings
                     // from left to middle peg), so I can verify expected operation count
                     // for that one.
-                    assertEquals(pegs, TowersOfHanoiSpek.pegsFromRunningOperations(
+                    assertEquals(pegs, pegsFromRunningOperations(
                             ringCount, fromPegPosition, operations))
                     expectedOperationCount?.let {
                         assertEquals(it, operations.size)

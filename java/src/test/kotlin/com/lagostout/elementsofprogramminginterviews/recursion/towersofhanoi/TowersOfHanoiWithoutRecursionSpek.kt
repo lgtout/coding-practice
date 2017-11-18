@@ -21,7 +21,7 @@ class TowersOfHanoiWithoutRecursionSpek : Spek({
                     TowersOfHanoiWithoutRecursion.transferRingsBetweenPegsWithoutRecursion(
                             pegs, pegs.at(fromPegPosition),
                             pegs.at(toPegPosition), operations)
-                    assertEquals(pegs, TowersOfHanoiSpek.pegsFromRunningOperations(
+                    assertEquals(pegs, pegsFromRunningOperations(
                             ringCount, fromPegPosition, operations))
                 }
             }
