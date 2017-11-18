@@ -38,7 +38,7 @@ class ThreeSumProblemWithNoRepetitionSpek : Spek({
             val combinationsThatAddUpToSum = Generator.combination(numbers.toSet())
                     .simple(3)
                     .filter { !it.isEmpty() && it.sum() == sum }
-            println(combinationsThatAddUpToSum)
+//            println(combinationsThatAddUpToSum)
             return combinationsThatAddUpToSum.isNotEmpty()
         }
     }
