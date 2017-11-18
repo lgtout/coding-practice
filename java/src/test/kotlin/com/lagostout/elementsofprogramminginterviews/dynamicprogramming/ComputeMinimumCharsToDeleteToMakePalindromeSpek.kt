@@ -20,7 +20,7 @@ object ComputeMinimumCharsToDeleteToMakePalindromeSpek : Spek({
             data("abcd", 3),
             data("abcdefg", 6),
             data("aaaaaaa", 0),
-//            data("fabcdae", 4),
+            data("fabcdae", 4),
             null
     ).filterNotNull().toTypedArray()
     describe("computeMinimumCharsToDeleteToMakePalindrome()") {

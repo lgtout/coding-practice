@@ -1,8 +1,45 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
+/**
+ * Problem 17.2.4 page 316
+ */
 fun computeMinimumCharsToDeleteToMakePalindrome(string: String): Int {
+    if (string.isEmpty()) return 0
+    val indices = (0..string.lastIndex)
+    // Initialize the cache
+    val cache = mutableListOf<MutableList<Int>>().apply {
+        indices.forEach {
+            add(mutableListOf<Int>().apply {
+                indices.forEach {
+                    add(0)
+                }
+            })
+        }
+    }
+    // Build the cache
+    indices.take(indices.count() - 1).reversed().forEach { left ->
+        val leftChar = string[left]
+        ((left + 1)..indices.last()).forEach { right ->
+            val rightChar = string[right]
+            val deletionCountByComparingOuterChars = (if (leftChar == rightChar) 0
+            else 2) + Pair(left+1, right-1).let { (left, right) ->
+                if (left <= indices.last() && right >= 0) cache[left][right] else 0 }
+            val deletionCountByDeletingLeftChar = 1 + Pair(left+1, right).let { (left, right) ->
+                if (left <= indices.last()) cache[left][right] else 0 }
+            val deletionCountByDeletingRightChar = 1 + Pair(left, right - 1).let { (left, right) ->
+                if (right < 0) 0 else cache[left][right] }
+            cache[left][right] = minOf(deletionCountByComparingOuterChars,
+                    deletionCountByDeletingLeftChar, deletionCountByDeletingRightChar)
+        }
+    }
+    return cache[0][indices.last()]
+}
+
+// Recursive solution
+
+fun computeMinimumCharsToDeleteToMakePalindromeByRecursion(string: String): Int {
     calls = LinkedHashMap(0, 0.75F, false)
-    return computeMinimumCharsToDeleteToMakePalindrome(
+    return computeMinimumCharsToDeleteToMakePalindromeByRecursion3(
             string.toCharArray().toList(), 0, string.lastIndex).also {
         println("size ${calls.size}")
         val repeatCallCount = calls.values.filter { it.first > 1 }
@@ -18,6 +55,8 @@ fun computeMinimumCharsToDeleteToMakePalindrome(string: String): Int {
     }
 }
 
+// Call tracking
+
 var calls = mutableMapOf<Triple<List<Char>, Int, Int>, Pair<Int, List<Int>>>()
 
 fun addCall(chars: List<Char>, left: Int, right: Int, deletions: Int?) {
@@ -30,21 +69,21 @@ fun addCall(chars: List<Char>, left: Int, right: Int, deletions: Int?) {
     }
 }
 
-// TODO How do we translate this top-down recursive solution to DP bottom-up?
-// Find right char matching left char by recursion, not looping.
-// This doesn't use caching yet.
-fun computeMinimumCharsToDeleteToMakePalindrome(
+// Recursive solution.  No caching.  Tracks calls.
+// Similar to computeMinimumCharsToDeleteToMakePalindromeByRecursion2, but finds
+// right char matching left char by recursion, not looping.
+fun computeMinimumCharsToDeleteToMakePalindromeByRecursion3(
         chars: List<Char>, left: Int, right: Int): Int {
     addCall(chars, left, right, null)
     if (left >= right) return 0
     val deletionCountWhenFirstCharIncluded: Int =
             (if (chars[right] == chars[left]) Pair(1, 0) else Pair(0, 1))
                     .let { (leftOffset, deletedCharCount) ->
-                        computeMinimumCharsToDeleteToMakePalindrome(
+                        computeMinimumCharsToDeleteToMakePalindromeByRecursion3(
                                 chars, left + leftOffset, right - 1) + deletedCharCount
                     }
     val deletionCountWhenFirstCharNotIncluded =
-        computeMinimumCharsToDeleteToMakePalindrome(
+        computeMinimumCharsToDeleteToMakePalindromeByRecursion3(
                 chars, left + 1, right) + 1
     val deletions = listOf(deletionCountWhenFirstCharIncluded,
             deletionCountWhenFirstCharNotIncluded).min()!!
@@ -52,9 +91,13 @@ fun computeMinimumCharsToDeleteToMakePalindrome(
     return deletions
 }
 
+// Recursive solution.  No caching.  Tracks calls.
+// Searches for a right char matching leftmost char by looping, not recursion.
+// Compares deletion counts to make a palindrome when (1) the first char is
+// excluded, or (2) we move left from the rightmost char until one matching
+// the left char is found, incrementing the deletion count each time.
 @Suppress("NAME_SHADOWING")
-// Find right char matching left char by looping, not recursion.
-fun computeMinimumCharsToDeleteToMakePalindrome2(
+fun computeMinimumCharsToDeleteToMakePalindromeByRecursion2(
         chars: List<Char>, left: Int, right: Int): Int {
     if (left >= right) return 0
     var right = right
@@ -66,11 +109,11 @@ fun computeMinimumCharsToDeleteToMakePalindrome2(
             --right
         }
         deletionCount +
-                computeMinimumCharsToDeleteToMakePalindrome2(
+                computeMinimumCharsToDeleteToMakePalindromeByRecursion2(
                         chars, left + 1, right - 1)
     }
     val deletionCountWhenFirstCharNotIncluded =
-            computeMinimumCharsToDeleteToMakePalindrome2(
+            computeMinimumCharsToDeleteToMakePalindromeByRecursion2(
                     chars, left + 1, right) + 1
     val deletions = listOf(deletionCountWhenFirstCharIncluded,
             deletionCountWhenFirstCharNotIncluded).min()!!
@@ -78,17 +121,18 @@ fun computeMinimumCharsToDeleteToMakePalindrome2(
     return deletions
 }
 
-fun computeMinimumCharsToDeleteToMakePalindrome1(
+// Recursive solution.  No caching.
+// Compares deletion counts to make a palindrome when (1) the first char
+// is excluded from the substring examined, or (2) the last char is excluded,
+// or (3) the first and last chars are compared, possibly affecting the deletion count.
+fun computeMinimumCharsToDeleteToMakePalindromeByRecursion1(
         chars: List<Char>, left: Int, right: Int): Int {
     val deletionCountWhenFirstCharDeleted = 1 +
-            computeMinimumCharsToDeleteToMakePalindrome1(chars, left + 1, right)
+            computeMinimumCharsToDeleteToMakePalindromeByRecursion1(chars, left + 1, right)
     val deletionCountWhenComparingFirstAndLastChar = if (chars[left] != chars[right]) 0 else 2 +
-            computeMinimumCharsToDeleteToMakePalindrome1(chars, left + 1, right - 1)
+            computeMinimumCharsToDeleteToMakePalindromeByRecursion1(chars, left + 1, right - 1)
     val deletionCountWhenLastCharDeleted = 1 +
-            computeMinimumCharsToDeleteToMakePalindrome1(chars, left, right - 1)
-    // TODO
-    // Figure out a way to track what's being deleted, for debugging.
-    // Cache results.
+            computeMinimumCharsToDeleteToMakePalindromeByRecursion1(chars, left, right - 1)
     return minOf(deletionCountWhenFirstCharDeleted,
             deletionCountWhenComparingFirstAndLastChar,
             deletionCountWhenLastCharDeleted)
