@@ -9,15 +9,23 @@ import org.apache.commons.collections4.iterators.PeekingIterator
 // each list.
 fun findClosestEntries(first: List<Int>, second: List<Int>, third: List<Int>):
         Triple<Int, Int, Int> {
-    val set = sortedSetOf<PeekingIterator<Int>>(Comparator {
-        o1, o2 -> o1.peek().compareTo(o2.peek())
+    val set = sortedSetOf<Pair<Int, PeekingIterator<Int>>>(Comparator {
+        o1, o2 ->
+        (o1.second.peek().compareTo(o2.second.peek())).let {
+            // If the numbers in the 2 iterators are equal,
+            // break the tie using the Pair's "id".
+            if (it == 0) o1.first.compareTo(o2.first) else it
+        }
     }).apply {
         listOf(first, second, third).map {
             PeekingIterator<Int>(it.iterator())
-        }.forEach {
-            add(it)
+        }.forEachIndexed { index, iterator ->
+            add(Pair(index, iterator))
         }
     }
+    println()
+    println(set.size)
+    println(set)
     data class Entries(val first: Int, val second: Int, val third: Int) {
         constructor (list: List<Int>): this(list[0], list[1], list[2])
         val distance: Int
@@ -26,18 +34,18 @@ fun findClosestEntries(first: List<Int>, second: List<Int>, third: List<Int>):
     }
     var closestEntries: Entries? = null
     var distanceBetweenLowestAndHighestEntries: Int
-    while (true) {
+    var done = false
+    while (!done) {
         val iteratorWithLowestEntry = set.first()
-        if (!iteratorWithLowestEntry.hasNext()) break
-        val lowestEntry = iteratorWithLowestEntry.peek()
+        val lowestEntry = iteratorWithLowestEntry.second.peek()
         distanceBetweenLowestAndHighestEntries =
-                set.last().peek() - lowestEntry
+                set.last().second.peek() - lowestEntry
         closestEntries = closestEntries?.let {
             if (distanceBetweenLowestAndHighestEntries < it.distance) {
-                Entries(set.map { it.peek() })
+                Entries(set.map { it.second.peek() })
             } else it
         } ?: set.map {
-            it.peek()
+            it.second.peek()
         }.let {
             Entries(it)
         }
@@ -45,8 +53,11 @@ fun findClosestEntries(first: List<Int>, second: List<Int>, third: List<Int>):
         set.apply {
             iteratorWithLowestEntry.let {
                 remove(it)
-                it.next()
-                add(it)
+                it.second.next()
+                if (it.second.hasNext())
+                    add(it)
+                else done = true
+                println(it)
             }
         }
 
