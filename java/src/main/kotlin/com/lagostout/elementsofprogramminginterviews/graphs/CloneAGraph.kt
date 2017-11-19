@@ -1,5 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.graphs
 
+import com.google.common.base.MoreObjects
+import org.apache.commons.lang3.builder.HashCodeBuilder
 import java.util.*
 
 /**
@@ -7,16 +9,29 @@ import java.util.*
  */
 object CloneAGraph {
 
-    data class Vertex(val label: Int, val adjacents: MutableList<Vertex> = mutableListOf())
+    class Vertex(val label: Int, val adjacents: MutableList<Vertex> = mutableListOf()) {
+        override fun toString(): String {
+            return MoreObjects.toStringHelper(this).add("label", label).apply {
+                add("adjacents", adjacents.map { label })
+            }.toString()
+        }
+
+        override fun hashCode(): Int {
+            return HashCodeBuilder().append(label).apply {
+                append(adjacents.map { label })
+            }.toHashCode()
+        }
+    }
 
     @Suppress("NAME_SHADOWING")
-    fun cloneGraph(vertices: List<Vertex>): List<Vertex> {
+    fun cloneGraph(vertices: List<Vertex>,
+                   vertex: (Int) -> Vertex): List<Vertex> {
         val vertices = vertices.toMutableSet()
         val stack = LinkedList<Vertex>()
         val vertexToCloneMap = mutableMapOf<Vertex, Vertex>()
         fun computeIfAbsent(vertex: Vertex): Vertex {
             return vertexToCloneMap.computeIfAbsent(vertex) {
-                key -> Vertex(key.label) }
+                key -> vertex(key.label) }
         }
         while (vertices.isNotEmpty()) {
             val explored = mutableSetOf<Vertex>()
@@ -29,17 +44,13 @@ object CloneAGraph {
                 computeIfAbsent(vertex).let { clone ->
                     // We haven't visited this vertex before, so it's
                     // not possible to add duplicate adjacent vertices.
-//                    println("vertexToCloneMap $vertexToCloneMap")
-//                    println("clone $clone")
                     vertex.adjacents.forEach {
                         clone.adjacents.add(
                                 computeIfAbsent(it))
                     }
                 }
-//                println("vertexToCloneMap $vertexToCloneMap")
             }
         }
-//        println(vertexToCloneMap)
         return vertexToCloneMap.values.toList()
     }
 
