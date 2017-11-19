@@ -73,14 +73,15 @@ dependencies {
     testRuntime 'cglib:cglib-nodep:3.2.2'
     testRuntime 'org.objenesis:objenesis:2.1'
 
+    testCompile 'org.jetbrains.spek:spek-subject-extension:1.1.5'
+    testCompile 'org.jetbrains.spek:spek-data-driven-extension:1.1.5'
+    testCompile 'org.jetbrains.spek:spek-api:1.1.5'
+    testCompile 'org.jetbrains.spek:spek-junit-platform-engine:1.1.5'
+    testCompile 'org.junit.platform:junit-platform-runner:1.0.0'
+
     testCompile 'org.assertj:assertj-core:3.8.0'
-    testCompile 'org.jetbrains.spek:spek-api:1.1.2'
-    testCompile 'org.jetbrains.spek:spek-subject-extension:1.1.2'
-    testCompile 'org.jetbrains.spek:spek-data-driven-extension:1.1.2'
-    testCompile 'org.jetbrains.spek:spek-junit-platform-engine:1.1.2'
-    testCompile 'org.junit.platform:junit-platform-runner:1.0.0-M4'
-//    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+//    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 
 }
 
