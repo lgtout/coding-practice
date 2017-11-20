@@ -11,12 +11,12 @@ import org.jetbrains.spek.data_driven.on
 object ReverseBitsSpek : Spek({
     describe("reverseBits()") {
         val data = listOf<Long?>(
-//               0b0,
+               0b0,
                 0b1,
-//                0b10,
-//                0b101,
-//                0b110,
-//                0b110101100
+                0b10,
+                0b101,
+                0b110,
+                0b110101100,
                 null
         ).filterNotNull().map { number ->
             listOf(number ushr 32, number shl 32 ushr 32).map {

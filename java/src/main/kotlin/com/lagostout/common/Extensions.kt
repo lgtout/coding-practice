@@ -61,3 +61,9 @@ fun Int.positionOfMostSignificantBit(): Int {
     }
     return i
 }
+
+fun Map<Int, Int>.printValuesAsBinaryStrings() = {
+    forEach { t: Int, u: Int ->
+        println("${t.toBinaryString()}: ${u.toBinaryString()}")
+    }
+}
