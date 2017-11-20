@@ -1,8 +1,8 @@
 package com.lagostout.elementsofprogramminginterviews.linkedlists
 
-import com.google.common.base.MoreObjects
 import com.lagostout.common.MultilineShortPrefixRecursiveToStringStyle
-import org.apache.commons.lang3.builder.*
+import org.apache.commons.lang3.builder.HashCodeBuilder
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 
 data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null) {
 
@@ -12,14 +12,8 @@ data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null) {
         get() = next != null
 
     override fun toString(): String {
-//        return ReflectionToStringBuilder(
-//                this, ToStringStyle.SHORT_PREFIX_STYLE).toString()
         return ReflectionToStringBuilder(
                 this, MultilineShortPrefixRecursiveToStringStyle()).toString()
-//        val list = toList().map {
-//            MoreObjects.toStringHelper().add()
-//
-//        }
     }
 
     override fun hashCode(): Int =

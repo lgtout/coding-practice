@@ -13,18 +13,18 @@ object TestForCyclicitySpek : Spek({
     describe("computeCycleStartNode()") {
         val toLinkedList = { rawNodes:List<Node> ->
             toLinkedListWithExplicitLinkage(rawNodes) }
-        val data = listOf(
+        val data = listOfNotNull(
                 Pair(toLinkedList(listOf(Node('A'))), Pair(false, null)),
-//                Pair(toLinkedList(listOf(Node('A'), Node('B'))), Pair(false, null)),
-//                Pair(toLinkedList(listOf(Node('A', 0))), Pair(true, 0)),
-//                Pair(toLinkedList(listOf(Node('A'), Node('B', 0))), Pair(true, 0)),
-//                Pair(toLinkedList(listOf(Node('A'), Node('B'), Node('C', 0))), Pair(true, 0)),
-//                Pair(toLinkedList(listOf(Node('A'), Node('B'), Node('C', 1))), Pair(true, 1)),
-//                Pair(toLinkedList(listOf(Node('A'), Node('B'), Node('C', 2))), Pair(true, 2)),
-//                Pair(toLinkedList(listOf(Node('A'), Node('B'), Node('C'), Node('D'),
-//                        Node('E'), Node('F'), Node('G', 1))), Pair(true, 1)),
+                Pair(toLinkedList(listOf(Node('A'), Node('B'))), Pair(false, null)),
+                Pair(toLinkedList(listOf(Node('A', 0))), Pair(true, 0)),
+                Pair(toLinkedList(listOf(Node('A'), Node('B', 0))), Pair(true, 0)),
+                Pair(toLinkedList(listOf(Node('A'), Node('B'), Node('C', 0))), Pair(true, 0)),
+                Pair(toLinkedList(listOf(Node('A'), Node('B'), Node('C', 1))), Pair(true, 1)),
+                Pair(toLinkedList(listOf(Node('A'), Node('B'), Node('C'), Node('D'),
+                        Node('E'), Node('F'), Node('G', 1))), Pair(true, 1)),
+                Pair(toLinkedList(listOf(Node('A'), Node('B'), Node('C', 2))), Pair(true, 2)),
                 null
-        ).filterNotNull().map { row ->
+        ).map { row ->
             val list = row.first.toList()
             data(list, Pair(
                     row.second.first, row.second.second?.let { list[it] }))
