@@ -5,21 +5,21 @@ package com.lagostout.elementsofprogramminginterviews.strings
  */
 fun computeLookAndSaySequence(n: Int): String {
     var lookSay = "1"
-    (1..n).forEach {
-        println(it)
+    (1 until n).forEach {
         lookSay = lookSay.let {
-            var index = 1
-            var char = it[0]
-            var count = 1
+            var index = 0
+            var count = 0
             val nextLookSayBuilder = StringBuilder()
-            while (index <= it.lastIndex) {
-                if (it[index] != char) {
+            do {
+                val nextIndex = index + 1
+                val char = it[index]
+                ++count
+                if (nextIndex > it.lastIndex || it[nextIndex] != char) {
                     nextLookSayBuilder.append("$count$char")
-                    char = it[index]
-                    count = 1
+                    count = 0
                 }
-                ++index
-            }
+                index = nextIndex
+            } while (index <= it.lastIndex)
             nextLookSayBuilder.toString()
         }
     }
