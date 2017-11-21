@@ -1,8 +1,7 @@
 package com.lagostout.datastructures
 
-import org.apache.commons.lang3.builder.EqualsBuilder
-import org.apache.commons.lang3.builder.HashCodeBuilder
-import org.apache.commons.lang3.builder.ToStringBuilder
+import com.lagostout.common.MultilineShortPrefixRecursiveToStringStyle
+import org.apache.commons.lang3.builder.*
 import java.util.*
 
 open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
@@ -23,7 +22,10 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
         else -> EqualsBuilder().append(id, other.id).isEquals
     }
 
-    override fun toString(): String = shallowToString()
+    override fun toString(): String {
+        return ReflectionToStringBuilder(this,
+                MultilineShortPrefixRecursiveToStringStyle()).toString()
+    }
 
     @Suppress("MemberVisibilityCanPrivate", "unused")
     fun deepToString(): String {
