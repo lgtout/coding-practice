@@ -19,38 +19,13 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
     override fun equals(other: Any?): Boolean = when {
         other !is BinaryTreeNode<*> -> false
         this === other -> true
-        else -> EqualsBuilder().append(id, other.id).isEquals
+        else -> EqualsBuilder().append(id, other.id).isEquals ||
+                (value == other.value && left == other.left && right == other.right)
     }
 
     override fun toString(): String {
         return ReflectionToStringBuilder(this,
                 MultilineShortPrefixRecursiveToStringStyle()).toString()
-    }
-
-    @Suppress("MemberVisibilityCanPrivate", "unused")
-    fun deepToString(): String {
-        return "BinaryTreeNode(value=$value, " +
-                "id=$id, " +
-                "parent=${Companion.stringify(parent)}, " +
-                "left=${left.toString()}, " +
-                "right=${right.toString()})"
-    }
-
-    @Suppress("MemberVisibilityCanPrivate")
-    fun shallowToString(): String {
-        return "BinaryTreeNode(value=$value, " +
-                "id=$id, " +
-                "parent=${parent?.value}, " +
-                "left=${left?.value}, " +
-                "right=${right?.value})"
-    }
-
-    @Suppress("MemberVisibilityCanPrivate", "unused")
-    fun treeToString(): String {
-        val list = BinaryTreeNode.toList(this)
-        return list.joinToString {
-            it.shallowToString()
-        }
     }
 
     companion object {
