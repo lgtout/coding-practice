@@ -8,9 +8,7 @@ import org.jetbrains.spek.api.dsl.it
 
 object TestCollatzConjectureSpek : Spek({
     describe("testCollatzConjecture()") {
-        // Too big - takes too long.
-//        val numberCount = 1_000_000_000
-        val numberCount = 1_000_000
+        val numberCount = 10_000_000
         given("first $numberCount positive numbers") {
             it("returns true") {
                 assertThat(testCollatzConjecture(numberCount))

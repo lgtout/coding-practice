@@ -2,6 +2,9 @@ package com.lagostout.elementsofprogramminginterviews.hashtables
 
 import java.math.BigInteger
 
+/**
+ * Problem 13.13 page 234
+ */
 fun testCollatzConjecture(count: Int): Boolean {
     val found = mutableSetOf<BigInteger>()
     var conjectureIsTrue = true
@@ -11,20 +14,21 @@ fun testCollatzConjecture(count: Int): Boolean {
         while (true) {
             if (seen.contains(currentNumber)) {
                 conjectureIsTrue = false
-                println(currentNumber)
                 break
             } else {
                 seen.add(currentNumber)
-                currentNumber = if (currentNumber.mod(BigInteger.valueOf(2))
-                        == BigInteger.ZERO) {
-                    currentNumber.div(BigInteger.valueOf(2))
-                } else {
-                    currentNumber.times(BigInteger.valueOf(3))
-                            .plus(BigInteger.ONE)
-                }
-                if (currentNumber == BigInteger.ONE) {
+                if (currentNumber == BigInteger.ONE ||
+                        currentNumber in found) {
                     found.addAll(seen)
                     break
+                } else {
+                    currentNumber = if (currentNumber.mod(BigInteger.valueOf(2))
+                            == BigInteger.ZERO) {
+                        currentNumber.div(BigInteger.valueOf(2))
+                    } else {
+                        currentNumber.times(BigInteger.valueOf(3))
+                                .plus(BigInteger.ONE)
+                    }
                 }
             }
         }
