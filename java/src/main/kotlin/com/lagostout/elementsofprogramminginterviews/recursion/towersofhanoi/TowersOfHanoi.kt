@@ -33,9 +33,7 @@ object TowersOfHanoi {
             rings.add(ring)
         }
 
-        fun pop(): Ring {
-            return rings.removeAt(rings.lastIndex)
-        }
+        fun pop(): Ring = rings.removeAt(rings.lastIndex)
 
         fun peek(): Ring? {
             return if (rings.isEmpty()) null

@@ -21,6 +21,7 @@ fun computeMinimumNumberOfOperationsWithPairsOfRingsOfEqualSize(
         val frame = stack.pop()
         with (frame) {
             when (countOfRingsToMove) {
+                0 -> Unit
                 2 -> {
                     (1..2).forEach {
                         from.pop().let {
@@ -37,7 +38,7 @@ fun computeMinimumNumberOfOperationsWithPairsOfRingsOfEqualSize(
                             frame.copy(countOfRingsToMove = 2),
                             frame.copy(from = extraPeg, to = to,
                                     countOfRingsToMove = countOfRingsToMoveAside)
-                    ).forEach {
+                    ).reversed().forEach {
                         stack.push(it)
                     }
                 }
