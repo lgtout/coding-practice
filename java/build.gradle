@@ -2,10 +2,13 @@ group 'com.lagostout'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.1.61'
+    ext.kotlin_version = '1.2.0-rc-84'
     repositories {
         mavenCentral()
         jcenter()
+        maven {
+            url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2'
+        }
     }
     dependencies {
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
@@ -23,7 +26,9 @@ repositories {
     mavenCentral()
     jcenter()
     maven { url "http://dl.bintray.com/jetbrains/spek" }
-
+    maven {
+        url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2'
+    }
 }
 
 junitPlatform {
