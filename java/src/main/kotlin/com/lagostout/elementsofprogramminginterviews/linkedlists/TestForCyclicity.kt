@@ -3,11 +3,11 @@ package com.lagostout.elementsofprogramminginterviews.linkedlists
 /**
  * Problem 8.3.1 page 118
  */
-fun <T> computeCycleStartNode(list: ListNode<T>): Pair<Boolean, ListNode<T>?> {
-    var cycleStart: ListNode<T>? = null
+fun <T> computeCycleStartNode(list: LinkedListNode<T>): Pair<Boolean, LinkedListNode<T>?> {
+    var cycleStart: LinkedListNode<T>? = null
     var cycleExists = false
-    var pointer1: ListNode<T>? = list
-    var pointer2: ListNode<T>? = pointer1
+    var pointer1: LinkedListNode<T>? = list
+    var pointer2: LinkedListNode<T>? = pointer1
     var pointer1Distance = 0
     // Find cycle
     while (true) {
@@ -29,7 +29,7 @@ fun <T> computeCycleStartNode(list: ListNode<T>): Pair<Boolean, ListNode<T>?> {
         } while (pointer2 != null && pointer2 != pointer1)
         if (cycleDistance > 0) {
             cycleExists = true
-            var pointer3: ListNode<T>? = list
+            var pointer3: LinkedListNode<T>? = list
             while (cycleDistance > pointer1Distance) {
                 --cycleDistance
                 pointer2 = pointer2?.next

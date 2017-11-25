@@ -2,9 +2,13 @@ package com.lagostout.elementsofprogramminginterviews.linkedlists
 
 data class RawLinkedListNode<out T>(val value: T, val nextIndex: Int? = null)
 
-fun <T> toLinkedList(values: List<T>): ListNode<T> {
+fun <T> toLinkedList(vararg values: T): LinkedListNode<T> {
+    return toLinkedList(values.asList())
+}
+
+fun <T> toLinkedList(values: List<T>): LinkedListNode<T> {
     return values.map {
-        ListNode(it)
+        LinkedListNode(it)
     }.apply {
         forEachIndexed { index, listNode ->
             listNode.next = if (index < lastIndex) get(index + 1)
@@ -14,9 +18,9 @@ fun <T> toLinkedList(values: List<T>): ListNode<T> {
 }
 
 fun <T> toLinkedListWithExplicitLinkage(
-        values: List<RawLinkedListNode<T>>): ListNode<T> {
+        values: List<RawLinkedListNode<T>>): LinkedListNode<T> {
     return values.map {
-        ListNode(it.value)
+        LinkedListNode(it.value)
     }.apply {
         forEachIndexed { index, listNode ->
             listNode.next = (values[index].nextIndex ?: index + 1).let {

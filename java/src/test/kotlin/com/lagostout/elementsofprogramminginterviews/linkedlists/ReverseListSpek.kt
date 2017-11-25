@@ -10,11 +10,11 @@ import org.jetbrains.spek.data_driven.on
 
 class ReverseListSpek : Spek({
     describe("reverseSingleSublist()") {
-        fun toLinkedList(list: List<Int>): ListNode<Int> {
-            val head = ListNode(list.first())
+        fun toLinkedList(list: List<Int>): LinkedListNode<Int> {
+            val head = LinkedListNode(list.first())
             var tail = head
             list.takeFrom(1).forEach {
-                val node = ListNode(it)
+                val node = LinkedListNode(it)
                 tail.next = node
                 tail = node
             }

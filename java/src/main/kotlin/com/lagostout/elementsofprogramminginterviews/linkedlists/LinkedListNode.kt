@@ -4,7 +4,7 @@ import com.lagostout.common.MultilineShortPrefixRecursiveToStringStyle
 import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 
-data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null) {
+data class LinkedListNode<T>(var data: T? = null, var next: LinkedListNode<T>? = null) {
 
     private val id = nextId
 
@@ -21,7 +21,7 @@ data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null) {
 
     override fun equals(other: Any?): Boolean = when (other) {
         null -> false
-        !is ListNode<*> -> false
+        !is LinkedListNode<*> -> false
         else -> other.id == id
     }
 
@@ -33,10 +33,21 @@ data class ListNode<T>(var data: T? = null, var next: ListNode<T>? = null) {
 
 }
 
+val <T> LinkedListNode<T>.last: LinkedListNode<T>
+    get() {
+        var lastNode = this
+        while (true) {
+            lastNode.next?.let {
+                lastNode = it
+            } ?: break
+        }
+        return lastNode
+    }
+
 @Suppress("NAME_SHADOWING")
-fun <T> ListNode<T>.toList(): List<ListNode<T>> {
-    var node: ListNode<T>? = this
-    return mutableListOf<ListNode<T>>().apply {
+fun <T> LinkedListNode<T>.toList(): List<LinkedListNode<T>> {
+    var node: LinkedListNode<T>? = this
+    return mutableListOf<LinkedListNode<T>>().apply {
         val explored = mutableSetOf(node)
         while (true) {
             node = node?.let {

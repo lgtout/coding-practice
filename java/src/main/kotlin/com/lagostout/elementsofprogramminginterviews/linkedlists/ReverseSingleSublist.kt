@@ -7,7 +7,7 @@ object ReverseSingleSublist {
 
     // 1-based start and end
     @Suppress("NAME_SHADOWING")
-    fun <T> reverseSingleSublist(list: ListNode<T>, start: Int, end: Int): ListNode<T> {
+    fun <T> reverseSingleSublist(list: LinkedListNode<T>, start: Int, end: Int): LinkedListNode<T> {
         if (start == end) return list
 
         var start = start
@@ -32,10 +32,10 @@ object ReverseSingleSublist {
             end = temp
         }
 
-        var nodeBeforeSublistStart: ListNode<T>? = null
-        var sublistEnd: ListNode<T>? = null
+        var nodeBeforeSublistStart: LinkedListNode<T>? = null
+        var sublistEnd: LinkedListNode<T>? = null
         var currentPosition = 0
-        val head = ListNode(next = list)
+        val head = LinkedListNode(next = list)
         var currentNode = head
         while (true) {
             if (currentPosition + 1 == start)

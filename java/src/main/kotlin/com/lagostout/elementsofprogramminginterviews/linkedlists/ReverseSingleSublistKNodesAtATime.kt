@@ -7,10 +7,10 @@ object ReverseSingleSublistKNodesAtATime {
 
     @Suppress("UnnecessaryVariable")
     fun <T> reverseSingleSublistKNodesAtATime(
-            list: ListNode<T>, k: Int): ListNode<T> {
+            list: LinkedListNode<T>, k: Int): LinkedListNode<T> {
 
-        fun seekLastNodeOfGroup(firstNodeInGroup: ListNode<T>): ListNode<T>? {
-            var currentNode: ListNode<T> = firstNodeInGroup
+        fun seekLastNodeOfGroup(firstNodeInGroup: LinkedListNode<T>): LinkedListNode<T>? {
+            var currentNode: LinkedListNode<T> = firstNodeInGroup
             var groupCount = 1
             while (groupCount < k) {
                 currentNode = currentNode.next ?: break
@@ -22,8 +22,8 @@ object ReverseSingleSublistKNodesAtATime {
         var firstInList = list
 
         // Find last node of last group
-        var lastNodeOfLastGroup: ListNode<T> = firstInList
-        var firstNodeOfLastGroup: ListNode<T> = firstInList
+        var lastNodeOfLastGroup: LinkedListNode<T> = firstInList
+        var firstNodeOfLastGroup: LinkedListNode<T> = firstInList
         while (true) {
             seekLastNodeOfGroup(firstNodeOfLastGroup)?.let {
                 lastNodeOfLastGroup = it
