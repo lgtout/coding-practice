@@ -10,14 +10,19 @@ import org.jetbrains.spek.data_driven.on
 object ComputeRealSquareRootSpek : Spek({
     describe("computeRealSquareRoot()") {
         val data = listOfNotNull(
-                data(1.0, 1.0),
-                data(27.04, 5.2),
+                0.001,
+                0.5,
+                1.0,
+                5.2,
                 null
-        ).toTypedArray()
+        ).map {
+            data(it, Math.sqrt(it))
+        }.toTypedArray()
         on("number: %s", with = *data) { number, expected ->
             it("returns: $expected") {
-                assertThat(computeRealSquareRoot(number))
-                        .isEqualTo(expected)
+                val epsilon = 0.00001
+                assertThat(computeRealSquareRoot(number, epsilon))
+                        .isBetween(expected - epsilon, expected + epsilon)
             }
         }
     }

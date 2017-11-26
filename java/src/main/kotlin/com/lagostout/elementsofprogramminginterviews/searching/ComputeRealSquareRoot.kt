@@ -1,8 +1,11 @@
 package com.lagostout.elementsofprogramminginterviews.searching
 
-fun computeRealSquareRoot(n: Double): Double {
+/**
+ * Problem 12.5.1 page 197
+ */
+fun computeRealSquareRoot(n: Double, epsilon: Double): Double {
     var left = 0.0
-    var right = n
+    var right = if (n < 1) 1.0 else n
     var mid: Double
     var square: Double
     var previousMid: Double? = null
@@ -11,14 +14,13 @@ fun computeRealSquareRoot(n: Double): Double {
         if (previousMid != null &&
                 previousMid == mid) break
         square = mid * mid
-        if (square == n) break
+        if (square >= n - epsilon && square <= n - epsilon) break
         else if (square > n)
             right = mid
         else {
             left = mid
         }
         previousMid = mid
-        println(mid)
     } while (true)
     return mid
 }
