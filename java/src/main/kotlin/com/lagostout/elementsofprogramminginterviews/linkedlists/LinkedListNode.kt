@@ -4,7 +4,8 @@ import com.lagostout.common.MultilineShortPrefixRecursiveToStringStyle
 import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 
-data class LinkedListNode<T>(var data: T? = null, var next: LinkedListNode<T>? = null) {
+data class LinkedListNode<T>(var data: T? = null,
+                             var next: LinkedListNode<T>? = null) {
 
     private val id = nextId
 

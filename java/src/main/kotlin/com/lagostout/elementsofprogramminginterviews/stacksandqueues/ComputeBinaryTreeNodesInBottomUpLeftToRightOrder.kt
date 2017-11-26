@@ -6,7 +6,8 @@ import java.util.*
 /**
  * Problem 9.7.3 page 146
  */
-fun <T> computeBinaryTreeNodesInBottomUpLeftToRightOrder(root: BinaryTreeNode<T>): List<List<BinaryTreeNode<T>>> {
+fun <T> computeBinaryTreeNodesInBottomUpLeftToRightOrder(
+        root: BinaryTreeNode<T>): List<List<BinaryTreeNode<T>>> {
     val queue = LinkedList<List<BinaryTreeNode<T>>>().apply {
         add(listOf(root))
     }
