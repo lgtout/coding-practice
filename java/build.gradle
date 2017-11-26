@@ -2,7 +2,8 @@ group 'com.lagostout'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.2.0-rc-84'
+//    ext.kotlin_version = '1.2.0-rc-84'
+    ext.kotlin_version = '1.1.61'
     repositories {
         mavenCentral()
         jcenter()
@@ -116,6 +117,11 @@ kotlin {
         coroutines "enable"
     }
 }
+
+compileGroovy.dependsOn = compileGroovy.taskDependencies.values - 'compileJava'
+compileKotlin.dependsOn compileGroovy
+compileKotlin.classpath += files(compileGroovy.destinationDir)
+classes.dependsOn compileKotlin
 
 
 
