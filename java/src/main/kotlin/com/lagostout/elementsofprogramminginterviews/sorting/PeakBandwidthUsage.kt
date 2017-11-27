@@ -4,23 +4,39 @@ import com.lagostout.elementsofprogramminginterviews.sorting.PeakBandwidthUsage.
 import com.lagostout.elementsofprogramminginterviews.sorting.PeakBandwidthUsage.BoundaryType.START
 import java.util.*
 
+/**
+ * Problem 14.4.2 page 246
+ */
 object PeakBandwidthUsage {
-    data class Usage(val bandwidth: Int, val start: Int, val end: Int)
+    data class Usage(val start: Int, val end: Int, val bandwidth: Int)
     enum class BoundaryType {
         START, END
     }
-    data class Boundary(val type: BoundaryType, val time: Int, val bandwidth: Int) : Comparable<Boundary> {
-        override fun compareTo(other: Boundary): Int = time.compareTo(other.time)
+    data class Boundary(val type: BoundaryType, val time: Int, val bandwidth: Int)
+        : Comparable<Boundary> {
+        override fun compareTo(other: Boundary): Int {
+            return (time.compareTo(other.time)).let {
+                when(it) {
+                    // This should make START appear before END
+                    // when there's no difference in boundary time.
+                    0 -> type.compareTo(other.type)
+                    else -> it
+                }
+            }
+        }
     }
     fun computePeakBandwidthUsage(usages: List<Usage>): Usage {
         return usages.flatMap { (start, end, bandwidth) ->
             listOf(START to start, END to end).map {
                 Boundary(it.first,  it.second, bandwidth)
             }
-        }.sortedBy { it.time }.let {
+        }.sorted().let {
             val boundaryStack = LinkedList<Boundary>()
-            var maxUsage: Usage? = null
+            var maxUsage = Usage(0, 0, -1)
             var bandwidthUsage = 0
+            // We'll select the widest range with the max
+            // bandwidth usage when ranges with that bandwidth
+            // are nested.
             it.forEach {
                 when (it.type) {
                     START -> {
@@ -29,23 +45,13 @@ object PeakBandwidthUsage {
                     }
                     END -> {
                         val start = boundaryStack.pop()
-                        // TODO
-                        // Figure out how to deal with coincident start/end times.
-                        // Does it matter if the bandwidths at such times are the
-                        // same or different?
-//                        if (start.time != it.time) {
-                            maxUsage = maxUsage?.let {
-                                if (bandwidthUsage <= it.bandwidth)
-                                    maxUsage else null
-                            } ?: Usage(bandwidthUsage, start.time, it.time)
-//                        }
+                        maxUsage = if (bandwidthUsage < maxUsage.bandwidth) maxUsage
+                        else Usage(start.time, it.time, bandwidthUsage)
                         bandwidthUsage -= it.bandwidth
                     }
                 }
             }
-            // This is safe as long as there's at least one entry in
-            // the usages parameter.
-            maxUsage!!
+            maxUsage
         }
 
     }
