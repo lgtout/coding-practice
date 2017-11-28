@@ -8,7 +8,7 @@ fun canPickThreeWithRepetitionAllowedThatAddUpToSum(
         list: List<Int>, sum: Int): Boolean =
         findCombinationsOfThreeWithRepetitionAllowedThatAddUpToSum(list, sum).isNotEmpty()
 
-fun findCombinationsOfThreeWithRepetitionAllowedThatAddUpToSum(
+private fun findCombinationsOfThreeWithRepetitionAllowedThatAddUpToSum(
         list: List<Int>, sum: Int): List<Triple<Int, Int, Int>> {
     if (list.isEmpty()) return emptyList()
     return list.sorted().flatMap { firstNumber ->
