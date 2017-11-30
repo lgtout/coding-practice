@@ -38,7 +38,7 @@ object AdvancingThroughArraySpek : Spek({
                     data(listOf(1,0,4,0,1), false),
                     data(listOf(3,3,1,0,2,0,1), true),
                     data(listOf(3,2,0,0,2,0,1), false),
-                    data(listOf(4,4,0,0,2,0,1), false),
+                    data(listOf(4,4,0,0,2,0,1), true),
                     null
             ).toTypedArray()
 
@@ -70,36 +70,20 @@ object AdvancingThroughArraySpek : Spek({
 
             fun randomData(): Array<Data1<List<Int>, Boolean>> {
                 val random = RandomDataGenerator().apply { reSeed(1) }
-                // TODO
-                // Continue implementing weighted distribution array entries.
-                // Replace random entry generation with weighted generation.
-                // Verify this solution algorithm works for large random data
-                // with about half of cases expecting result = false.
                 val entryWeights = listOf(ApachePair(0, 0.4), ApachePair(1, 0.2),
                         ApachePair(2, 0.2), ApachePair(3, 0.2))
                 val entryDistribution = EnumeratedDistribution(entryWeights)
-                val dataCount = 100
+                val dataCount = 10000
                 val dataRows = mutableListOf<Data1<List<Int>, Boolean>>()
-                val arraySizeRange = (0..10)
-//                val arrayEntryRange = (0..3)
-                val arrayEntryRange = (0..9)
+                val arraySizeRange = (1..10)
                 (1..dataCount).forEach {
-                    val array = mutableListOf<Int>()
-                    val arraySize = random.nextInt(arraySizeRange.first,
-                            arraySizeRange.last)
-                    (1..arraySize).forEach {
-                        val entry = random.nextInt(arrayEntryRange.first,
-                                arrayEntryRange.last).let {
-                            when (it) {
-                                in (0..6) -> 0
-                                7 -> 1
-                                8 -> 2
-                                else -> 3
-                            }
-                        }
-                        array.add(entry)
-                    }
-                    dataRows.add(data(array, endIsReachableByBruteForce(0, array)))
+                    val arraySize = random.nextInt(
+                            arraySizeRange.first, arraySizeRange.last)
+                    val maxStepsArray = arrayOfNulls<Int>(arraySize)
+                    entryDistribution.sample(arraySize, maxStepsArray)
+                    val maxStepsList = maxStepsArray.toList().filterNotNull()
+                    dataRows.add(data(maxStepsList, endIsReachableByBruteForce(0, maxStepsList)))
+                    Unit
                 }
                 return dataRows.toTypedArray()
             }
