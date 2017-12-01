@@ -1,8 +1,11 @@
 package com.lagostout.elementsofprogramminginterviews.linkedlists
 
+import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
+import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.data_driven.data
+import org.jetbrains.spek.data_driven.on
 
 object TestForOverlappingListsSpek : Spek({
     data class TestCase(val firstListPrefix: LinkedListNode<Char>,
@@ -20,6 +23,30 @@ object TestForOverlappingListsSpek : Spek({
                 TestCase(toLinkedList(listOf(Node('A'))),
                         toLinkedList(listOf(Node('B'))),
                         null,
+                        false),
+                TestCase(toLinkedList(listOf(Node('A'), Node('B'))),
+                        toLinkedList(listOf(Node('C'))),
+                        null,
+                        false),
+                TestCase(toLinkedList(listOf(Node('A'))),
+                        toLinkedList(listOf(Node('B'), Node('C'))),
+                        null,
+                        false),
+                TestCase(toLinkedList(listOf(Node('A'), Node('B'))),
+                        toLinkedList(listOf(Node('C'), Node('D'))),
+                        null,
+                        false),
+                TestCase(toLinkedList(listOf(Node('A'), Node('B'))),
+                        toLinkedList(listOf(Node('C'))),
+                        toLinkedList(listOf(Node('D'))),
+                        true),
+                TestCase(toLinkedList(listOf(Node('A'))),
+                        toLinkedList(listOf(Node('B'), Node('C'))),
+                        toLinkedList(listOf(Node('D'))),
+                        true),
+                TestCase(toLinkedList(listOf(Node('A'))),
+                        toLinkedList(listOf(Node('B'), Node('C'))),
+                        toLinkedList(listOf(Node('D'), Node('E'))),
                         true),
                 null
         ).map {
@@ -29,6 +56,13 @@ object TestForOverlappingListsSpek : Spek({
                     secondListPrefix.last.next = listSuffix
                 }
                 data(firstListPrefix, secondListPrefix, expected)
+            }
+        }.toTypedArray()
+        on("firstList %s, secondList %s", with = *data) {
+            firstList, secondList, expected ->
+            it("returns $expected") {
+                assertThat(listsAreOverlapping(firstList, secondList))
+                        .isEqualTo(expected)
             }
         }
     }

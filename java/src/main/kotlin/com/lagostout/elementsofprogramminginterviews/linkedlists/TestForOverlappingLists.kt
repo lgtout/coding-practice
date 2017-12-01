@@ -25,10 +25,10 @@ fun <T> listsAreOverlapping(list1: LinkedListNode<T>,
     listOf(Pair(list1NodeCount, list1),
             Pair(list2NodeCount, list2)).sortedBy { it.first }.let {
         (shorter, longer) ->
-        var longerListNodeCount = 1
         val listLengthDifference = longer.first - shorter.first
+        var longerListNodeCount = 1
         var longerListNode = longer.second
-        while (longerListNodeCount < listLengthDifference) {
+        while (longerListNodeCount <= listLengthDifference) {
             longerListNode.next?.let {
                 longerListNode = it
             }
@@ -42,10 +42,10 @@ fun <T> listsAreOverlapping(list1: LinkedListNode<T>,
             }
             shorterListNode.next?.let {
                 shorterListNode = it
-            }
+            } ?: break
             longerListNode.next?.let {
                 longerListNode = it
-            }
+            } ?: break
         }
     }
     return listsOverlap
