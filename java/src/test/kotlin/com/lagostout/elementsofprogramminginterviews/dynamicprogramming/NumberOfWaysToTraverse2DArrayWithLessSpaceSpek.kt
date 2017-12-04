@@ -7,7 +7,7 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 
-object NumberOfWaysToTraverse2DArrayWithLessSpaceSpek: Spek({
+object NumberOfWaysToTraverse2DArrayWithLessSpaceSpek : Spek({
     describe("numberOfWaysToTraverse2DArray()") {
         val data = listOfNotNull(
                 data(1,1,1),

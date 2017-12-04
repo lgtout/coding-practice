@@ -1,7 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
 /**
- * Problem 17.3 page 317
+ * Problem 17.3.1 page 317
  */
 fun numberOfWaysToTraverse2DArray(rowCount: Int, columnCount: Int): Int {
     val array = mutableListOf<MutableList<Int>>().apply {
