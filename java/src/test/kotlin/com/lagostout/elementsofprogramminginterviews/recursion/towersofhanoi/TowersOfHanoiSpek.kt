@@ -2,6 +2,7 @@ package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Pegs
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Ring
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.transferRingsFromOnePegToAnother
 import org.jetbrains.spek.api.Spek
@@ -25,8 +26,8 @@ class TowersOfHanoiSpek : Spek({
                     (fromPegPosition, toPegPosition, ringCount) ->
                     given("ringCount: $ringCount, from peg: $fromPegPosition, to peg: $toPegPosition") {
                         it("moves rings between pegs") {
-                            val pegs = Pegs(ringCount, fromPegPosition)
-                            val operations = mutableListOf<RingMove>()
+                            val pegs = Pegs<Ring>(ringCount, fromPegPosition)
+                            val operations = mutableListOf<RingMove<Ring>>()
                             transferRingsFromOnePegToAnother(pegs, pegs.at(fromPegPosition),
                                     pegs.at(toPegPosition), ringCount, operations)
                             assertEquals(pegs, pegsFromRunningOperations(

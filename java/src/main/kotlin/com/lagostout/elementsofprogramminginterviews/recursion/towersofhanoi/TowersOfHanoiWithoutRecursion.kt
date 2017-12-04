@@ -1,7 +1,8 @@
 package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
-import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Pegs
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Peg
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Pegs
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Ring
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import java.util.*
 
@@ -11,9 +12,9 @@ import java.util.*
 object TowersOfHanoiWithoutRecursion {
 
     fun transferRingsBetweenPegsWithoutRecursion(
-            pegs: Pegs, fromPeg: Peg, toPeg: Peg,
-            operations: MutableList<RingMove>) {
-        data class Frame(val from: Peg, val to: Peg,
+            pegs: Pegs<Ring>, fromPeg: Peg<Ring>, toPeg: Peg<Ring>,
+            operations: MutableList<RingMove<Ring>>) {
+        data class Frame(val from: Peg<Ring>, val to: Peg<Ring>,
                          val countOfRingsToMove: Int)
         val stack = LinkedList<Frame>().apply {
             push(Frame(fromPeg, toPeg, fromPeg.size))

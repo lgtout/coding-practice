@@ -3,6 +3,7 @@ package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Pegs
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Ring
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import org.assertj.core.api.Assertions.assertThatCode
 import org.assertj.core.api.SoftAssertions
@@ -19,7 +20,7 @@ object TowersOfHanoiMinimumOperationsWithRelaxedConstraintSpek : Spek({
                         val expectedOperationCount: Int? = null)
 
     describe("minimumOperationsWithRelaxedConstraint()") {
-        val testCases = listOf(
+        val testCases = listOfNotNull(
                 TestCase(LEFT, MIDDLE, expectedOperationCount = 0),
                 TestCase(MIDDLE, RIGHT, expectedOperationCount = 0),
                 TestCase(RIGHT, LEFT, expectedOperationCount = 0),
@@ -32,7 +33,7 @@ object TowersOfHanoiMinimumOperationsWithRelaxedConstraintSpek : Spek({
                 TestCase(LEFT, MIDDLE, listOf(1,2,3), 11),
                 TestCase(LEFT, MIDDLE, listOf(2,1,3), 9),
                 TestCase(RIGHT, LEFT, listOf(2,1,3), 9),
-                null).filterNotNull()
+                null)
 
         testCases.forEachIndexed {
             index, (fromPegPosition, toPegPosition, rings, expectedOperationCount) ->
@@ -40,12 +41,12 @@ object TowersOfHanoiMinimumOperationsWithRelaxedConstraintSpek : Spek({
                     "to peg: $toPegPosition") {
                 it("#$index moves rings between pegs " +
                         (expectedOperationCount?.let {"in $it moves"} ?: "")) {
-                    val pegs = TowersOfHanoi.Pegs(rings, fromPegPosition)
-                    val operations = mutableListOf<RingMove>()
+                    val pegs = TowersOfHanoi.Pegs<Ring>(rings, fromPegPosition)
+                    val operations = mutableListOf<RingMove<Ring>>()
                     minimumOperationsWithRelaxedConstraint(
                             pegs, pegs.at(fromPegPosition),
                             pegs.at(toPegPosition), operations)
-                    var pegsFromRunningOperations: Pegs? = null
+                    var pegsFromRunningOperations: Pegs<Ring>? = null
                     assertThatCode({
                         pegsFromRunningOperations = pegsFromRunningOperations(
                                 rings, fromPegPosition, operations, { from, to, ring ->

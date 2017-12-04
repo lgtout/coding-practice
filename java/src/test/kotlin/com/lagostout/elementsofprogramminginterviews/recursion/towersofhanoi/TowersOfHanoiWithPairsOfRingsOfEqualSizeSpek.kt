@@ -2,6 +2,7 @@ package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Ring
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -49,8 +50,8 @@ object TowersOfHanoiWithPairsOfRingsOfEqualSizeSpek : Spek({
             given("rings: $rings, from peg: $fromPegPosition, " +
                     "to peg: $toPegPosition") {
                 it("moves rings between pegs ${ expectedOperationCount?.let {"in $it moves"} }") {
-                    val pegs = TowersOfHanoi.Pegs(rings, fromPegPosition)
-                    val operations = mutableListOf<RingMove>()
+                    val pegs = TowersOfHanoi.Pegs<Ring>(rings, fromPegPosition)
+                    val operations = mutableListOf<RingMove<Ring>>()
                     computeMinimumNumberOfOperationsWithPairsOfRingsOfEqualSize(
                             pegs, pegs.at(fromPegPosition),
                             pegs.at(toPegPosition), operations)

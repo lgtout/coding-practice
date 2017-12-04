@@ -1,19 +1,20 @@
 package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Peg
-import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Pegs
-import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition
-import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.RIGHT
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Pegs
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Ring
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import java.util.*
 
 fun minimumNumberOfOperationsWithForbiddenMove(
-        pegs: Pegs, fromPeg: Peg, toPeg: Peg,
-        operations: MutableList<RingMove>) {
+        pegs: Pegs<Ring>, fromPeg: Peg<Ring>, toPeg: Peg<Ring>,
+        operations: MutableList<RingMove<Ring>>) {
 
     if (fromPeg.isEmpty) return
 
-    data class Frame(val from: Peg, val to: Peg,
+    data class Frame(val from: Peg<Ring>, val to: Peg<Ring>,
                      val countOfRingsToMove: Int) {
         val move: Pair<PegPosition, PegPosition>
             get() = Pair(from.position, to.position)

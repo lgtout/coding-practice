@@ -1,6 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Ring
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
@@ -37,8 +38,8 @@ object TowersOfHanoiMinimumOperationsWithForbiddenMoveSpek : Spek({
         given("ringCount: $ringCount, from peg: $fromPegPosition, " +
                 "to peg: $toPegPosition") {
             it("moves rings between pegs ${ expectedOperationCount?.let {"in $it moves"} }") {
-                val pegs = TowersOfHanoi.Pegs(ringCount, fromPegPosition)
-                val operations = mutableListOf<RingMove>()
+                val pegs = TowersOfHanoi.Pegs<Ring>(ringCount, fromPegPosition)
+                val operations = mutableListOf<RingMove<Ring>>()
                 minimumNumberOfOperationsWithForbiddenMove(
                         pegs, pegs.at(fromPegPosition),
                         pegs.at(toPegPosition), operations)

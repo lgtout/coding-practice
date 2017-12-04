@@ -13,7 +13,7 @@ data class TestCase(val fromPegPosition: PegPosition,
 fun pegsFromRunningOperations(
         ringCount: Int,
         fromPosition: PegPosition,
-        operations: List<TowersOfHanoi.RingMove>): Pegs {
+        operations: List<TowersOfHanoi.RingMove<Ring>>): Pegs<Ring> {
     return pegsFromRunningOperations(
             (1..ringCount).toList(), fromPosition, operations)
 }
@@ -21,9 +21,9 @@ fun pegsFromRunningOperations(
 fun pegsFromRunningOperations(
         rings: List<Int>,
         fromPosition: PegPosition,
-        operations: List<TowersOfHanoi.RingMove>,
-        constraint: (from: Peg, to: Peg, ring: Ring) -> Unit = { _, _, _ -> }): Pegs {
-    val pegs = Pegs(rings, fromPosition)
+        operations: List<TowersOfHanoi.RingMove<Ring>>,
+        constraint: (from: Peg<Ring>, to: Peg<Ring>, ring: Ring) -> Unit = { _, _, _ -> }): Pegs<Ring> {
+    val pegs = Pegs<Ring>(rings, fromPosition)
     operations.forEach { (fromPosition, toPosition) ->
         pegs.at(toPosition).let { toPeg ->
             pegs.at(fromPosition).let { fromPeg ->

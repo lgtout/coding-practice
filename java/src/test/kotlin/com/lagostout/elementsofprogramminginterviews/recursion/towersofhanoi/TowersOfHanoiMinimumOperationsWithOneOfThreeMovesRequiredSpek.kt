@@ -1,6 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Ring
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
@@ -13,7 +14,7 @@ import kotlin.test.assertEquals
 object TowersOfHanoiMinimumOperationsWithOneOfThreeMovesRequiredSpek : Spek({
     describe("minimumNumberOfOperationsWithOneOfThreeMovesRequired()") {
 
-        val testCases = listOf(
+        val testCases = listOfNotNull(
                 TestCase(LEFT, MIDDLE, expectedOperationCount = 0),
                 TestCase(MIDDLE, RIGHT, expectedOperationCount = 0),
                 TestCase(RIGHT, LEFT, expectedOperationCount = 0),
@@ -32,15 +33,15 @@ object TowersOfHanoiMinimumOperationsWithOneOfThreeMovesRequiredSpek : Spek({
                 TestCase(MIDDLE, RIGHT, 5),
                 TestCase(RIGHT, MIDDLE, 5),
                 TestCase(RIGHT, LEFT, 5),
-                null).filterNotNull()
+                null)
 
         testCases.forEach {
             (fromPegPosition, toPegPosition, ringCount, expectedOperationCount) ->
             given("ringCount: $ringCount, from peg: $fromPegPosition, " +
                     "to peg: $toPegPosition") {
                 it("moves rings between pegs ${ expectedOperationCount?.let {"in $it moves"} }") {
-                    val pegs = TowersOfHanoi.Pegs(ringCount, fromPegPosition)
-                    val operations = mutableListOf<RingMove>()
+                    val pegs = TowersOfHanoi.Pegs<Ring>(ringCount, fromPegPosition)
+                    val operations = mutableListOf<RingMove<Ring>>()
                     minimumNumberOfOperationsWithOneOfThreeMovesRequired(
                             pegs, pegs.at(fromPegPosition),
                             pegs.at(toPegPosition), operations)

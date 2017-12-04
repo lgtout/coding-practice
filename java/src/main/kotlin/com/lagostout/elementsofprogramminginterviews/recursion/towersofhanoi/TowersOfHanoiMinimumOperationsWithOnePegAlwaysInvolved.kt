@@ -2,6 +2,7 @@ package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Peg
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Pegs
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Ring
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import java.util.*
 
@@ -9,12 +10,12 @@ import java.util.*
  * Problem 16.1.3 page 290
  */
 fun minimumNumberOfOperationsWithOnePegAlwaysInvolved(
-        pegs: Pegs, fromPeg: Peg, toPeg: Peg, requiredPeg: Peg,
-        operations: MutableList<RingMove>) {
+        pegs: Pegs<Ring>, fromPeg: Peg<Ring>, toPeg: Peg<Ring>, requiredPeg: Peg<Ring>,
+        operations: MutableList<RingMove<Ring>>) {
 
     if (fromPeg.isEmpty) return
 
-    data class Frame(val from: Peg, val to: Peg,
+    data class Frame(val from: Peg<Ring>, val to: Peg<Ring>,
                      val countOfRingsToMove: Int)
 
     val stack = LinkedList<Frame>().apply {
