@@ -3,48 +3,67 @@ package com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvaria
 /**
  * Problem 18.4.3 page 346
  */
-
 fun canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
-        list: List<Int>, k: Int, sum: Int): Boolean =
-        findCombinationsOfKNumbersThatAddUpToSumWithRepetitionAllowed(list, k, sum).isNotEmpty()
+        list: List<Int>, k: Int, sum: Int): Boolean  {
+    return _canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
+            list.sorted(), k, sum) == sum
+}
 
-fun findCombinationsOfKNumbersThatAddUpToSumWithRepetitionAllowed(
-        list: List<Int>, k: Int, sum: Int): List<List<Int>> {
-    if (list.isEmpty()) return emptyList()
-    return list.sorted().flatMap { firstNumber ->
-        findCombinationsOfTwoThatAddUpToSumWithRepetitionAllowed(list, sum - firstNumber)
-                .map {
-                    listOf(firstNumber, it.first, it.second)
+fun _canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
+        list: List<Int>, k: Int, sum: Int): Int {
+    if (k == 2) {
+        return _findCombinationsOfTwoThatAddUpToSumWithRepetitionAllowed(list, sum)
+    } else {
+        var left = 0
+        var right = list.lastIndex
+        var endLoop = false
+        var currentSum: Int
+        do {
+            val leftNumber = list[left]
+            val rightNumber = list[right]
+            currentSum = (leftNumber + rightNumber).let {
+                 it + _canPickKNumbersThatAddUpToSumWithRepetitionAllowed(list, k - 2, sum - it)
+            }
+            when {
+                currentSum < sum -> {
+                    if (left < right) ++left
+                    else endLoop = true
                 }
+                currentSum > sum -> {
+                    if (left < right) --right
+                    else endLoop = true
+                }
+                else -> {
+                    endLoop = true
+                }
+            }
+        } while (!endLoop)
+        return currentSum
     }
 }
 
-// TODO Verify
-fun permutationsWithRepetition(
-        elements: List<Int>, repeatCount: Int = 1):
-        List<List<Int>> {
-    val permutations = listOf(elements)
-    var currentRepeatCount = 1
-    val elementToPermutationGroupStartIndex = elements.withIndex()
-            .map {
-                (index, i) ->
-                i to index
-            }.toMap().toMutableMap()
-    while (currentRepeatCount < repeatCount) {
-        val nextPermutations = mutableListOf<List<Int>>()
-        elements.forEachIndexed { index, currentElement ->
-            val permutationGroupStartIndex =
-                    elementToPermutationGroupStartIndex[currentElement]!!
-            var permutationCount = 0
-            (permutationGroupStartIndex..permutations.lastIndex).forEach { index ->
-                nextPermutations.add(listOf(currentElement) + permutations[index])
-                permutationCount++
+fun _findCombinationsOfTwoThatAddUpToSumWithRepetitionAllowed(
+        list: List<Int>, sum: Int): Int {
+    var left = 0
+    var right = list.lastIndex
+    var endLoop = false
+    while (!endLoop) {
+        val leftNumber = list[left]
+        val rightNumber = list[right]
+        val currentSum = leftNumber + rightNumber
+        when {
+            currentSum < sum -> {
+                if (left < right) ++left
+                else endLoop = true
             }
-            elementToPermutationGroupStartIndex[currentElement] = permutationCount +
-                    (if (index == 0) 0
-                    else elementToPermutationGroupStartIndex[elements[index-1]]!!)
+            currentSum > sum -> {
+                if (left < right) --right
+                else endLoop = true
+            }
+            else -> {
+                endLoop = true
+            }
         }
-        currentRepeatCount++
     }
-    return permutations
+    return list[left] + list[right]
 }

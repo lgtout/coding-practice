@@ -1,28 +1,35 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
-import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants.permutationsWithRepetition
+import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants.canPickKNumbersThatAddUpToSumWithRepetitionAllowed
+import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
-import kotlin.test.assertEquals
+import org.paukov.combinatorics3.Generator
+import kotlin.streams.toList
 
-/**
- * Problem 18.4.3 page 346
- */
 class KSumWithRepetitionAllowedSpek : Spek({
     describe("permutationsWithRepetition") {
-        val data = listOf(
-                data(listOf(1), 0, expected = emptyList<List<Int>>()),
-                data(listOf(1,2), 0, expected = emptyList()),
+        fun bruteForceSolution(list: List<Int>, k: Int, sum: Int): Boolean {
+            return Generator.combination(list).multi(k).stream()
+                    .filter { it.sum() == sum }.toList().also {
+                println(it)
+            }.isNotEmpty()
+        }
+        val data = listOfNotNull(
+                Triple(listOf(1), 0, 3),
+                Triple(listOf(1,2).shuffled(), 0, 2),
                 null
-        ).filterNotNull().toTypedArray()
-        on("generate permutations of %s with %s repeats allowed", with = *data) {
-            elements: List<Int>, repeatCount: Int, expected: List<List<Int>> ->
+        ).map { (list, k, sum) ->
+            data(list, k, sum, bruteForceSolution(list, k, sum))
+        }.toTypedArray()
+        on("list: %s, k: %s, sum: %s", with = *data) {
+            list: List<Int>, k: Int, sum: Int, expected: Boolean ->
             it("returns $expected") {
-                assertEquals(expected,
-                        permutationsWithRepetition(elements, repeatCount))
+                assertThat(canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
+                                list, k, sum)).isEqualTo(expected)
             }
         }
     }
