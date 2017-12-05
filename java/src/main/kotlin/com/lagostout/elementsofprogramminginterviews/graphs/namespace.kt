@@ -36,6 +36,36 @@ data class GraphNode<T>(val value: T,
 data class RawGraphNode<out T>(val value: T,
                                val adjacentNodes: List<Int> = emptyList())
 
+/**
+ * Creates an undirected graph represented as a digraph with edges
+ * in both directions between adjacent vertices.
+ */
+fun <T> toGraph(rawNodes: List<RawGraphNode<T>>): List<GraphNode<T>> {
+    return toDigraph(rawNodes).apply {
+        if (isEmpty()) return@apply
+        val nodesIterator = iterator()
+        val exploredNodes = mutableSetOf<GraphNode<T>>()
+        val nodes = mutableSetOf<GraphNode<T>>()
+        while (true) {
+            if (nodes.isEmpty()) {
+                if (!nodesIterator.hasNext()) break
+                val node = nodesIterator.next()
+                if (exploredNodes.contains(node)) continue
+                nodes.add(node)
+            }
+            val nextNodes = mutableSetOf<GraphNode<T>>()
+            nodes.forEach { source ->
+                exploredNodes.add(source)
+                nextNodes.addAll(source.adjacentNodes)
+                source.adjacentNodes.forEach { destination ->
+                    destination.adjacentNodes.add(source)
+                }
+            }
+            nodes.apply { clear() }.addAll(nextNodes)
+        }
+    }
+}
+
 fun <T> toDigraph(rawNodes: List<RawGraphNode<T>>):
         List<GraphNode<T>> {
     val digraph = mutableListOf<GraphNode<T>>()
