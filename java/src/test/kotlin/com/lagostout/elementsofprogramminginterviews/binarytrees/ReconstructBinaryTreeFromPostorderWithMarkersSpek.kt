@@ -8,46 +8,44 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 
-object ReconstructBinaryTreeFromPreorderWithMarkers : Spek({
-    describe("reconstructBinaryTreeFromPreorderWithMarkers()") {
+object ReconstructBinaryTreeFromPostorderWithMarkersSpek : Spek({
+    describe("reconstructBinaryTreeFromPostorderWithMarkers()") {
         fun buildBinaryTree(rawTree: List<RawBTNode>): BinaryTreeNode<Char> {
             return BinaryTreeNode.buildBinaryTree(rawTree).first!!
         }
         val data = listOfNotNull(
-                data(listOf('A', null, null), expected = buildBinaryTree(
+                data(listOf(null, null, 'A'), expected = buildBinaryTree(
                         listOf(RawBTNode(null, null, null, 'A')))),
-                data(listOf('A', 'B' , null, null, null), expected = buildBinaryTree(
+                data(listOf(null, null, 'B', null, 'A'), expected = buildBinaryTree(
                         listOf(RawBTNode(1, null, null, 'A'), RawBTNode(null, null, 0, 'B')))),
-                data(listOf('A', 'B', null, null, 'C', null, null), buildBinaryTree(
+                data(listOf(null, null, 'B', null, null, 'C', 'A'), buildBinaryTree(
                         listOf(RawBTNode(1, 2, null, 'A'), RawBTNode(value = 'B'),
                                 RawBTNode(value = 'C')))),
-                data(listOf('A', 'B', 'D', null, 'E', null, null, 'C', null, null), buildBinaryTree(
-                        listOf(RawBTNode(1, value = 'A'), RawBTNode(2, 3, value = 'B'),
-                                RawBTNode(null, 4, value = 'D'), RawBTNode(value = 'C'),
-                                RawBTNode(value = 'E')))),
-                data(listOf('A', 'B', 'D', null, null, 'E', null, null, 'C', null, null),
+                data(listOf(null, null, null, 'E', 'D', null, null, 'C', 'B', null, 'A'),
+                        buildBinaryTree(listOf(RawBTNode(1, value = 'A'),
+                                RawBTNode(2, 3, value = 'B'), RawBTNode(null, 4, value = 'D'),
+                                RawBTNode(value = 'C'), RawBTNode(value = 'E')))),
+                data(listOf(null, null, 'D', null, null, 'E', 'B', null, null, 'C', 'A'),
                         expected = buildBinaryTree(listOf(
                                 RawBTNode(1, 2, null, 'A'), RawBTNode(3, 4, 0, 'B'),
                                 RawBTNode(null, null, 0, 'C'), RawBTNode(null, null, 1, 'D'),
-                                RawBTNode(null, null, 1, 'E')
-                        ))),
-                data(listOf('A', 'B', 'D', null, 'E', null, null, null, 'C', null, null),
+                                RawBTNode(null, null, 1, 'E')))),
+                data(listOf(null, null, null, 'E', 'D', null, 'B', null, null, 'C', 'A'),
                         expected = buildBinaryTree(listOf(
                                 RawBTNode(1, 2, null, 'A'), RawBTNode(3, null, 0, 'B'),
                                 RawBTNode(null, null, 0, 'C'), RawBTNode(null, 4, 1, 'D'),
-                                RawBTNode(null, null, 3, 'E')
-                        ))),
-                data(listOf('A','B','D', null, 'E', null, 'C', null, null, null, null),
+                                RawBTNode(null, null, 3, 'E')))),
+                data(listOf(null, null, 'C', null, 'E', null, 'D', null, 'B', null, 'A'),
                         expected = buildBinaryTree(listOf(
                                 RawBTNode(1, null, null, 'A'), RawBTNode(2, null, 0, 'B'),
                                 RawBTNode(null, 3, 1, 'D'), RawBTNode(null, 4, 2, 'E'),
-                                RawBTNode(null, null, 3, 'C')
-                        ))),
+                                RawBTNode(null, null, 3, 'C')))),
+                // TODO Add more tests - ones without checkmark in notes.
                 null
         ).toTypedArray()
         on("preorder: %s", with = *data) { preorder, expected ->
             it("returns $expected") {
-                val tree = reconstructBinaryTreeFromPreorderWithMarkers(preorder)
+                val tree = reconstructBinaryTreeFromPostorderWithMarkers(preorder)
                 assertThat(tree).isEqualTo(expected)
             }
         }
