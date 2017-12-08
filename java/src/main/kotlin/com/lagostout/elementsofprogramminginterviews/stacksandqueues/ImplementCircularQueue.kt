@@ -2,10 +2,25 @@ package com.lagostout.elementsofprogramminginterviews.stacksandqueues
 
 import java.util.*
 
-@Suppress("UNCHECKED_CAST")
-class CircularQueue<T>(initialSize: Int) {
+inline fun <reified T> arrayFactory(): (Int) -> Array<T?> {
+    return { size -> arrayOfNulls(size) }
+}
 
-    private var array = arrayOfNulls<Any>(initialSize) as Array<T?>
+inline fun <reified T> circularQueue(initialSize: Int = 0): CircularQueue<T> {
+    return circularQueue(initialSize, arrayFactory())
+}
+
+fun <T> circularQueue(initialSize: Int = 0,
+                      arrayFactory: (Int) -> Array<T?>): CircularQueue<T> {
+    return CircularQueue(initialSize, arrayFactory)
+}
+
+@Suppress("UNCHECKED_CAST")
+class CircularQueue<T> constructor(
+        initialSize: Int = 0,
+        private val arrayFactory: (Int) -> Array<T?>) {
+
+    var array = arrayFactory(initialSize)
     private var startIndex = 0
     private var endIndex = 0
     private var _size = 0
@@ -13,7 +28,7 @@ class CircularQueue<T>(initialSize: Int) {
     fun enqueue(entry: T) {
         if (_size == array.size) {
             Collections.rotate(array.asList(), -startIndex)
-            array = (arrayOfNulls<Any>(_size * 2) as Array<T?>).apply {
+            array = arrayFactory(_size * 2).apply {
                 (0 until size).forEach {
                     set(it, array[it])
                 }
@@ -32,8 +47,6 @@ class CircularQueue<T>(initialSize: Int) {
     }
 
     val size: Int
-        get() {
-            return _size
-        }
+        get() { return _size }
 
 }

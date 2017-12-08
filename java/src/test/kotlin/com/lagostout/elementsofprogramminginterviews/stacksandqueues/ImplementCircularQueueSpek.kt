@@ -1,33 +1,54 @@
 package com.lagostout.elementsofprogramminginterviews.stacksandqueues
 
 import org.assertj.core.api.Assertions.assertThat
+import org.funktionale.composition.andThen
 import org.jetbrains.spek.api.Spek
-import org.jetbrains.spek.api.dsl.describe
-import org.jetbrains.spek.api.dsl.it
-import org.jetbrains.spek.api.dsl.on
-import org.jetbrains.spek.api.lifecycle.CachingMode
+import org.jetbrains.spek.api.dsl.*
 
 object ImplementCircularQueueSpek : Spek({
     describe("CircularQueue") {
-        val queue by memoized (CachingMode.TEST){ CircularQueue<Int>(5) }
-        describe("empty queue") {
+        val arraysCreated by memoized { mutableListOf<Array<Int?>>() }
+        val arrayFactory by memoized {
+            arrayFactory<Int>() andThen {
+                println(it)
+                arraysCreated.add(it)
+                it
+            }
+        }
+        val queue by memoized { circularQueue(arrayFactory = arrayFactory) }
+        describe("empty queue with 0 initial size") {
             on("get size") {
-                val expected = 0
-                it("returns $expected") {
+                val expectedQueueSize = 0
+                it("returns $expectedQueueSize") {
                     assertThat(queue.size)
-                            .isEqualTo(expected)
+                            .isEqualTo(expectedQueueSize)
+                }
+                xit("creates an empty backing array") {
+                    assertThat(arraysCreated.size)
+                            .isEqualTo(1)
+                    assertThat(arraysCreated.first().size)
+                            .isEqualTo(0)
                 }
             }
-            on("enqueue an entry") {
-                queue.enqueue(1)
-                val expected = 1
-                it("has size $expected") {
+            xon("enqueue an entry") {
+                val expectedSize = 1
+                val expectedBackingArraySize = 1
+                val entry = 111
+                queue.enqueue(entry)
+                it("has size $expectedSize") {
                     assertThat(queue.size)
-                            .isEqualTo(expected)
+                            .isEqualTo(expectedSize)
+                }
+                it("creates a second backing array of size " +
+                        "$expectedBackingArraySize") {
+                    assertThat(arraysCreated.size)
+                            .isEqualTo(2)
+                    assertThat(arraysCreated[1].size)
+                            .isEqualTo(entry)
                 }
             }
         }
-        describe("queue containing 1 entry") {
+        xdescribe("queue containing 1 entry") {
             beforeGroup {
                 queue.enqueue(1)
             }
