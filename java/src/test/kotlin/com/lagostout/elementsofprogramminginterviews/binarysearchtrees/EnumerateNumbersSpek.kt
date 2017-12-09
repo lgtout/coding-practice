@@ -1,14 +1,44 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
+import com.lagostout.elementsofprogramminginterviews.binarysearchtrees.EnumerateNumbers.Expression
+import com.lagostout.elementsofprogramminginterviews.binarysearchtrees.EnumerateNumbers.enumerateNumbers
+import org.assertj.core.api.Assertions.assertThat
+import org.jetbrains.spek.api.Spek
+import org.jetbrains.spek.api.dsl.describe
+import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.data_driven.data
+import org.jetbrains.spek.data_driven.on
 import org.paukov.combinatorics3.Generator
 
-fun generateSample() {
-    Generator.permutation((0..15).toList())
-            .withRepetitions(2)
-            .map { (first, second) ->
-                Triple(first, second, first + second * Math.sqrt(2.0))
-            }.sortedBy { it.third }
-            .forEach {
-                println(it)
+object EnumerateNumbersSpek : Spek({
+    describe("enumerateNumbers()") {
+        fun bruteForceEnumerateNumbers(count: Int): List<Expression> {
+            return Generator.permutation((0..(count * 10)).toList())
+                    .withRepetitions(2)
+                    .map { (first, second) ->
+                        Expression(first, second)
+                    }.sortedBy { it.value }.take(count)
+        }
+        val data = listOfNotNull(
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                20,
+                null
+        ).map {
+            data(it, bruteForceEnumerateNumbers(it))
+        }.toTypedArray()
+        on("count: %d", with = *data) { count, expected ->
+            it("returns $expected") {
+                assertThat(enumerateNumbers(count))
+                        .isEqualTo(expected)
             }
-}
+        }
+    }
+})
