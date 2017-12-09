@@ -5,31 +5,34 @@ import org.apache.commons.collections4.iterators.PeekingIterator
 /**
  * Problem 14.5 page 246
  */
+@Suppress("NAME_SHADOWING")
 fun mergeIntervals(intervals: List<IntRange>,
                    newInterval: IntRange): List<IntRange> {
     val mergedIntervals = mutableListOf<IntRange>()
     val intervalsIterator = PeekingIterator(intervals.iterator())
+    var newInterval = newInterval
+    var merged = false
     while (true) {
         if (!intervalsIterator.hasNext()) break
-        var interval = intervalsIterator.next()
-        if (newInterval.first in interval) {
-            interval = IntRange(interval.start, newInterval.last)
-            var innerWhileDone = false
-            while (!innerWhileDone) {
-                intervalsIterator.peek()?.also {
-                    when {
-                        interval.last in it -> {
-                            interval = IntRange(interval.start, it.last)
-                            intervalsIterator.next()
-                            innerWhileDone = true
-                        }
-                        interval.last > it.last -> intervalsIterator.next()
-                        interval.last < it.first -> innerWhileDone = true
-                    }
-                } ?: break
+        val interval = intervalsIterator.next()
+        when {
+            newInterval.first in interval ->
+                newInterval = IntRange(interval.first,
+                    maxOf(newInterval.last, interval.last))
+            newInterval.last in interval -> {
+                newInterval = IntRange(newInterval.first, interval.last)
+                mergedIntervals.add(newInterval)
+                merged = true
             }
+            newInterval.last < interval.first -> {
+                mergedIntervals.addAll(listOf(newInterval, interval))
+                merged = true
+            }
+            else -> mergedIntervals.add(interval)
         }
-        mergedIntervals.add(interval)
+    }
+    if (!merged) {
+        mergedIntervals.add(newInterval)
     }
     return mergedIntervals
 }
