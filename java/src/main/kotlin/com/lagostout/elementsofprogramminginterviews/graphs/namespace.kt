@@ -56,7 +56,8 @@ fun <T> toGraph(rawNodes: List<RawGraphNode<T>>): List<GraphNode<T>> {
             val nextNodes = mutableSetOf<GraphNode<T>>()
             nodes.forEach { source ->
                 exploredNodes.add(source)
-                nextNodes.addAll(source.adjacentNodes)
+                nextNodes.addAll(source.adjacentNodes
+                        .filter { it !in exploredNodes })
                 source.adjacentNodes.forEach { destination ->
                     destination.adjacentNodes.add(source)
                 }

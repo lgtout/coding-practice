@@ -12,12 +12,12 @@ object WiredConnectionsSpek : Spek({
         fun node(value: Char, adjacentNodes: List<Int> = emptyList()) =
                 RawGraphNode(value, adjacentNodes)
         val data = listOfNotNull(
-//                Pair(listOf(node('A')), true),
-//                Pair(listOf(node('A'), node('B')), true),
+                Pair(listOf(node('A')), true),
+                Pair(listOf(node('A'), node('B')), true),
                 Pair(listOf(node('A', listOf(1)), node('B')), true),
-//                Pair(listOf(node('A', listOf(1)), node('B'), node('C')), true),
-//                Pair(listOf(node('A', listOf(1)), node('B', listOf(2)), node('C')), true),
-//                Pair(listOf(node('A', listOf(1)), node('B', listOf(2)), node('C', listOf(0))), false),
+                Pair(listOf(node('A', listOf(1)), node('B'), node('C')), true),
+                Pair(listOf(node('A', listOf(1)), node('B', listOf(2)), node('C')), true),
+                Pair(listOf(node('A', listOf(1)), node('B', listOf(2)), node('C', listOf(0))), false),
                 null
         ).map {
             data(toGraph(it.first), it.second)
