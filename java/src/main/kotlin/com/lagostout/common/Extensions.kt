@@ -2,8 +2,8 @@ package com.lagostout.common
 
 import com.google.common.collect.BoundType
 import com.google.common.collect.Range
-import org.apache.commons.math3.random.RandomDataGenerator
 import com.lagostout.datastructures.BinaryTreeNode
+import org.apache.commons.math3.random.RandomDataGenerator
 
 val Range<Int>.length: Int
     get() = upperEndpoint() - lowerEndpoint() +
@@ -61,6 +61,9 @@ fun Int.positionOfMostSignificantBit(): Int {
     }
     return i
 }
+
+val Int.isOdd: Boolean
+    get() = this % 2 == 1
 
 fun Map<Int, Int>.printValuesAsBinaryStrings() = {
     forEach { t: Int, u: Int ->
