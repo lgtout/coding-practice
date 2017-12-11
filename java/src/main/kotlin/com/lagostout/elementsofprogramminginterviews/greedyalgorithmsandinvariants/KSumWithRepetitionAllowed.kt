@@ -38,7 +38,7 @@ private fun findClosestSum(
         currentSum = (leftNumber + rightNumber).let {
             it + (if (k > 2) {
                 findClosestSum(list, k - 2, sum - it)
-            }  else 0)
+            } else 0)
         }
         println("k: $k, sum: $sum, nextSum: left: $left, right: $right, leftNumber: $leftNumber, " +
                 "rightNumber: $rightNumber, currentSum: $currentSum")
