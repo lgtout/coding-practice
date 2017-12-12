@@ -4,16 +4,43 @@ package com.lagostout.elementsofprogramminginterviews.primitivetypes
  * Problem 5.4.1 page 50
  */
 fun findClosestIntegerWithSameWeight(number: Int): Int {
-    // Find position of rightmost 0
-    val rightMostZeroBitMask = (number.inv() - 1).let {
-        it.inv().and(it)
+    fun shiftRightmostOneBitRightByOneBit(
+            number: Int, mask: Int): Int {
+        return (number xor mask) or (mask ushr 1)
     }
-    if (rightMostZeroBitMask.and(1) > 0) {
-        // Rightmost 0 bit is rightmost bit.
-        // Find position of rightmost 1 bit.
-        
-    } else {
-
+    fun findRightmostOneBit(number: Int): Int {
+        return (number - 1).inv() and number
     }
-    return 0
+    // Find rightmost 0 bit
+    val rightmostZeroBitMask = (number.inv() - 1).let {
+        it.inv() and it
+    }
+    return when {
+        rightmostZeroBitMask == 1 ->
+            // Rightmost 0 bit is the leftmost bit.
+            // Find rightmost 1 bit.
+            findRightmostOneBit(number).let {
+                // Shift rightmost 1 bit right by 1 bit.
+                shiftRightmostOneBitRightByOneBit(number, it)
+            }
+        rightmostZeroBitMask > number ->
+            // Rightmost 0 bit is left of the rightmost 1 bit.
+            // Shift the leftmost 1 bit left by 1 bit.
+            (number or rightmostZeroBitMask) xor (rightmostZeroBitMask ushr 1)
+        else ->
+            // Rightmost 0 bit is right of the leftmost 1 bit and
+            // left of the rightmost 1 bit.
+            // Shift the rightmost 1 bit that's to the left of the
+            // rightmost 0 bit right by 1 bit.
+            // Clear all 1 bits to the right of the rightmost 0 bit.
+            ((rightmostZeroBitMask - 1) xor number).let {
+                // Find the rightmost 1 bit.
+                // This is the position of the 1 bit that we need
+                // to move right by 1 bit.
+                findRightmostOneBit(it).let {
+                    // Shift that 1 bit right by 1 bit.
+                    shiftRightmostOneBitRightByOneBit(number, it)
+                }
+            }
+    }
 }
