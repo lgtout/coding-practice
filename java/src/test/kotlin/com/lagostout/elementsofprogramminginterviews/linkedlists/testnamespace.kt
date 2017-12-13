@@ -18,7 +18,8 @@ fun <T> toLinkedList(values: List<T>): LinkedListNode<T> {
 }
 
 fun <T> toLinkedListWithExplicitLinkage(
-        values: List<RawLinkedListNode<T>>): LinkedListNode<T> {
+        values: List<RawLinkedListNode<T>>): LinkedListNode<T>? {
+    if (values.isEmpty()) return null
     return values.map {
         LinkedListNode(it.value)
     }.apply {

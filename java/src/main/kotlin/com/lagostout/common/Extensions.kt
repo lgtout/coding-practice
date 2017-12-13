@@ -4,6 +4,7 @@ import com.google.common.collect.BoundType
 import com.google.common.collect.Range
 import com.lagostout.datastructures.BinaryTreeNode
 import org.apache.commons.math3.random.RandomDataGenerator
+import org.javatuples.Quartet
 
 val Range<Int>.length: Int
     get() = upperEndpoint() - lowerEndpoint() +
@@ -70,3 +71,13 @@ fun Map<Int, Int>.printValuesAsBinaryStrings() = {
         println("${t.toBinaryString()}: ${u.toBinaryString()}")
     }
 }
+
+fun <T> List<T>.second() = get(1)
+
+// This is interesting... But impractical: Required to import all 4
+// separately whenever I want to destructure Quartet.
+operator fun <A, B, C, D> Quartet<A, B, C, D>.component1(): A = this.value0
+operator fun <A, B, C, D> Quartet<A, B, C, D>.component2(): B = this.value1
+operator fun <A, B, C, D> Quartet<A, B, C, D>.component3(): C = this.value2
+operator fun <A, B, C, D> Quartet<A, B, C, D>.component4(): D = this.value3
+

@@ -34,6 +34,18 @@ data class LinkedListNode<T>(var data: T? = null,
 
 }
 
+fun <T> LinkedListNode<T>.advance(distance: Int): LinkedListNode<T> {
+    var count = distance
+    var node = this
+    while (count < distance) {
+        node.next?.let {
+            node = it
+            ++count
+        } ?: break
+    }
+    return node
+}
+
 val <T> LinkedListNode<T>.last: LinkedListNode<T>
     get() {
         var lastNode = this

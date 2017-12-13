@@ -8,54 +8,57 @@ import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 
 object TestForOverlappingListsSpek : Spek({
-    data class TestCase(val firstListPrefix: LinkedListNode<Char>,
-                        val secondListPrefix: LinkedListNode<Char>,
-                        val listSuffix: LinkedListNode<Char>?,
+    data class TestCase(val firstListPrefix: List<Node>,
+                        val secondListPrefix: List<Node>,
+                        val listSuffix: List<Node>?,
                         val expected: Boolean)
     describe("listsAreOverlapping()") {
-        val toLinkedList = { rawNodes:List<Node> ->
+        val link = { rawNodes:List<Node> ->
             toLinkedListWithExplicitLinkage(rawNodes) }
         val data = listOfNotNull(
-                TestCase(toLinkedList(listOf(Node('A'))),
-                        toLinkedList(listOf(Node('B'))),
-                        toLinkedList(listOf(Node('C'))),
+                TestCase(listOf(Node('A')),
+                        listOf(Node('B')),
+                        listOf(Node('C')),
                         true),
-                TestCase(toLinkedList(listOf(Node('A'))),
-                        toLinkedList(listOf(Node('B'))),
+                TestCase(listOf(Node('A')),
+                        listOf(Node('B')),
                         null,
                         false),
-                TestCase(toLinkedList(listOf(Node('A'), Node('B'))),
-                        toLinkedList(listOf(Node('C'))),
+                TestCase(listOf(Node('A'), Node('B')),
+                        listOf(Node('C')),
                         null,
                         false),
-                TestCase(toLinkedList(listOf(Node('A'))),
-                        toLinkedList(listOf(Node('B'), Node('C'))),
+                TestCase(listOf(Node('A')),
+                        listOf(Node('B'), Node('C')),
                         null,
                         false),
-                TestCase(toLinkedList(listOf(Node('A'), Node('B'))),
-                        toLinkedList(listOf(Node('C'), Node('D'))),
+                TestCase(listOf(Node('A'), Node('B')),
+                        listOf(Node('C'), Node('D')),
                         null,
                         false),
-                TestCase(toLinkedList(listOf(Node('A'), Node('B'))),
-                        toLinkedList(listOf(Node('C'))),
-                        toLinkedList(listOf(Node('D'))),
+                TestCase(listOf(Node('A'), Node('B')),
+                        listOf(Node('C')),
+                        listOf(Node('D')),
                         true),
-                TestCase(toLinkedList(listOf(Node('A'))),
-                        toLinkedList(listOf(Node('B'), Node('C'))),
-                        toLinkedList(listOf(Node('D'))),
+                TestCase(listOf(Node('A')),
+                        listOf(Node('B'), Node('C')),
+                        listOf(Node('D')),
                         true),
-                TestCase(toLinkedList(listOf(Node('A'))),
-                        toLinkedList(listOf(Node('B'), Node('C'))),
-                        toLinkedList(listOf(Node('D'), Node('E'))),
+                TestCase(listOf(Node('A')),
+                        listOf(Node('B'), Node('C')),
+                        listOf(Node('D'), Node('E')),
                         true),
                 null
         ).map {
             it.run {
-                listSuffix?.let {
-                    firstListPrefix.last.next = listSuffix
-                    secondListPrefix.last.next = listSuffix
+                val firstLinkedList = link(firstListPrefix)!!
+                val secondLinkedList = link(secondListPrefix)!!
+                val suffixList = listSuffix?.let { link(it) }
+                suffixList?.let {
+                    firstLinkedList.last.next = suffixList
+                    secondLinkedList.last.next = suffixList
                 }
-                data(firstListPrefix, secondListPrefix, expected)
+                data(firstLinkedList, secondLinkedList, expected)
             }
         }.toTypedArray()
         on("firstList %s, secondList %s", with = *data) {

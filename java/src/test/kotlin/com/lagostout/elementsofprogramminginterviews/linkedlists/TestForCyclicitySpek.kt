@@ -25,7 +25,7 @@ object TestForCyclicitySpek : Spek({
                 Pair(toLinkedList(listOf(Node('A'), Node('B'), Node('C', 2))), Pair(true, 2)),
                 null
         ).map { row ->
-            val list = row.first.toList()
+            val list = row.first?.toList()!!
             data(list, Pair(
                     row.second.first, row.second.second?.let { list[it] }))
         }.toTypedArray()
