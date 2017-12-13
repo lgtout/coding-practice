@@ -19,13 +19,23 @@ fun computeShortestValidRomanNumber(number: Int): String {
     }.toMap()
     var remainder = number
     val romanToDecimalList = romanToDecimalMap.toList()
+    val stringBuilder = StringBuilder()
     while (true) {
-        romanToDecimalList.apply {
-            binarySearch { it.second.compareTo(remainder) }.let {
-                get(it)
-            }
-        }.let { (symbol, value) ->
-
+        val romanToDecimalIndex = romanToDecimalList
+                .binarySearch { it.second.compareTo(remainder) }
+        val romanToDecimal = romanToDecimalList[romanToDecimalIndex]
+        if (romanToDecimal.second == remainder) {
+            stringBuilder.append(romanToDecimal.first)
+            break
+        } else {
+            val lowerSymbol = if (romanToDecimalList[romanToDecimalIndex].second == remainder)
+                romanToDecimalList[romanToDecimalIndex]
+            else romanToDecimalList[romanToDecimalIndex - 1]
+//            val higherSymbol = if (romanToDecimalList[romanToDecimalIndex].second == remainder) ( == lastIndex) null else get(it + 1)
+//            if (remainder == lowerSymbol) {
+//
+//            }
+//            Pair(lowerSymbol, higherSymbol)
         }
     }
     return ""
