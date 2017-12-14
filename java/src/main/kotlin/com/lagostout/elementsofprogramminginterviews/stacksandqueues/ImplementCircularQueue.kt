@@ -28,21 +28,22 @@ class CircularQueue<T> constructor(
     fun enqueue(entry: T) {
         if (_size == array.size) {
             Collections.rotate(array.asList(), -startIndex)
-            array = arrayFactory(_size * 2).apply {
-                (0 until size).forEach {
+            array = arrayFactory((if (_size == 0) 1 else array.size ) * 2).apply {
+                (0 until array.size).forEach {
                     set(it, array[it])
                 }
             }
         }
+        endIndex = (startIndex + _size) % array.size
         ++_size
-        endIndex = (startIndex + _size) % _size
         array[endIndex] = entry
     }
 
     fun dequeue(): T {
         val entry = array[startIndex]
         array[startIndex] = null
-        startIndex = (startIndex + 1) % _size
+        --_size
+        startIndex = (startIndex + 1) % array.size
         return entry!!
     }
 
