@@ -1,13 +1,19 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
+import java.util.TreeSet
+import kotlin.Comparator
+import kotlin.Int
+import kotlin.apply
+import kotlin.run
+
 /**
  * Problem 15.7 page 271
  */
-// O(n) solution.
 object EnumerateNumbers {
     data class Expression(val a: Int, val b: Int) {
         val value = a + b * Math.sqrt(2.0)
     }
+    // O(n) solution.
     fun enumerateNumbers(count: Int): List<Expression> {
         val numbers = mutableListOf<Expression>(). apply {
             add(Expression(0, 0))
@@ -34,5 +40,20 @@ object EnumerateNumbers {
             sourceSetSize = numbers.lastIndex - endIndex
         }
         return numbers
+    }
+    // O(n log(n)) solution
+    fun enumerateNumbersWithBST(count: Int): List<Expression> {
+        val treeSet = TreeSet<Expression>(Comparator<Expression> {
+            o1, o2 -> compareValues(o1?.value, o2?.value) })
+        (0 until count).forEach {
+            treeSet.add(Expression(0, it))
+        }
+        var expressionCount = 1
+        var expression = treeSet.first()
+        while (expressionCount < count) {
+            treeSet.add(expression.copy(a = expression.a + 1))
+            ++expressionCount
+        }
+        return treeSet.take(count)
     }
 }
