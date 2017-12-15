@@ -12,27 +12,35 @@ fun mergeIntervals(intervals: List<IntRange>,
     val intervalsIterator = PeekingIterator(intervals.iterator())
     var newInterval = newInterval
     var merged = false
+    var merging = false
     while (true) {
-        if (!intervalsIterator.hasNext()) break
-        val interval = intervalsIterator.next()
-        when {
-            newInterval.first in interval ->
-                newInterval = IntRange(interval.first,
-                    maxOf(newInterval.last, interval.last))
-            newInterval.last in interval -> {
-                newInterval = IntRange(newInterval.first, interval.last)
-                mergedIntervals.add(newInterval)
-                merged = true
-            }
-            newInterval.last < interval.first -> {
-                mergedIntervals.addAll(listOf(newInterval, interval))
-                merged = true
-            }
-            else -> mergedIntervals.add(interval)
+        if (!intervalsIterator.hasNext()) {
+            if (!merged) mergedIntervals.add(newInterval)
+            break
         }
-    }
-    if (!merged) {
-        mergedIntervals.add(newInterval)
+        val interval = intervalsIterator.next()
+        if (!merging) {
+            when {
+                !merged && newInterval.first in interval -> {
+                    newInterval = IntRange(interval.first,
+                            maxOf(newInterval.last, interval.last))
+                    merging = true
+                }
+                else -> mergedIntervals.add(interval)
+            }
+        } else {
+            when {
+                newInterval.last >= interval.last -> {
+                    newInterval = IntRange(newInterval.first,
+                            maxOf(newInterval.last, interval.last))
+                }
+                newInterval.last < interval.first -> {
+                    mergedIntervals.addAll(listOf(newInterval, interval))
+                    merged = true
+                    merging = false
+                }
+            }
+        }
     }
     return mergedIntervals
 }
