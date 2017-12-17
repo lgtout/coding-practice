@@ -24,8 +24,9 @@ fun canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
     }
 }
 
-private fun findClosestSum(
-        list: List<Int>, k: Int, sum: Int): Int {
+//private fun findClosestSum(list: List<Int>, k: Int, sum: Int,
+//                           start: Int = 0, end: Int = list.lastIndex): Int {
+private fun findClosestSum(list: List<Int>, k: Int, sum: Int): Int {
     var left = 0
     var right = list.lastIndex
     var endLoop = false
@@ -38,10 +39,11 @@ private fun findClosestSum(
         currentSum = (leftNumber + rightNumber).let {
             it + (if (k > 2) {
                 findClosestSum(list, k - 2, sum - it)
+//                findClosestSum(list, k - 2, sum - it, left, right)
             } else 0)
         }
-        println("k: $k, sum: $sum, nextSum: left: $left, right: $right, leftNumber: $leftNumber, " +
-                "rightNumber: $rightNumber, currentSum: $currentSum")
+//        println("k: $k, sum: $sum, left: $left, right: $right, leftNumber: $leftNumber, " +
+//                "rightNumber: $rightNumber, currentSum: $currentSum")
         when {
             currentSum < sum -> {
                 if (left < right) ++left
@@ -56,5 +58,7 @@ private fun findClosestSum(
             }
         }
     } while (!endLoop)
+//    } while (!endLoop && left >= start && right <= end)
+    println("k: $k, sum: $sum, currentSum: $currentSum, leftNumber: $leftNumber, rightNumber: $rightNumber")
     return currentSum
 }

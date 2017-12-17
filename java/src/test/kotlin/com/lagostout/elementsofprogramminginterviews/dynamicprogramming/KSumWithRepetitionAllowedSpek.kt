@@ -45,7 +45,12 @@ class KSumWithRepetitionAllowedSpek : Spek({
         val data = (
 //                randomData +
                 listOfNotNull(
-                Triple(listOf(-9,-7,6,9), 6, 10),  // 10 = [[-7, -7, 6, 6, 6, 6]]
+//                Triple(listOf(-9,-7,6,9), 6, 10),  // 10 = [[-7, -7, 6, 6, 6, 6]]
+//                Triple(listOf(-9,-7,6,9), 4, 11),
+//                Triple(listOf(-9,-7,6,9), 4, -2),  // -2 = [[-7, -7, 6, 6]]
+                Triple(listOf(-9,-7,6,9), 4, -2),  // -2 = [[-7, -7, 6, 6]]
+//                Triple(listOf(-9,-7,6,9), 2, -14),
+//                Triple(listOf(-9,-7,6,9), 2, -1),
 //                Triple(listOf(1), 3, -34),
 //                Triple(listOf(1), 0, 3),
 //                Triple(listOf(1), 1, 1),
