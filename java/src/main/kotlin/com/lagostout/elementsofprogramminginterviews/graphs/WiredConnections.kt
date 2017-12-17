@@ -11,8 +11,6 @@ fun <T> computeIfBipartiteGraphIsPossible(nodes: List<GraphNode<T>>): Boolean {
     var bipartiteGraphIsPossible = true
     run {
         while (true) {
-//            println(currentLevelNodes)
-//            println(exploredNodes)
             if (currentLevelNodes.isEmpty()) {
                 if (!nodesIterator.hasNext()) break
                 val node = nodesIterator.next()
