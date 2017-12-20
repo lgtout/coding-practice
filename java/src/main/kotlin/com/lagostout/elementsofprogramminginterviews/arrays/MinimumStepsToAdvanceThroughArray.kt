@@ -5,33 +5,34 @@ package com.lagostout.elementsofprogramminginterviews.arrays
  */
 // Assumptions and implications:
 // -- The supplied array is non-empty.
-// -- The last location is already reachable.  We already
+// -- The last location is already reachable.  (We already
 // solved the problem of determining if it's reachable in
-// 6.4.1, so no need to repeat that here.
-// -- There is a sequence of positions such that, at each
-// position, the subsequent positions in the sequence are
-// reachable.
-// -- The first position in the array has a value.
-// Otherwise it would be impossible to proceed.
+// 6.4.1, so we won't repeat that here.)  As such, there is
+// a sequence of positions such that, at each position, the
+// subsequent positions in the sequence are reachable.
+// -- The first position in the array has a value. Otherwise
+// it would be impossible to proceed.
 fun minimumStepsToAdvanceThroughArray(moves: List<Int>): Int {
     var steps = 0
     var currentIndex = 0
-    var nextMoveIndex: Int
-    while (currentIndex < moves.lastIndex) {
-        var movesAvailable = moves[currentIndex]
-        var maxDistance = Pair(currentIndex, movesAvailable)
-        nextMoveIndex = currentIndex
-        while (movesAvailable > 0 &&
-                nextMoveIndex < moves.lastIndex - 1) {
-            movesAvailable--
-            nextMoveIndex++
-            val movesPossible = movesAvailable + moves[nextMoveIndex]
-            maxDistance = listOf(
-                    maxDistance, Pair(nextMoveIndex, movesPossible))
-                    .maxBy { it.first + it.second }!! // ???
+    while (true) {
+        var nextIndex = currentIndex
+        var farthestReachableIndex = currentIndex + moves[currentIndex]
+        if (farthestReachableIndex >= moves.lastIndex) {
+//            if ()
+            break
         }
-        currentIndex += maxDistance.first // ???
-        steps++
+        for (index in currentIndex..minOf(
+                farthestReachableIndex, moves.lastIndex)) {
+            (moves[index] + index).let {
+                if (it > farthestReachableIndex) {
+                    farthestReachableIndex = it
+                    nextIndex = index
+                }
+            }
+        }
+        currentIndex = nextIndex
+        ++steps
     }
     return steps
 }

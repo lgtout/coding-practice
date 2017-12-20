@@ -12,8 +12,8 @@ object MinimumStepsToAdvanceThroughArraySpek : Spek({
         val data = listOfNotNull(
 //                data(listOf(0), 0),
 //                data(listOf(1), 0),
-                data(listOf(1,0), 1),
-//                data(listOf(2,0), 1),
+//                data(listOf(1,0), 1),
+                data(listOf(2,0), 1),
 //                data(listOf(2,0,0), 1),
 //                data(listOf(2,1,0), 1),
 //                data(listOf(1,2,0), 2),
