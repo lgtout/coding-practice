@@ -41,7 +41,7 @@ object BuyAndSellStockKTimesSpek : Spek({
             val random = RandomDataGenerator().apply {
                 reSeed(1)
             }
-            val cases = mutableListOf<Pair<List<Int>, Int>>()
+            val cases = mutableSetOf<Pair<List<Int>, Int>>()
             val caseCount = 1000
             val priceRange = (0..3)
             val priceCountRange = (0..6)
@@ -53,10 +53,10 @@ object BuyAndSellStockKTimesSpek : Spek({
                 val priceCount = random.nextInt(priceCountRange)
                 val k = random.nextInt(0..priceCount)
                 if (priceCount - k * 2 < 0) continue
-                ++count
                 (0 until priceCount).forEach {
                     prices.add(random.nextInt(priceRange))
                 }
+                ++count
                 cases.add(Pair(prices, k))
             }
             cases
@@ -64,7 +64,6 @@ object BuyAndSellStockKTimesSpek : Spek({
         val data = (
 //                randomCases +
                 listOfNotNull(
-                        Pair(listOf(1,0,1,3,3,0), 2),
 //                        Pair(emptyList<Int>(), 0),
 //                        Pair(emptyList<Int>(), 1),
 //                        Pair(listOf(0,0), 0),
@@ -73,17 +72,23 @@ object BuyAndSellStockKTimesSpek : Spek({
 //                        Pair(listOf(0,0,0,0), 1),
 //                        Pair(listOf(0,0,0,1), 1),
 //                        Pair(listOf(0,0,1,0), 1),
-//                        Pair(listOf(0,1,0,0), 1),
 //                        Pair(listOf(1,0,0,0), 1),
-//                        Pair(listOf(1,3,0,0), 1),
 //                        Pair(listOf(1,0,0,3), 1),
+//                        Pair(listOf(0,1,0,0), 1),
+//                        Pair(listOf(1,3,0,0), 1),
 //                        Pair(listOf(0,1,2,3), 2),
 //                        Pair(listOf(0,1,3,3), 2),
 //                        Pair(listOf(1,0,0,3), 2),
 //                        Pair(listOf(0,0,1,3), 2),
 //                        Pair(listOf(0,1,3,3), 2),
+//                        Pair(listOf(0,1,0,0), 2),
 //                        Pair(listOf(0,0,1,3,3), 2),
 //                        Pair(listOf(0,0,0,1,3,3), 2),
+                        // TODO Debug from here on.
+                        Pair(listOf(1,0,1,3,3,0), 2),
+//                        Pair(listOf(3,0,0,3,2,0), 2),
+//                        Pair(listOf(2,0,0,2,2,1), 2),
+//                        Pair(listOf(3,1,0,2,3,1), 2),
                 null
         )).map { (prices, k) ->
             data(prices, k, bestProfitByBruteForce(prices, k))
