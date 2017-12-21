@@ -5,7 +5,7 @@ package com.lagostout.elementsofprogramminginterviews.linkedlists
  */
 // Assumptions
 // - Lists are never empty.  However, when there's overlapping,
-// they may not contain any nodes that aren't part of the
+// a list may not contain any nodes that aren't part of the
 // overlapping segment.
 fun <T> listsOverlapWithCyclesPossible(
         list1: LinkedListNode<T>, list2: LinkedListNode<T>):
@@ -28,6 +28,13 @@ fun <T> listsOverlapWithCyclesPossible(
                 cycleNode = pointer1
                 break
             }
+            // If we've cycled back to the starting node
+            // of the slower pointer without the faster
+            // pointer having coincided with the slower
+            // one at some point, then these pointers
+            // can't be on the same cycle.
+            if (pointer1 == node1)
+                break
         }
         return cycleNode
     }
@@ -35,16 +42,18 @@ fun <T> listsOverlapWithCyclesPossible(
         return findCycleNode(node, node)
     }
     fun pathLength(start: LinkedListNode<T>,
-                   end: (LinkedListNode<T>) -> Boolean =
-                   { it.next == null }): Int {
+                   isEnd: (LinkedListNode<T>) -> Boolean =
+                   { it.next == null || it.next == start }): Int {
         var pointer = start
         var length = 0
+        // This treats a single node with a self-pointer as having
+        // a path length of 1.
         while (true) {
-            if (end(pointer)) break
             pointer.next?.let {
                 pointer = it
                 ++length
-            } ?: break
+            }
+            if (isEnd(pointer)) break
         }
         return length
     }
@@ -53,34 +62,46 @@ fun <T> listsOverlapWithCyclesPossible(
         findCycleNode(it)
     }.let {
         when {
-            // Both lists have cycles.
-            it.all {it != null} ->
-                findCycleNode(it[0]!!, it[1]!!)?.let { cycleNode ->
-                    // Lists share the same cycle.
-                    // They definitely overlap.
-                    listOf(list1, list2).map {
-                        // Measure the distance from the first node
-                        // to the node in the cycle.
-                        Pair(it, pathLength(it, { cycleNode == it }))
-                    }.sortedByDescending { it.second }.let {
-                        (longerPath, shorterPath) ->
-                        (longerPath.second - shorterPath.second).let {
-                            longerPath.first.advance(it)
-                        }.let {
-                            var node1 = it
-                            var node2 = shorterPath.first
-                            while (node1 != node2) {
-                                node1.next?.let {
-                                    node1 = it
+            // Both lists have cycles. But cycles may not be shared.
+            it.all {it != null} -> {
+                // Find out if cycles are shared. Compute cycle lengths.
+                // If they're different, cycles are not shared. If the
+                // same, they may be shared.
+//                val cycleLengths = it.map { pathLength(it!!) }.toSet()
+                // Cycles are the same length.
+//                if (cycleLengths.size == 1) {
+                    // TODO
+                    // Use the cycle length as a limit on length of
+                    // traversal when calling findCycleNode() to make
+                    // sure we don't end up traversing two non-intersecting
+                    // cycles forever.
+                    findCycleNode(it[0]!!, it[1]!!)?.let { cycleNode ->
+                        // Lists share the same cycle.
+                        // They definitely overlap.
+                        listOf(list1, list2).map {
+                            // Measure the distance from the first node
+                            // of each list to the node in the cycle.
+                            Pair(it, pathLength(it, { cycleNode == it }))
+                        }.sortedByDescending { it.second }.let { (longerPath, shorterPath) ->
+                            (longerPath.second - shorterPath.second).let {
+                                longerPath.first.advance(it)
+                            }.let {
+                                var node1 = it
+                                var node2 = shorterPath.first
+                                while (node1 != node2) {
+                                    node1.next?.let {
+                                        node1 = it
+                                    }
+                                    node2.next?.let {
+                                        node2 = it
+                                    }
                                 }
-                                node2.next?.let {
-                                    node2 = it
-                                }
+                                node1
                             }
-                            node1
                         }
                     }
-                }
+//                } else null
+            }
             // Lists don't have cycles.
             // They may or may not overlap.
             it.all {it == null} -> {
