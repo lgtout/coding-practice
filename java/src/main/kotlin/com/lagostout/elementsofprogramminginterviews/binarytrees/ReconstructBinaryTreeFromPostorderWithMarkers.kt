@@ -21,8 +21,8 @@ fun <T: Comparable<T>> reconstructBinaryTreeFromPostorderWithMarkers(
                     if (right) treeNode.right = it
                     else {
                         treeNode.left = it
+                        right = true
                     }
-                        right = !right
                     it.parent = treeNode
                     treeNode = it
                 }
@@ -41,7 +41,7 @@ fun <T: Comparable<T>> reconstructBinaryTreeFromPostorderWithMarkers(
                             }
                         } else break // root
                     }
-                } else right = !right
+                } else right = false
             }
         }
         root

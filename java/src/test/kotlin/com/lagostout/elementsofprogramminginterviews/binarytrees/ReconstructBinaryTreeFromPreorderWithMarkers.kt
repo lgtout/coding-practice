@@ -10,38 +10,38 @@ import org.jetbrains.spek.data_driven.on
 
 object ReconstructBinaryTreeFromPreorderWithMarkers : Spek({
     describe("reconstructBinaryTreeFromPreorderWithMarkers()") {
-        fun buildBinaryTree(rawTree: List<RawBTNode>): BinaryTreeNode<Char> {
+        fun buildBinaryTree(rawTree: List<RBTNode>): BinaryTreeNode<Char> {
             return BinaryTreeNode.buildBinaryTree(rawTree).first!!
         }
         val data = listOfNotNull(
                 data(listOf('A', null, null), expected = buildBinaryTree(
-                        listOf(RawBTNode(null, null, null, 'A')))),
+                        listOf(RBTNode(null, null, null, 'A')))),
                 data(listOf('A', 'B' , null, null, null), expected = buildBinaryTree(
-                        listOf(RawBTNode(1, null, null, 'A'), RawBTNode(null, null, 0, 'B')))),
+                        listOf(RBTNode(1, null, null, 'A'), RBTNode(null, null, 0, 'B')))),
                 data(listOf('A', 'B', null, null, 'C', null, null), buildBinaryTree(
-                        listOf(RawBTNode(1, 2, null, 'A'), RawBTNode(value = 'B'),
-                                RawBTNode(value = 'C')))),
+                        listOf(RBTNode(1, 2, null, 'A'), RBTNode(value = 'B'),
+                                RBTNode(value = 'C')))),
                 data(listOf('A', 'B', 'D', null, 'E', null, null, 'C', null, null), buildBinaryTree(
-                        listOf(RawBTNode(1, value = 'A'), RawBTNode(2, 3, value = 'B'),
-                                RawBTNode(null, 4, value = 'D'), RawBTNode(value = 'C'),
-                                RawBTNode(value = 'E')))),
+                        listOf(RBTNode(1, value = 'A'), RBTNode(2, 3, value = 'B'),
+                                RBTNode(null, 4, value = 'D'), RBTNode(value = 'C'),
+                                RBTNode(value = 'E')))),
                 data(listOf('A', 'B', 'D', null, null, 'E', null, null, 'C', null, null),
                         expected = buildBinaryTree(listOf(
-                                RawBTNode(1, 2, null, 'A'), RawBTNode(3, 4, 0, 'B'),
-                                RawBTNode(null, null, 0, 'C'), RawBTNode(null, null, 1, 'D'),
-                                RawBTNode(null, null, 1, 'E')
+                                RBTNode(1, 2, null, 'A'), RBTNode(3, 4, 0, 'B'),
+                                RBTNode(null, null, 0, 'C'), RBTNode(null, null, 1, 'D'),
+                                RBTNode(null, null, 1, 'E')
                         ))),
                 data(listOf('A', 'B', 'D', null, 'E', null, null, null, 'C', null, null),
                         expected = buildBinaryTree(listOf(
-                                RawBTNode(1, 2, null, 'A'), RawBTNode(3, null, 0, 'B'),
-                                RawBTNode(null, null, 0, 'C'), RawBTNode(null, 4, 1, 'D'),
-                                RawBTNode(null, null, 3, 'E')
+                                RBTNode(1, 2, null, 'A'), RBTNode(3, null, 0, 'B'),
+                                RBTNode(null, null, 0, 'C'), RBTNode(null, 4, 1, 'D'),
+                                RBTNode(null, null, 3, 'E')
                         ))),
                 data(listOf('A','B','D', null, 'E', null, 'C', null, null, null, null),
                         expected = buildBinaryTree(listOf(
-                                RawBTNode(1, null, null, 'A'), RawBTNode(2, null, 0, 'B'),
-                                RawBTNode(null, 3, 1, 'D'), RawBTNode(null, 4, 2, 'E'),
-                                RawBTNode(null, null, 3, 'C')
+                                RBTNode(1, null, null, 'A'), RBTNode(2, null, 0, 'B'),
+                                RBTNode(null, 3, 1, 'D'), RBTNode(null, 4, 2, 'E'),
+                                RBTNode(null, null, 3, 'C')
                         ))),
                 null
         ).toTypedArray()
