@@ -2,19 +2,9 @@ package com.lagostout.elementsofprogramminginterviews.stacksandqueues
 
 import java.util.*
 
-inline fun <reified T> arrayFactory(): (Int) -> Array<T?> {
-    return { size -> arrayOfNulls(size) }
-}
-
-inline fun <reified T> circularQueue(initialSize: Int = 0): CircularQueue<T> {
-    return circularQueue(initialSize, arrayFactory())
-}
-
-fun <T> circularQueue(initialSize: Int = 0,
-                      arrayFactory: (Int) -> Array<T?>): CircularQueue<T> {
-    return CircularQueue(initialSize, arrayFactory)
-}
-
+/**
+ * Problem 9.8 page 146
+ */
 @Suppress("UNCHECKED_CAST")
 class CircularQueue<T> constructor(
         initialSize: Int = 0,
@@ -50,4 +40,17 @@ class CircularQueue<T> constructor(
     val size: Int
         get() { return _size }
 
+}
+
+inline fun <reified T> arrayFactory(): (Int) -> Array<T?> {
+    return { size -> arrayOfNulls(size) }
+}
+
+inline fun <reified T> circularQueue(initialSize: Int = 0): CircularQueue<T> {
+    return circularQueue(initialSize, arrayFactory())
+}
+
+fun <T> circularQueue(initialCapacity: Int = 0,
+                      arrayFactory: (Int) -> Array<T?>): CircularQueue<T> {
+    return CircularQueue(initialCapacity, arrayFactory)
 }
