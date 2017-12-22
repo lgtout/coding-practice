@@ -4,7 +4,7 @@ package com.lagostout.elementsofprogramminginterviews.linkedlists
  * Problem 8.5 page 121
  */
 // Assumptions
-// - Lists are never empty.  However, when there's overlapping,
+// -- Lists are never empty.  However, when there's overlapping,
 // a list may not contain any nodes that aren't part of the
 // overlapping segment.
 fun <T> listsOverlapWithCyclesPossible(
@@ -64,43 +64,31 @@ fun <T> listsOverlapWithCyclesPossible(
         when {
             // Both lists have cycles. But cycles may not be shared.
             it.all {it != null} -> {
-                // Find out if cycles are shared. Compute cycle lengths.
-                // If they're different, cycles are not shared. If the
-                // same, they may be shared.
-//                val cycleLengths = it.map { pathLength(it!!) }.toSet()
-                // Cycles are the same length.
-//                if (cycleLengths.size == 1) {
-                    // TODO
-                    // Use the cycle length as a limit on length of
-                    // traversal when calling findCycleNode() to make
-                    // sure we don't end up traversing two non-intersecting
-                    // cycles forever.
-                    findCycleNode(it[0]!!, it[1]!!)?.let { cycleNode ->
-                        // Lists share the same cycle.
-                        // They definitely overlap.
-                        listOf(list1, list2).map {
-                            // Measure the distance from the first node
-                            // of each list to the node in the cycle.
-                            Pair(it, pathLength(it, { cycleNode == it }))
-                        }.sortedByDescending { it.second }.let { (longerPath, shorterPath) ->
-                            (longerPath.second - shorterPath.second).let {
-                                longerPath.first.advance(it)
-                            }.let {
-                                var node1 = it
-                                var node2 = shorterPath.first
-                                while (node1 != node2) {
-                                    node1.next?.let {
-                                        node1 = it
-                                    }
-                                    node2.next?.let {
-                                        node2 = it
-                                    }
+                findCycleNode(it[0]!!, it[1]!!)?.let { cycleNode ->
+                    // Lists share the same cycle.
+                    // They definitely overlap.
+                    listOf(list1, list2).map {
+                        // Measure the distance from the first node
+                        // of each list to the node in the cycle.
+                        Pair(it, pathLength(it, { cycleNode == it }))
+                    }.sortedByDescending { it.second }.let { (longerPath, shorterPath) ->
+                        (longerPath.second - shorterPath.second).let {
+                            longerPath.first.advance(it)
+                        }.let {
+                            var node1 = it
+                            var node2 = shorterPath.first
+                            while (node1 != node2) {
+                                node1.next?.let {
+                                    node1 = it
                                 }
-                                node1
+                                node2.next?.let {
+                                    node2 = it
+                                }
                             }
+                            node1
                         }
                     }
-//                } else null
+                }
             }
             // Lists don't have cycles.
             // They may or may not overlap.

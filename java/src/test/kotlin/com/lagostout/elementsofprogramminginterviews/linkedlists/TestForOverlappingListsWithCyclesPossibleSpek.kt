@@ -51,18 +51,20 @@ object TestForOverlappingListsWithCyclesPossibleSpek : Spek({
 //                        listOf(Node('C'), Node('D')),
 //                        emptyList(),
 //                        null, null),
+//
+//                // Both lists have cycles, but no intersection
+//                TestCase(listOf(Node('A'), Node('B'), Node('C', nextIndex = 1)),
+//                        listOf(Node('C'), Node('D'), Node('E', nextIndex = 1)),
+//                        emptyList(),
+//                        null, null),
 
-                // Both lists have cycles, but no intersection
-                TestCase(listOf(Node('A'), Node('B'), Node('C', nextIndex = 1)),
-                        listOf(Node('C'), Node('D'), Node('E', nextIndex = 1)),
-                        emptyList(),
-                        null, null),
+                // TODO Cover more cases. Continue grouping cases.
 
-//                TestCase(listOf(Node('A')),
-//                        listOf(Node('B')),
-//                        listOf(Node('C', nextIndex = 1),
-//                                Node('D', nextIndex = 0)),
-//                        0, 0),
+                TestCase(listOf(Node('A')),
+                        listOf(Node('B')),
+                        listOf(Node('C', nextIndex = 1),
+                                Node('D', nextIndex = 0)),
+                        0, 0),
 //                TestCase(listOf(Node('A')),
 //                        listOf(Node('B')),
 //                        listOf(Node('C', nextIndex = 1),
