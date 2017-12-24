@@ -12,34 +12,30 @@ fun mergeIntervals(intervals: List<IntRange>,
     val intervalsIterator = PeekingIterator(intervals.iterator())
     var newInterval = newInterval
     var merged = false
-    var merging = false
     while (true) {
         if (!intervalsIterator.hasNext()) {
             if (!merged) mergedIntervals.add(newInterval)
             break
         }
-        val interval = intervalsIterator.next()
-        if (!merging) {
-            when {
-                !merged && newInterval.first in interval -> {
-                    newInterval = IntRange(interval.first,
-                            maxOf(newInterval.last, interval.last))
-                    merging = true
-                }
-                else -> mergedIntervals.add(interval)
-            }
+        val interval = intervalsIterator.peek()
+        if (merged || (!merged && newInterval.first > interval.last)) {
+            mergedIntervals.add(interval)
+            intervalsIterator.next()
         } else {
             when {
-                newInterval.last >= interval.last -> {
-                    newInterval = IntRange(newInterval.first,
+                newInterval.first in interval -> {
+                    newInterval = IntRange(interval.first,
                             maxOf(newInterval.last, interval.last))
                 }
                 newInterval.last < interval.first -> {
                     mergedIntervals.addAll(listOf(newInterval, interval))
                     merged = true
-                    merging = false
+                }
+                newInterval.last in interval -> {
+                    newInterval = IntRange(newInterval.first, interval.last)
                 }
             }
+            intervalsIterator.next()
         }
     }
     return mergedIntervals
