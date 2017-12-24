@@ -2,9 +2,6 @@ package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
 import java.util.TreeSet
 import kotlin.Comparator
-import kotlin.Int
-import kotlin.apply
-import kotlin.run
 
 /**
  * Problem 15.7 page 271
@@ -52,6 +49,7 @@ object EnumerateNumbers {
         var expression = treeSet.first()
         while (expressionCount < count) {
             treeSet.add(expression.copy(a = expression.a + 1))
+            expression = treeSet.higher(expression)
             ++expressionCount
         }
         return treeSet.take(count)

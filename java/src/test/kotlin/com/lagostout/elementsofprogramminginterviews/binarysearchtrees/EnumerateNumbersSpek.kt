@@ -22,16 +22,16 @@ object EnumerateNumbersSpek : Spek({
         }
         val data by memoized {
             listOfNotNull(
-//                    1,
-//                    2,
-//                    3,
+                    1,
+                    2,
+                    3,
                     4,
-//                    5,
-//                    6,
-//                    7,
-//                    8,
-//                    9,
-//                    20,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    20,
                     null
             ).map {
                 data(it, bruteForceEnumerateNumbers(it))
