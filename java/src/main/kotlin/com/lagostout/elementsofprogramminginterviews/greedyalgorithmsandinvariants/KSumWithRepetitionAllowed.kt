@@ -42,34 +42,23 @@ private fun findClosestSum(list: List<Int>, k: Int, sum: Int): Int {
         leftNumber = list[left]
         rightNumber = list[right]
         val leftRightSum = leftNumber + rightNumber
-//        val subSum = if (k > 2)
-//            findClosestSum(list, k - 2, sum - leftRightSum)
-//        else 0
         currentSum = leftRightSum + subSum(list, k, sum, leftRightSum)
-
-//        currentSum = (leftNumber + rightNumber).let {
-//            it + (if (k > 2) {
-//                findClosestSum(list, k - 2, sum - it)
-////                findClosestSum(list, k - 2, sum - it, left, right)
-//            } else 0)
-//        }
-//        println("k: $k, sum: $sum, left: $left, right: $right, leftNumber: $leftNumber, " +
-//                "rightNumber: $rightNumber, currentSum: $currentSum")
         when {
             currentSum < sum -> {
-//                if (left < right && subSum(list, k, sum, list[left + 1] + rightNumber) <= sum) ++left
-                if (left < right) ++left
-                else endLoop = true
+                if (left < right) {
+                    if (right - left == 1 && list[right] * 2 == sum)
+                        ++left else endLoop = true
+                } else endLoop = true
             }
             currentSum > sum -> {
-//                if (left < right && subSum(list, k, sum, list[right - 1] + rightNumber) >= sum) --right
-                if (left < right) --right
-                else endLoop = true
+                if (right < left) {
+                    if (right - left == 1 && list[left] * 2 == sum)
+                        --right else endLoop = true
+                } else endLoop = true
             }
             else -> endLoop = true
         }
     } while (!endLoop)
-//    } while (!endLoop && left >= start && right <= end)
     println("k: $k, sum: $sum, currentSum: $currentSum, leftNumber: $leftNumber, rightNumber: $rightNumber")
     return currentSum
 }
