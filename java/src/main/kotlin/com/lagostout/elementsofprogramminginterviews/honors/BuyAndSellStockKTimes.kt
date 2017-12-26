@@ -37,8 +37,10 @@ fun buyAndSellStockKTimes(prices: List<Int>, k: Int): Int {
     run {
         while (true) {
             ranges.forEach {
+
                 println(ranges)
                 println()
+
                 val totalProfitExcludingCurrentRange = currentTotalProfit -
                         prices.profit(it.explored)
                 // We'll try to improve best.
@@ -61,20 +63,25 @@ fun buyAndSellStockKTimes(prices: List<Int>, k: Int): Int {
                         best = it
                     }
                 }
+
                 println("currentTotalProfit $currentTotalProfit")
+
                 currentTotalProfit = totalProfitExcludingCurrentRange +
                         prices.profit(best)
                 bestTotalProfit = maxOf(currentTotalProfit, bestTotalProfit)
+
                 println("original buySell best: ${it.best}, range: ${it.explored}")
                 println("best buySell $best")
                 println("currentTotalProfit $currentTotalProfit")
                 println("bestTotalProfit $bestTotalProfit")
                 println()
+
                 // Push the current range's buy-sell all the way left so we have room to explore
                 // improving those of ranges to its right.
                 currentTotalProfit = totalProfitExcludingCurrentRange +
                         prices.profit(earliestPossibleBuySell)
-                it.explored = earliestPossibleBuySell
+                it.explored = it.explored.copy(
+                        startIndex = earliestPossibleBuySell.startIndex)
                 // Let the range reflect the extent of prices explored so far.
                 it.best = best
             }

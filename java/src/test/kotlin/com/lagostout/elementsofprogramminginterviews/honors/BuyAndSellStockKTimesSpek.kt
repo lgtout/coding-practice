@@ -42,17 +42,16 @@ object BuyAndSellStockKTimesSpek : Spek({
                 reSeed(1)
             }
             val cases = mutableSetOf<Pair<List<Int>, Int>>()
-            val caseCount = 1000
+            val caseCount = 100000
             val priceRange = (0..3)
-            val priceCountRange = (0..6)
+            val priceCountRange = (0..5)
 //            val priceRange = (0..10)
 //            val priceCountRange = (0..10)
             var count = 0
             while (count < caseCount) {
                 val prices = mutableListOf<Int>()
                 val priceCount = random.nextInt(priceCountRange)
-                val k = random.nextInt(0..priceCount)
-                if (priceCount - k * 2 < 0) continue
+                val k = random.nextInt(0..priceCount/2)
                 (0 until priceCount).forEach {
                     prices.add(random.nextInt(priceRange))
                 }
@@ -84,11 +83,18 @@ object BuyAndSellStockKTimesSpek : Spek({
 //                        Pair(listOf(0,1,0,0), 2),
 //                        Pair(listOf(0,0,1,3,3), 2),
 //                        Pair(listOf(0,0,0,1,3,3), 2),
-                        // TODO Debug from here on.
-                        Pair(listOf(1,0,1,3,3,0), 2),
+//                        Pair(listOf(1,0,1,3,3,0), 2),
 //                        Pair(listOf(3,0,0,3,2,0), 2),
 //                        Pair(listOf(2,0,0,2,2,1), 2),
 //                        Pair(listOf(3,1,0,2,3,1), 2),
+                        // TODO Debug from here
+                        // Maybe keep track of highest seen so far
+                        // to use as sell date when we try out new start
+                        // buy date allowed by extending range left.
+                        Pair(listOf(0,1,2,0,1), 1),
+//                        Pair(listOf(0,2,3,0,2), 1),
+//                        Pair(listOf(1,2,3,0,0,1), 1),
+//                        Pair(listOf(0,2,3,3,0,0), 2),
                 null
         )).map { (prices, k) ->
             data(prices, k, bestProfitByBruteForce(prices, k))
