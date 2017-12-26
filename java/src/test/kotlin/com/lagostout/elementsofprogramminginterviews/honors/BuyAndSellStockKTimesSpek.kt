@@ -87,14 +87,11 @@ object BuyAndSellStockKTimesSpek : Spek({
 //                        Pair(listOf(3,0,0,3,2,0), 2),
 //                        Pair(listOf(2,0,0,2,2,1), 2),
 //                        Pair(listOf(3,1,0,2,3,1), 2),
-                        // TODO Debug from here
-                        // Maybe keep track of highest seen so far
-                        // to use as sell date when we try out new start
-                        // buy date allowed by extending range left.
-                        Pair(listOf(0,1,2,0,1), 1),
+//                        Pair(listOf(0,1,2,0,1), 1),
 //                        Pair(listOf(0,2,3,0,2), 1),
 //                        Pair(listOf(1,2,3,0,0,1), 1),
-//                        Pair(listOf(0,2,3,3,0,0), 2),
+                        // TODO Debug from here
+                        Pair(listOf(0,2,3,3,0,0), 2),
                 null
         )).map { (prices, k) ->
             data(prices, k, bestProfitByBruteForce(prices, k))

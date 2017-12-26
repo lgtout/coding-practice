@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.lagostout.elementsofprogramminginterviews.honors
 
 /**
@@ -6,9 +8,17 @@ package com.lagostout.elementsofprogramminginterviews.honors
 fun buyAndSellStockKTimes(prices: List<Int>, k: Int): Int {
     if (prices.isEmpty()) return 0
     if (k == 0) return 0
-    data class BuySell(var startIndex: Int, var endIndex: Int)
-    data class Range(var best: BuySell, var explored: BuySell) {
-        constructor(explored: BuySell) : this(explored, explored)
+    data class BuySell(val startIndex: Int, val endIndex: Int)
+    data class Range(val best: BuySell, val explored: BuySell,
+                     val indexOfHighestPossibleSellPrice: Int) {
+
+        constructor(best: BuySell, indexOfHighestPossibleSellPrice: Int) :
+                this(best, best, indexOfHighestPossibleSellPrice)
+
+        constructor(startIndex: Int, endIndex: Int,
+                    indexOfHighestPossibleSellPrice: Int) :
+                this(BuySell(startIndex, endIndex),
+                        indexOfHighestPossibleSellPrice)
     }
     data class Prices(val prices: List<Int>) {
         fun profit(buySell: BuySell): Int {
@@ -26,7 +36,9 @@ fun buyAndSellStockKTimes(prices: List<Int>, k: Int): Int {
     val ranges = mutableListOf<Range>().apply {
         ((prices.size - requiredWidth) until prices.size step 2).forEach {
             Pair(it, it + 1).apply {
-                add(Range(BuySell(first, second)))
+                add(Range(BuySell(first, second),
+                        listOf(first, second)
+                                .sortedBy {prices[it]}.last()))
             }
         }
     }
@@ -36,33 +48,27 @@ fun buyAndSellStockKTimes(prices: List<Int>, k: Int): Int {
     var bestTotalProfit = currentTotalProfit
     run {
         while (true) {
-            ranges.forEach {
-
+            ranges.forEachIndexed { index, range ->
                 println(ranges)
                 println()
 
                 val totalProfitExcludingCurrentRange = currentTotalProfit -
-                        prices.profit(it.explored)
-                // We'll try to improve best.
-                var best = it.best
-                val earlierStartIndex = it.explored.startIndex - 1
-                // Let's not explore prices left of the earliest possible.
+                        prices.profit(range.explored)
+
+                val earlierStartIndex = range.explored.startIndex - 1
+
+                // We're done when there's no more space left to explore.
                 if (earlierStartIndex < 0) return@run
-                // See if we can improve profit by exchanging the current buy-sell by exchanging
-                // its buy price with the earliest one made possible by the extra room on the left
-                // side of the range.
-                if (prices[earlierStartIndex] < prices[it.best.startIndex]) {
-                    best = best.copy(startIndex = earlierStartIndex)
-                }
-                // See if we can improve profit by exchanging the current buy-sell with the
-                // earliest buy-sell made possible by the extra room on the left side of the
-                // range.
-                val earliestPossibleBuySell = BuySell(earlierStartIndex,
-                        it.explored.startIndex).also {
-                    if (prices.profit(it) > prices.profit(best)) {
-                        best = it
-                    }
-                }
+
+                // See if we can improve profit by exchanging the current buy-sell
+                // with the earliest one made possible by the extra room on the
+                // left side of the range.  We'll try to improve best.
+                val best = range.best.copy(startIndex = earlierStartIndex,
+                        endIndex = range.indexOfHighestPossibleSellPrice)
+                        .let {
+                            if (prices.profit(it) > prices.profit(range.best))
+                                it else range.best
+                        }
 
                 println("currentTotalProfit $currentTotalProfit")
 
@@ -70,20 +76,31 @@ fun buyAndSellStockKTimes(prices: List<Int>, k: Int): Int {
                         prices.profit(best)
                 bestTotalProfit = maxOf(currentTotalProfit, bestTotalProfit)
 
-                println("original buySell best: ${it.best}, range: ${it.explored}")
+                println("original buySell best: ${range.best}, range: ${range.explored}")
                 println("best buySell $best")
                 println("currentTotalProfit $currentTotalProfit")
                 println("bestTotalProfit $bestTotalProfit")
                 println()
 
-                // Push the current range's buy-sell all the way left so we have room to explore
-                // improving those of ranges to its right.
+                // Push the current range's buy-sell all the way left so we have
+                // room to explore improving those of ranges to its right.
+                val earliestPossibleBuySell = BuySell(earlierStartIndex,
+                        range.explored.startIndex)
+
+                // Total profit should reflect that the current range's buy-sell
+                // is pushed all the way left.
                 currentTotalProfit = totalProfitExcludingCurrentRange +
                         prices.profit(earliestPossibleBuySell)
-                it.explored = it.explored.copy(
-                        startIndex = earliestPossibleBuySell.startIndex)
+
                 // Let the range reflect the extent of prices explored so far.
-                it.best = best
+                ranges[index] = range.copy(
+                        best = best,
+                        explored = range.explored.copy(
+                                startIndex = earliestPossibleBuySell.startIndex),
+                        indexOfHighestPossibleSellPrice = listOf(
+                                earliestPossibleBuySell.startIndex,
+                                range.indexOfHighestPossibleSellPrice)
+                                .sortedBy { prices[it] }.last())
             }
             // To prepare for exploring alternate buy-sell selections for
             // ranges to the right of the current one, let's update the current
