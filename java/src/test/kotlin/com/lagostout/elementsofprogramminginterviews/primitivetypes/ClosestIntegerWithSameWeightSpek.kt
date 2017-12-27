@@ -14,25 +14,22 @@ object ClosestIntegerWithSameWeightSpek : Spek({
     describe("findClosestIntegerWithSameWeight()") {
         fun findClosestIntegerWithBruteForce(number: Int):
                 Pair<String, Int> {
+            if (number == 0) return Pair(0.toString(), 0)
             val bits = number.toBigInteger()
             val bitsChars = listOf('0') + bits.toString(2).toList()
-//            println(bitsChars)
             return Generator.permutation(bitsChars)
                     .simple()
                     .map {
                         val s = it.joinToString(separator = "")
                         val n = BigInteger(s, 2)
-//                        println(s)
                         Pair(s, n)
                     }
                     .sortedBy { it.second }
                     .withIndex()
                     .let { all ->
-//                        println(all.toList())
                         all.find {
                             it.value.second == bits
                         }!!.let { (numberIndex, _) ->
-//                            println(numberIndex)
                             mutableListOf<Pair<String, BigInteger>>()
                                     .apply {
                                         if (numberIndex > 0)
@@ -42,7 +39,6 @@ object ClosestIntegerWithSameWeightSpek : Spek({
                                             add(all.elementAt(numberIndex + 1).value)
                                     }
                                     .map {
-                                        println(it)
                                         Pair(it, it.second - all.elementAt(numberIndex).value.second)
                                     }
                                     .filterNot { it.second == 0.toBigInteger() }
@@ -54,7 +50,7 @@ object ClosestIntegerWithSameWeightSpek : Spek({
                         Pair(first, second.toInt())
                     }
         }
-        val data = (1..1).map {
+        val data = (0..100).map {
             data(it, findClosestIntegerWithBruteForce(it))
         }.toTypedArray()
         data.forEach { (number, expected) ->
