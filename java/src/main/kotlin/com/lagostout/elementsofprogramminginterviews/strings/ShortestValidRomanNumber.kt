@@ -1,83 +1,90 @@
 package com.lagostout.elementsofprogramminginterviews.strings
+import com.lagostout.elementsofprogramminginterviews.strings.ShortestValidRomanNumber.RomanDigit.Companion.ceiling
+import com.lagostout.elementsofprogramminginterviews.strings.ShortestValidRomanNumber.RomanDigit.Companion.floor
+import com.lagostout.elementsofprogramminginterviews.strings.ShortestValidRomanNumber.RomanDigit.Companion.isException
 import java.util.*
 
 object ShortestValidRomanNumber {
-    @Suppress("PropertyName", "unused")
-    object RomanDigits {
-        class RomanDigit (val value: Int, val symbol: Char)
-        val I = RomanDigit(1,'I')
-        val V = RomanDigit(5,'V')
-        val X = RomanDigit(10,'X')
-        val L = RomanDigit(50,'L')
-        val C = RomanDigit(100,'C')
-        val D = RomanDigit(500,'D')
-        val M = RomanDigit(1000,'M')
-        val values = listOf(I,V,X,L,C,D,M)
-    }
-    fun computeShortestValidRomanNumber(number: Int): String {
-        // Idea: Use TreeSet to cut searching this down to O(log n).
-        // Or apply binary search.
-        // Is there a solution that used O(1) space?  Or does using
-        // stack not increase space used beyond O(1), since there
-        // cannot be more entries in the stack than there are roman
-        // digits available.
-        val exceptionMap = with (RomanDigits) {
-            mapOf(V to I, X to I, L to X,
+
+    enum class RomanDigit (val value: Int, val symbol: Char) {
+        I(1, 'I'),
+        V(5,'V'),
+        X(10,'X'),
+        L(50,'L'),
+        C(100,'C'),
+        D(500,'D'),
+        M(1000,'M');
+        companion object {
+            fun floor(value: Int): RomanDigit? {
+                return valueToDigitMap[romanDigitsTree.floor(value)]
+            }
+            fun ceiling(value: Int): RomanDigit? {
+                return valueToDigitMap[romanDigitsTree.ceiling(value)]
+            }
+            fun isException(digit: RomanDigit): Boolean {
+                return orderExceptionMap.containsKey(digit)
+            }
+            private val orderExceptionMap = mapOf(
+                    V to I, X to I, L to X,
                     C to X, D to C, M to C)
+            private var valueToDigitMap: Map<Int, RomanDigit>
+            private val romanDigitsTree: TreeSet<Int>
+            init {
+                val orderedDigits = listOf(I,V,X,L,C,D,M)
+                valueToDigitMap = orderedDigits.map {
+                    it.value to it }.toMap()
+                romanDigitsTree = TreeSet<Int>().apply {
+                    addAll(orderedDigits.map { it.value })
+                }
+            }
         }
-        val reversedRomanDigits = RomanDigits.values.toList().reversed()
+    }
+
+    // Even with the stack we're using O(1) space because the
+    // stack will not contain more entries than there are distinct
+    // roman digits.
+    // Introducing TreeSet doesn't impact on time complexity.  The
+    // set's size is the number of distinct roman digits, which is
+    // constant.  So time complexity of a single lookup will also
+    // be constant.
+    // The time complexity of the entire solution depends on the
+    // number of lookups of remainders we do.  It follows that
+    // since TreeSet doesn't affect the number of lookups, it
+    // doesn't affect the complexity of the entire solution.
+    fun computeShortestValidRomanNumber(number: Int): String {
         val stringBuilder = StringBuilder()
-        var romanDigitsIndex = 0
         val stack = LinkedList<Int>().apply {
             push(number)
         }
-        val romanDigitsTree = TreeSet<RomanDigits.RomanDigit>(
-                { o1, o2 -> o1.value.compareTo(o2.value) })
         var remainder: Int
         while (true) {
             if (stack.isEmpty()) break
             remainder = stack.pop()
-            // Find appropriate position in reversedRomanDigits for current
-            // remainder either by searching (tree, binary search) or iterating.
-            while (true) {
-                val lowerRomanDigit = reversedRomanDigits[romanDigitsIndex]
-                val higherRomanDigit = if (romanDigitsIndex == 0) null else
-                    reversedRomanDigits[romanDigitsIndex + 1]
-                if (remainder > lowerRomanDigit.value) {
-
-                }
-                break
+            // Compute remainder if we use lower roman digit.
+            val lowerDigit = floor(remainder)!!
+            val lowerDigitRemainder = lowerDigit.let {
+                remainder - it.value
             }
-//            romanDigitsIndex <= reversedRomanDigits.lastIndex
-            val romanDigit = reversedRomanDigits[romanDigitsIndex]
-            if (number == romanDigit.value) {
-                stringBuilder.append(romanDigit.symbol)
-                stack.push(remainder - romanDigit.value)
-            } else if (number > romanDigit.value) {
-                if (romanDigitsIndex == 0) {
-                    val romanDigitCount = remainder / romanDigit.value
-                    (1..romanDigitCount).forEach {
-                        stringBuilder.append(romanDigit.symbol)
-                    }
-                    stack.push(remainder % romanDigit.value)
-                } else {
-                    val higherRomanDigit = reversedRomanDigits[romanDigitsIndex - 1]
-                    if (higherRomanDigit in exceptionMap.keys) {
-                        val halfwayBetweenAdjacentRomanDigits =
-                                ((higherRomanDigit.value - romanDigit.value) / 2) +
-                                        romanDigit.value
-                        if (remainder > halfwayBetweenAdjacentRomanDigits) {
-                            val difference = higherRomanDigit.value - remainder
-
-                        } else {
-
-                        }
-                    } else {
-
-                    }
-                }
+            // Compute remainder if we can use higher roman digit.
+            var higherDigitRemainder: Int? = null
+            val higherDigit: RomanDigit? = ceiling(remainder)?.let {
+                if (isException(it)) {
+                    higherDigitRemainder = it.value - remainder
+                    it
+                } else null
+            }
+            // Decide whether to use higher or lower roman digit.
+            if (higherDigit == null ||
+                    (higherDigitRemainder?.let { lowerDigitRemainder < it } == true))
+                Pair(lowerDigit, lowerDigitRemainder)
+            else {
+                stack.push(higherDigit.value)
+                Pair(higherDigit, higherDigitRemainder)
+            }.let { (digit, remainder) ->
+                stack.push(remainder)
+                stringBuilder.append(digit.symbol)
             }
         }
-        return ""
+        return stringBuilder.toString()
     }
 }
