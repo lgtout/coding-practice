@@ -4,9 +4,8 @@ package com.lagostout.elementsofprogramminginterviews.linkedlists
  * Problem 8.5 page 121
  */
 // Assumptions
-// -- Lists are never empty.  However, when there's overlapping,
-// a list may not contain any nodes that aren't part of the
-// overlapping segment.
+// -- Lists are never empty.  However, when they overlap,
+// the overlap may be the entirety of either of them.
 fun <T> listsOverlapWithCyclesPossible(
         list1: LinkedListNode<T>, list2: LinkedListNode<T>):
         LinkedListNode<T>? {
@@ -41,6 +40,7 @@ fun <T> listsOverlapWithCyclesPossible(
     fun findCycleNode(node: LinkedListNode<T>): LinkedListNode<T>? {
         return findCycleNode(node, node)
     }
+    // Edge count, not node count.
     fun pathLength(start: LinkedListNode<T>,
                    isEnd: (LinkedListNode<T>) -> Boolean =
                    { it.next == null || it.next == start }): Int {
@@ -92,9 +92,9 @@ fun <T> listsOverlapWithCyclesPossible(
             }
             // Lists don't have cycles.
             // They may or may not overlap.
-            it.all {it == null} -> {
-                listOf(list1, list2).map {
-                    Pair(it, pathLength(it)) }
+            it.all { it == null } -> {
+                listOf(list1, list2)
+                        .map { Pair(it, pathLength(it)) }
                         .sortedByDescending { it.second }
                         .let { (longerList, shorterList) ->
                             (longerList.second - shorterList.second).let {
@@ -108,12 +108,8 @@ fun <T> listsOverlapWithCyclesPossible(
                                         intersection = pointer1
                                         break
                                     }
-                                    pointer1.next?.let {
-                                        pointer1 = it
-                                    } ?: break
-                                    pointer2.next?.let {
-                                        pointer2 = it
-                                    }
+                                    pointer1 = pointer1.next ?: break
+                                    pointer2 = pointer2.next ?: break
                                 }
                                 intersection
                             }
