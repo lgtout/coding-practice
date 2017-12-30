@@ -1,7 +1,9 @@
 package com.lagostout.datastructures
 
 import com.lagostout.common.MultilineShortPrefixRecursiveToStringStyle
-import org.apache.commons.lang3.builder.*
+import org.apache.commons.lang3.builder.EqualsBuilder
+import org.apache.commons.lang3.builder.HashCodeBuilder
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 import java.util.*
 
 open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
@@ -13,6 +15,9 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
 
     val isRoot: Boolean
         get() = parent == null
+
+    val isLeaf: Boolean
+        get() = (left ?: right) == null
 
     override fun hashCode(): Int = HashCodeBuilder().append(id).toHashCode()
 
@@ -63,7 +68,7 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
             val nodes = mutableMapOf<Int, BinaryTreeNode<T>>()
             buildBinaryTree(0, rawTree, nodes)
             nodes.values.forEach { parent ->
-                listOf(parent.left, parent.right).filterNotNull().forEach { childNode ->
+                listOfNotNull(parent.left, parent.right).forEach { childNode ->
                     childNode.parent ?: run { childNode.parent = parent }
                 }
             }

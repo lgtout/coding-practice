@@ -4,4 +4,10 @@ package com.lagostout.datastructures
 data class RawBinaryTreeNode<T: Comparable<T>>(val leftChildIndex: Int? = null,
                                                val rightChildIndex: Int? = null,
                                                val parentIndex: Int? = null,
-                                               val value: T)
+                                               val value: T) {
+    companion object {
+        fun <T : Comparable<T>> rbt(value: T, left: Int? = null, right: Int? = null,
+                                    parent: Int? = null): RawBinaryTreeNode<T> =
+                RawBinaryTreeNode(left, right, parent, value)
+    }
+}

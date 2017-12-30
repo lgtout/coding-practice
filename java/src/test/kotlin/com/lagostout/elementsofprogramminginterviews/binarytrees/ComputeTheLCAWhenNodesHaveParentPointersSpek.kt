@@ -50,11 +50,11 @@ val rawListData: List<List<Any>> = listOf(
                 listOf(null, null, 5, "G")), 1) // 10
 )
 
-data class Data(val firstNode: BinaryTreeNode<Char>,
+private data class Data(val firstNode: BinaryTreeNode<Char>,
                 val secondNode: BinaryTreeNode<Char>,
                 val expected: BinaryTreeNode<Char>)
 
-fun toBinaryTree(rawTree: List<Any>): Data {
+private fun toBinaryTree(rawTree: List<Any>): Data {
     val (_, nodes) = BinaryTreeNode.buildBinaryTree<Char>(
             @Suppress("UNCHECKED_CAST")
             toRawBinaryTreeNodes(rawTree[2] as List<List<Any>>))
