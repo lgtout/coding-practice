@@ -14,14 +14,14 @@ import kotlin.test.assertEquals
 class TowersOfHanoiSpek : Spek({
     describe("transferRingsFromOnePegToAnother") {
         listOfNotNull(
-                TestCase(LEFT, MIDDLE),
-                TestCase(LEFT, MIDDLE, 1),
-                TestCase(LEFT, MIDDLE, 2),
-                TestCase(LEFT, MIDDLE, 3),
-                TestCase(RIGHT, RIGHT, 5),
-                TestCase(MIDDLE, RIGHT, 5),
-                TestCase(RIGHT, MIDDLE, 5),
-                TestCase(RIGHT, LEFT, 5),
+                TestCase(FIRST, SECOND),
+                TestCase(FIRST, SECOND, 1),
+                TestCase(FIRST, SECOND, 2),
+                TestCase(FIRST, SECOND, 3),
+                TestCase(THIRD, THIRD, 5),
+                TestCase(SECOND, THIRD, 5),
+                TestCase(THIRD, SECOND, 5),
+                TestCase(THIRD, FIRST, 5),
                 null).forEach {
                     (fromPegPosition, toPegPosition, ringCount) ->
                     given("ringCount: $ringCount, from peg: $fromPegPosition, to peg: $toPegPosition") {

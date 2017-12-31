@@ -2,7 +2,7 @@ package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Peg
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition
-import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.RIGHT
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.THIRD
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Pegs
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Ring
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
@@ -21,7 +21,7 @@ fun minimumNumberOfOperationsWithForbiddenMove(
         operator fun component4() = move
     }
 
-    val forbiddenMove = Pair(PegPosition.LEFT, PegPosition.MIDDLE)
+    val forbiddenMove = Pair(PegPosition.FIRST, PegPosition.SECOND)
 
     val stack = LinkedList<Frame>().apply {
         push(Frame(fromPeg, toPeg, fromPeg.size))
@@ -32,7 +32,7 @@ fun minimumNumberOfOperationsWithForbiddenMove(
             if (countOfRingsToMove >= 1) {
                 if (move == forbiddenMove) {
                     val countOfRingsToMoveAside = countOfRingsToMove - 1
-                    val rightPeg = pegs.at(RIGHT)
+                    val rightPeg = pegs.at(THIRD)
                     Pair(from, to).let { (leftPeg, middlePeg) ->
                         listOf(Frame(leftPeg, rightPeg, countOfRingsToMoveAside),
                                 Frame(rightPeg, middlePeg, countOfRingsToMoveAside),

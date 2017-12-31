@@ -13,24 +13,24 @@ import kotlin.test.assertEquals
 object TowersOfHanoiMinimumOperationsWithForbiddenMoveSpek : Spek({
 
     val testCases = listOf(
-            TestCase(LEFT, MIDDLE, expectedOperationCount = 0),
-            TestCase(MIDDLE, RIGHT, expectedOperationCount = 0),
-            TestCase(RIGHT, LEFT, expectedOperationCount = 0),
-            TestCase(LEFT, RIGHT, expectedOperationCount = 0),
-            TestCase(RIGHT, MIDDLE, expectedOperationCount = 0),
-            TestCase(MIDDLE, LEFT, expectedOperationCount = 0),
-            TestCase(LEFT, MIDDLE, 1, 2),
-            TestCase(MIDDLE, RIGHT, 1, 1),
-            TestCase(RIGHT, LEFT, 1, 1),
-            TestCase(LEFT, RIGHT, 1, 1),
-            TestCase(RIGHT, MIDDLE, 1, 1),
-            TestCase(MIDDLE, LEFT, 1, 1),
-            TestCase(LEFT, MIDDLE, 2, 7),
-            TestCase(LEFT, MIDDLE, 3),
-            TestCase(RIGHT, RIGHT, 5),
-            TestCase(MIDDLE, RIGHT, 5),
-            TestCase(RIGHT, MIDDLE, 5),
-            TestCase(RIGHT, LEFT, 5),
+            TestCase(FIRST, SECOND, expectedOperationCount = 0),
+            TestCase(SECOND, THIRD, expectedOperationCount = 0),
+            TestCase(THIRD, FIRST, expectedOperationCount = 0),
+            TestCase(FIRST, THIRD, expectedOperationCount = 0),
+            TestCase(THIRD, SECOND, expectedOperationCount = 0),
+            TestCase(SECOND, FIRST, expectedOperationCount = 0),
+            TestCase(FIRST, SECOND, 1, 2),
+            TestCase(SECOND, THIRD, 1, 1),
+            TestCase(THIRD, FIRST, 1, 1),
+            TestCase(FIRST, THIRD, 1, 1),
+            TestCase(THIRD, SECOND, 1, 1),
+            TestCase(SECOND, FIRST, 1, 1),
+            TestCase(FIRST, SECOND, 2, 7),
+            TestCase(FIRST, SECOND, 3),
+            TestCase(THIRD, THIRD, 5),
+            TestCase(SECOND, THIRD, 5),
+            TestCase(THIRD, SECOND, 5),
+            TestCase(THIRD, FIRST, 5),
             null).filterNotNull()
 
     testCases.forEach {
@@ -49,7 +49,7 @@ object TowersOfHanoiMinimumOperationsWithForbiddenMoveSpek : Spek({
                         ringCount, fromPegPosition, operations))
                 // Verify that operations performed are only the ones permitted.
                 assertThat(operations.map { Pair(it.from, it.to) }, not(contains(
-                        anyOf(equalTo(Pair(LEFT, MIDDLE)))
+                        anyOf(equalTo(Pair(FIRST, SECOND)))
                 )))
                 // I'm only verifying expected operation count for trivial cases since
                 // expected counts have to be computed by hand.

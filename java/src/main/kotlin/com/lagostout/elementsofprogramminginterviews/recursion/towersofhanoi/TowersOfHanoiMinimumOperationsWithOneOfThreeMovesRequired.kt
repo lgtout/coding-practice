@@ -23,15 +23,15 @@ fun minimumNumberOfOperationsWithOneOfThreeMovesRequired(
         push(Frame(fromPeg, toPeg, fromPeg.size))
     }
 
-    val leftToMiddleMove = Pair(LEFT, MIDDLE)
-    val middleToRightMove = Pair(MIDDLE, RIGHT)
-    val rightToLeftMove = Pair(RIGHT, LEFT)
+    val leftToMiddleMove = Pair(FIRST, SECOND)
+    val middleToRightMove = Pair(SECOND, THIRD)
+    val rightToLeftMove = Pair(THIRD, FIRST)
 
     val allowedMoves = listOf(leftToMiddleMove, middleToRightMove, rightToLeftMove)
 
-    val leftToRightMove = Pair(LEFT, RIGHT)
-    val rightToMiddleMove = Pair(RIGHT, MIDDLE)
-    val middleToLeftMove = Pair(MIDDLE, LEFT)
+    val leftToRightMove = Pair(FIRST, THIRD)
+    val rightToMiddleMove = Pair(THIRD, SECOND)
+    val middleToLeftMove = Pair(SECOND, FIRST)
 
     val proposedMoveToAllowedMovesMap = mapOf(
             leftToRightMove to listOf(leftToMiddleMove, middleToRightMove),

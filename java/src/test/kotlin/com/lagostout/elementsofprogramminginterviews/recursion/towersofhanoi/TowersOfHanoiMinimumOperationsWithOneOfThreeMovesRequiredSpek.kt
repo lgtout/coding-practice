@@ -15,24 +15,24 @@ object TowersOfHanoiMinimumOperationsWithOneOfThreeMovesRequiredSpek : Spek({
     describe("minimumNumberOfOperationsWithOneOfThreeMovesRequired()") {
 
         val testCases = listOfNotNull(
-                TestCase(LEFT, MIDDLE, expectedOperationCount = 0),
-                TestCase(MIDDLE, RIGHT, expectedOperationCount = 0),
-                TestCase(RIGHT, LEFT, expectedOperationCount = 0),
-                TestCase(LEFT, RIGHT, expectedOperationCount = 0),
-                TestCase(RIGHT, MIDDLE, expectedOperationCount = 0),
-                TestCase(MIDDLE, LEFT, expectedOperationCount = 0),
-                TestCase(LEFT, MIDDLE, 1, expectedOperationCount = 1),
-                TestCase(MIDDLE, RIGHT, 1, expectedOperationCount = 1),
-                TestCase(RIGHT, LEFT, 1, expectedOperationCount = 1),
-                TestCase(LEFT, RIGHT, 1, expectedOperationCount = 2),
-                TestCase(RIGHT, MIDDLE, 1, expectedOperationCount = 2),
-                TestCase(MIDDLE, LEFT, 1, expectedOperationCount = 2),
-                TestCase(LEFT, MIDDLE, 2),
-                TestCase(LEFT, MIDDLE, 3),
-                TestCase(RIGHT, RIGHT, 5),
-                TestCase(MIDDLE, RIGHT, 5),
-                TestCase(RIGHT, MIDDLE, 5),
-                TestCase(RIGHT, LEFT, 5),
+                TestCase(FIRST, SECOND, expectedOperationCount = 0),
+                TestCase(SECOND, THIRD, expectedOperationCount = 0),
+                TestCase(THIRD, FIRST, expectedOperationCount = 0),
+                TestCase(FIRST, THIRD, expectedOperationCount = 0),
+                TestCase(THIRD, SECOND, expectedOperationCount = 0),
+                TestCase(SECOND, FIRST, expectedOperationCount = 0),
+                TestCase(FIRST, SECOND, 1, expectedOperationCount = 1),
+                TestCase(SECOND, THIRD, 1, expectedOperationCount = 1),
+                TestCase(THIRD, FIRST, 1, expectedOperationCount = 1),
+                TestCase(FIRST, THIRD, 1, expectedOperationCount = 2),
+                TestCase(THIRD, SECOND, 1, expectedOperationCount = 2),
+                TestCase(SECOND, FIRST, 1, expectedOperationCount = 2),
+                TestCase(FIRST, SECOND, 2),
+                TestCase(FIRST, SECOND, 3),
+                TestCase(THIRD, THIRD, 5),
+                TestCase(SECOND, THIRD, 5),
+                TestCase(THIRD, SECOND, 5),
+                TestCase(THIRD, FIRST, 5),
                 null)
 
         testCases.forEach {
@@ -50,8 +50,8 @@ object TowersOfHanoiMinimumOperationsWithOneOfThreeMovesRequiredSpek : Spek({
                             ringCount, fromPegPosition, operations))
                     // Verify that operations performed are only the ones permitted.
                     assertThat(operations.map { Pair(it.from, it.to) }, not(contains(
-                            anyOf(equalTo(Pair(LEFT, RIGHT)), equalTo(Pair(RIGHT, MIDDLE)),
-                                    equalTo(Pair(MIDDLE, LEFT)))
+                            anyOf(equalTo(Pair(FIRST, THIRD)), equalTo(Pair(THIRD, SECOND)),
+                                    equalTo(Pair(SECOND, FIRST)))
                     )))
                     // I'm only verifying expected operation count for trivial cases since
                     // expected counts have to be computed by hand.

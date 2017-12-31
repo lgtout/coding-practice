@@ -21,18 +21,18 @@ object TowersOfHanoiMinimumOperationsWithRelaxedConstraintSpek : Spek({
 
     describe("minimumOperationsWithRelaxedConstraint()") {
         val testCases = listOfNotNull(
-                TestCase(LEFT, MIDDLE, expectedOperationCount = 0),
-                TestCase(MIDDLE, RIGHT, expectedOperationCount = 0),
-                TestCase(RIGHT, LEFT, expectedOperationCount = 0),
-                TestCase(LEFT, RIGHT, expectedOperationCount = 0),
-                TestCase(RIGHT, MIDDLE, expectedOperationCount = 0),
-                TestCase(MIDDLE, LEFT, expectedOperationCount = 0),
-                TestCase(LEFT, MIDDLE, listOf(1), 1),
-                TestCase(LEFT, MIDDLE, listOf(1,2), 4),
-                TestCase(LEFT, MIDDLE, listOf(1,2), 4),
-                TestCase(LEFT, MIDDLE, listOf(1,2,3), 11),
-                TestCase(LEFT, MIDDLE, listOf(2,1,3), 9),
-                TestCase(RIGHT, LEFT, listOf(2,1,3), 9),
+                TestCase(FIRST, SECOND, expectedOperationCount = 0),
+                TestCase(SECOND, THIRD, expectedOperationCount = 0),
+                TestCase(THIRD, FIRST, expectedOperationCount = 0),
+                TestCase(FIRST, THIRD, expectedOperationCount = 0),
+                TestCase(THIRD, SECOND, expectedOperationCount = 0),
+                TestCase(SECOND, FIRST, expectedOperationCount = 0),
+                TestCase(FIRST, SECOND, listOf(1), 1),
+                TestCase(FIRST, SECOND, listOf(1,2), 4),
+                TestCase(FIRST, SECOND, listOf(1,2), 4),
+                TestCase(FIRST, SECOND, listOf(1,2,3), 11),
+                TestCase(FIRST, SECOND, listOf(2,1,3), 9),
+                TestCase(THIRD, FIRST, listOf(2,1,3), 9),
                 null)
 
         testCases.forEachIndexed {

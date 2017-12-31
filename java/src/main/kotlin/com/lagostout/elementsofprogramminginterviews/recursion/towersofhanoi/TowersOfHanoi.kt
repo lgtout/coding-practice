@@ -1,5 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
+import com.lagostout.common.takeFrom
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
 
 /**
@@ -8,7 +9,7 @@ import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.Tow
 object TowersOfHanoi {
 
     enum class PegPosition {
-        LEFT, MIDDLE, RIGHT
+        FIRST, SECOND, THIRD, FOURTH
     }
 
     open class Ring(val size: Int) : Comparable<Ring> {
@@ -68,19 +69,14 @@ object TowersOfHanoi {
 
     @Suppress("UNCHECKED_CAST")
     class Pegs<T : Ring>(rings: List<Int>, ringsPeg: PegPosition,
-                         ringFactory: (Int) -> T = { size -> Ring(size) as T }) {
+                         ringFactory: (Int) -> T = { size -> Ring(size) as T },
+                         val pegs: List<Peg<T>> = listOf(Peg(FIRST), Peg(SECOND), Peg(THIRD))) {
 
         constructor (ringCount: Int, ringsPeg: PegPosition) :
                 this((0..ringCount).toList(), ringsPeg)
 
-        private val left: Peg<T> = Peg(LEFT)
-        private val middle: Peg<T> = Peg(MIDDLE)
-        private val right: Peg<T> = Peg(RIGHT)
-        private val positionToPegMap: Map<PegPosition, Peg<T>>
-
-        init {
-            positionToPegMap = pegsList.map { it.position to it }.toMap()
-            positionToPegMap[ringsPeg]?.apply {
+        private val positionToPegMap: Map<PegPosition, Peg<T>> = pegs.map { it.position to it }.toMap().apply {
+            get(ringsPeg)?.apply {
                 rings.reversed().forEach {
                     push(ringFactory(it))
                 }
@@ -96,33 +92,30 @@ object TowersOfHanoi {
         }
 
         fun extra(vararg pegs: Peg<T>): Peg<T> {
-            return pegsList.filter { it !in pegs }[0]
+            return extras(*pegs)[0]
+        }
+
+        fun extras(vararg pegs: Peg<T>): List<Peg<T>> {
+            return pegs.filter { it !in pegs }
         }
 
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (other !is Pegs<*>) return false
-
-            if (left != other.left) return false
-            if (middle != other.middle) return false
-            if (right != other.right) return false
-
-            return true
+            return pegs.withIndex().none { (index, value) ->
+                value != other.pegs[index]
+            }
         }
 
         override fun hashCode(): Int {
-            var result = left.hashCode()
-            result = 31 * result + middle.hashCode()
-            result = 31 * result + right.hashCode()
-            return result
+            return pegs.takeFrom(1).foldRight(pegs.first().hashCode()) {
+                peg, acc -> 31 * acc + peg.hashCode()
+            }
         }
 
         override fun toString(): String {
-            return "Pegs(left=$left, middle=$middle, right=$right)"
+            return "Pegs(pegs = $pegs)"
         }
-
-        private val pegsList: List<Peg<T>>
-            get() = listOf(left, middle, right)
 
     }
 
