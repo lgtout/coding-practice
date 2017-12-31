@@ -19,6 +19,9 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
     val isLeaf: Boolean
         get() = (left ?: right) == null
 
+    val children: Set<BinaryTreeNode<T>>
+        get() = listOfNotNull(left, right).toSet()
+
     override fun hashCode(): Int = HashCodeBuilder().append(id).toHashCode()
 
     override fun equals(other: Any?): Boolean = when {
