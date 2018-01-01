@@ -1,6 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants
 
 import com.lagostout.common.isOdd
+import kotlin.math.absoluteValue
 
 /**
  * Problem 18.4.3 page 346
@@ -9,7 +10,7 @@ import com.lagostout.common.isOdd
 fun canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
         list: List<Int>, k: Int, sum: Int): Boolean  {
     val list = list.sorted()
-//    println(list)
+    println("list: $list")
 //    println(sum)
     return when {
         k < 0 -> false
@@ -27,9 +28,9 @@ fun canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
 //private fun findClosestSum(list: List<Int>, k: Int, sum: Int,
 //                           start: Int = 0, end: Int = list.lastIndex): Int {
 private fun findClosestSum(list: List<Int>, k: Int, sum: Int): Int {
+    println("[k: $k] findClosestSum(k: $k, sum: $sum)")
     var left = 0
     var right = list.lastIndex
-    var endLoop = false
     var currentSum: Int
     var leftNumber: Int
     var rightNumber: Int
@@ -38,27 +39,39 @@ private fun findClosestSum(list: List<Int>, k: Int, sum: Int): Int {
             findClosestSum(list, k - 2, sum - leftRightSum)
         else 0
     }
+    var exitLoop = false
+    var closestSum: Int? = null
     do {
         leftNumber = list[left]
         rightNumber = list[right]
+        println("[k: $k] left: $left, right: $right, leftNumber: $leftNumber, rightNumber: $rightNumber")
         val leftRightSum = leftNumber + rightNumber
         currentSum = leftRightSum + subSum(list, k, sum, leftRightSum)
+        println("[k: $k] leftRightSum $leftRightSum, currentSum $currentSum")
         when {
             currentSum < sum -> {
+                println("[k: $k] currentSum < sum")
                 if (left < right) {
-                    if (right - left == 1 && list[right] * 2 == sum)
-                        ++left else endLoop = true
-                } else endLoop = true
+                    ++left
+                } else null
             }
             currentSum > sum -> {
-                if (right < left) {
-                    if (right - left == 1 && list[left] * 2 == sum)
-                        --right else endLoop = true
-                } else endLoop = true
+                println("[k: $k] currentSum > sum")
+                if (right > left) {
+                    --right
+                } else null
             }
-            else -> endLoop = true
-        }
-    } while (!endLoop)
-    println("k: $k, sum: $sum, currentSum: $currentSum, leftNumber: $leftNumber, rightNumber: $rightNumber")
-    return currentSum
+            else -> null
+        } ?: run { exitLoop = true }
+        closestSum = closestSum?.let {
+            if ((sum - it).absoluteValue >
+                    (sum - currentSum).absoluteValue) {
+                currentSum
+            } else closestSum
+        } ?: currentSum
+//        println("k: $k, sum: $sum, currentSum: $currentSum, leftNumber: $leftNumber, rightNumber: $rightNumber")
+    } while (!exitLoop)
+//    return currentSum
+    println("[k: $k] closestSum $closestSum")
+    return closestSum!!
 }

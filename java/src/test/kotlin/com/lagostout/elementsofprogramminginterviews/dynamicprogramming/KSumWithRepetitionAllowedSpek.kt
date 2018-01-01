@@ -16,28 +16,45 @@ import kotlin.streams.toList
 class KSumWithRepetitionAllowedSpek : Spek({
     describe("permutationsWithRepetition") {
         fun bruteForceSolution(list: List<Int>, k: Int, sum: Int): Boolean {
-            return Generator.combination(list).multi(k).stream()
-                    .filter { it.sum() == sum }.toList().also {
-                println(it)
-            }.isNotEmpty()
+            println("k $k")
+            return if (k > 0) {
+                list.isNotEmpty() && Generator.combination(list)
+                    .multi(k).stream()
+                    .filter { it.sum() == sum }.toList()
+                    .also {
+                        println("expected: $it")
+                    }.isNotEmpty()
+            } else sum == 0
         }
         val random = Random(1)
         @Suppress("NAME_SHADOWING")
         val randomData = {
             val cases = mutableListOf<Triple<List<Int>, Int, Int>>()
             val random = RandomDataGenerator().apply { reSeed(1) }
-            val caseCount = 1000
+            val caseCount = 10000
             val numberCountRange = (0..5)
-            val numberRange = (-10..10)
-            val sumRange = (-50..50)
-            val kRange = (0..10)
+//            val numberCountRange = (1..5)
+//            val numberCountRange = (0..6)
+//            val numberRange = (-10..10)
+            val numberRange = (-5..5)
+            val kRange = (0..4)
+//            val kRange = (2..2)
+//            val kRange = (0..2)
             (0..caseCount).forEach {
+                val numberCount = random.nextInt(numberCountRange)
                 val numbers = mutableSetOf<Int>().apply {
-                    while (size < random.nextInt(numberCountRange)) {
+                    while (size < numberCount) {
                         add(random.nextInt(numberRange))
                     }
                 }
-                cases.add(Triple(numbers.toList(), random.nextInt(kRange),
+                val k = random.nextInt(kRange)
+                // Make sumRange wide enough to allow for some misses - cases
+                // where we know for certain that the sum cannot be derived
+                // from the numbers in the list.
+                val sumRange = (numberCount + 1).let {
+                    (numberRange.start * k..numberRange.endInclusive * k)
+                }
+                cases.add(Triple(numbers.toList(), k,
                         random.nextInt(sumRange)))
             }
             cases
@@ -48,7 +65,8 @@ class KSumWithRepetitionAllowedSpek : Spek({
 //                Triple(listOf(-9,-7,6,9), 6, 10),  // 10 = [[-7, -7, 6, 6, 6, 6]]
 //                Triple(listOf(-9,-7,6,9), 4, 11),
 //                Triple(listOf(-9,-7,6,9), 4, -2),  // -2 = [[-7, -7, 6, 6]]
-                Triple(listOf(-9,-7,6,9), 4, -2),  // -2 = [[-7, -7, 6, 6]]
+//                Triple(emptyList<Int>(), 2, 0),
+                Triple(listOf(5,0,-4), 4, 0),
 //                Triple(listOf(-9,-7,6,9), 2, -14),
 //                Triple(listOf(-9,-7,6,9), 2, -1),
 //                Triple(listOf(1), 3, -34),
