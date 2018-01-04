@@ -4,7 +4,22 @@ import com.lagostout.elementsofprogramminginterviews.strings.ShortestValidRomanN
 import com.lagostout.elementsofprogramminginterviews.strings.ShortestValidRomanNumber.RomanDigit.Companion.isException
 import java.util.*
 
+/**
+ * Problem 7.9.3 page 106
+ */
 object ShortestValidRomanNumber {
+
+    // Even with the stack we're using, we won't exceed O(1) space
+    // because the stack will never contain more entries than there
+    // are distinct roman digits.
+    // Introducing TreeSet doesn't affect time complexity.  The
+    // set's size is the number of distinct roman digits, which is
+    // constant.  So time complexity of a single lookup will also
+    // be constant.
+    // The time complexity of the entire solution depends on the
+    // number of lookups of remainders we do.  It follows that
+    // since TreeSet doesn't affect the number of lookups, it
+    // doesn't affect the complexity of the entire solution.
 
     enum class RomanDigit (val value: Int, val symbol: Char) {
         I(1, 'I'),
@@ -36,21 +51,13 @@ object ShortestValidRomanNumber {
                 romanDigitsTree = TreeSet<Int>().apply {
                     addAll(orderedDigits.map { it.value })
                 }
+                println("orderedDigits $orderedDigits")
+                println("valueToDigitMap $valueToDigitMap")
+                println("romanDigitsTree $romanDigitsTree")
             }
         }
     }
 
-    // Even with the stack we're using O(1) space because the
-    // stack will not contain more entries than there are distinct
-    // roman digits.
-    // Introducing TreeSet doesn't impact on time complexity.  The
-    // set's size is the number of distinct roman digits, which is
-    // constant.  So time complexity of a single lookup will also
-    // be constant.
-    // The time complexity of the entire solution depends on the
-    // number of lookups of remainders we do.  It follows that
-    // since TreeSet doesn't affect the number of lookups, it
-    // doesn't affect the complexity of the entire solution.
     fun computeShortestValidRomanNumber(number: Int): String {
         val stringBuilder = StringBuilder()
         val stack = LinkedList<Int>().apply {
@@ -81,7 +88,10 @@ object ShortestValidRomanNumber {
                 stack.push(higherDigit.value)
                 Pair(higherDigit, higherDigitRemainder)
             }.let { (digit, remainder) ->
-                stack.push(remainder)
+                remainder?.let {
+                    if (remainder > 0)
+                        stack.push(remainder)
+                }
                 stringBuilder.append(digit.symbol)
             }
         }
