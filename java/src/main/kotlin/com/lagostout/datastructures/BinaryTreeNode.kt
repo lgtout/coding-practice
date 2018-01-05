@@ -19,6 +19,12 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
     val isLeaf: Boolean
         get() = (left ?: right) == null
 
+    val hasRight: Boolean
+        get() = right != null
+
+    val hasLeft: Boolean
+        get() = left != null
+
     val children: Set<BinaryTreeNode<T>>
         get() = listOfNotNull(left, right).toSet()
 

@@ -10,24 +10,42 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 
-object LinkedListFromBinaryTreeLeavesSpek : Spek({
-    describe("createLinkedListFromBinaryTreeLeaves") {
+object LinkedListFromBinaryTreeLeavesSpek : Spek({ describe("createLinkedListFromBinaryTreeLeaves") {
         val data = listOfNotNull(
-                Pair(listOf(rbt(A)), listOf(rbt(A))),
-                Pair(listOf(rbt(A, left = 1), rbt(B)), listOf(rbt(B))),
-                Pair(listOf(rbt(A, right = 1), rbt(B)), listOf(rbt(B))),
-                Pair(listOf(rbt(A, right = 1, left = 2), rbt(B), rbt(C)),
-                        listOf(rbt(B, right = 1), rbt(C))),
+                Pair(listOf(rbt(A)), listOf(0)),
+                Pair(listOf(rbt(A, left = 1), rbt(B)), listOf(1)),
+                Pair(listOf(rbt(A, right = 1), rbt(B)), listOf(1)),
+                Pair(listOf(rbt(A, left = 1, right = 2), rbt(B), rbt(C)),
+                        listOf(1,2)),
+                Pair(listOf(rbt(A, left = 1, right = 2),
+                        rbt(B, left = 3, right = 4),
+                        rbt(C), rbt(D), rbt(E)),
+                        listOf(3,4,2)),
+                Pair(listOf(rbt(A, left = 1, right = 2),
+                        rbt(B, right = 3),
+                        rbt(C, right = 4), rbt(D), rbt(E)),
+                        listOf(3,4)),
                 null
-        ).map {
-            data(buildBinaryTree(it.first).first!!,
-                    buildBinaryTree(it.second).first!!)
+        ).map { (rawNodes, expectedIndices) ->
+            buildBinaryTree(rawNodes).run {
+                data(first!!, expectedIndices.map { second[it] })
+            }
         }.toTypedArray()
         on("tree: %s", with = *data) { tree, expected ->
             it("returns $expected") {
-                // TODO Does this equality check do what's expected?
-                assertThat(createLinkedListFromBinaryTreeLeaves(tree))
-                        .isEqualTo(expected)
+                println(tree)
+                assertThat(createLinkedListFromBinaryTreeLeaves(tree).let {
+                    var node = it
+                    val list = mutableListOf(it)
+                    println(it)
+                    while (true) {
+                        node.right?.let {
+                            list.add(it)
+                            node = it
+                        } ?: break
+                    }
+                    list
+                }).isEqualTo(expected)
             }
         }
     }
