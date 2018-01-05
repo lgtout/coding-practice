@@ -11,16 +11,16 @@ import org.jetbrains.spek.data_driven.on
 object ShortestValidRomanNumberSpek : Spek({
     describe("computeShortestValidRomanNumber") {
         val data = listOfNotNull(
-//                data(1, "I"),
-//                data(2, "II"),
+                data(1, "I"),
+                data(2, "II"),
                 data(3, "III"),
-//                data(4, "IV"),
-//                data(5, "V"),
-//                data(7, "VII"),
-//                data(8, "IIX"),
-//                data(10, "X"),
-//                data(14, "XIV"),
-//                data(17, "XVII"),
+                data(4, "IV"),
+                data(5, "V"),
+                data(7, "VII"),
+                data(8, "IIX"),
+                data(10, "X"),
+                data(14, "XIV"),
+                data(17, "XVII"),
                 null
         ).toTypedArray()
         on("number: %s", with = *data) { number, expected ->

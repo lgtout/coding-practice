@@ -34,7 +34,7 @@ object ShortestValidRomanNumber {
                 return valueToDigitMap[romanDigitsTree.floor(value)]
             }
             fun ceiling(value: Int): RomanDigit? {
-                return valueToDigitMap[romanDigitsTree.ceiling(value)]
+                return valueToDigitMap[romanDigitsTree.higher(value)]
             }
             fun isException(digit: RomanDigit): Boolean {
                 return orderExceptionMap.containsKey(digit)
@@ -51,9 +51,6 @@ object ShortestValidRomanNumber {
                 romanDigitsTree = TreeSet<Int>().apply {
                     addAll(orderedDigits.map { it.value })
                 }
-                println("orderedDigits $orderedDigits")
-                println("valueToDigitMap $valueToDigitMap")
-                println("romanDigitsTree $romanDigitsTree")
             }
         }
     }
@@ -64,7 +61,9 @@ object ShortestValidRomanNumber {
             push(number)
         }
         var remainder: Int
+        var count = 0
         while (true) {
+            count++
             if (stack.isEmpty()) break
             remainder = stack.pop()
             // Compute remainder if we use lower roman digit.
@@ -82,17 +81,14 @@ object ShortestValidRomanNumber {
             }
             // Decide whether to use higher or lower roman digit.
             if (higherDigit == null ||
-                    (higherDigitRemainder?.let { lowerDigitRemainder < it } == true))
-                Pair(lowerDigit, lowerDigitRemainder)
-            else {
+                    (higherDigitRemainder?.let {
+                        lowerDigitRemainder <= it } == true)) {
+                if (lowerDigitRemainder > 0)
+                    stack.push(lowerDigitRemainder)
+                stringBuilder.append(lowerDigit.symbol)
+            } else {
                 stack.push(higherDigit.value)
-                Pair(higherDigit, higherDigitRemainder)
-            }.let { (digit, remainder) ->
-                remainder?.let {
-                    if (remainder > 0)
-                        stack.push(remainder)
-                }
-                stringBuilder.append(digit.symbol)
+                stack.push(higherDigitRemainder)
             }
         }
         return stringBuilder.toString()
