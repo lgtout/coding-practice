@@ -18,6 +18,8 @@ object ImplementQueueUsingStacksSpek : Spek({
             }
             on("enqueue an entry") {
                 val expectedSize = 1
+                val addedEntry = 111
+                queue.enqueue(addedEntry)
                 it("has size $expectedSize") {
                     assertThat(queue.size).isEqualTo(expectedSize)
                 }

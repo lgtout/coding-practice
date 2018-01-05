@@ -2,6 +2,9 @@ package com.lagostout.elementsofprogramminginterviews.stacksandqueues
 
 import java.util.*
 
+/**
+ * Problem 9.9 page 147
+ */
 class Queue<T> {
 
     private val inStack = LinkedList<T>()
