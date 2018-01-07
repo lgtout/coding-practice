@@ -83,6 +83,8 @@ object TowersOfHanoi {
             }
         }
 
+        operator fun get(position: PegPosition) = at(position)
+
         fun at(position: PegPosition): Peg<T> {
             return positionToPegMap[position]!!
         }
