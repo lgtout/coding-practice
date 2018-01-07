@@ -31,8 +31,14 @@ fun <K, V> Map<K, V>.mergeReduce(other: Map<K, V>, reduce: (V, V) -> V = { a, b 
     return result
 }
 
-fun RandomDataGenerator.nextInt(range: IntRange) =
+fun RandomDataGenerator.nextInt(range: IntRange): Int =
         nextInt(range.start, range.endInclusive)
+
+fun RandomDataGenerator.nextBoolean(): Boolean = nextInt(0, 1) == 1
+
+fun RandomDataGenerator.nextBoolean(trueFrequency: Float): Boolean {
+    return nextInt(0, 100) in (0..(trueFrequency * 100).toInt())
+}
 
 val <T : Comparable<T>> BinaryTreeNode<T>.isLeftChild: Boolean
     get() = this === parent?.left
