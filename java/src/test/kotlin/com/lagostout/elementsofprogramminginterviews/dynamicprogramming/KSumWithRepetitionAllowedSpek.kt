@@ -18,12 +18,13 @@ class KSumWithRepetitionAllowedSpek : Spek({
         fun bruteForceSolution(list: List<Int>, k: Int, sum: Int): Boolean {
             println("k $k")
             return if (k > 0) {
-                list.isNotEmpty() && Generator.combination(list)
-                    .multi(k).stream()
-                    .filter { it.sum() == sum }.toList()
-                    .also {
-                        println("expected: $it")
-                    }.isNotEmpty()
+                list.isNotEmpty() &&
+                        Generator.combination(list.distinct())
+                                .multi(k).stream()
+                                .filter { it.sum() == sum }.toList()
+                                .also {
+                                    println("expected: $it")
+                                }.isNotEmpty()
             } else sum == 0
         }
         val random = Random(1)
@@ -64,9 +65,17 @@ class KSumWithRepetitionAllowedSpek : Spek({
                 listOfNotNull(
 //                Triple(listOf(-9,-7,6,9), 6, 10),  // 10 = [[-7, -7, 6, 6, 6, 6]]
 //                Triple(listOf(-9,-7,6,9), 4, 11),
+
+                // TODO
+                Triple(listOf(-5,-3,2,5), 4, -2),
 //                Triple(listOf(-9,-7,6,9), 4, -2),  // -2 = [[-7, -7, 6, 6]]
+
+//                Triple(listOf(-4,-3,3,4), 4, 2),
+//                Triple(listOf(-4,-3,3,4), 4, -2),
+//                Triple(listOf(-4,-3,3,4), 4, 0),
+//                Triple(listOf(-7,-7,6,6), 4, -2),  // -2 = [[-7, -7, 6, 6]]
 //                Triple(emptyList<Int>(), 2, 0),
-                Triple(listOf(5,0,-4), 4, 0),
+//                Triple(listOf(5,0,-4), 4, 0),
 //                Triple(listOf(5,0,-4), 2, 0),
 //                Triple(listOf(5,0,-4), 3, 0),
 //                Triple(listOf(-9,-7,6,9), 2, -14),

@@ -1,7 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants
 
 import com.lagostout.common.isOdd
-import kotlin.math.absoluteValue
 
 /**
  * Problem 18.4.3 page 346
@@ -10,8 +9,6 @@ import kotlin.math.absoluteValue
 fun canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
         list: List<Int>, k: Int, sum: Int): Boolean  {
     val list = list.sorted()
-    println("list: $list")
-//    println(sum)
     return when {
         k < 0 -> false
         k == 0 -> sum == 0
@@ -19,9 +16,7 @@ fun canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
         list.isEmpty() -> false
         k.isOdd -> list.find {
             findClosestSum(list, k - 1, sum - it) + it == sum } != null
-        else -> findClosestSum(list, k, sum).apply {
-            println(this)
-        } == sum
+        else -> findClosestSum(list, k, sum) == sum
     }
 }
 
@@ -34,14 +29,14 @@ private fun subSum(list: List<Int>, k: Int, sum: Int, leftRightSum: Int): Int {
 //private fun findClosestSum(list: List<Int>, k: Int, sum: Int,
 //                           start: Int = 0, end: Int = list.lastIndex): Int {
 private fun findClosestSum(list: List<Int>, k: Int, sum: Int): Int {
-    println("[k: $k] findClosestSum(k: $k, sum: $sum)")
+    println("[k: $k] findClosestSum(list: $list, k: $k, sum: $sum)")
     var left = 0
     var right = list.lastIndex
     var currentSum: Int
     var leftNumber: Int
     var rightNumber: Int
     var exitLoop = false
-    var closestSum: Int? = null
+//    var closestSum: Int? = null
     do {
         leftNumber = list[left]
         rightNumber = list[right]
@@ -67,15 +62,16 @@ private fun findClosestSum(list: List<Int>, k: Int, sum: Int): Int {
                 null
             }
         } ?: run { exitLoop = true }
-        closestSum = closestSum?.let {
-            if ((sum - it).absoluteValue >
-                    (sum - currentSum).absoluteValue) {
-                currentSum
-            } else closestSum
-        } ?: currentSum
+//        closestSum = closestSum?.let {
+//            if ((sum - it).absoluteValue >
+//                    (sum - currentSum).absoluteValue) {
+//                currentSum
+//            } else closestSum
+//        } ?: currentSum
 //        println("k: $k, sum: $sum, currentSum: $currentSum, leftNumber: $leftNumber, rightNumber: $rightNumber")
     } while (!exitLoop)
-//    return currentSum
-    println("[k: $k] closestSum $closestSum")
-    return closestSum!!
+    println("[k: $k] currentSum $currentSum")
+    return currentSum
+//    println("[k: $k] closestSum $closestSum")
+//    return closestSum!!
 }
