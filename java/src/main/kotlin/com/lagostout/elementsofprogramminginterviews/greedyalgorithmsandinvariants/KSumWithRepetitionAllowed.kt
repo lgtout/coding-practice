@@ -25,6 +25,12 @@ fun canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
     }
 }
 
+private fun subSum(list: List<Int>, k: Int, sum: Int, leftRightSum: Int): Int {
+    return if (k > 2)
+        findClosestSum(list, k - 2, sum - leftRightSum)
+    else 0
+}
+
 //private fun findClosestSum(list: List<Int>, k: Int, sum: Int,
 //                           start: Int = 0, end: Int = list.lastIndex): Int {
 private fun findClosestSum(list: List<Int>, k: Int, sum: Int): Int {
@@ -34,11 +40,6 @@ private fun findClosestSum(list: List<Int>, k: Int, sum: Int): Int {
     var currentSum: Int
     var leftNumber: Int
     var rightNumber: Int
-    fun subSum(list: List<Int>, k: Int, sum: Int, leftRightSum: Int): Int {
-        return if (k > 2)
-            findClosestSum(list, k - 2, sum - leftRightSum)
-        else 0
-    }
     var exitLoop = false
     var closestSum: Int? = null
     do {
@@ -50,18 +51,21 @@ private fun findClosestSum(list: List<Int>, k: Int, sum: Int): Int {
         println("[k: $k] leftRightSum $leftRightSum, currentSum $currentSum")
         when {
             currentSum < sum -> {
-                println("[k: $k] currentSum < sum")
+                println("[k: $k] currentSum < sum: $currentSum < $sum")
                 if (left < right) {
                     ++left
                 } else null
             }
             currentSum > sum -> {
-                println("[k: $k] currentSum > sum")
+                println("[k: $k] currentSum > sum: $currentSum > $sum")
                 if (right > left) {
                     --right
                 } else null
             }
-            else -> null
+            else -> {
+                println("[k: $k] currentSum == sum: $currentSum == $sum")
+                null
+            }
         } ?: run { exitLoop = true }
         closestSum = closestSum?.let {
             if ((sum - it).absoluteValue >

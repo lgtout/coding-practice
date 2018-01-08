@@ -67,6 +67,8 @@ class KSumWithRepetitionAllowedSpek : Spek({
 //                Triple(listOf(-9,-7,6,9), 4, -2),  // -2 = [[-7, -7, 6, 6]]
 //                Triple(emptyList<Int>(), 2, 0),
                 Triple(listOf(5,0,-4), 4, 0),
+//                Triple(listOf(5,0,-4), 2, 0),
+//                Triple(listOf(5,0,-4), 3, 0),
 //                Triple(listOf(-9,-7,6,9), 2, -14),
 //                Triple(listOf(-9,-7,6,9), 2, -1),
 //                Triple(listOf(1), 3, -34),
