@@ -28,19 +28,18 @@ object ClosestIntegerWithSameWeightSpek : Spek({
                 .let { all ->
                     all.find {
                         it.value.second == bits
-                    }!!.let { (numberIndex, _) ->
+                    }!!.let { (index, _) ->
+                        val numberPair = all.elementAt(index).value
                         mutableListOf<Pair<String, BigInteger>>()
                                 .apply {
-                                    if (numberIndex > 0)
-                                        add(all.elementAt(numberIndex - 1).value)
-                                    add(all.elementAt(numberIndex).value)
-                                    if (numberIndex < all.last().index)
-                                        add(all.elementAt(numberIndex + 1).value)
+                                    if (index > 0) add(all.elementAt(index - 1).value)
+                                    /* There will always be a permutation that's greater
+                                    _number_ because of the 0 we prepended to _bitChars_ */
+                                    add(all.elementAt(index + 1).value)
                                 }
                                 .map {
-                                    Pair(it, it.second - all.elementAt(numberIndex).value.second)
+                                    Pair(it, (it.second - numberPair.second).abs())
                                 }
-                                .filterNot { it.second == 0.toBigInteger() }
                                 .sortedBy { it.second }
                                 .first().first
                     }
@@ -54,10 +53,7 @@ object ClosestIntegerWithSameWeightSpek : Spek({
 //        data(it, findClosestIntegerWithBruteForce(it))
 //    }.toTypedArray() }
 
-    // TODO
-    // Brute force result (0b11 - 3) is wrong.  Should be 0b110 - 6.
-    // Since 0b101 is 5.
-    val data = listOf(data(0b101, findClosestIntegerWithBruteForce(0b101)))
+    val data = listOf(data(0b1001, findClosestIntegerWithBruteForce(0b1001)))
 
     describe("findClosestIntegerWithSameWeight()") {
         data.forEach { (number, expected) ->

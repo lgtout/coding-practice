@@ -1,13 +1,15 @@
 package com.lagostout.elementsofprogramminginterviews.primitivetypes
 
+import com.lagostout.common.toBinaryString
 import kotlin.math.log2
+import kotlin.math.roundToInt
 
 /**
  * Problem 5.4.2 page 50
  */
 fun findClosestIntegerWithSameWeightInConstantSpaceTime(number: Int): Int {
 
-    fun shiftRightmostOneBitRightByOneBit(
+    fun shiftOneBitRightByOneBit(
             number: Int, mask: Int): Int {
         return (number xor mask) or (mask ushr 1)
     }
@@ -18,6 +20,14 @@ fun findClosestIntegerWithSameWeightInConstantSpaceTime(number: Int): Int {
 
     fun findLeftmostOneBit(number: Int): Int {
         return findRightmostOneBit(number.inv())
+    }
+
+    fun createMask(leftmostOneBitPosition: Int,
+                   rightmostOneBitPosition: Int): Int {
+        // Remove excess 1 bits to the right of the mask
+        return (-1 xor ((1 shl rightmostOneBitPosition) - 1)) xor
+                // Remove excess 1 bits to the left of the mask
+                ((1 shl (leftmostOneBitPosition + 1)) - 1).inv()
     }
 
     if (number == 0) return 0
@@ -35,7 +45,7 @@ fun findClosestIntegerWithSameWeightInConstantSpaceTime(number: Int): Int {
             // Find rightmost 1 bit.
             findRightmostOneBit(number).let {
                 // Shift rightmost 1 bit right by 1 bit.
-                shiftRightmostOneBitRightByOneBit(number, it)
+                shiftOneBitRightByOneBit(number, it)
             }
         rightmostZeroBitMask > number ->
             // Rightmost 0 bit is left of the leftmost 1 bit.
@@ -49,36 +59,31 @@ fun findClosestIntegerWithSameWeightInConstantSpaceTime(number: Int): Int {
             //      ^
             // 00110111
             //     ^
-            // Shift the first 1 bit that's to the left of the rightmost
-            // 0 bit right by 1 bit.
+            // Shift the first 1 bit that's to the left of the middle 0 bits
+            // right by 1 bit.
             (rightmostZeroBitMask - 1).let { rightOneBits ->
                 // Clear all 1 bits to the right of the rightmost 0 bit.
                 var numberWithoutRightOneBits = number xor rightOneBits
-                // Find the 1 bit to the left of the 0 bit.
-                // This is the position of the 1 bit that we need
-                // to move right by 1 bit.
-                var leftmostOneBitOfRightOneBitsAfterShiftLeft =
+                // If there's more than 1 bit position separating the 1 bits
+                // on either side of the 0 bits, we should shift the 1 bit on
+                // the left side right by 1 bit position.
+                val rightmostOneBitMaskOfNumberWithoutRightOneBits =
                         findRightmostOneBit(numberWithoutRightOneBits)
-
-                // Shift that 1 bit right by 1 bit.
-                numberWithoutRightOneBits = shiftRightmostOneBitRightByOneBit(
-                        numberWithoutRightOneBits,
-                        leftmostOneBitOfRightOneBitsAfterShiftLeft)
-
-                // TODO Needs work
-
-                // Shift 1 bits that were cleared left, so they are
-                // adjacent to the 1 bit we moved right.
-                leftmostOneBitOfRightOneBitsAfterShiftLeft =
-                        leftmostOneBitOfRightOneBitsAfterShiftLeft ushr 2
-                println(leftmostOneBitOfRightOneBitsAfterShiftLeft)
-                val numberOfBitsToShiftOneBitsLeft =
-                        log2(leftmostOneBitOfRightOneBitsAfterShiftLeft.toDouble()) -
-                                (log2(findLeftmostOneBit(rightOneBits).toDouble()) + 1)
-                println(numberOfBitsToShiftOneBitsLeft)
-                val shiftedRightOneBits = rightOneBits shl numberOfBitsToShiftOneBitsLeft.toInt()
-                // Reapply the removed right 1 bits to the number.
-                numberWithoutRightOneBits or shiftedRightOneBits
+                val leftmostOneBitMaskOfRightOneBits =
+                        findLeftmostOneBit(rightOneBits)
+                var countOfZeroBits = log2(
+                        (rightmostOneBitMaskOfNumberWithoutRightOneBits /
+                                leftmostOneBitMaskOfRightOneBits).toDouble())
+                        .roundToInt()
+                if (countOfZeroBits > 1) {
+                    numberWithoutRightOneBits = shiftOneBitRightByOneBit(
+                            numberWithoutRightOneBits,
+                            rightmostOneBitMaskOfNumberWithoutRightOneBits)
+                    --countOfZeroBits
+                }
+                // Shift right 1 bits left up to the 1 bit shifted right and
+                // reapply right 1 bits to number.
+                numberWithoutRightOneBits or (rightOneBits shl countOfZeroBits)
             }
-    }
+    }.apply { println("result: ${this.toBinaryString()}") }
 }
