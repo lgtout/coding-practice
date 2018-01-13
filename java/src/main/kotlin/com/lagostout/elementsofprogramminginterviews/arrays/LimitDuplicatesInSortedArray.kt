@@ -1,19 +1,28 @@
 package com.lagostout.elementsofprogramminginterviews.arrays
 
-fun <T : Comparable<T>> limitDuplicatesInSortedArray(array: Array<T>) {
-    var readIndex = 0
-    var writeIndex = readIndex
-    var duplicateCount = 0
-    var currentEntry: T
-    while (readIndex <= array.lastIndex) {
-        currentEntry = array[readIndex]
-        val entriesAreDifferent = array[readIndex] != currentEntry
-        if (entriesAreDifferent || duplicateCount < 2) {
-            if (entriesAreDifferent) duplicateCount = 1
-            else ++duplicateCount
-            array[++writeIndex] = array[readIndex]
-        }
-        ++readIndex
-    }
+/* Problem 6.5.3 page 70 */
 
+fun limitDuplicatesInSortedArray(array: Array<Int?>, m: Int) {
+    var writeIndex: Int? = null
+    var readIndex = 0
+    var duplicateCount = 0
+    var currentReadEntry = array[readIndex]
+    while (true) {
+        if (readIndex <= array.lastIndex &&
+                array[readIndex] == currentReadEntry) {
+            ++duplicateCount
+            array[readIndex++] = null
+        } else {
+            val copyCount = if (duplicateCount == m)
+                minOf(2, duplicateCount) else duplicateCount
+            (1..copyCount).forEach {
+                writeIndex = (writeIndex?.inc() ?: 0).also {
+                    array[it] = currentReadEntry
+                }
+            }
+            if (readIndex >= array.size) break
+            currentReadEntry = array[readIndex]
+            duplicateCount = 0
+        }
+    }
 }
