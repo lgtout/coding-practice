@@ -20,7 +20,7 @@ fun <T> createLinkedListFromBinaryTreeLeaves(
         val frame = stack.pop()
         with (frame) {
             when {
-                node.isLeaf -> {
+                node.isALeaf -> {
                     // Avoid creating a cycle when there's
                     // only one leaf i.e. the head is the tail.
                     tail?.let {

@@ -2,6 +2,7 @@ package com.lagostout.elementsofprogramminginterviews.binarytrees
 
 import com.lagostout.datastructures.BinaryTreeNode
 import com.lagostout.datastructures.RawBinaryTreeNode
+import com.lagostout.elementsofprogramminginterviews.binarytrees.InOrderTraversalWithConstantSpace.inOrderTraversalWithConstantSpace
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given

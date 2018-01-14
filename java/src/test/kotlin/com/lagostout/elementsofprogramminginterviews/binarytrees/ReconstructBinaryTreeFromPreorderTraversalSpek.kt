@@ -1,6 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.binarytrees
 
-import com.lagostout.datastructures.BinaryTreeNode
+import com.lagostout.datastructures.BinaryTreeNode.Companion.buildBinaryTreeRoot
+import com.lagostout.datastructures.RawBinaryTreeNode.Companion.rbt
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -8,43 +9,39 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 
-
 object ReconstructBinaryTreeFromPreorderTraversalSpek : Spek({
     describe("reconstructBinaryTreeFromPreorderTraversal") {
-        fun buildBinaryTree(rawTree: List<RBTNode>): BinaryTreeNode<Char> {
-            return BinaryTreeNode.buildBinaryTree(rawTree).first!!
-        }
-        val data = listOf(
-                data(listOf('A'), listOf('A'), expected = buildBinaryTree(
-                        listOf(RBTNode(null, null, null, 'A')))),
-                data(listOf('B','A'), listOf('A','B'), expected = buildBinaryTree(
-                        listOf(RBTNode(1, null, null, 'A'), RBTNode(null, null, 0, 'B')))),
-                data(listOf('B','A','C'), listOf('A','B','C'), buildBinaryTree(
-                        listOf(RBTNode(1, 2, null, 'A'), RBTNode(value = 'B'), RBTNode(value = 'C')))),
-                data(listOf('D','E','B','C','A'), listOf('A','B','D','E','C'), buildBinaryTree(
-                        listOf(RBTNode(1, value = 'A'), RBTNode(2, 3, value = 'B'),
-                                RBTNode(null, 4, value = 'D'), RBTNode(value = 'C'),
-                                RBTNode(value = 'E')))),
+        val data = listOfNotNull(
+                data(listOf('A'), listOf('A'), expected = buildBinaryTreeRoot(
+                        listOf(rbt(null, null, null, 'A')))),
+                data(listOf('B','A'), listOf('A','B'), expected = buildBinaryTreeRoot(
+                        listOf(rbt(1, null, null, 'A'), rbt(null, null, 0, 'B')))),
+                data(listOf('B','A','C'), listOf('A','B','C'), buildBinaryTreeRoot(
+                        listOf(rbt(1, 2, null, 'A'), rbt(null, value = 'B'), rbt(null, value = 'C')))),
+                data(listOf('D','E','B','C','A'), listOf('A','B','D','E','C'), buildBinaryTreeRoot(
+                        listOf(rbt(1, value = 'A'), rbt(2, 3, value = 'B'),
+                                rbt(null, 4, value = 'D'), rbt(null, value = 'C'),
+                                rbt(null, value = 'E')))),
                 data(listOf('D','B','E','A','C'), listOf('A','B','D','E','C'),
-                        expected = buildBinaryTree(listOf(
-                                RBTNode(1, 2, null, 'A'), RBTNode(3, 4, 0, 'B'),
-                                RBTNode(null, null, 0, 'C'), RBTNode(null, null, 1, 'D'),
-                                RBTNode(null, null, 1, 'E')
+                        expected = buildBinaryTreeRoot(listOf(
+                                rbt(1, 2, null, 'A'), rbt(3, 4, 0, 'B'),
+                                rbt(null, null, 0, 'C'), rbt(null, null, 1, 'D'),
+                                rbt(null, null, 1, 'E')
                         ))),
                 data(listOf('D','E','B','A','C'), listOf('A','B','D','E','C'),
-                        expected = buildBinaryTree(listOf(
-                                RBTNode(1, 2, null, 'A'), RBTNode(3, null, 0, 'B'),
-                                RBTNode(null, null, 0, 'C'), RBTNode(null, 4, 1, 'D'),
-                                RBTNode(null, null, 3, 'E')
+                        expected = buildBinaryTreeRoot(listOf(
+                                rbt(1, 2, null, 'A'), rbt(3, null, 0, 'B'),
+                                rbt(null, null, 0, 'C'), rbt(null, 4, 1, 'D'),
+                                rbt(null, null, 3, 'E')
                         ))),
                 data(listOf('D','E','C','B','A'), listOf('A','B','D','E','C'),
-                        expected = buildBinaryTree(listOf(
-                                RBTNode(1, null, null, 'A'), RBTNode(2, null, 0, 'B'),
-                                RBTNode(null, 3, 1, 'D'), RBTNode(null, 4, 2, 'E'),
-                                RBTNode(null, null, 3, 'C')
+                        expected = buildBinaryTreeRoot(listOf(
+                                rbt(1, null, null, 'A'), rbt(2, null, 0, 'B'),
+                                rbt(null, 3, 1, 'D'), rbt(null, 4, 2, 'E'),
+                                rbt(null, null, 3, 'C')
                         ))),
                 null
-        ).filterNotNull().toTypedArray()
+        ).toTypedArray()
         on("inorder: %s, preorder: %s", with = *data) {
             inorder, preorder, expected ->
             it("returns $expected") {

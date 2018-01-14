@@ -16,8 +16,11 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
     val isRoot: Boolean
         get() = parent == null
 
-    val isLeaf: Boolean
+    val isALeaf: Boolean
         get() = (left ?: right) == null
+
+    val isNotALeaf: Boolean
+        get() = !isALeaf
 
     val hasRight: Boolean
         get() = right != null
@@ -82,6 +85,11 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
                 }
             }
             return Pair(nodes[0], nodes.toSortedMap().values.toList())
+        }
+
+        fun <T : Comparable<T>> buildBinaryTreeRoot(
+                rawTree: List<RawBinaryTreeNode<T>>): BinaryTreeNode<T> {
+            return BinaryTreeNode.buildBinaryTree(rawTree).first!!
         }
 
         fun <T : Comparable<T>> buildBinaryTree(
