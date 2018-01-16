@@ -1,8 +1,10 @@
 package com.lagostout.elementsofprogramminginterviews.sorting
 
 import com.google.common.base.MoreObjects
-import com.lagostout.elementsofprogramminginterviews.sorting.UnionOfIntervals.EndPoint.Closed
-import com.lagostout.elementsofprogramminginterviews.sorting.UnionOfIntervals.EndPoint.Open
+import com.lagostout.elementsofprogramminginterviews.sorting.UnionOfIntervals.EndPoint.Companion.c
+import com.lagostout.elementsofprogramminginterviews.sorting.UnionOfIntervals.EndPoint.Companion.o
+import com.lagostout.elementsofprogramminginterviews.sorting.UnionOfIntervals.PointType.CLOSED
+import com.lagostout.elementsofprogramminginterviews.sorting.UnionOfIntervals.PointType.OPEN
 import org.apache.commons.collections4.iterators.PeekingIterator
 
 /**
@@ -10,21 +12,19 @@ import org.apache.commons.collections4.iterators.PeekingIterator
  */
 object UnionOfIntervals {
 
-    sealed class EndPoint(val value: Int) {
-        class Open(value: Int): EndPoint(value)
-        class Closed(value: Int): EndPoint(value)
-        operator fun compareTo(other: EndPoint): Int {
-            return value - other.value
-        }
+    enum class PointType(val n: String) {
+        OPEN("open"), CLOSED("closed")
+    }
 
+    data class EndPoint(val value: Int, val type: PointType) {
         override fun toString(): String {
             return MoreObjects.toStringHelper(
                     this.javaClass.canonicalName.split(".").last())
                     .add("value", value).toString()
         }
         companion object {
-            fun o(value: Int) = Open(value)
-            fun c(value: Int) = Closed(value)
+            fun o(value: Int) = EndPoint(value, OPEN)
+            fun c(value: Int) = EndPoint(value, CLOSED)
         }
     }
 
@@ -41,35 +41,37 @@ object UnionOfIntervals {
         val iterator = PeekingIterator(intervals.iterator())
         var interval = iterator.next()
         var end = interval.end
-        while (iterator.hasNext()) {
+        do {
             val noOverlapWithNextInterval = run {
                 iterator.peek()?.let {
-                    interval.end < it.start ||
-                            (interval.end == it.start &&
+                    interval.end.value < it.start.value ||
+                            (interval.end.type == it.start.type &&
                                     listOf(interval.end, it.start)
-                                            .all { it is Open })
+                                            .all { it.type == OPEN })
                 } ?: true
             }
             if (noOverlapWithNextInterval) {
                 mergedIntervals.add(interval.copy(end = end))
-                iterator.peek()?.let {
-                    interval = it
-                    end = it.end
-                }
+                if (iterator.hasNext()) {
+                    iterator.next()?.let {
+                        interval = it
+                        end = it.end
+                    }
+                } else break
             } else {
                 end = iterator.next().end.let {
                     when {
                         it.value < interval.end.value -> interval.end
                         it.value > interval.end.value -> it
                         else -> {
-                            (if (listOf(interval.end, it).any { it is Closed })
-                                ::Closed else ::Open)
-                                    .call("value" to it.value)
+                            (if (listOf(interval.end, it)
+                                    .any { it.type == CLOSED }) ::c else ::o)
+                                    .invoke(it.value)
                         }
                     }
                 }
             }
-        }
+        } while (true)
         return mergedIntervals
     }
 
