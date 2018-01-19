@@ -94,11 +94,11 @@ object TowersOfHanoi {
         }
 
         fun extra(vararg pegs: Peg<T>): Peg<T> {
-            return extras(*pegs)[0]
+            return filterNot(*pegs)[0]
         }
 
-        fun extras(vararg pegs: Peg<T>): List<Peg<T>> {
-            return pegs.filter { it !in pegs }
+        fun filterNot(vararg pegs: Peg<T>): List<Peg<T>> {
+            return pegs.filterNot { it in pegs }
         }
 
         override fun equals(other: Any?): Boolean {

@@ -1,7 +1,8 @@
 package com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi
 
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition
-import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.*
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.FIRST
+import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.PegPosition.SECOND
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.Ring
 import com.lagostout.elementsofprogramminginterviews.recursion.towersofhanoi.TowersOfHanoi.RingMove
 import org.jetbrains.spek.api.Spek
@@ -21,14 +22,15 @@ object TowersOfHanoiMinimumOperationsWithOnePegAlwaysInvolvedSpek : Spek({
                             val expectedOperationCount: Int? = null)
 
         val testCases = listOf(
-                TestCase(TowersOfHanoi.PegPosition.FIRST, SECOND),
-                TestCase(FIRST, SECOND, 1),
-                TestCase(FIRST, SECOND, 2),
-                TestCase(FIRST, SECOND, 3, expectedOperationCount = 26),
-                TestCase(THIRD, THIRD, 5),
-                TestCase(SECOND, THIRD, 5),
-                TestCase(THIRD, SECOND, 5),
-                TestCase(THIRD, FIRST, 5),
+//                TestCase(TowersOfHanoi.PegPosition.FIRST, SECOND),
+                TestCase(FIRST, SECOND, 3),
+//                TestCase(FIRST, SECOND, 4),
+//                TestCase(FIRST, SECOND, 2),
+//                TestCase(FIRST, SECOND, 3, expectedOperationCount = 26),
+//                TestCase(THIRD, THIRD, 5),
+//                TestCase(SECOND, THIRD, 5),
+//                TestCase(THIRD, SECOND, 5),
+//                TestCase(THIRD, FIRST, 5),
                 null).filterNotNull()
 
         testCases.forEach {
