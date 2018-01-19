@@ -87,6 +87,10 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
             return Pair(nodes[0], nodes.toSortedMap().values.toList())
         }
 
+        fun <T : Comparable<T>> bbtr (rawNodes: List<RawBinaryTreeNode<T>>): BinaryTreeNode<T>? {
+            return BinaryTreeNode.buildBinaryTree(rawNodes).first
+        }
+
         fun <T : Comparable<T>> buildBinaryTreeRoot(
                 rawTree: List<RawBinaryTreeNode<T>>): BinaryTreeNode<T> {
             return BinaryTreeNode.buildBinaryTree(rawTree).first!!
