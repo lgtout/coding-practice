@@ -67,6 +67,10 @@ class KSumWithRepetitionAllowedSpek : Spek({
 //                Triple(listOf(-9,-7,6,9), 4, 11),
 
                 // TODO
+//                Triple(listOf(-5,-3,2,5), 4, -2),
+//                Triple(listOf(-3,-3,2,2), 4, -2),
+//                Triple(listOf(0,-3,2,2), 4, -2),
+//                Triple(listOf(-5,-3,2,6), 4, -2),
                 Triple(listOf(-5,-3,2,5), 4, -2),
 //                Triple(listOf(-9,-7,6,9), 4, -2),  // -2 = [[-7, -7, 6, 6]]
 
@@ -100,9 +104,10 @@ class KSumWithRepetitionAllowedSpek : Spek({
 //                Triple(listOf(1,2,3,4), 2, 5),
 //                Triple(listOf(1,2,4,5), 2, 6),
 //                Triple(listOf(1,2,4,5), 6, 12),
-                null)).map { (list, k, sum) ->
-            data(list.shuffled(random), k, sum,
-                    bruteForceSolution(list, k, sum))
+                null))
+//                .map { it.copy(it.first.shuffled(random)) }
+                .map { (list, k, sum) ->
+                    data(list, k, sum, bruteForceSolution(list, k, sum))
         }.toTypedArray()
         on("list: %s, k: %s, sum: %s", with = *data) {
             list: List<Int>, k: Int, sum: Int, expected: Boolean ->

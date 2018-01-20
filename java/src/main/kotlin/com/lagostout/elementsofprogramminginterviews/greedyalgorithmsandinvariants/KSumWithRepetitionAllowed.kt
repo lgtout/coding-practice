@@ -20,12 +20,6 @@ fun canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
     }
 }
 
-private fun subSum(list: List<Int>, k: Int, sum: Int, leftRightSum: Int): Int {
-    return if (k > 2)
-        findClosestSum(list, k - 2, sum - leftRightSum)
-    else 0
-}
-
 //private fun findClosestSum(list: List<Int>, k: Int, sum: Int,
 //                           start: Int = 0, end: Int = list.lastIndex): Int {
 private fun findClosestSum(list: List<Int>, k: Int, sum: Int): Int {
@@ -40,25 +34,36 @@ private fun findClosestSum(list: List<Int>, k: Int, sum: Int): Int {
     do {
         leftNumber = list[left]
         rightNumber = list[right]
-        println("[k: $k] left: $left, right: $right, leftNumber: $leftNumber, rightNumber: $rightNumber")
+        println("[k: $k] left: $left, right: $right, " +
+                "leftNumber: $leftNumber, rightNumber: $rightNumber")
         val leftRightSum = leftNumber + rightNumber
-        currentSum = leftRightSum + subSum(list, k, sum, leftRightSum)
-        println("[k: $k] leftRightSum $leftRightSum, currentSum $currentSum")
+        val subSum = + if (k > 2)
+            findClosestSum(list, k - 2, sum - leftRightSum)
+        else 0
+        println("[k: $k] subSum: $subSum")
+        currentSum = leftRightSum + subSum
+        println("[k: $k] leftRightSum: $leftNumber + $rightNumber = " +
+                "$leftRightSum, currentSum: $leftRightSum + $subSum = " +
+                "$currentSum")
         when {
             currentSum < sum -> {
                 println("[k: $k] currentSum < sum: $currentSum < $sum")
                 if (left < right) {
                     ++left
+                    println("[k: $k] moving left bound right")
                 } else null
             }
             currentSum > sum -> {
                 println("[k: $k] currentSum > sum: $currentSum > $sum")
                 if (right > left) {
                     --right
+                    println("[k: $k] moving right bound left")
                 } else null
             }
             else -> {
                 println("[k: $k] currentSum == sum: $currentSum == $sum")
+                println("[k: $k] found matching sum!")
+                println("[k: $k] leaving bounds as they are")
                 null
             }
         } ?: run { exitLoop = true }
