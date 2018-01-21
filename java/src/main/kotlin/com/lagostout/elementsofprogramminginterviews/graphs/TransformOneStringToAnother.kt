@@ -53,22 +53,20 @@ fun lengthOfShortestProductionSequence(from: String, to: String,
     while (stack.isNotEmpty()) {
         run {
             stack.pop().let { (word, adjacentWordIndex) ->
-                if (adjacentWordIndex >= graph[word]?.size ?: 0) {
-                    return@run
-                }
-                stack.push(Frame(word, adjacentWordIndex.inc()))
                 graph[word]?.let {
-                    it[adjacentWordIndex].let {
+                    if (adjacentWordIndex >= it.size) return@run
+                    stack.push(Frame(word, adjacentWordIndex.inc()))
+                    it[adjacentWordIndex].let { adjacentWord ->
                         // Don't add _to_ to explored
-                        if (it == to) {
+                        if (adjacentWord == to) {
                             val pathLength = stack.size
                             distance = listOfNotNull(
                                     distance, pathLength).min()
                             return@run
                         }
-                        if (it in explored) return@run
-                        stack.push(Frame(it, 0))
-                        explored.add(it)
+                        if (stack.any { it.word == adjacentWord }) return@run
+                        stack.push(Frame(adjacentWord, 0))
+                        explored.add(adjacentWord)
                     }
                 }
             }
