@@ -72,6 +72,9 @@ fun Int.positionOfMostSignificantBit(): Int {
 val Int.isOdd: Boolean
     get() = this % 2 == 1
 
+val Int.isEven: Boolean
+    get() = !isOdd
+
 fun Map<Int, Int>.printValuesAsBinaryStrings() = {
     forEach { t: Int, u: Int ->
         println("${t.toBinaryString()}: ${u.toBinaryString()}")
