@@ -49,11 +49,9 @@ object ClosestIntegerWithSameWeightSpek : Spek({
                 }
     }
 
-//    val data by memoized { (0..100).map {
-//        data(it, findClosestIntegerWithBruteForce(it))
-//    }.toTypedArray() }
-
-    val data = listOf(data(0b1001, findClosestIntegerWithBruteForce(0b1001)))
+    val data by memoized { (0..100).map {
+        data(it, findClosestIntegerWithBruteForce(it))
+    }.toTypedArray() }
 
     describe("findClosestIntegerWithSameWeight()") {
         data.forEach { (number, expected) ->
