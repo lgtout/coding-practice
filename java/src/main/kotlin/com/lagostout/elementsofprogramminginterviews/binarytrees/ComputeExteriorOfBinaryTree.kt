@@ -11,53 +11,47 @@ object ComputeExteriorOfBinaryTree {
     private enum class Step { LEFT, RIGHT, DONE }
 
     private data class Frame<T>(val node: BinaryTreeNode<T>,
-                                val step: Step,
-                                val inLeftSubtree: Boolean,
-                                val inRightSubtree: Boolean)
+                                val step: Step = LEFT,
+                                val leftCount: Int = 0,
+                                val rightCount: Int = 0)
 
     fun <T> computeExteriorOfBinaryTree(root: BinaryTreeNode<T>) :
-            List<BinaryTreeNode<T>>? {
+            List<T> {
         val stack = LinkedList<Frame<T>>().apply {
-            add(Frame(root, LEFT, true, false))
+            add(Frame(root, LEFT))
         }
-        val exterior = mutableListOf<BinaryTreeNode<T>>()
+        val exterior = mutableListOf<T>()
         while (stack.isNotEmpty()) {
-            stack.pop().let {
-                var frame = it
-                frame.apply {
-                    listOf(!inRightSubtree && node.isNotALeaf,
-                            !inLeftSubtree && step == DONE && !node.isRoot,
-                            node.isALeaf).any { it }.let {
-                        exterior.add(node)
-                    }
+            var frame = stack.pop()
+            if (frame.step == LEFT) {
+                if (frame.node.isNotALeaf) {
+                    frame = frame.copy(step = RIGHT)
+                    stack.push(frame)
                 }
-                if (frame.node.isRoot && frame.step == RIGHT) {
-                    frame = frame.copy(frame.node,
-                            inLeftSubtree = false,
-                            inRightSubtree = true)
+                if (frame.rightCount == 0 || frame.node.isALeaf)
+                    exterior.add(frame.node.value)
+                frame.node.left?.let { node ->
+                    stack.push(Frame(node = node,
+                            leftCount = frame.leftCount + 1,
+                            rightCount = frame.rightCount))
                 }
-                frame.apply {
-                    when (step) {
-                        LEFT -> {
-                            stack.push(copy(step = RIGHT))
-                            node.left?.let {
-                                stack.push(Frame(it, LEFT,
-                                        true, inRightSubtree))
-                            }
-                        }
-                        RIGHT -> {
-                            stack.push(copy(step = DONE))
-                            node.right?.let {
-                                stack.push(Frame(it, LEFT,
-                                        inLeftSubtree, true))
-                            }
-                        }
-                        else -> Unit
-                    }
+            } else if (frame.step == RIGHT)  {
+                if (frame.node.isNotALeaf) {
+                    frame = frame.copy(step = DONE)
+                    stack.push(frame)
                 }
+                if (frame.node.isALeaf && frame.node != root)
+                    exterior.add(frame.node.value)
+                frame.node.right?.let { node ->
+                    stack.push(Frame(node = node,
+                            leftCount = frame.leftCount,
+                            rightCount = frame.rightCount + 1))
+                }
+            } else if (frame.rightCount == 0 && frame.node != root) {
+                exterior.add(frame.node.value)
             }
         }
-        return null
+        return exterior
     }
 
 }
