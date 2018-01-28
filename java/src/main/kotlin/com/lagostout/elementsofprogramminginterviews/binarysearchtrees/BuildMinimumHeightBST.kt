@@ -18,8 +18,9 @@ object BuildMinimumHeightBST {
 
     fun <T : Comparable<T>> buildMinimumHeightBST(
             sortedValues: List<T>): BinaryTreeNode<T>? {
+        if (sortedValues.isEmpty()) return null
         val stack = LinkedList<Frame>().apply {
-            Frame(0, sortedValues.lastIndex)
+            add(Frame(0, sortedValues.lastIndex))
         }
         val center = stack.peek().center
         val nodes = MutableList(sortedValues.size) {
@@ -27,29 +28,25 @@ object BuildMinimumHeightBST {
         while (stack.isNotEmpty()) {
             stack.pop().also { frame ->
                 if (frame.start <= frame.end) {
-                    if (frame.step != DONE) {
-                        val node = BinaryTreeNode(value = sortedValues[frame.center])
-                        nodes[frame.center] = node
-                    }
-                    val node = BinaryTreeNode(value = sortedValues[frame.center])
-                    nodes[frame.center] = node
                     when (frame.step) {
                         LEFT -> {
                             nodes[frame.center] = BinaryTreeNode(
                                     value = sortedValues[frame.center])
                             stack.push(frame.copy(step = RIGHT))
-                            stack.push(frame.copy(end = frame.center - 1))
+                            stack.push(frame.copy(end = frame.center - 1, step = LEFT))
                         }
                         RIGHT -> {
                             stack.push(frame.copy(step = DONE))
-                            stack.push(frame.copy(start = frame.center + 1))
+                            stack.push(frame.copy(start = frame.center + 1, step = LEFT))
                         }
                         else -> {
-                            stack.peek().center.let { parentIndex ->
-                                nodes[parentIndex]?.let { parent ->
-                                    (if (frame.center < parentIndex)
-                                        parent::left else parent::right)
-                                            .set(nodes[frame.center])
+                            if (stack.isNotEmpty()) {
+                                stack.peek().center.let { parentIndex ->
+                                    nodes[parentIndex]?.let { parent ->
+                                        (if (frame.center < parentIndex)
+                                            parent::left else parent::right)
+                                                .set(nodes[frame.center])
+                                    }
                                 }
                             }
                         }
