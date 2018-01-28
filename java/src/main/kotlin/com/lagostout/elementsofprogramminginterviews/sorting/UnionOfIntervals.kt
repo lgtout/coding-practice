@@ -7,9 +7,8 @@ import com.lagostout.elementsofprogramminginterviews.sorting.UnionOfIntervals.Po
 import com.lagostout.elementsofprogramminginterviews.sorting.UnionOfIntervals.PointType.OPEN
 import org.apache.commons.collections4.iterators.PeekingIterator
 
-/**
- * Problem 14.6 page 248
- */
+/* Problem 14.6 page 248 */
+
 object UnionOfIntervals {
 
     enum class PointType(val n: String) {
@@ -20,7 +19,9 @@ object UnionOfIntervals {
         override fun toString(): String {
             return MoreObjects.toStringHelper(
                     this.javaClass.canonicalName.split(".").last())
-                    .add("value", value).toString()
+                    .add("value", value)
+                    .add("type", type)
+                    .toString()
         }
         companion object {
             fun o(value: Int) = EndPoint(value, OPEN)
@@ -39,34 +40,38 @@ object UnionOfIntervals {
         if (intervals.isEmpty()) return mergedIntervals
         intervals.sortedBy { it.start.value }
         val iterator = PeekingIterator(intervals.iterator())
-        var interval = iterator.next()
-        var end = interval.end
+        var (start, end) = iterator.next()
         do {
             val noOverlapWithNextInterval = run {
                 iterator.peek()?.let {
-                    interval.end.value < it.start.value ||
-                            (interval.end.type == it.start.type &&
-                                    listOf(interval.end, it.start)
+                    end.value < it.start.value ||
+                            (end.value == it.start.value &&
+                                    listOf(end, it.start)
                                             .all { it.type == OPEN })
                 } ?: true
             }
             if (noOverlapWithNextInterval) {
-                mergedIntervals.add(interval.copy(end = end))
+                mergedIntervals.add(Interval(start, end))
                 if (iterator.hasNext()) {
                     iterator.next()?.let {
-                        interval = it
+                        start = it.start
                         end = it.end
                     }
                 } else break
             } else {
-                end = iterator.next().end.let {
-                    when {
-                        it.value < interval.end.value -> interval.end
-                        it.value > interval.end.value -> it
+                iterator.next().let {
+                    if (it.start.value == start.value && it.start.type == CLOSED) {
+                        start = it.start
+                    }
+                    println(start)
+                    println(it.start)
+                    end = when {
+                        it.end.value < end.value -> end
+                        it.end.value > end.value -> it.end
                         else -> {
-                            (if (listOf(interval.end, it)
+                            (if (listOf(end, it.end)
                                     .any { it.type == CLOSED }) ::c else ::o)
-                                    .invoke(it.value)
+                                    .invoke(it.end.value)
                         }
                     }
                 }
