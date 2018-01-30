@@ -22,3 +22,5 @@ fun <T : Comparable<T>> buildRandomBinarySearchTree(
     TODO("Implement when BinarySearchTree done")
 //    return null
 }
+
+data class Position(val row: Int, val col: Int)

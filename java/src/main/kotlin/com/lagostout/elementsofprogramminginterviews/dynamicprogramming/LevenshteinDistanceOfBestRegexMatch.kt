@@ -1,9 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
-import com.lagostout.elementsofprogramminginterviews.dynamicprogramming
-        .LevenshteinDistanceOfBestRegexMatch.CharGroupType.OneAny
-import com.lagostout.elementsofprogramminginterviews.dynamicprogramming
-        .LevenshteinDistanceOfBestRegexMatch.Distances.Position
+import com.lagostout.common.Position
+import com.lagostout.elementsofprogramminginterviews.dynamicprogramming.LevenshteinDistanceOfBestRegexMatch.CharGroupType.OneAny
 import java.util.regex.Pattern
 
 /* Problem 17.2.5 page 316 */
@@ -29,7 +27,6 @@ object LevenshteinDistanceOfBestRegexMatch {
     data class CharGroup(val value: String, val type: CharGroupType)
 
     class Distances(private val cache: List<List<Int>>) {
-        data class Position(val row: Int, val col: Int)
 
         lateinit var position: Position
 
