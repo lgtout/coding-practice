@@ -1,5 +1,7 @@
 package com.lagostout.bytebybyte
 
+import com.lagostout.bytebybyte.FindLargestSquareSubarray.Position.Companion.p
+
 /*
 Given a 2D boolean array, find the largest square subarray of true values.
 The return value should be the side length of the largest square subarray
@@ -12,10 +14,129 @@ squareSubmatrix([false, true, false, false]) = 2
 */
 
 object FindLargestSquareSubarray {
-    fun computeWithRecursion() {}
-    fun computeWithRecursionAndMemoization(array: Array<Int>) {}
-    data class Square(val x: Int, val y: Int)
-    fun computeWithRecursionAndMemoization(array: Array<Int>, dp: Square) {}
+
+    data class Position(val row: Int, val col: Int) {
+        fun shiftRight(): Position {
+            return copy(col = col + 1)
+        }
+        fun shiftDown(): Position {
+            return copy(row = row + 1)
+        }
+        companion object {
+            fun p(row: Int, col: Int): Position {
+                return Position(row, col)
+            }
+        }
+    }
+
+    data class Rectangle(val topCorner: Position, val bottomCorner: Position) {
+        val width = bottomCorner.col - topCorner.col
+        val height = bottomCorner.row - topCorner.row
+        val size = width * height
+        fun shiftRight(): Rectangle {
+            return copy(topCorner = topCorner.shiftRight(),
+                    bottomCorner = bottomCorner.shiftRight())
+        }
+        fun shiftDown(): Rectangle {
+            return copy(topCorner = topCorner.shiftDown(),
+                    bottomCorner = bottomCorner.shiftDown())
+        }
+        companion object {
+            fun r(topCorner: Position, bottomCorner: Position): Rectangle {
+                return Rectangle(topCorner, bottomCorner)
+            }
+            fun r(topRow: Int, topCol: Int, bottomRow: Int, bottomCol: Int): Rectangle {
+                return Rectangle(p(topRow, topCol), p(bottomRow, bottomCol))
+            }
+        }
+    }
+
+    fun computeWithRecursion(array: Array<Array<Boolean>>): Rectangle? {
+        return computeWithRecursion(
+                Rectangle(p(0,0), p(array.size, array[0].size)), array)
+    }
+
+    private fun computeWithRecursion(
+            rectangle: Rectangle, array: Array<Array<Boolean>>): Rectangle? {
+        return if (rectangle.size == 1) {
+            rectangle.topCorner.let {
+                if (array[it.row][it.col]) rectangle else null
+            }
+        } else {
+            val isFlat = rectangle.width > rectangle.height
+            val bottomCorner = if (isFlat) {
+                Position(rectangle.bottomCorner.row,
+                        rectangle.topCorner.col + rectangle.width - 1)
+            } else {
+                Position(rectangle.topCorner.row + rectangle.height - 1,
+                        rectangle.bottomCorner.col)
+            }
+            var subRectangle = rectangle.copy(bottomCorner = bottomCorner)
+            var maxTrueSubRectangle: Rectangle? = null
+            var isAllTrue = true
+            while (true) {
+                if (subRectangle.bottomCorner.col > array[0].size ||
+                        subRectangle.bottomCorner.row > array.size) break
+                computeWithRecursion(subRectangle, array)?.let {
+                    if (it != subRectangle) isAllTrue = false
+                    maxTrueSubRectangle = maxTrueSubRectangle?.let { maxRectangle ->
+                        if (it.size > maxRectangle.size) it else maxRectangle
+                    } ?: it
+                }
+                subRectangle = if (isFlat) { subRectangle::shiftRight }
+                else { subRectangle::shiftDown }()
+            }
+            if (isAllTrue) subRectangle else maxTrueSubRectangle
+        }
+    }
+
+    fun computeWithRecursionAndMemoization(array: Array<Array<Boolean>>): Rectangle? {
+        val dp = mutableMapOf<Rectangle, Rectangle?>()
+        return computeWithRecursionAndMemoization(
+                Rectangle(p(0,0), p(array.size, array[0].size)), array, dp)
+    }
+
+    private fun computeWithRecursionAndMemoization(
+            rectangle: Rectangle, array: Array<Array<Boolean>>,
+            dp: MutableMap<Rectangle, Rectangle?>): Rectangle? {
+        return if (dp.containsKey(rectangle)) {
+            dp[rectangle]
+        } else {
+            if (rectangle.size == 1) {
+                rectangle.topCorner.let {
+                    if (array[it.row][it.col]) rectangle else null
+                }
+            } else {
+                val isFlat = rectangle.width > rectangle.height
+                val bottomCorner = if (isFlat) {
+                    Position(rectangle.bottomCorner.row,
+                            rectangle.topCorner.col + rectangle.width - 1)
+                } else {
+                    Position(rectangle.topCorner.row + rectangle.height - 1,
+                            rectangle.bottomCorner.col)
+                }
+                var subRectangle = rectangle.copy(bottomCorner = bottomCorner)
+                var maxTrueSubRectangle: Rectangle? = null
+                var isAllTrue = true
+                while (true) {
+                    if (subRectangle.bottomCorner.col > array[0].size ||
+                            subRectangle.bottomCorner.row > array.size) break
+                    computeWithRecursion(subRectangle, array)?.let {
+                        if (it != subRectangle) isAllTrue = false
+                        maxTrueSubRectangle = maxTrueSubRectangle?.let { maxRectangle ->
+                            if (it.size > maxRectangle.size) it else maxRectangle
+                        } ?: it
+                    }
+                    subRectangle = if (isFlat) { subRectangle::shiftRight }
+                    else { subRectangle::shiftDown }()
+                }
+                if (isAllTrue) subRectangle else maxTrueSubRectangle
+            }.also {
+                dp[rectangle] = it
+            }
+        }
+    }
+
     fun computeWithMemoizationBottomUp() {}
 
 //    fun computeWithRecursion() {}
