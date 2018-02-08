@@ -1,5 +1,6 @@
 # coding-practice 
-Problem sources
+####Problem sources
+
 * [LC] [Leetcode](http://leetcode.com) 
 * [UVA] 
   * [UVA](https://uva.onlinejudge.org/) 
@@ -9,3 +10,10 @@ Problem sources
 * [EP] [Elements of Programming Interviews In Java](https://github.com/adnanaziz/epicode)
 * [BB] [Byte by Byte](https://www.byte-by-byte.com)
 * [DC] [Daily Coding Problem](https://www.dailycodingproblem.com/)
+
+#### Programming languages used in solutions
+
+* Swift
+* Kotlin
+* Java
+* Groovy
