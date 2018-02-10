@@ -13,7 +13,7 @@
 
 #### Programming languages used in solutions
 
-* Swift
-* Kotlin
-* Java
-* Groovy
+* [Swift](https://github.com/lgtout/coding-practice/tree/master/swift/CodingPractice)
+* [Kotlin](https://github.com/lgtout/coding-practice/tree/master/java/src/main/kotlin/com/lagostout) | [Tests](https://github.com/lgtout/coding-practice/tree/master/java/src/test/kotlin/com/lagostout)
+* [Java](https://github.com/lgtout/coding-practice/tree/master/java/src/main/java)
+* [Groovy](https://github.com/lgtout/coding-practice/tree/master/java/src/main/groovy/com/lagostout) | [Tests](https://github.com/lgtout/coding-practice/tree/master/java/src/test/groovy/com/lagostout)
