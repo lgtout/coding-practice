@@ -1,4 +1,4 @@
-package com.lagostout.bytebybyte
+package com.lagostout.bytebybyte.dynamicprogramming
 
 /* Given a list of items with values and weights, as well as a max weight,
 find the maximum value you can generate from items, where the sum of the
@@ -45,7 +45,7 @@ object ZeroOneKnapsack {
             items: Set<Item>, maxWeight: Int): Int {
         val dp = mutableMapOf<Set<Item>, Int?>()
         computeWithRecursionAndMemoization(
-                items, maxWeight, dp)
+            items, maxWeight, dp)
         return dp[items] ?: 0
     }
 

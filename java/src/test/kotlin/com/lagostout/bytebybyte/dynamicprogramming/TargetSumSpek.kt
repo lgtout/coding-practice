@@ -1,4 +1,4 @@
-package com.lagostout.bytebybyte
+package com.lagostout.bytebybyte.dynamicprogramming
 
 import com.lagostout.common.nextBoolean
 import com.lagostout.common.nextInt

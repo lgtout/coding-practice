@@ -1,4 +1,4 @@
-package com.lagostout.bytebybyte
+package com.lagostout.bytebybyte.dynamicprogramming
 
 /*
 Given an integer representing a given amount of change, write a function to

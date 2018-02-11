@@ -1,4 +1,4 @@
-package com.lagostout.bytebybyte
+package com.lagostout.bytebybyte.dynamicprogramming
 
 /* Given an array of integers, nums and a target value T, find the number of
 ways that you can add and subtract the values in nums to add up to T.

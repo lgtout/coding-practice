@@ -1,9 +1,8 @@
-package com.lagostout.bytebybyte
+package com.lagostout.bytebybyte.dynamicprogramming
 
-import com.lagostout.bytebybyte.FindLargestSquareSubarray.Position.Companion.p
-import com.lagostout.bytebybyte.FindLargestSquareSubarray.Rectangle.Companion.r
-import com.lagostout.bytebybyte.FindLargestSquareSubarray.computeWithRecursion
-import com.lagostout.bytebybyte.FindLargestSquareSubarray.computeWithRecursionAndMemoization
+import com.lagostout.bytebybyte.dynamicprogramming.FindLargestSquareSubarray.Position.Companion.p
+import com.lagostout.bytebybyte.dynamicprogramming.FindLargestSquareSubarray.Rectangle.Companion.r
+import com.lagostout.bytebybyte.dynamicprogramming.FindLargestSquareSubarray.computeWithRecursion
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe

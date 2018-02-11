@@ -1,4 +1,4 @@
-package com.lagostout.bytebybyte
+package com.lagostout.bytebybyte.dynamicprogramming
 
 import kotlin.math.max
 import kotlin.math.min

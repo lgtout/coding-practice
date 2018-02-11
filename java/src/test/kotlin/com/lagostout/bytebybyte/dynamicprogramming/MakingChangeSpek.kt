@@ -1,8 +1,8 @@
-package com.lagostout.bytebybyte
+package com.lagostout.bytebybyte.dynamicprogramming
 
-import com.lagostout.bytebybyte.MinimumNumberOfCoinsToMakeChange.computeWithMemoizationBottomUp
-import com.lagostout.bytebybyte.MinimumNumberOfCoinsToMakeChange.computeWithRecursion
-import com.lagostout.bytebybyte.MinimumNumberOfCoinsToMakeChange.computeWithRecursionAndMemoization
+import com.lagostout.bytebybyte.dynamicprogramming.MinimumNumberOfCoinsToMakeChange.computeWithMemoizationBottomUp
+import com.lagostout.bytebybyte.dynamicprogramming.MinimumNumberOfCoinsToMakeChange.computeWithRecursion
+import com.lagostout.bytebybyte.dynamicprogramming.MinimumNumberOfCoinsToMakeChange.computeWithRecursionAndMemoization
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe

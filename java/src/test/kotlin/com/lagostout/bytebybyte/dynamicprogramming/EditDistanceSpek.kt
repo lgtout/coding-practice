@@ -1,8 +1,8 @@
-package com.lagostout.bytebybyte
+package com.lagostout.bytebybyte.dynamicprogramming
 
-import com.lagostout.bytebybyte.EditDistance.computeWithRecursion
-import com.lagostout.bytebybyte.EditDistance.computeWithRecursionAndMemoization
-import com.lagostout.bytebybyte.EditDistance.computeWithRecursionAndMemoizationBottomUp
+import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithRecursion
+import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithRecursionAndMemoization
+import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithRecursionAndMemoizationBottomUp
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe

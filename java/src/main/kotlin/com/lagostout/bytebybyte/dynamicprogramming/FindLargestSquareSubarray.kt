@@ -1,6 +1,6 @@
-package com.lagostout.bytebybyte
+package com.lagostout.bytebybyte.dynamicprogramming
 
-import com.lagostout.bytebybyte.FindLargestSquareSubarray.Position.Companion.p
+import com.lagostout.bytebybyte.dynamicprogramming.FindLargestSquareSubarray.Position.Companion.p
 
 /*
 Given a 2D boolean array, find the largest square subarray of true values.
@@ -54,7 +54,7 @@ object FindLargestSquareSubarray {
 
     fun computeWithRecursion(array: Array<Array<Boolean>>): Rectangle? {
         return computeWithRecursion(
-                Rectangle(p(0,0), p(array.size - 1, array[0].size - 1)), array)?.let {
+            Rectangle(p(0, 0), p(array.size - 1, array[0].size - 1)), array)?.let {
             println("result $it")
             (if (it.isFlat) it.bottomCorner.copy(col = it.topCorner.col + it.height - 1)
             else it.bottomCorner.copy(row = it.topCorner.row + it.width - 1)).let {
@@ -101,7 +101,7 @@ object FindLargestSquareSubarray {
     fun computeWithRecursionAndMemoization(array: Array<Array<Boolean>>): Rectangle? {
         val dp = mutableMapOf<Rectangle, Rectangle?>()
         return computeWithRecursionAndMemoization(
-                Rectangle(p(0,0), p(array.size, array[0].size)), array, dp)
+            Rectangle(p(0, 0), p(array.size, array[0].size)), array, dp)
     }
 
     // TODO Use latest simple recursion implementation.
