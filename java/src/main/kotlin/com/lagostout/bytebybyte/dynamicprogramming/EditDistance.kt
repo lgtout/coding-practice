@@ -68,7 +68,7 @@ object EditDistance {
     }
 
     // TODO Matrix cache implementation
-    fun computeWithRecursionAndMemoizationBottomUp(
+    fun computeWithMemoizationBottomUp(
             string1: String, string2: String): Int {
         // We're converting string1 into string2.
         val cache: MutableMap<Pair<Int, Int>, Int> = mutableMapOf()
