@@ -43,16 +43,16 @@ object ZeroOneKnapsack {
     }
     fun computeWithRecursionAndMemoization(
             items: Set<Item>, maxWeight: Int): Int {
-        val dp = mutableMapOf<Set<Item>, Int?>()
+        val cache = mutableMapOf<Set<Item>, Int?>()
         computeWithRecursionAndMemoization(
-            items, maxWeight, dp)
-        return dp[items] ?: 0
+            items, maxWeight, cache)
+        return cache[items] ?: 0
     }
 
     fun computeWithRecursionAndMemoization(
             items: Set<Item>, maxWeight: Int,
-            dp: MutableMap<Set<Item>, Int?>): Int? {
-        return dp[items] ?: when {
+            cache: MutableMap<Set<Item>, Int?>): Int? {
+        return cache[items] ?: when {
             maxWeight == 0 -> 0
             maxWeight < 0 -> null
             else -> {
@@ -67,22 +67,19 @@ object ZeroOneKnapsack {
                 maxValue
             }
         }.also {
-            dp[items] = it
+            cache[items] = it
         }
     }
 
-    fun computeWithMemoizationBottomUp(items: Set<Item>, maxWeight: Int) {
-        val dp = mutableMapOf<Set<Item>, Int?>()
-        (0..maxWeight).forEach { weight ->
-            items.map { item ->
-                val lowerWeight = weight - item.weight
-                if (lowerWeight == 0) item.weight
-                else if (lowerWeight < 0) null
-                else {
-//                    dp[lowerWeight]
-                }
+    fun computeWithMemoizationBottomUp(items: Set<Item>, maxWeight: Int): Int {
+        val cache = mutableMapOf<Set<Item>, Int>()
+        val itemSubsets = mutableSetOf<Set<Item>>().apply { add(emptySet())}
+        while (true) {
+            items.forEach {
+
             }
         }
+        return 0
     }
 
 }
