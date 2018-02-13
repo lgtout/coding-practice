@@ -14,9 +14,9 @@ import kotlin.math.absoluteValue
 
 object TargetSumSpek : Spek({
 
-    val data = run {
+    val data by memoized {
         val random = RandomDataGenerator().apply { reSeed(1) }
-        val caseCount = 100
+        val caseCount = 1000
         val numberRange = (1..10)
         (1..caseCount).map {
             val numberCount = random.nextInt(0,5)
@@ -31,15 +31,14 @@ object TargetSumSpek : Spek({
                 Generator.combination(it).simple(numberCount) }.filter {
                 it.map { it.absoluteValue }.toSet().size == numberCount }.groupBy {
                 it.sum() }.let { map ->
-                if (random.nextBoolean()) map.keys.toList().let {
-                    println(it.size)
-                    if (it.isEmpty()) Pair(0, 0)
+                if (random.nextBoolean()) map.keys.toList().let { // A reachable target.
+                    if (it.isEmpty()) Pair(0, 1) // There's one way to reach 0 with 0 numbers.
                     else {
                         val keyIndex = random.nextInt(0 until it.size)
                         val key = it[keyIndex]
                         Pair(key, map[key]!!.count())
                     }
-                } else { // An unreachable target
+                } else { // An unreachable target.
                     var target: Int
                     val unreachableSum = case.sum() + 1
                     do {
@@ -49,13 +48,22 @@ object TargetSumSpek : Spek({
                 }
             }.let { (target, expected) ->
                         data(case.toList(), target, expected) }
-        }
-    }.toTypedArray()
+        }.toTypedArray()
+    }
 
     describe("computeWithRecursion") {
         on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
             it("should return $expected") {
                 assertThat(TargetSum.computeWithRecursion(numbers, target))
+                        .isEqualTo(expected)
+            }
+        }
+    }
+
+    describe("computeWithRecursionAndMemoization") {
+        on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
+            it("should return $expected") {
+                assertThat(TargetSum.computeWithRecursionAndMemoization(numbers, target))
                         .isEqualTo(expected)
             }
         }
