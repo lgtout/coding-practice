@@ -52,11 +52,20 @@ object TargetSum {
         }
     }
 
+    @Suppress("NAME_SHADOWING")
     fun computeWithMemoizationBottomUp(numbers: List<Int>, target: Int) {
-        var index: Int = 0
-        var sum: Int = 0
-        var cache = mutableMapOf<Pair<Int, Int>, Int>()
-
+        val numbers = numbers.sorted() // This simplifies the implementation.
+        val cache = HashMap<Int, MutableSet<Set<Int>>>().apply {
+            put(target, mutableSetOf(emptySet()))
+        }
+        ((target + 1)..(target + numbers.sum())).forEach { currentTarget ->
+            numbers.map { currentTarget + it }.forEach { previousTarget ->
+                cache.getOrPut(previousTarget) { mutableSetOf(emptySet()) }.let {
+//                    it.add()
+                }
+            }
+//            val previousTarget
+        }
     }
 
 }
