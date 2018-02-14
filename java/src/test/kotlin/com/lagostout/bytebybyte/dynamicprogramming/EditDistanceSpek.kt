@@ -12,12 +12,13 @@ import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 
 object EditDistanceSpek : Spek({
+
     val data = listOfNotNull(
 //        data("A", "A", 0),
 //        data("A", "", 1),
 //        data("", "A", 1),
-        data("", "", 0),
-//        data("AA", "", 2),
+//        data("", "", 0),
+        data("AA", "", 2),
 //        data("", "AA", 2),
 //        data("AA", "AA", 0),
 //        data("AA", "AB", 1),
@@ -29,6 +30,7 @@ object EditDistanceSpek : Spek({
 //        data("ACBD", "AC", 2),
         null
     ).toTypedArray()
+
     xdescribe("computeWithRecursion") {
         on("string1: %s, string2: %s", with = *data) {
                 string1, string2, expected ->
@@ -38,6 +40,7 @@ object EditDistanceSpek : Spek({
             }
         }
     }
+
     xdescribe("computeWithRecursionAndMemoization") {
         on("string1: %s, string2: %s", with = *data) {
                 string1, string2, expected ->
@@ -47,6 +50,7 @@ object EditDistanceSpek : Spek({
             }
         }
     }
+
     describe("computeWithMemoizationBottomUp") {
         on("string1: %s, string2: %s", with = *data) {
                 string1, string2, expected ->
@@ -56,4 +60,5 @@ object EditDistanceSpek : Spek({
             }
         }
     }
+
 })

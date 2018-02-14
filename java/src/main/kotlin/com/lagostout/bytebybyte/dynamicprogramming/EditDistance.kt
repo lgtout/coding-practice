@@ -72,8 +72,6 @@ object EditDistance {
             string1: String, string2: String): Int {
         // We're converting string1 into string2.
         val cache: MutableMap<Pair<Int, Int>, Int> = mutableMapOf()
-        var distanceWhenPreviousMoveWasInsert: Int
-        var distanceWhenPreviousMoveWasModify: Int
         for (string1Index in min(0, string1.lastIndex)..string1.lastIndex) {
             /*
             It's impossible for a character in string1 to be aligned with one
@@ -102,24 +100,28 @@ object EditDistance {
                 or updates to string1. So the edit distances by insert and modify
                 are both 0.
                 */
-                if (listOf(previousPositionByInsert, previousPositionByModify).map {
-                            it.second }.any { it < 0 }) {
-                    distanceWhenPreviousMoveWasInsert = 0
-                    distanceWhenPreviousMoveWasModify = 0
-                } else {
-                    distanceWhenPreviousMoveWasInsert = cache[previousPositionByInsert]!!
-                    distanceWhenPreviousMoveWasModify = cache[previousPositionByModify]!!
-                }
+                val keys = listOf(previousPositionByInsert, previousPositionByModify).filter {
+                            it.toList().all { it >= 0 } }.map {
+                    println(it)
+                    cache[it]!! }
                 /*
                 If string1 is longer than string2 we must be careful not to access positions
                 within string2 that are greater than string2.lastIndex.  If it is greater, we
                 can assume we need to do an update to string1.  So we increment the edit distance.
                 */
-                cache[Pair(string1Index, string2Index)] = min(
-                    distanceWhenPreviousMoveWasInsert, distanceWhenPreviousMoveWasModify) +
+                cache[Pair(string1Index, string2Index)] = (keys.min() ?: 0) +
                         if ((string1Index > string2.lastIndex ||
-                                        string2Index < 0 || string1Index < 0 ||
-                                        string1[string1Index] != string1[string2Index])) 1 else 0
+                                        // If either index is at an index before the start
+                                        // of a string...
+                                        ((string2Index < 0 || string1Index < 0)
+                                                // But they're not both at an index before the start
+                                                // of a string (checking this because we shouldn't
+                                                // increment edit distance if there are no characters
+                                                // at the current indices)...
+                                                && !(string2Index < 0 && string1Index < 0)) ||
+                                        // Prevent accessing a negative index in either string.
+                                        (!(string2Index < 0 || string1Index < 0)
+                                                && string1[string1Index] != string1[string2Index]))) 1 else 0
             }
         }
         /*
