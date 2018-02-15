@@ -71,15 +71,25 @@ object ZeroOneKnapsack {
         }
     }
 
-    fun computeWithMemoizationBottomUp(items: Set<Item>, maxWeight: Int): Int {
-        val cache = mutableMapOf<Set<Item>, Int>()
-        val itemSubsets = mutableSetOf<Set<Item>>().apply { add(emptySet())}
-        while (true) {
-            items.forEach {
+    data class SubProblem(val remainingItems: Set<Item>, val value: Int)
 
+    fun computeWithMemoizationBottomUp(items: Set<Item>, maxWeight: Int): Int {
+        val cache = mutableMapOf<Int, MutableSet<SubProblem>>()
+        cache[0] = mutableSetOf(SubProblem(items, 0))
+        var maxValue = 0
+        (0..maxWeight).forEach { weight ->
+            cache[weight]?.forEach { (remainingItems, value) ->
+                remainingItems.forEach {
+                    val nextWeight = weight + it.weight
+                    cache.getOrPut(nextWeight, { mutableSetOf() })
+                            .add(SubProblem(remainingItems - it, value + it.value).also {
+                                if (nextWeight <= maxWeight && it.value > maxValue)
+                                    maxValue = it.value
+                            })
+                }
             }
         }
-        return 0
+        return maxValue
     }
 
 }

@@ -8,7 +8,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.jetbrains.spek.api.dsl.xdescribe
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 
@@ -51,7 +50,7 @@ object ZeroOneKnapsackSpek : Spek({
         }
     }
 
-    xdescribe("computeWithMemoizationBottomUp") {
+    describe("computeWithMemoizationBottomUp") {
         on("items %s, maxWeight: %s", with = *data) {
                 items, maxWeight, expected ->
             it("should return $expected") {
