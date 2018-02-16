@@ -14,15 +14,30 @@ targetSum(nums, target) = 2 */
 
 object TargetSum {
 
-    fun computeWithBruteForceAndRecursion(numbers: List<Int>, target: Int,
-                                          index: Int = 0): Int {
+//    data class Result(val numbers: Set<Int>)
+
+    fun computeWithBruteForceAndRecursion(
+            numbers: List<Int>, target: Int): Set<Set<Int>>? {
+        return if (numbers.isEmpty())
+            if (target == 0) setOf(emptySet()) else null
+        else {
+            numbers.flatMap { number ->
+                listOfNotNull(computeWithBruteForceAndRecursion(
+                    numbers - number, target - number),
+                    computeWithBruteForceAndRecursion(
+                        numbers - number, target + number))
+            }.flatMapTo(mutableSetOf()) { it }
+        }
+    }
+
+    fun computeWithRecursion(numbers: List<Int>, target: Int, index: Int = 0): Int {
         if (index > numbers.lastIndex) {
             return if (target == 0) 1 else 0
         }
         val number = numbers[index]
         val nextIndex = index + 1
-        return computeWithBruteForceAndRecursion(numbers, target - number, nextIndex) +
-                computeWithBruteForceAndRecursion(numbers, target + number, nextIndex)
+        return computeWithRecursion(numbers, target - number, nextIndex) +
+                computeWithRecursion(numbers, target + number, nextIndex)
     }
 
     data class CacheKey(val index: Int, val target: Int)
