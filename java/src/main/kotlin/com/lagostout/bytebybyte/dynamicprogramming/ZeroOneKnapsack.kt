@@ -71,18 +71,21 @@ object ZeroOneKnapsack {
         }
     }
 
-    data class SubProblem(val remainingItems: Set<Item>, val value: Int)
-
-    fun computeWithMemoizationBottomUp(items: Set<Item>, maxWeight: Int): Int {
-        val cache = mutableMapOf<Int, MutableSet<SubProblem>>()
-        cache[0] = mutableSetOf(SubProblem(items, 0))
+    /*
+    At each weight we store:
+    - the max value so far
+    - the sets of _un_used items so far
+    */
+    fun computeWithMemoizationBottomUp1(items: Set<Item>, maxWeight: Int): Int {
+        val cache = mutableMapOf<Int, MutableSet<CacheValue1>>()
+        cache[0] = mutableSetOf(CacheValue1(items, 0))
         var maxValue = 0
         (0..maxWeight).forEach { weight ->
             cache[weight]?.forEach { (remainingItems, value) ->
                 remainingItems.forEach {
                     val nextWeight = weight + it.weight
                     cache.getOrPut(nextWeight, { mutableSetOf() })
-                            .add(SubProblem(remainingItems - it, value + it.value).also {
+                            .add(CacheValue1(remainingItems - it, value + it.value).also {
                                 if (nextWeight <= maxWeight && it.value > maxValue)
                                     maxValue = it.value
                             })
@@ -90,6 +93,51 @@ object ZeroOneKnapsack {
             }
         }
         return maxValue
+    }
+
+    data class CacheValue1(val remainingItems: Set<Item>, val value: Int)
+
+    /*
+    Alternate approach that better captures the spirit of bottom-up, compared
+    with the previous solution.  At each weight we see the similar state to what
+    we would have if we were solving top down recursively.  We see: the capacity
+    of the knapsack (this changes as items are added in bottom-up, and removed in
+    top-down), the items added to the knapsack so far, and their total value.
+
+    At each weight we store:
+    - the max value so far (CacheValue2.maxValue)
+    - the sets of used items so far (CacheValue2.allItems)
+    - the possibility of reaching each weight exactly by some
+      combination of items (indicated by an empty set value for CacheValue2.allItems)
+    */
+    fun computeWithMemoizationBottomUp2(items: Set<Item>, maxWeight: Int): Int {
+        val cache = mutableMapOf<Int, CacheValue2>()
+        cache[0] = CacheValue2(mutableSetOf(Pair(emptySet(), 0)))
+        (0..maxWeight).forEach { weight ->
+            cache.getOrPut(weight) {
+                CacheValue2(mutableSetOf(), cache[weight - 1]!!.maxValue)
+            }.let { value ->
+                value.allItems.forEach { usedItems ->
+                    items.forEach {
+                        if (it !in usedItems.first) {
+                            cache.getOrPut(weight + it.weight) {
+                                CacheValue2(mutableSetOf())
+                            }.add(usedItems, it)
+                        }
+                    }
+                }
+            }
+        }
+        return cache[maxWeight]!!.maxValue
+    }
+
+    data class CacheValue2(val allItems: MutableSet<Pair<Set<Item>, Int>>,
+                           var maxValue: Int = 0) {
+        fun add(items: Pair<Set<Item>, Int>, item: Item) {
+            allItems.add(Pair(items.first + item, (items.second + item.value).also {
+                if (it > maxValue) maxValue = it
+            }))
+        }
     }
 
 }
