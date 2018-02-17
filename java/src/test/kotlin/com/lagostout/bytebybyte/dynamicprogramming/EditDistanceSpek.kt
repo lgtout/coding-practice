@@ -1,7 +1,7 @@
 package com.lagostout.bytebybyte.dynamicprogramming
 
+import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithBruteForceAndRecursion
 import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithMemoizationBottomUp
-import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithRecursion
 import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithRecursionAndMemoization
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
@@ -14,11 +14,11 @@ import org.jetbrains.spek.data_driven.on
 object EditDistanceSpek : Spek({
 
     val data = listOfNotNull(
-//        data("A", "A", 0),
+        data("A", "A", 0),
 //        data("A", "", 1),
 //        data("", "A", 1),
 //        data("", "", 0),
-        data("AA", "", 2),
+//        data("AA", "", 2),
 //        data("", "AA", 2),
 //        data("AA", "AA", 0),
 //        data("AA", "AB", 1),
@@ -31,11 +31,11 @@ object EditDistanceSpek : Spek({
         null
     ).toTypedArray()
 
-    xdescribe("computeWithRecursion") {
+    xdescribe("computeWithBruteForceAndRecursion") {
         on("string1: %s, string2: %s", with = *data) {
                 string1, string2, expected ->
             it("should return $expected") {
-                assertThat(computeWithRecursion(
+                assertThat(computeWithBruteForceAndRecursion(
                     string1, string2)).isEqualTo(expected)
             }
         }
