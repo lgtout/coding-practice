@@ -14,53 +14,44 @@ targetSum(nums, target) = 2 */
 
 object TargetSum {
 
-//    data class Result(val numbers: Set<Int>)
-
     fun computeWithBruteForceAndRecursion(
-            numbers: List<Int>, target: Int): Set<Set<Int>>? {
+            numbers: List<Int>, target: Int): Set<Set<Int>> {
         return if (numbers.isEmpty())
-            if (target == 0) setOf(emptySet()) else null
+            if (target == 0) setOf(emptySet()) else emptySet()
         else {
-            numbers.flatMap { number ->
-                listOfNotNull(computeWithBruteForceAndRecursion(
-                    numbers - number, target - number),
-                    computeWithBruteForceAndRecursion(
-                        numbers - number, target + number))
-            }.flatMapTo(mutableSetOf()) { it }
-        }
-    }
-
-    fun computeWithRecursion(numbers: List<Int>, target: Int, index: Int = 0): Int {
-        if (index > numbers.lastIndex) {
-            return if (target == 0) 1 else 0
-        }
-        val number = numbers[index]
-        val nextIndex = index + 1
-        return computeWithRecursion(numbers, target - number, nextIndex) +
-                computeWithRecursion(numbers, target + number, nextIndex)
-    }
-
-    data class CacheKey(val index: Int, val target: Int)
-
-    fun computeWithRecursionAndMemoization(
-            numbers: List<Int>, target: Int, index: Int = 0,
-            cache: MutableMap<CacheKey, Int> = mutableMapOf()): Int {
-        val cacheKey = CacheKey(index, target)
-        return cache[cacheKey] ?: run {
-            (if (index > numbers.lastIndex || numbers.isEmpty())
-                if (target == 0) 1 else 0
-            else {
-                val number = numbers[index]
-                val nextIndex = index + 1
-                (computeWithRecursionAndMemoization(
-                    numbers, target + number, nextIndex, cache) +
-                        computeWithRecursionAndMemoization(
-                            numbers, target - number, nextIndex, cache)).also {
-                }
-            }).also {
-                cache[cacheKey] = it
+            numbers.flatMapTo(mutableSetOf()) { number ->
+                listOf(Pair(computeWithBruteForceAndRecursion(
+                    numbers - number, target - number), -number),
+                    Pair(computeWithBruteForceAndRecursion(
+                        numbers - number, target + number), number)).filter {
+                    it.first.isNotEmpty() }.flatMapTo(mutableSetOf()) {
+                        pair -> pair.first.map { it + pair.second } }
             }
         }
+    }
+
+    fun computeWithRecursionAndMemoization(
+            numbers: List<Int>, target: Int,
+            cache: MutableMap<Int, MutableMap<List<Int>, Set<Set<Int>>>> =
+            mutableMapOf()): Set<Set<Int>> {
+//        return if (numbers.isEmpty())
+//            if (target == 0) mutableSetOf(emptySet()) else emptySet()
+//        else {
+//            cache.getOrPut(target) { mutableMapOf() }.also {
+//                it[numbers] ?: run {
+//                    it
+//                    numbers.flatMapTo(mutableSetOf()) { number ->
+//                        listOf(Pair(computeWithRecursionAndMemoization(
+//                            numbers - number, target - number, cache), -number),
+//                            Pair(computeWithRecursionAndMemoization(
+//                                numbers - number, target + number, cache), number)).filter {
+//                            it.first.isNotEmpty() }.flatMapTo(mutableSetOf()) {
+//                                pair -> pair.first.map { it + pair.second } }
+//                    }
+//                }
+//            }
+//        }
+        return emptySet()
     }
 
     @Suppress("NAME_SHADOWING")

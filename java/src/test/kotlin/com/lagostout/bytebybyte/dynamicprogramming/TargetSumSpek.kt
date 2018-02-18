@@ -7,7 +7,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.jetbrains.spek.api.dsl.xdescribe
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 import org.paukov.combinatorics3.Generator
@@ -52,11 +51,13 @@ object TargetSumSpek : Spek({
         }.toTypedArray()
     }
 
-    xdescribe("computeWithBruteForceAndRecursion") {
+    describe("computeWithBruteForceAndRecursion") {
         on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
             it("should return $expected") {
-                assertThat(TargetSum.computeWithBruteForceAndRecursion(numbers, target))
-                        .isEqualTo(expected)
+                TargetSum.computeWithBruteForceAndRecursion(numbers, target).let {
+                    println(it)
+                    assertThat(it.size).isEqualTo(expected)
+                }
             }
         }
     }
