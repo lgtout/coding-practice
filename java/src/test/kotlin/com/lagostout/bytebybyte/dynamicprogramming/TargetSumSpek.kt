@@ -49,15 +49,14 @@ object TargetSumSpek : Spek({
             }.let { (target, expected) ->
                         data(case.toList(), target, expected) }
         }.toTypedArray()
+        listOf(data(listOf(1,2), 1, 1)).toTypedArray()
     }
 
     describe("computeWithBruteForceAndRecursion") {
         on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
             it("should return $expected") {
-                TargetSum.computeWithBruteForceAndRecursion(numbers, target).let {
-                    println(it)
-                    assertThat(it.size).isEqualTo(expected)
-                }
+                assertThat(TargetSum.computeWithBruteForceAndRecursion(numbers, target))
+                        .isEqualTo(expected)
             }
         }
     }
@@ -71,5 +70,13 @@ object TargetSumSpek : Spek({
         }
     }
 
+    describe("computeWithMemoizationBottomUp") {
+        on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
+            it("should return $expected") {
+                assertThat(TargetSum.computeWithMemoizationBottomUp(numbers, target))
+                        .isEqualTo(expected)
+            }
+        }
+    }
 })
 
