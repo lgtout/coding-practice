@@ -11,7 +11,7 @@ knapsack(items, maxWeight) = 22 */
 
 object ZeroOneKnapsack {
 
-    data class Item(val value: Int, val weight: Int) {
+    class Item(val value: Int, val weight: Int) {
         companion object {
             fun i(value: Int, weight: Int): Item {
                 return Item(value, weight)

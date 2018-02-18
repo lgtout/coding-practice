@@ -23,6 +23,8 @@ object ZeroOneKnapsackSpek : Spek({
             data(setOf(i(1, 1)), 2, 1),
             data(setOf(i(1, 2)), 1, 0),
             data(setOf(i(1, 1), i(2, 1)), 1, 2),
+            data(setOf(i(1, 1), i(1, 1)), 1, 1),
+            data(setOf(i(1, 1), i(1, 1)), 2, 2),
             data(setOf(i(1, 1), i(2, 2)), 1, 1),
             data(setOf(i(1, 1), i(3, 2)), 3, 4),
             data(setOf(i(1, 1), i(3, 2), i(4, 1)), 3, 7),
