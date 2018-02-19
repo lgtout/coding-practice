@@ -51,28 +51,28 @@ object TargetSum {
     // TODO
     fun computeWithMemoizationBottomUp(numbers: List<Int>, target: Int): Int {
         if (numbers.isEmpty()) return if (target == 0) 1 else 0
-        val cache = mutableMapOf<Int, MutableMap<Int, Int>>().apply {
-            put(0, mutableMapOf(0 to 1))
+        val cache = mutableMapOf<Int, MutableSet<List<Int>>>().apply {
+            put(0, mutableSetOf(numbers))
         }
         var subSums = listOf(0)
-        numbers.forEachIndexed { index, number ->
-            subSums = subSums.flatMap { subSum ->
-                println("subSum $subSum")
-                listOf(subSum + number, subSum - number).also {
-//                    println(it)
-                    it.forEach {
-                        cache.getOrPut(it) {
-                            mutableMapOf()
-                        }.also { it[index] = (it[index] ?: it[index - 1] ?: 0)
-                                    + (cache[subSum]!![index] ?:
-                                    cache[subSum]!![index - 1] ?: 0) }
-                    }.also { println(it) }
-                }
-            }
-//            println("subSums $subSums")
-//            println("cache $cache")
+        while (subSums.isNotEmpty()) {
+//            subSums = subSums.map { subSum ->
+//                println("subSum $subSum")
+//                cache[subSum]?.let {
+//                    it.forEach { list ->
+//                        listOf(subSum + list.first(), subSum - list.first()).also {
+//                            it.forEach {
+//                                cache.getOrPut(it) { mutableSetOf() }.also {
+//                                    it.add(list.takeFrom(1))
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
-        return cache[target]!![numbers.lastIndex] ?: 0
+//        return cache[target]!![numbers.lastIndex] ?: 0
+        return 0
     }
 
 }
