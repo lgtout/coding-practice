@@ -7,6 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.xdescribe
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 import org.paukov.combinatorics3.Generator
@@ -16,21 +17,25 @@ object TargetSumSpek : Spek({
 
     val data by memoized {
         val random = RandomDataGenerator().apply { reSeed(1) }
-        val caseCount = 1000
+        val caseCount = 10
         val numberRange = (1..10)
         (1..caseCount).map {
             val numberCount = random.nextInt(0,5)
-            val case = mutableSetOf<Int>()
+            val case = mutableListOf<Int>()
+            // Allow repeats
             while (case.size < numberCount) {
                 random.nextInt(numberRange).let {
                     case.add(it)
                 }
             }
+            val numberCounts = case.groupingBy { it }.eachCount()
             case.flatMap {
                 listOf(it, -it) }.let {
                 Generator.combination(it).simple(numberCount) }.filter {
-                it.map { it.absoluteValue }.toSet().size == numberCount }.groupBy {
+                numberCounts == it.map { it.absoluteValue }.groupingBy{ it }.eachCount() }.groupBy {
                 it.sum() }.let { map ->
+//                println(map)
+                // TODO Reduce T:F to 1:4
                 if (random.nextBoolean()) map.keys.toList().let { // A reachable target.
                     if (it.isEmpty()) Pair(0, 1) // There's one way to reach 0 with 0 numbers.
                     else {
@@ -47,9 +52,8 @@ object TargetSumSpek : Spek({
                     Pair(target, 0)
                 }
             }.let { (target, expected) ->
-                        data(case.toList(), target, expected) }
+                        data(case.toList(), target, expected).also {println(it)} }
         }.toTypedArray()
-        listOf(data(listOf(1,2), 1, 1)).toTypedArray()
     }
 
     describe("computeWithBruteForceAndRecursion") {
@@ -61,7 +65,7 @@ object TargetSumSpek : Spek({
         }
     }
 
-    describe("computeWithRecursionAndMemoization") {
+    xdescribe("computeWithRecursionAndMemoization") {
         on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
             it("should return $expected") {
                 assertThat(TargetSum.computeWithRecursionAndMemoization(numbers, target))
@@ -70,7 +74,7 @@ object TargetSumSpek : Spek({
         }
     }
 
-    describe("computeWithMemoizationBottomUp") {
+    xdescribe("computeWithMemoizationBottomUp") {
         on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
             it("should return $expected") {
                 assertThat(TargetSum.computeWithMemoizationBottomUp(numbers, target))

@@ -16,6 +16,7 @@ targetSum(nums, target) = 2 */
 
 object TargetSum {
 
+    // TODO Allow repeats
     fun computeWithBruteForceAndRecursion(
             numbers: List<Int>, target: Int): Int {
         return if (numbers.isEmpty())
@@ -48,31 +49,20 @@ object TargetSum {
         }
     }
 
-    // TODO
     fun computeWithMemoizationBottomUp(numbers: List<Int>, target: Int): Int {
         if (numbers.isEmpty()) return if (target == 0) 1 else 0
-        val cache = mutableMapOf<Int, MutableSet<List<Int>>>().apply {
-            put(0, mutableSetOf(numbers))
+        var cache = mapOf<Int, List<List<Int>>>(0 to listOf(emptyList()))
+        (0..numbers.lastIndex).forEach { numbersIndex ->
+            cache = cache.flatMap { (subTarget, subNumbersSet) ->
+                numbers[numbersIndex].let { nextNumber ->
+                    subNumbersSet.flatMap {
+                        listOf(Pair(it + nextNumber, subTarget + nextNumber),
+                            Pair(it + -nextNumber, subTarget - nextNumber))
+                    }
+                }.let { it }
+            }.groupBy({ it.second }, { it.first }).let { it }.toMap()
         }
-        var subSums = listOf(0)
-        while (subSums.isNotEmpty()) {
-//            subSums = subSums.map { subSum ->
-//                println("subSum $subSum")
-//                cache[subSum]?.let {
-//                    it.forEach { list ->
-//                        listOf(subSum + list.first(), subSum - list.first()).also {
-//                            it.forEach {
-//                                cache.getOrPut(it) { mutableSetOf() }.also {
-//                                    it.add(list.takeFrom(1))
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-        }
-//        return cache[target]!![numbers.lastIndex] ?: 0
-        return 0
+        return cache[target]?.size ?: 0
     }
 
 }
