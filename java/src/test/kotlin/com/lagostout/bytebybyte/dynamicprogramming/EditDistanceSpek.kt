@@ -3,6 +3,7 @@ package com.lagostout.bytebybyte.dynamicprogramming
 import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithBruteForceAndRecursion
 import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithMemoizationBottomUp
 import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithRecursionAndMemoization
+import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithRecursionAndMemoization2
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -51,7 +52,17 @@ object EditDistanceSpek : Spek({
         }
     }
 
-    describe("computeWithMemoizationBottomUp") {
+    describe("computeWithRecursionAndMemoization2") {
+        on("string1: %s, string2: %s", with = *data) {
+                string1, string2, expected ->
+            it("should return $expected") {
+                assertThat(computeWithRecursionAndMemoization2(
+                    string1, string2)).isEqualTo(expected)
+            }
+        }
+    }
+
+    xdescribe("computeWithMemoizationBottomUp") {
         on("string1: %s, string2: %s", with = *data) {
                 string1, string2, expected ->
             it("should return $expected") {
