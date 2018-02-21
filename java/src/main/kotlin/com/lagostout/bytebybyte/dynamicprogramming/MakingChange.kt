@@ -14,13 +14,13 @@ object MinimumNumberOfCoinsToMakeChange {
 
     private val coins = listOf(1,5,10,25)
 
-    fun computeWithRecursion(amount: Int): Int? {
+    fun computeWithBruteForceAndRecursion(amount: Int): Int? {
         return when {
             amount < 0 -> null
             amount == 0 -> 0
             else -> coins.mapNotNull {
                 (amount - it).let {
-                    computeWithRecursion(it)
+                    computeWithBruteForceAndRecursion(it)
                 }
             }.min()?.let { it + 1 }
         }

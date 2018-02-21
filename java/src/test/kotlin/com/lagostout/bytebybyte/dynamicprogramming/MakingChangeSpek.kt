@@ -1,7 +1,7 @@
 package com.lagostout.bytebybyte.dynamicprogramming
 
+import com.lagostout.bytebybyte.dynamicprogramming.MinimumNumberOfCoinsToMakeChange.computeWithBruteForceAndRecursion
 import com.lagostout.bytebybyte.dynamicprogramming.MinimumNumberOfCoinsToMakeChange.computeWithMemoizationBottomUp
-import com.lagostout.bytebybyte.dynamicprogramming.MinimumNumberOfCoinsToMakeChange.computeWithRecursion
 import com.lagostout.bytebybyte.dynamicprogramming.MinimumNumberOfCoinsToMakeChange.computeWithRecursionAndMemoization
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
@@ -18,10 +18,10 @@ object MakingChangeSpek : Spek({
                 data(49, 7),
                 null
         ).toTypedArray()
-        describe("computeWithRecursion") {
+        describe("computeWithBruteForceAndRecursion") {
             on("amount: %s", with = *data) { amount, expected ->
                 it("returns $expected") {
-                    assertThat(computeWithRecursion(amount))
+                    assertThat(computeWithBruteForceAndRecursion(amount))
                             .isEqualTo(expected)
                 }
             }
