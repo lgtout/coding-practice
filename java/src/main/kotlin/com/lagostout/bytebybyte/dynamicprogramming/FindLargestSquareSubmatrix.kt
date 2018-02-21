@@ -1,6 +1,7 @@
 package com.lagostout.bytebybyte.dynamicprogramming
 
 import com.lagostout.bytebybyte.dynamicprogramming.FindLargestSquareSubmatrix.Position.Companion.p
+import kotlin.math.min
 
 /*
 Given a 2D boolean array, find the largest square subarray of true values.
@@ -35,7 +36,7 @@ object FindLargestSquareSubmatrix {
         }
     }
 
-    data class Rectangle(private val topCorner: Position,
+    data class Rectangle(val topCorner: Position,
                          val bottomCorner: Position) {
         val width = bottomCorner.col - topCorner.col + 1
         val height = bottomCorner.row - topCorner.row + 1
@@ -72,51 +73,93 @@ object FindLargestSquareSubmatrix {
         }
     }
 
+//    fun computeWithBruteForceAndRecursion(
+//            array: Array<Array<Boolean>>,
+//            rectangle: Rectangle = Rectangle(p(0, 0),
+//                p(array.lastIndex, array[0].lastIndex))):
+//            Rectangle? {
+//        var subSquare = if (rectangle.isSquare) { rectangle }
+//        else {
+//            rectangle.let {
+//                if (it.isFlat) it.bottomCorner.copy(col = it.left + it.height - 1)
+//                else it.bottomCorner.copy(row = it.top + it.width - 1)
+//            }.let { rectangle.copy(bottomCorner = it) }
+//        }
+//        var largestSquare: Rectangle? = null
+//        while (subSquare.bottom <= rectangle.bottom &&
+//                subSquare.right <= rectangle.right) {
+//            _computeWithBruteForceAndRecursion(array, subSquare).let { result ->
+//                largestSquare = largestSquare?.let { ls ->
+//                    result?.let {
+//                        if (it.size > ls.size) it else null
+//                    } ?: ls
+//                } ?: result
+//            }
+//            subSquare = with (subSquare) {
+//                (if (rectangle.isFlat) ::shiftRight else ::shiftDown)() }
+//        }
+//        return largestSquare
+//    }
+
+//    @Suppress("FunctionName")
+//    private fun _computeWithBruteForceAndRecursion(
+//            array: Array<Array<Boolean>>, square: Rectangle): Rectangle? {
+//        return if (square.size == 1) {
+//            square.bottomCorner.run {
+//                if (array[row][col]) square else null
+//            }
+//        } else {
+//            val subSquare: Rectangle = square.copy(
+//                bottomCorner = square.bottomCorner.shiftUp().shiftLeft())
+//            listOf(subSquare, subSquare.shiftRight(), subSquare.shiftDown(),
+//                subSquare.shiftDown().shiftRight()).mapNotNull {
+//                _computeWithBruteForceAndRecursion(array, it) }.let {
+//                if (it.size == 4 && it.all { it.size == subSquare.size }) square
+//                else it.maxBy { it.size }
+//            }
+//        }
+//    }
+
     fun computeWithBruteForceAndRecursion(
             array: Array<Array<Boolean>>,
             rectangle: Rectangle = Rectangle(p(0, 0),
                 p(array.lastIndex, array[0].lastIndex))):
             Rectangle? {
-        var subSquare = if (rectangle.isSquare) { rectangle }
-        else {
-            rectangle.let {
-                if (it.isFlat) it.bottomCorner.copy(col = it.left + it.height - 1)
-                else it.bottomCorner.copy(row = it.top + it.width - 1)
-            }.let { rectangle.copy(bottomCorner = it) }
-        }
-        var largestSquare: Rectangle? = null
-        while (subSquare.bottom <= rectangle.bottom &&
-                subSquare.right <= rectangle.right) {
-            _computeWithBruteForceAndRecursion(array, subSquare).let { result ->
-                largestSquare = largestSquare?.let { ls ->
-                    result?.let {
-                        if (it.size > ls.size) it else null
-                    } ?: ls
-                } ?: result
+        val subSquareSideLength = min(rectangle.width, rectangle.height) - 1
+        return rectangle.topCorner.let {
+            (it.copy(col = it.col + subSquareSideLength - 1)
+                    .copy(row = it.row + subSquareSideLength - 1)).let {
+                rectangle.copy(bottomCorner = it).let { subSquare ->
+                    mutableListOf(subSquare).also {
+                        it.add(if (rectangle.isFlat) subSquare.shiftDown()
+                        else subSquare.shiftRight())
+                    }
+                }
             }
-            subSquare = with (subSquare) {
-                (if (rectangle.isFlat) ::shiftRight else ::shiftDown)() }
-        }
-        return largestSquare
-    }
-
-    @Suppress("FunctionName")
-    private fun _computeWithBruteForceAndRecursion(
-            array: Array<Array<Boolean>>, square: Rectangle): Rectangle? {
-        return if (square.size == 1) {
-            square.bottomCorner.run {
-                if (array[row][col]) square else null
-            }
-        } else {
-            val subSquare: Rectangle = square.copy(
-                bottomCorner = square.bottomCorner.shiftUp().shiftLeft())
-            listOf(subSquare, subSquare.shiftRight(), subSquare.shiftDown(),
-                subSquare.shiftDown().shiftRight()).mapNotNull {
-                _computeWithBruteForceAndRecursion(array, it) }.let {
-                if (it.size == 4 && it.all { it.size == subSquare.size }) square
-                else it.maxBy { it.size }
-            }
-        }
+        }.flatMap { subSquare ->
+                    (if (rectangle.isFlat) rectangle.width - subSquareSideLength
+                    else rectangle.height - subSquareSideLength).let {
+                        (0 until it).fold(
+                            Pair(subSquare, mutableListOf<Rectangle?>())) { pair, _ ->
+                            computeWithBruteForceAndRecursion(array, pair.first).let {
+                                    result ->
+                                (if (rectangle.isFlat) subSquare.shiftRight()
+                                else subSquare.shiftDown()).let {
+                                    Pair(it, pair.second.apply { add(result) })
+                                }
+                            }
+                        }
+                    }.second
+                }.let { all ->
+                    all.filterNotNull().let {
+                        if (all.size == it.size && it.all {
+                                    listOf(it.height, it.width).all {
+                                        it == subSquareSideLength
+                                    }
+                                }) rectangle
+                        else it.maxBy { it.size }
+                    }
+                }
     }
 
     data class Result(val isAllTrue: Boolean, val largestRectangle: Rectangle?)
