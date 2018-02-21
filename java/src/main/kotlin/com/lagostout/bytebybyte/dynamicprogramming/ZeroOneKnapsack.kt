@@ -1,4 +1,10 @@
+@file:Suppress("FunctionName")
+
 package com.lagostout.bytebybyte.dynamicprogramming
+
+import com.lagostout.common.takeFrom
+import org.apache.commons.lang3.builder.ToStringBuilder
+import org.apache.commons.lang3.builder.ToStringStyle
 
 /* Given a list of items with values and weights, as well as a max weight,
 find the maximum value you can generate from items, where the sum of the
@@ -12,6 +18,10 @@ knapsack(items, maxWeight) = 22 */
 object ZeroOneKnapsack {
 
     class Item(val value: Int, val weight: Int) {
+        override fun toString(): String {
+            return ToStringBuilder.reflectionToString(
+                this, ToStringStyle.NO_CLASS_NAME_STYLE)
+        }
         companion object {
             fun i(value: Int, weight: Int): Item {
                 return Item(value, weight)
@@ -19,19 +29,19 @@ object ZeroOneKnapsack {
         }
     }
 
-    fun computeWithRecursion(items: Set<Item>, maxWeight: Int): Int {
-        return _computeWithRecursion(items, maxWeight) ?: 0
+    fun computeWithRecursion1(items: Set<Item>, maxWeight: Int): Int {
+        return _computeWithRecursion1_a(items, maxWeight) ?: 0
     }
 
-    @Suppress("FunctionName")
-    private fun _computeWithRecursion(items: Set<Item>, maxWeight: Int): Int? {
+    private fun _computeWithRecursion1_a(items: Set<Item>, maxWeight: Int): Int? {
+        println(items.toList())
         return when {
             maxWeight == 0 -> return 0
             maxWeight < 0 -> return null
             else -> {
                 var maxValue = 0
                 items.forEach { item ->
-                    (_computeWithRecursion(items - item, maxWeight - item.weight)?.let {
+                    (_computeWithRecursion1_a(items - item, maxWeight - item.weight)?.let {
                         item.value + it
                     } ?: 0).let {
                         maxValue = if (it > maxValue) it else maxValue
@@ -41,6 +51,69 @@ object ZeroOneKnapsack {
             }
         }
     }
+
+    fun computeWithRecursion2(items: Set<Item>, maxWeight: Int): List<Int?> {
+        return listOf(::_computeWithRecursion2_d, ::_computeWithRecursion2_a,
+            ::_computeWithRecursion2_b, ::_computeWithRecursion2_c).map {
+            it.call(items, maxWeight) ?: 0
+        }
+    }
+
+    private fun _computeWithRecursion2_a(items: Set<Item>, maxWeight: Int): Int {
+        return when (maxWeight) {
+            0 -> return 0
+            else -> {
+                items.filter { maxWeight >= it.weight }.map { item ->
+                    _computeWithRecursion2_a(items - item, maxWeight - item.weight).let {
+                        item.value + it
+                    }
+                }.max() ?: 0
+            }
+        }
+    }
+
+    private fun _computeWithRecursion2_b(items: Set<Item>, maxWeight: Int): Int? {
+        return when {
+            maxWeight == 0 || items.isEmpty() && maxWeight > 0 -> return 0
+            maxWeight < 0 -> return null
+            else -> {
+                items.mapNotNull { item ->
+                    _computeWithRecursion2_b(items - item, maxWeight - item.weight)?.let {
+                        item.value + it
+                    }
+                }.max()
+            }
+        }
+    }
+
+    private fun _computeWithRecursion2_c(items: Set<Item>, maxWeight: Int): Int? {
+        return when {
+            maxWeight == 0 -> return 0
+            maxWeight < 0 -> return null
+            else -> {
+                items.mapNotNull { item ->
+                    _computeWithRecursion2_c(items - item, maxWeight - item.weight)?.let {
+                        item.value + it
+                    }
+                }.max() ?: 0
+            }
+        }
+    }
+
+    // TODO Test
+    private fun _computeWithRecursion2_d(items: Set<Item>, maxWeight: Int): Int {
+        return when (maxWeight) {
+            0 -> return 0
+            else -> {
+                listOfNotNull(
+                    (maxWeight - items.first().weight).let {
+                        if (it > 0) _computeWithRecursion2_d(items.takeFrom(1).toSet(), it)
+                        else null },
+                    _computeWithRecursion2_d(items.takeFrom(1).toSet(), maxWeight)).max() ?: 0
+            }
+        }
+    }
+
     fun computeWithRecursionAndMemoization(
             items: Set<Item>, maxWeight: Int): Int {
         val cache = mutableMapOf<Set<Item>, Int?>()
@@ -58,9 +131,10 @@ object ZeroOneKnapsack {
             else -> {
                 var maxValue = 0
                 items.forEach { item ->
-                    (_computeWithRecursion(items - item, maxWeight - item.weight)?.let {
+                    (computeWithRecursionAndMemoization(
+                        items - item, maxWeight - item.weight).let {
                         item.value + it
-                    } ?: 0).let {
+                    }).let {
                         maxValue = if (it > maxValue) it else maxValue
                     }
                 }

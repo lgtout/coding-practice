@@ -3,12 +3,13 @@ package com.lagostout.bytebybyte.dynamicprogramming
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.Item.Companion.i
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithMemoizationBottomUp1
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithMemoizationBottomUp2
-import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursion
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursion2
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursionAndMemoization
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.xdescribe
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 
@@ -37,13 +38,13 @@ object ZeroOneKnapsackSpek : Spek({
         on("items %s, maxWeight: %s", with = *data) {
             items, maxWeight, expected ->
             it("should return $expected") {
-                assertThat(computeWithRecursion(
+                assertThat(computeWithRecursion2(
                         items, maxWeight)).isEqualTo(expected)
             }
         }
     }
 
-    describe("computeWithRecursionAndMemoization") {
+    xdescribe("computeWithRecursionAndMemoization") {
         on("items %s, maxWeight: %s", with = *data) {
             items, maxWeight, expected ->
             it("should return $expected") {
@@ -53,7 +54,7 @@ object ZeroOneKnapsackSpek : Spek({
         }
     }
 
-    describe("computeWithMemoizationBottomUp1") {
+    xdescribe("computeWithMemoizationBottomUp1") {
         on("items %s, maxWeight: %s", with = *data) {
                 items, maxWeight, expected ->
             it("should return $expected") {
@@ -63,7 +64,7 @@ object ZeroOneKnapsackSpek : Spek({
         }
     }
 
-    describe("computeWithMemoizationBottomUp2") {
+    xdescribe("computeWithMemoizationBottomUp2") {
         on("items %s, maxWeight: %s", with = *data) {
                 items, maxWeight, expected ->
             it("should return $expected") {
