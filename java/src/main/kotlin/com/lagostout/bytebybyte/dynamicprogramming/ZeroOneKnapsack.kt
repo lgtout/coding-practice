@@ -29,19 +29,26 @@ object ZeroOneKnapsack {
         }
     }
 
-    fun computeWithRecursion1(items: Set<Item>, maxWeight: Int): Int {
-        return _computeWithRecursion1_a(items, maxWeight) ?: 0
+    fun computeWithRecursion(
+            items: Set<Item>, maxWeight: Int,
+            computeWithRecursionImpl: (Set<Item>, Int) -> Int?): Int? {
+        return computeWithRecursionImpl(items, maxWeight) ?: 0
     }
 
-    private fun _computeWithRecursion1_a(items: Set<Item>, maxWeight: Int): Int? {
-        println(items.toList())
+    /*
+     Negative knapsack capacity is a base case, returning null.
+     As a result, we return an optional.
+     We explore every ordering of items.
+     We handle an empty items set in the recursion case.
+     */
+    fun _computeWithRecursion1(items: Set<Item>, maxWeight: Int): Int? {
         return when {
             maxWeight == 0 -> return 0
             maxWeight < 0 -> return null
             else -> {
                 var maxValue = 0
                 items.forEach { item ->
-                    (_computeWithRecursion1_a(items - item, maxWeight - item.weight)?.let {
+                    (_computeWithRecursion1(items - item, maxWeight - item.weight)?.let {
                         item.value + it
                     } ?: 0).let {
                         maxValue = if (it > maxValue) it else maxValue
@@ -52,19 +59,19 @@ object ZeroOneKnapsack {
         }
     }
 
-    fun computeWithRecursion2(items: Set<Item>, maxWeight: Int): List<Int?> {
-        return listOf(::_computeWithRecursion2_d, ::_computeWithRecursion2_a,
-            ::_computeWithRecursion2_b, ::_computeWithRecursion2_c).map {
-            it.call(items, maxWeight) ?: 0
-        }
-    }
-
-    private fun _computeWithRecursion2_a(items: Set<Item>, maxWeight: Int): Int {
+    /*
+     Negative knapsack capacity is not a base case.  We check for this case before
+     recursing.
+     As a result, we do not return an optional.
+     We explore every ordering of items.
+     We handle an empty items set in the recursion case.
+     */
+     fun _computeWithRecursion2(items: Set<Item>, maxWeight: Int): Int {
         return when (maxWeight) {
             0 -> return 0
             else -> {
                 items.filter { maxWeight >= it.weight }.map { item ->
-                    _computeWithRecursion2_a(items - item, maxWeight - item.weight).let {
+                    _computeWithRecursion2(items - item, maxWeight - item.weight).let {
                         item.value + it
                     }
                 }.max() ?: 0
@@ -72,13 +79,19 @@ object ZeroOneKnapsack {
         }
     }
 
-    private fun _computeWithRecursion2_b(items: Set<Item>, maxWeight: Int): Int? {
+    /*
+     Negative knapsack capacity is a base case, returning null.
+     As a result, we function return an optional.
+     We explore every ordering of items.
+     We handle an empty items set in a base case.
+     */
+     fun _computeWithRecursion3(items: Set<Item>, maxWeight: Int): Int? {
         return when {
             maxWeight == 0 || items.isEmpty() && maxWeight > 0 -> return 0
             maxWeight < 0 -> return null
             else -> {
                 items.mapNotNull { item ->
-                    _computeWithRecursion2_b(items - item, maxWeight - item.weight)?.let {
+                    _computeWithRecursion3(items - item, maxWeight - item.weight)?.let {
                         item.value + it
                     }
                 }.max()
@@ -86,13 +99,19 @@ object ZeroOneKnapsack {
         }
     }
 
-    private fun _computeWithRecursion2_c(items: Set<Item>, maxWeight: Int): Int? {
+    /*
+     Negative knapsack capacity is a base case, returning null.
+     As a result, we return an optional.
+     We explore every ordering of items.
+     We handle an empty items set in the recursion case.
+     */
+     fun _computeWithRecursion4(items: Set<Item>, maxWeight: Int): Int? {
         return when {
             maxWeight == 0 -> return 0
             maxWeight < 0 -> return null
             else -> {
                 items.mapNotNull { item ->
-                    _computeWithRecursion2_c(items - item, maxWeight - item.weight)?.let {
+                    _computeWithRecursion4(items - item, maxWeight - item.weight)?.let {
                         item.value + it
                     }
                 }.max() ?: 0
@@ -100,16 +119,30 @@ object ZeroOneKnapsack {
         }
     }
 
-    // TODO Test
-    private fun _computeWithRecursion2_d(items: Set<Item>, maxWeight: Int): Int {
-        return when (maxWeight) {
-            0 -> return 0
+    /*
+     Negative knapsack capacity is not a base case.
+     As a result, we do not return an optional.
+     We explore every outcome of a choice to include or not include
+     an item in the knapsack.
+     We handle an empty items set in the recursion case.
+     Shows manual debugging technique.
+     */
+     fun _computeWithRecursion5(items: Set<Item>, maxWeight: Int): Int { // ((1,1)), 1 -> 1 | (), 0 -> 0 | (), 1 -> null
+        return when (maxWeight) { // 1 | 0
+            0 -> return 0 // false | true
             else -> {
-                listOfNotNull(
-                    (maxWeight - items.first().weight).let {
-                        if (it > 0) _computeWithRecursion2_d(items.takeFrom(1).toSet(), it)
-                        else null },
-                    _computeWithRecursion2_d(items.takeFrom(1).toSet(), maxWeight)).max() ?: 0
+                (if (items.isEmpty()) null // false | true
+                else {
+                    val nextItems = items.takeFrom(1).toSet() // ()
+                    val item = items.first()
+                    listOfNotNull(
+                        (maxWeight - item.weight).let { // 1-1=0
+                            if (it >= 0) // true
+                                _computeWithRecursion5(nextItems, it) + item.value // ((), 0) + 1 = 1
+                            else null }, // null
+                        _computeWithRecursion5(nextItems, maxWeight) // ((), 1) = null
+                    ).max() // 1
+                }) ?: 0 // 1
             }
         }
     }

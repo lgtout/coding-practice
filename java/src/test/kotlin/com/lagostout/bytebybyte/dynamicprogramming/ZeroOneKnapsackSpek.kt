@@ -1,9 +1,14 @@
 package com.lagostout.bytebybyte.dynamicprogramming
 
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.Item.Companion.i
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack._computeWithRecursion1
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack._computeWithRecursion2
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack._computeWithRecursion3
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack._computeWithRecursion4
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack._computeWithRecursion5
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithMemoizationBottomUp1
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithMemoizationBottomUp2
-import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursion2
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursion
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursionAndMemoization
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
@@ -38,8 +43,16 @@ object ZeroOneKnapsackSpek : Spek({
         on("items %s, maxWeight: %s", with = *data) {
             items, maxWeight, expected ->
             it("should return $expected") {
-                assertThat(computeWithRecursion2(
-                        items, maxWeight)).isEqualTo(expected)
+                assertThat(computeWithRecursion(
+                    items, maxWeight, ::_computeWithRecursion1)).isEqualTo(expected)
+                assertThat(computeWithRecursion(
+                    items, maxWeight, ::_computeWithRecursion2)).isEqualTo(expected)
+                assertThat(computeWithRecursion(
+                    items, maxWeight, ::_computeWithRecursion3)).isEqualTo(expected)
+                assertThat(computeWithRecursion(
+                    items, maxWeight, ::_computeWithRecursion4)).isEqualTo(expected)
+                assertThat(computeWithRecursion(
+                    items, maxWeight, ::_computeWithRecursion5)).isEqualTo(expected)
             }
         }
     }
