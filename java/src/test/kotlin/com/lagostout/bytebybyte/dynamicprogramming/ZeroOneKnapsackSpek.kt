@@ -39,7 +39,7 @@ object ZeroOneKnapsackSpek : Spek({
             null
     ).toTypedArray()
 
-    describe("computeWithRecursion") {
+    xdescribe("computeWithRecursion") {
         on("items %s, maxWeight: %s", with = *data) {
             items, maxWeight, expected ->
             it("should return $expected") {
@@ -57,12 +57,12 @@ object ZeroOneKnapsackSpek : Spek({
         }
     }
 
-    xdescribe("computeWithRecursionAndMemoization") {
+    describe("computeWithRecursionAndMemoization") {
         on("items %s, maxWeight: %s", with = *data) {
             items, maxWeight, expected ->
             it("should return $expected") {
                 assertThat(computeWithRecursionAndMemoization(
-                        items, maxWeight)).isEqualTo(expected)
+                        items.toList(), maxWeight)).isEqualTo(expected)
             }
         }
     }

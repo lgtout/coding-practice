@@ -148,36 +148,82 @@ object ZeroOneKnapsack {
     }
 
     fun computeWithRecursionAndMemoization(
-            items: Set<Item>, maxWeight: Int): Int {
-        val cache = mutableMapOf<Set<Item>, Int?>()
-        computeWithRecursionAndMemoization(
-            items, maxWeight, cache)
-        return cache[items] ?: 0
+            items: List<Item>, maxWeight: Int): Int {
+        val cache = mutableMapOf<Int, Int>()
+        computeWithRecursionAndMemoization(items, maxWeight, 0, cache)
+        return cache[items.size - 1] ?: 0
     }
 
+//    fun computeWithRecursionAndMemoization(
+//            items: List<Item>, maxWeight: Int, itemIndex: Int,
+//            cache: MutableMap<Int, Int>): Int { // ((1,1),(1,1)), 2, 0, ()
+//        return cache[itemIndex] ?: when (maxWeight) { // null
+//            0 -> 0
+//            else -> {
+//                if (itemIndex >= items.size) 0 // false | false | true
+//                else {
+//                    Pair(items[itemIndex], itemIndex + 1).let { (item, nextIndex) -> // ((1,1), 1) | ((1,1), 2)
+//                        mutableListOf(computeWithRecursionAndMemoization(
+//                            items, maxWeight, nextIndex, cache) // _, 2, 1, () | 0
+//                        ).apply {
+//                            (maxWeight - item.weight).let { // 1 - 1
+//                                if (it >= 0) add(computeWithRecursionAndMemoization(
+//                                    items, it, nextIndex, cache) + item.value) //
+//                            }
+//                        }.max()!!
+//                    }
+//                }
+//            }
+//        }.also {
+//            cache[itemIndex] = it
+//        }
+//    }
+
     fun computeWithRecursionAndMemoization(
-            items: Set<Item>, maxWeight: Int,
-            cache: MutableMap<Set<Item>, Int?>): Int? {
-        return cache[items] ?: when {
-            maxWeight == 0 -> 0
-            maxWeight < 0 -> null
+            items: List<Item>, maxWeight: Int, itemIndex: Int,
+            cache: MutableMap<Int, Int>): Int {
+        return cache[itemIndex] ?: when (maxWeight) {
+            0 -> 0
             else -> {
-                var maxValue = 0
-                items.forEach { item ->
-                    (computeWithRecursionAndMemoization(
-                        items - item, maxWeight - item.weight).let {
-                        item.value + it
-                    }).let {
-                        maxValue = if (it > maxValue) it else maxValue
-                    }
+                val noMoreItems = itemIndex >= items.size
+                if (noMoreItems) 0
+                else {
+                    val item = items[itemIndex]
+                    val nextIndex = itemIndex + 1
+                    val valueWithoutItem = computeWithRecursionAndMemoization(
+                        items, maxWeight, nextIndex, cache)
+                    val remainingCapacity = maxWeight - item.weight
+                    val valueWithItem = if (remainingCapacity >= 0)
+                        computeWithRecursionAndMemoization(
+                            items, remainingCapacity, nextIndex, cache) + item.value
+                    else null
+                    val values = listOfNotNull(valueWithoutItem, valueWithItem)
+                    val bestValue = values.max()!!
+                    bestValue
                 }
-                maxValue
             }
         }.also {
-            cache[items] = it
+            cache[itemIndex] = it
         }
     }
 
+    // TODO Continue manual debugging
+
+/*
+    items                   ((1,1),(1,1))
+    maxWeight               2
+    itemIndex               0
+    cache                   ()
+    noMoreItems
+    item
+    nextIndex
+    valueWithoutItem
+    remainingCapacity
+    valueWithItem
+    values
+    bestValue
+
+*/
     /*
     At each weight we store:
     - the max value so far
