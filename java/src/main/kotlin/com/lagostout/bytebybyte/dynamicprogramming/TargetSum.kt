@@ -1,6 +1,9 @@
+@file:Suppress("FunctionName")
+
 package com.lagostout.bytebybyte.dynamicprogramming
 
 import com.lagostout.common.takeFrom
+import org.apache.commons.collections4.bag.HashBag
 
 /* Given an array of integers, nums and a target value T, find the number of
 ways that you can add and subtract the values in nums to add up to T.
@@ -16,16 +19,28 @@ targetSum(nums, target) = 2 */
 
 object TargetSum {
 
-    // TODO Allow repeats
     fun computeWithBruteForceAndRecursion(
             numbers: List<Int>, target: Int): Int {
-        return if (numbers.isEmpty())
-            if (target == 0) 1 else 0
+        return _computeWithBruteForceAndRecursion(numbers, target).count()
+    }
+
+    /* Allows repeats */
+    private fun _computeWithBruteForceAndRecursion(
+            numbers: List<Int>, target: Int, numberIndex: Int = 0): List<List<Int>> {
+        return if (numberIndex > numbers.lastIndex)
+            if (target == 0) listOf(emptyList()) else emptyList()
         else {
-            numbers.first().let {
-                val nextNumbers = numbers.takeFrom(1)
-                listOfNotNull(computeWithBruteForceAndRecursion(nextNumbers, target - it),
-                    computeWithBruteForceAndRecursion(nextNumbers, target + it)).sum()
+            numbers[numberIndex].let { number ->
+                val nextNumberIndex = numberIndex + 1
+                listOfNotNull(
+                    _computeWithBruteForceAndRecursion(
+                        numbers, target - number, nextNumberIndex).map {
+                        mutableListOf(-number) + it
+                    },
+                    _computeWithBruteForceAndRecursion(
+                        numbers, target + number, nextNumberIndex).map {
+                        mutableListOf(number) + it
+                    }).flatMap { it }.distinctBy { HashBag(it) }
             }
         }
     }
