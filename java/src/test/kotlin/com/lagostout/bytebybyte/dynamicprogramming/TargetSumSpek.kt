@@ -32,7 +32,8 @@ object TargetSumSpek : Spek({
             case
         }.let {
             it
-//            listOf(listOf(2,9,1,10,10))
+            // Otherwise, return a manually specified case.
+            listOf(listOf(5,3))
         }
         cases.map { case ->
             val numberCounts = case.groupingBy { it }.eachCount()
@@ -51,7 +52,7 @@ object TargetSumSpek : Spek({
             }.let { map ->
                 println(map)
                 // T:F frequency is 4:1
-                if (random.nextBoolean(0.80f)) map.keys.toList().let { // A reachable target.
+                if (random.nextBoolean(1f)) map.keys.toList().let { // A reachable target.
                     if (it.isEmpty()) Pair(0, listOf(emptyList())) // There's one way to reach 0 with 0 numbers.
                     else {
                         val keyIndex = random.nextInt(0 until it.size)
@@ -71,21 +72,23 @@ object TargetSumSpek : Spek({
         }.toTypedArray()
     }
 
-    describe("computeWithBruteForceAndRecursion") {
+    xdescribe("computeWithBruteForceAndRecursion") {
         on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
             it("should return $expected") {
-                println(expected)
                 assertThat(TargetSum.computeWithBruteForceAndRecursion(numbers, target))
                         .isEqualTo(expected.size)
             }
         }
     }
 
-    xdescribe("computeWithRecursionAndMemoization") {
+    describe("computeWithRecursionAndMemoization") {
         on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
             it("should return $expected") {
-                assertThat(TargetSum.computeWithRecursionAndMemoization(numbers, target))
-                        .isEqualTo(expected.size)
+                TargetSum.computeWithRecursionAndMemoization(
+                    numbers, target).let {
+                    println("result $it")
+                    assertThat(it.count()).isEqualTo(expected.size)
+                }
             }
         }
     }

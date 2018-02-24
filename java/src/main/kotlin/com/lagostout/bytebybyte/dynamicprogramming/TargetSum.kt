@@ -2,7 +2,6 @@
 
 package com.lagostout.bytebybyte.dynamicprogramming
 
-import com.lagostout.common.takeFrom
 import org.apache.commons.collections4.bag.HashBag
 
 /* Given an array of integers, nums and a target value T, find the number of
@@ -27,6 +26,7 @@ object TargetSum {
     /* Allows repeats */
     private fun _computeWithBruteForceAndRecursion(
             numbers: List<Int>, target: Int, numberIndex: Int = 0): List<List<Int>> {
+        println(numberIndex)
         return if (numberIndex > numbers.lastIndex)
             if (target == 0) listOf(emptyList()) else emptyList()
         else {
@@ -40,27 +40,53 @@ object TargetSum {
                     _computeWithBruteForceAndRecursion(
                         numbers, target + number, nextNumberIndex).map {
                         mutableListOf(number) + it
-                    }).flatMap { it }.distinctBy { HashBag(it) }
+                    }
+                ).flatMap {
+                    it
+                }.distinctBy {
+                    HashBag(it)
+                }
             }
         }
     }
 
     fun computeWithRecursionAndMemoization(
-            numbers: List<Int>, target: Int, cache: MutableMap<List<Int>, Int> =
-            mutableMapOf()): Int {
-        return cache[numbers] ?: run {
-            if (numbers.isEmpty())
-                if (target == 0) 1 else 0
+            numbers: List<Int>, target: Int, numberIndex: Int = 0,
+            cache: MutableMap<Pair<Int, Int>, MutableList<List<Int>>> = mutableMapOf()):
+            List<List<Int>> {
+        val key = Pair(target, numberIndex)
+        return cache[key] ?: run {
+            (if (numberIndex > numbers.lastIndex)
+                if (target == 0)
+                    listOf(emptyList())
+                else emptyList()
             else {
-                numbers.first().let { number ->
-                    numbers.takeFrom(1).let {
-                        listOfNotNull(computeWithBruteForceAndRecursion(it, target - number),
-                            computeWithBruteForceAndRecursion(it, target + number)).sum()
+                numbers[numberIndex].let { number ->
+                    val nextNumberIndex = numberIndex + 1
+                    listOfNotNull(
+                        computeWithRecursionAndMemoization(
+                            numbers, target - number, nextNumberIndex, cache).map {
+                            mutableListOf(-number) + it
+                        }.also {
+//                            println(it)
+                        },
+                        computeWithRecursionAndMemoization(
+                            numbers, target + number, nextNumberIndex, cache).map {
+                            mutableListOf(number) + it
+                        }.also {
+//                            println(it)
+                        }
+                    ).flatMap {
+                        it
+                    }.distinctBy {
+                        HashBag(it)
                     }
                 }
-            }.also {
-                cache[numbers] = it
+            }).also { result ->
+                cache.getOrPut(key, { mutableListOf() }).addAll(result)
             }
+        }.also {
+            println("cache $cache")
         }
     }
 
