@@ -7,7 +7,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.jetbrains.spek.api.dsl.xdescribe
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 import org.paukov.combinatorics3.Generator
@@ -18,9 +17,9 @@ object TargetSumSpek : Spek({
     val data by memoized {
         val random = RandomDataGenerator().apply { reSeed(1) }
         val caseCount = 100
-        val numberRange = (1..10)
+        val numberRange = (1..5)
         val cases = (1..caseCount).map {
-            val numberCount = random.nextInt(0,5)
+            val numberCount = random.nextInt(0,10)
             val case = mutableListOf<Int>()
             // Allow repeats
             while (case.size < numberCount) {
@@ -31,9 +30,9 @@ object TargetSumSpek : Spek({
             case
         }
 //                // Otherwise, return a manually specified case.
-                .let {
-                    listOf(listOf(5,3))
-                }
+//                .let {
+//                    listOf(listOf(1,2,3,4))
+//                }
         cases.map { case ->
             case.flatMap {
                 listOf(it, -it)
@@ -69,7 +68,7 @@ object TargetSumSpek : Spek({
         }.toTypedArray()
     }
 
-    xdescribe("computeWithBruteForceAndRecursion") {
+    describe("computeWithBruteForceAndRecursion") {
         on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
             it("should return $expected") {
                 assertThat(TargetSum.computeWithBruteForceAndRecursion(numbers, target))
@@ -78,19 +77,37 @@ object TargetSumSpek : Spek({
         }
     }
 
-    describe("computeWithRecursionAndMemoization") {
+    describe("computeWithRecursionAndMemoization1") {
         on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
             it("should return $expected") {
-                assertThat(TargetSum.computeWithRecursionAndMemoization(numbers, target))
+                assertThat(TargetSum.computeWithRecursionAndMemoization1(numbers, target))
                         .isEqualTo(expected.size)
             }
         }
     }
 
-    xdescribe("computeWithMemoizationBottomUp") {
+    describe("computeWithRecursionAndMemoization2") {
         on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
             it("should return $expected") {
-                assertThat(TargetSum.computeWithMemoizationBottomUp(numbers, target))
+                assertThat(TargetSum.computeWithRecursionAndMemoization2(numbers, target))
+                        .isEqualTo(expected.size)
+            }
+        }
+    }
+
+    describe("computeWithMemoizationBottomUp1") {
+        on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
+            it("should return $expected") {
+                assertThat(TargetSum.computeWithMemoizationBottomUp1(numbers, target))
+                        .isEqualTo(expected.size)
+            }
+        }
+    }
+
+    describe("computeWithMemoizationBottomUp2") {
+        on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
+            it("should return $expected") {
+                assertThat(TargetSum.computeWithMemoizationBottomUp2(numbers, target))
                         .isEqualTo(expected.size)
             }
         }
