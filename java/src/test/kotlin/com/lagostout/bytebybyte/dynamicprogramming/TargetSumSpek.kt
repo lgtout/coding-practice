@@ -2,7 +2,6 @@ package com.lagostout.bytebybyte.dynamicprogramming
 
 import com.lagostout.common.nextBoolean
 import com.lagostout.common.nextInt
-import org.apache.commons.collections4.bag.HashBag
 import org.apache.commons.math3.random.RandomDataGenerator
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
@@ -30,13 +29,12 @@ object TargetSumSpek : Spek({
                 }
             }
             case
-        }.let {
-            it
-            // Otherwise, return a manually specified case.
-            listOf(listOf(5,3))
         }
+//                // Otherwise, return a manually specified case.
+                .let {
+                    listOf(listOf(5,3))
+                }
         cases.map { case ->
-            val numberCounts = case.groupingBy { it }.eachCount()
             case.flatMap {
                 listOf(it, -it)
             }.let {
@@ -44,13 +42,13 @@ object TargetSumSpek : Spek({
                     it.toList()
                 }
             }.filter {
-                numberCounts == it.map { it.absoluteValue }.groupingBy { it }.eachCount()
-            }.distinctBy {
-                HashBag(it)
-            }.groupBy {
+                case.zip(it).let {
+                    it.all { (a, b) -> a.absoluteValue == b.absoluteValue } &&
+                            it.size == case.size
+                }
+            }.distinct().groupBy {
                 it.sum()
             }.let { map ->
-                println(map)
                 // T:F frequency is 4:1
                 if (random.nextBoolean(1f)) map.keys.toList().let { // A reachable target.
                     if (it.isEmpty()) Pair(0, listOf(emptyList())) // There's one way to reach 0 with 0 numbers.
@@ -67,8 +65,7 @@ object TargetSumSpek : Spek({
                     } while (map.keys.contains(target))
                     Pair(target, emptyList())
                 }
-            }.let { (target, expected) ->
-                        data(case.toList(), target, expected).also { println(it) } }
+            }.let { (target, expected) -> data(case.toList(), target, expected) }
         }.toTypedArray()
     }
 
@@ -84,11 +81,8 @@ object TargetSumSpek : Spek({
     describe("computeWithRecursionAndMemoization") {
         on("numbers: %s, target: %s", with = *data) { numbers, target, expected ->
             it("should return $expected") {
-                TargetSum.computeWithRecursionAndMemoization(
-                    numbers, target).let {
-                    println("result $it")
-                    assertThat(it.count()).isEqualTo(expected.size)
-                }
+                assertThat(TargetSum.computeWithRecursionAndMemoization(numbers, target))
+                        .isEqualTo(expected.size)
             }
         }
     }
