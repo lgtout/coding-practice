@@ -28,31 +28,31 @@ object FindLargestSquareSubmatrix {
         }
     }
 
-    fun computeWithBruteForceAndRecursion(array: Array<Array<Boolean>>): Rectangle2? {
-        return _computeWithBruteForceAndRecursion(array,
-            Rectangle2(0, if (array.isNotEmpty()) array[0].lastIndex else -1,
-                0, array.lastIndex))
-    }
-
     @Suppress("FunctionName")
-    private fun _computeWithBruteForceAndRecursion(
-            array: Array<Array<Boolean>>, rectangle: Rectangle2 ): Rectangle2? {
-        return when(rectangle.size) {
+    fun computeWithBruteForceAndRecursion(
+            array: Array<Array<Boolean>>, rectangle: Rectangle2 =
+            Rectangle2(0, if (array.isNotEmpty()) array[0].lastIndex else -1,
+                0, array.lastIndex)): Rectangle2? {
+        return when (rectangle.size) {
             0 -> null
             1 -> if (array[rectangle.top][rectangle.left])
                 rectangle else null
             else -> {
-                val squareSideLength = min(rectangle.height, rectangle.width).let {
-                    it - if (rectangle.isSquare) 1 else 0
+                var square = min(rectangle.height, rectangle.width).let {
+                    rectangle.copy(right = rectangle.left + it - 1,
+                        bottom = rectangle.top + it - 1).let {
+                        if (it == rectangle) {
+                            it.copy(
+                                right = it.left + it.width - 2,
+                                bottom = it.top + it.height - 2)
+                        } else it
+                    }
                 }
-                var square = rectangle.copy(
-                    right = rectangle.left + squareSideLength - 1,
-                    bottom = rectangle.top + squareSideLength - 1)
                 val subsquares = mutableListOf<Rectangle2?>()
                 while (square.bottom <= rectangle.bottom) {
                     val startSquare = square.copy()
                     while (square.right <= rectangle.right) {
-                        subsquares.add(_computeWithBruteForceAndRecursion(
+                        subsquares.add(computeWithBruteForceAndRecursion(
                             array, square))
                         square = square.run {
                             copy(left = left + 1, right = right + 1)
@@ -65,21 +65,73 @@ object FindLargestSquareSubmatrix {
                 (if (subsquares.none { it == null || it.size < square.size }) {
                     rectangle
                 } else subsquares.filterNotNull().maxBy { it.size })?.let {
-                    // A non-square rectangle may be returned.  If so, this
-                    // trims it to a square.  Otherwise, it has no effect on
-                    // the size of the returned rectangle.
-                    val sideLength = min(it.height, it.width)
-                    it.copy(right = it.left + sideLength - 1,
-                        bottom = it.top + sideLength - 1)
+                    if (!it.isSquare) {
+                        val sideLength = min(it.height, it.width)
+                        it.copy(right = it.left + sideLength - 1,
+                            bottom = it.top + sideLength - 1)
+                    } else it
                 }
             }
         }
     }
 
-    // TODO Redo like above
-    fun computeWithRecursionAndMemoization(array: Array<Array<Boolean>>): Rectangle2? {
-
-        return null
+    fun computeWithRecursionAndMemoization(
+            array: Array<Array<Boolean>>,
+            rectangle: Rectangle2 = Rectangle2(0,
+                if (array.isNotEmpty()) array[0].lastIndex else -1, 0, array.lastIndex),
+            cache: MutableMap<Rectangle2, Rectangle2?> = mutableMapOf()): Rectangle2? {
+        return (if (cache.containsKey(rectangle)) {
+            cache[rectangle].also {
+//                println()
+//                println("hit")
+//                println("$rectangle $it")
+//                println(cache)
+//                println()
+            }
+        } else when (rectangle.size) {
+            0 -> null
+            1 -> if (array[rectangle.top][rectangle.left])
+                rectangle else null
+            else -> {
+                var square = min(rectangle.height, rectangle.width).let {
+                    rectangle.copy(right = rectangle.left + it - 1,
+                        bottom = rectangle.top + it - 1).let {
+                        if (it == rectangle) {
+                            it.copy(
+                                right = it.left + it.width - 2,
+                                bottom = it.top + it.height - 2)
+                        } else it
+                    }
+                }
+                val subsquares = mutableListOf<Rectangle2?>()
+                while (square.bottom <= rectangle.bottom) {
+                    val startSquare = square.copy()
+                    while (square.right <= rectangle.right) {
+                        subsquares.add(computeWithRecursionAndMemoization(
+                            array, square, cache))
+                        square = square.run {
+                            copy(left = left + 1, right = right + 1)
+                        }
+                    }
+                    square = startSquare.run {
+                        copy(top = top + 1, bottom = bottom + 1)
+                    }
+                }
+                (if (subsquares.none { it == null || it.size < square.size }) {
+                    rectangle
+                } else subsquares.filterNotNull().maxBy { it.size })?.let {
+                    if (!it.isSquare) {
+                        val sideLength = min(it.height, it.width)
+                        it.copy(right = it.left + sideLength - 1,
+                            bottom = it.top + sideLength - 1)
+                    } else it
+                }
+            }
+        }.also {
+            cache[rectangle] = it
+        }).also {
+            println(cache)
+        }
     }
 
     // TODO Bottom up
