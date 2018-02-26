@@ -1,5 +1,8 @@
 package com.lagostout.bytebybyte.dynamicprogramming
 
+import kotlin.math.max
+import kotlin.math.min
+
 /* Given two strings, write a function that determines the minimum edit distance
 between the two strings. You can insert and modify characters.
 
@@ -61,67 +64,38 @@ object EditDistance {
     fun computeWithMemoizationBottomUp(
             string1: String, string2: String): Int {
         val (string1, string2) = listOf(string1, string2).sortedBy { it.length }
-        val cache = mutableMapOf<Pair<Int, Int>, Int>()
-        var string1Index = string1.lastIndex
-        var string2Index = string2.length + string1.length - 1
-        cache.put(Pair(string1Index, string2Index), 0)
-        while (true) {
-            string1Index -= 1
-            string2Index -= 1
-//            cache[Pair(string1Index, string2Index)] = min(
-//                cache[Pair(string1Index + 1, string2Index + 1)]!! +
-//                        if (string2Index > string2.lastIndex ||
-//                                string1[string1Index] != string2[string2Index]) 1
-//                        else 0,
-//                cache[Pair(string1Index)]
-//            )
+        val cache = mutableMapOf<Pair<Int, Int>, Int>().apply {
+            put(Pair(-1, 0), string2.length)
+            put(Pair(-1, -1), max(string1.length, string2.length))
         }
-        return cache[Pair(0, 0)]!!
+        var string1Index = string1.lastIndex
+        cache.apply {
+            while (string1Index >= 0) {
+                var string2Index = string2.length + string1Index
+                while (string2Index >= string1Index) {
+                    if (string2Index > string2.lastIndex) {
+                        string1.length - string1Index
+                    } else {
+                        listOfNotNull(
+                            Pair(string1Index + 1, string2Index + 1).let {
+                                (if (it.first > string1.lastIndex &&
+                                        it.second > string2.lastIndex) 0
+                                else if (it.first > string1.lastIndex)
+                                    // Or, string2.size - it.second
+                                    string2.lastIndex - it.second + 1
+                                else cache[it]!!) +
+                                        if (string1[string1Index] ==
+                                                string2[string2Index]) 0 else 1
+                            },
+                            cache[Pair(string1Index, string2Index + 1)]!! + 1).min()
+                    }?.let { cache[Pair(string1Index, string2Index)] = it }
+                    string2Index -= 1
+                }
+                string1Index -= 1
+            }
+        }
+        return cache[Pair(min(string1.lastIndex, 0),
+            min(string2.lastIndex, 0))] ?: 0
     }
-
-//    fun computeWithMemoizationBottomUp(
-//            string1: String, string2: String): Int {
-//        val cache = mutableMapOf<Pair<Int, Int>, Int>().apply {
-//            putAll(listOf(
-//                // Update or match
-//                Pair(-1, -1) to 0,
-//                // Insertion
-//                Pair(-1, 0) to 1))
-//        }
-//        val maxStringIndex = max(string1.lastIndex, string2.lastIndex) // 3
-//        var string1Index = 0
-//        var string2Index = string1Index // 0
-//        while (true) {
-//            if (listOf(string1Index, string2Index).all { // (0,0)
-//                        it > maxStringIndex }) break // false
-//            while (true) {
-//                if (string2Index + (string1.lastIndex - string1Index) > // 1 + (3 - 0) = 3
-//                        maxStringIndex) break // >= 3 = false
-//                Pair(string1Index, string2Index).let { key -> // (0,0)
-//                    val previousKeyByMatchOrUpdate =
-//                            Pair(string1Index - 1, string2Index - 1) // (-1,-1)
-//                    val previousKeyByInsert = Pair(string1Index, string2Index - 1) // (0,-1)
-//                    if (string1Index > string1.lastIndex || // 0 > 3 = false
-//                            string2Index > string2.lastIndex) { // 0 > 3 = false
-//                        cache[previousKeyByMatchOrUpdate]?.let { // 0
-//                            cache[key] = it + 1 // c(0,0) = 0 + 1 = 1
-//                        }
-//                    } else {
-//                        listOfNotNull(
-//                            cache[previousKeyByMatchOrUpdate],
-//                            cache[previousKeyByInsert]).min()?.let {
-//                            cache[key] = it + if (string1[string1Index] ==
-//                                    string2[string2Index]) 0 else 1
-//                        }
-//                    }
-//                }
-//                string2Index += 1 // 1
-//            }
-//            string1Index += 1
-//            string2Index = string1Index
-//        }
-//        println(cache)
-//        return cache[Pair(maxStringIndex, maxStringIndex)]!!
-//    }
 
 }

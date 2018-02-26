@@ -5,8 +5,8 @@ import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithMemoi
 import com.lagostout.bytebybyte.dynamicprogramming.EditDistance.computeWithRecursionAndMemoization
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
+import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.jetbrains.spek.api.dsl.xdescribe
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 
@@ -26,13 +26,12 @@ object EditDistanceSpek : Spek({
         data("BB", "AA", 2),
         data("A", "ABC", 2),
         data("ABCD", "ACBD", 2),
-        // TODO Fix bottom up
         data("AC", "ABCD", 2),
         data("ACBD", "AC", 2),
         null
     ).toTypedArray()
 
-    xdescribe("computeWithBruteForceAndRecursion") {
+    describe("computeWithBruteForceAndRecursion") {
         on("string1: %s, string2: %s", with = *data) {
                 string1, string2, expected ->
             it("should return $expected") {
@@ -42,7 +41,7 @@ object EditDistanceSpek : Spek({
         }
     }
 
-    xdescribe("computeWithRecursionAndMemoization") {
+    describe("computeWithRecursionAndMemoization") {
         on("string1: %s, string2: %s", with = *data) {
                 string1, string2, expected ->
             it("should return $expected") {
@@ -52,8 +51,7 @@ object EditDistanceSpek : Spek({
         }
     }
 
-    // TODO Fix
-    xdescribe("computeWithMemoizationBottomUp") {
+    describe("computeWithMemoizationBottomUp") {
         on("string1: %s, string2: %s", with = *data) {
                 string1, string2, expected ->
             it("should return $expected") {
