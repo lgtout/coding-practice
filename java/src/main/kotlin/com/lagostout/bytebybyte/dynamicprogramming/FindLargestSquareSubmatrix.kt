@@ -28,24 +28,30 @@ object FindLargestSquareSubmatrix {
         }
     }
 
+    private fun rectangle(array: Array<Array<Boolean>>): Rectangle2 {
+        return Rectangle2(
+            0, if (array.isNotEmpty()) array[0].lastIndex
+            else -1, 0, array.lastIndex)
+    }
+
     @Suppress("FunctionName")
     fun computeWithBruteForceAndRecursion(
-            array: Array<Array<Boolean>>, rectangle: Rectangle2 =
-            Rectangle2(0, if (array.isNotEmpty()) array[0].lastIndex else -1,
-                0, array.lastIndex)): Rectangle2? {
+            array: Array<Array<Boolean>>,
+            rectangle: Rectangle2 = rectangle(array)): Rectangle2? {
         return when (rectangle.size) {
             0 -> null
             1 -> if (array[rectangle.top][rectangle.left])
                 rectangle else null
             else -> {
-                var square = min(rectangle.height, rectangle.width).let {
-                    rectangle.copy(right = rectangle.left + it - 1,
-                        bottom = rectangle.top + it - 1).let {
-                        if (it == rectangle) {
-                            it.copy(
-                                right = it.left + it.width - 2,
-                                bottom = it.top + it.height - 2)
-                        } else it
+                var square = with (rectangle) {
+                    if (isSquare) {
+                        copy(right = left + width - 2,
+                            bottom = top + height - 2)
+                    } else {
+                        min(height, width).let {
+                            copy(right = left + it - 1,
+                                bottom = top + it - 1)
+                        }
                     }
                 }
                 val subsquares = mutableListOf<Rectangle2?>()
@@ -76,31 +82,24 @@ object FindLargestSquareSubmatrix {
     }
 
     fun computeWithRecursionAndMemoization(
-            array: Array<Array<Boolean>>,
-            rectangle: Rectangle2 = Rectangle2(0,
-                if (array.isNotEmpty()) array[0].lastIndex else -1, 0, array.lastIndex),
+            array: Array<Array<Boolean>>, rectangle: Rectangle2 = rectangle(array),
             cache: MutableMap<Rectangle2, Rectangle2?> = mutableMapOf()): Rectangle2? {
         return (if (cache.containsKey(rectangle)) {
-            cache[rectangle].also {
-//                println()
-//                println("hit")
-//                println("$rectangle $it")
-//                println(cache)
-//                println()
-            }
+            cache[rectangle]
         } else when (rectangle.size) {
             0 -> null
             1 -> if (array[rectangle.top][rectangle.left])
                 rectangle else null
             else -> {
-                var square = min(rectangle.height, rectangle.width).let {
-                    rectangle.copy(right = rectangle.left + it - 1,
-                        bottom = rectangle.top + it - 1).let {
-                        if (it == rectangle) {
-                            it.copy(
-                                right = it.left + it.width - 2,
-                                bottom = it.top + it.height - 2)
-                        } else it
+                var square = with (rectangle) {
+                    if (isSquare) {
+                        copy(right = left + width - 2,
+                            bottom = top + height - 2)
+                    } else {
+                        min(height, width).let {
+                            copy(right = left + it - 1,
+                                bottom = top + it - 1)
+                        }
                     }
                 }
                 val subsquares = mutableListOf<Rectangle2?>()
@@ -129,15 +128,58 @@ object FindLargestSquareSubmatrix {
             }
         }.also {
             cache[rectangle] = it
-        }).also {
-            println(cache)
+        })
+    }
+
+    fun computeWithMemoizationBottomUp(
+            array: Array<Array<Boolean>>,
+            rectangle: Rectangle2 = rectangle(array)): Rectangle2? {
+        val cache: MutableMap<Rectangle2, Rectangle2?> = mutableMapOf()
+        subSquares(rectangle, Rectangle2(0, 0, 0, 0)).forEach {
+            cache[it] = if (array[it.top][it.right]) it else null
+        }
+        println(cache)
+        val maxSquareSideLength = min(rectangle.height, rectangle.width)
+        (2..maxSquareSideLength).map {
+            subSquares(rectangle, Rectangle2(0, it - 1, 0, it - 1))
+                    .map { square ->
+                        val subSquare = square.copy(
+                            right = square.right - 1,
+                            bottom = square.bottom - 1)
+                        subSquares(square, subSquare)
+                                .map { cache[it] }
+                                .let { results ->
+                                    results.filterNotNull().run {
+                                        when {
+                                            filter {
+                                                it.size == subSquare.size
+                                            }.size == results.size -> square
+                                            isNotEmpty() -> maxBy { it.size }
+                                            else -> null
+                                        }
+                                    }
+                                }.also {
+                                    cache[square] = it
+                                }
+                    }
+        }
+        return subSquares(rectangle, Rectangle2(0, maxSquareSideLength - 1,
+            0, maxSquareSideLength - 1)).mapNotNull { cache[it] }.maxBy { it.size }
+    }
+
+    private fun subSquares(rectangle: Rectangle2, subSquare: Rectangle2): List<Rectangle2> {
+        return rectangle.run {
+            (top..(bottom - subSquare.height + 1)).flatMap {
+                subSquare.run {
+                    copy(top = it, bottom = it + height - 1).run {
+                        (rectangle.left..(rectangle.right - width + 1)).map {
+                            copy(left = it, right = it + width - 1)
+                        }
+                    }
+                }
+            }
         }
     }
 
-    // TODO Bottom up
 
-//    fun computeWithBruteForceAndRecursion() {}
-//    fun computeWithRecursionAndMemoization() {}
-//    fun computeWithRecursionAndMemoization() {}
-//    fun computeWithMemoizationBottomUp() {}
 }

@@ -3,6 +3,7 @@ package com.lagostout.bytebybyte.dynamicprogramming
 import com.lagostout.bytebybyte.dynamicprogramming.FindLargestSquareSubmatrix.Rectangle2
 import com.lagostout.bytebybyte.dynamicprogramming.FindLargestSquareSubmatrix.Rectangle2.Companion.r2
 import com.lagostout.bytebybyte.dynamicprogramming.FindLargestSquareSubmatrix.computeWithBruteForceAndRecursion
+import com.lagostout.bytebybyte.dynamicprogramming.FindLargestSquareSubmatrix.computeWithMemoizationBottomUp
 import com.lagostout.bytebybyte.dynamicprogramming.FindLargestSquareSubmatrix.computeWithRecursionAndMemoization
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
@@ -130,6 +131,17 @@ object FindLargestSquareSubmatrixSpek : Spek({
             describe("array: ${toList(array)}") {
                 it("should return $expected") {
                     assertThat(computeWithRecursionAndMemoization(array))
+                            .isEqualTo(expected)
+                }
+            }
+        }
+    }
+
+    describe("computeWithMemoizationBottomUp") {
+        data.forEach { (array, expected) ->
+            describe("array: ${toList(array)}") {
+                it("should return $expected") {
+                    assertThat(computeWithMemoizationBottomUp(array))
                             .isEqualTo(expected)
                 }
             }
