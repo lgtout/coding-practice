@@ -127,103 +127,90 @@ object ZeroOneKnapsack {
      We handle an empty items set in the recursion case.
      Shows manual debugging technique.
      */
-     fun _computeWithRecursion5(items: Set<Item>, maxWeight: Int): Int { // ((1,1)), 1 -> 1 | (), 0 -> 0 | (), 1 -> null
-        return when (maxWeight) { // 1 | 0
-            0 -> return 0 // false | true
+     fun _computeWithRecursion5(items: Set<Item>, maxWeight: Int): Int {
+        return when (maxWeight) {
+            0 -> return 0
             else -> {
-                (if (items.isEmpty()) null // false | true
+                (if (items.isEmpty()) null
                 else {
-                    val nextItems = items.takeFrom(1).toSet() // ()
+                    val nextItems = items.takeFrom(1).toSet()
                     val item = items.first()
                     listOfNotNull(
-                        (maxWeight - item.weight).let { // 1-1=0
-                            if (it >= 0) // true
-                                _computeWithRecursion5(nextItems, it) + item.value // ((), 0) + 1 = 1
-                            else null }, // null
-                        _computeWithRecursion5(nextItems, maxWeight) // ((), 1) = null
-                    ).max() // 1
-                }) ?: 0 // 1
+                        (maxWeight - item.weight).let {
+                            if (it >= 0)
+                                _computeWithRecursion5(nextItems, it) + item.value
+                            else null },
+                        _computeWithRecursion5(nextItems, maxWeight)
+                    ).max()
+                }) ?: 0
             }
         }
     }
 
     fun computeWithRecursionAndMemoization(
-            items: List<Item>, maxWeight: Int): Int {
-        val cache = mutableMapOf<Int, Int>()
-        computeWithRecursionAndMemoization(items, maxWeight, 0, cache)
-        return cache[items.size - 1] ?: 0
+            items: List<Item>, maxWeight: Int, itemIndex: Int = 0,
+            cache: MutableMap<Pair<Int, Int>, Int?> = mutableMapOf()): Int? {
+        val key = Pair(itemIndex, maxWeight)
+        return if (cache.containsKey(key)) cache[key] else
+            when {
+                maxWeight == 0 -> 0
+                maxWeight < 0 -> null
+                else -> {
+                    if (itemIndex >= items.size) 0
+                    else {
+                        Pair(items[itemIndex], itemIndex + 1).let { (item, nextIndex) ->
+                            listOfNotNull(computeWithRecursionAndMemoization(items, maxWeight, nextIndex, cache),
+                                computeWithRecursionAndMemoization(
+                                    items, maxWeight - item.weight, nextIndex, cache)
+                                        ?.let { it + item.value }).let {
+                                if (it.isEmpty()) null
+                                else it.max()
+                            }
+                        }
+                    }
+                }
+            }.also {
+                cache[key] = it
+            }
     }
 
-//    fun computeWithRecursionAndMemoization(
-//            items: List<Item>, maxWeight: Int, itemIndex: Int,
-//            cache: MutableMap<Int, Int>): Int { // ((1,1),(1,1)), 2, 0, ()
-//        return cache[itemIndex] ?: when (maxWeight) { // null
-//            0 -> 0
-//            else -> {
-//                if (itemIndex >= items.size) 0 // false | false | true
-//                else {
-//                    Pair(items[itemIndex], itemIndex + 1).let { (item, nextIndex) -> // ((1,1), 1) | ((1,1), 2)
-//                        mutableListOf(computeWithRecursionAndMemoization(
-//                            items, maxWeight, nextIndex, cache) // _, 2, 1, () | 0
-//                        ).apply {
-//                            (maxWeight - item.weight).let { // 1 - 1
-//                                if (it >= 0) add(computeWithRecursionAndMemoization(
-//                                    items, it, nextIndex, cache) + item.value) //
-//                            }
-//                        }.max()!!
-//                    }
-//                }
-//            }
-//        }.also {
-//            cache[itemIndex] = it
-//        }
-//    }
-
-    fun computeWithRecursionAndMemoization(
-            items: List<Item>, maxWeight: Int, itemIndex: Int,
-            cache: MutableMap<Int, Int>): Int {
-        return cache[itemIndex] ?: when (maxWeight) {
-            0 -> 0
+    /* Illustrates (considerable number of) explicit variable declarations
+    needed for debugging by hand */
+    fun computeWithRecursionAndMemoizationForManualDebugging(
+            items: List<Item>, maxWeight: Int, itemIndex: Int = 0,
+            cache: MutableMap<Pair<Int, Int>, Int?> = mutableMapOf()): Int? {
+        println("itemIndex $itemIndex, item ${if (itemIndex <= items.lastIndex) items[itemIndex] else null}, " +
+                "maxWeight $maxWeight, cache $cache")
+        val key = Pair(itemIndex, maxWeight)
+        val cacheContainsResult = cache.containsKey(key)
+        return if (cacheContainsResult) cache[key].also {
+            println("hit $key = $it")
+        }!!
+        else when {
+            maxWeight == 0 -> 0
+            maxWeight < 0 -> null
             else -> {
-                val noMoreItems = itemIndex >= items.size
+                val noMoreItems = itemIndex > items.lastIndex
                 if (noMoreItems) 0
                 else {
                     val item = items[itemIndex]
                     val nextIndex = itemIndex + 1
-                    val valueWithoutItem = computeWithRecursionAndMemoization(
+                    val valueWithoutItem = computeWithRecursionAndMemoizationForManualDebugging(
                         items, maxWeight, nextIndex, cache)
                     val remainingCapacity = maxWeight - item.weight
-                    val valueWithItem = if (remainingCapacity >= 0)
-                        computeWithRecursionAndMemoization(
-                            items, remainingCapacity, nextIndex, cache) + item.value
-                    else null
+                    val valueWithItem = computeWithRecursionAndMemoizationForManualDebugging(
+                            items, remainingCapacity, nextIndex, cache)
+                            ?.let { it + item.value }
                     val values = listOfNotNull(valueWithoutItem, valueWithItem)
-                    val bestValue = values.max()!!
+                    val bestValue = if (values.isEmpty()) null else values.max()
                     bestValue
                 }
             }
         }.also {
-            cache[itemIndex] = it
+            cache[key] = it
         }
     }
 
-    // TODO Continue manual debugging
-
-/*
-    items                   ((1,1),(1,1))
-    maxWeight               2
-    itemIndex               0
-    cache                   ()
-    noMoreItems
-    item
-    nextIndex
-    valueWithoutItem
-    remainingCapacity
-    valueWithItem
-    values
-    bestValue
-
-*/
     /*
     At each weight we store:
     - the max value so far
@@ -291,6 +278,28 @@ object ZeroOneKnapsack {
                 if (it > maxValue) maxValue = it
             }))
         }
+    }
+
+    // TODO
+    /* Store results by item index */
+    fun computeWithMemoizationBottomUp3(items: List<Item>, maxWeight: Int) : Int {
+        val cache = mutableMapOf<Int, MutableMap<Int, Int>>().apply {
+            put(-1, mutableMapOf(0 to 0))
+        }
+        items.forEachIndexed { index, item ->
+            cache[index - 1]?.forEach { previousResult ->
+                cache.getOrPut(index, { mutableMapOf() }).let { currentResults ->
+                    val weight = previousResult.key + item.weight
+                    // TODO How about the not-putting-item-in-knapsack choice?
+//                    currentResults
+                    listOfNotNull(previousResult.value + item.value,
+                        currentResults[weight]).max()?.let {
+                        currentResults[weight] = it
+                    }
+                }
+            }
+        }
+        return 0
     }
 
 }
