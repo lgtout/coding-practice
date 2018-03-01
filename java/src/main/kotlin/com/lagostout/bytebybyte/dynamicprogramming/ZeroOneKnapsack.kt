@@ -41,14 +41,16 @@ object ZeroOneKnapsack {
      We explore every ordering of items.
      We handle an empty items set in the recursion case.
      */
-    fun _computeWithRecursion1(items: Set<Item>, maxWeight: Int): Int? {
+    fun computeWithRecursion1(items: Set<Item>, maxWeight: Int): Int? {
         return when {
-            maxWeight == 0 -> return 0
+            maxWeight == 0 -> return 0 +
+                    // Add in values of any zero-weight items.
+                    items.filter { it.weight == 0 }.sumBy { it.value }
             maxWeight < 0 -> return null
             else -> {
                 var maxValue = 0
                 items.forEach { item ->
-                    (_computeWithRecursion1(items - item, maxWeight - item.weight)?.let {
+                    (computeWithRecursion1(items - item, maxWeight - item.weight)?.let {
                         item.value + it
                     } ?: 0).let {
                         maxValue = if (it > maxValue) it else maxValue
@@ -66,12 +68,13 @@ object ZeroOneKnapsack {
      We explore every ordering of items.
      We handle an empty items set in the recursion case.
      */
-     fun _computeWithRecursion2(items: Set<Item>, maxWeight: Int): Int {
+     fun computeWithRecursion2(items: Set<Item>, maxWeight: Int): Int {
         return when (maxWeight) {
-            0 -> return 0
+            0 -> return 0 +
+                    items.filter { it.weight == 0 }.sumBy { it.value }
             else -> {
                 items.filter { maxWeight >= it.weight }.map { item ->
-                    _computeWithRecursion2(items - item, maxWeight - item.weight).let {
+                    computeWithRecursion2(items - item, maxWeight - item.weight).let {
                         item.value + it
                     }
                 }.max() ?: 0
@@ -85,13 +88,15 @@ object ZeroOneKnapsack {
      We explore every ordering of items.
      We handle an empty items set in a base case.
      */
-     fun _computeWithRecursion3(items: Set<Item>, maxWeight: Int): Int? {
+    // TODO Fix failing tests
+    fun computeWithRecursion3(items: Set<Item>, maxWeight: Int): Int? {
         return when {
-            maxWeight == 0 || items.isEmpty() && maxWeight > 0 -> return 0
+            maxWeight == 0 -> return 0 + items.filter { it.weight == 0 }.sumBy { it.value }
+            items.isEmpty() && maxWeight > 0 -> return 0
             maxWeight < 0 -> return null
             else -> {
                 items.mapNotNull { item ->
-                    _computeWithRecursion3(items - item, maxWeight - item.weight)?.let {
+                    computeWithRecursion3(items - item, maxWeight - item.weight)?.let {
                         item.value + it
                     }
                 }.max()
@@ -105,13 +110,14 @@ object ZeroOneKnapsack {
      We explore every ordering of items.
      We handle an empty items set in the recursion case.
      */
-     fun _computeWithRecursion4(items: Set<Item>, maxWeight: Int): Int? {
+     fun computeWithRecursion4(items: Set<Item>, maxWeight: Int): Int? {
         return when {
-            maxWeight == 0 -> return 0
+            maxWeight == 0 -> return 0 +
+                    items.filter { it.weight == 0 }.sumBy { it.value }
             maxWeight < 0 -> return null
             else -> {
                 items.mapNotNull { item ->
-                    _computeWithRecursion4(items - item, maxWeight - item.weight)?.let {
+                    computeWithRecursion4(items - item, maxWeight - item.weight)?.let {
                         item.value + it
                     }
                 }.max() ?: 0
@@ -127,9 +133,10 @@ object ZeroOneKnapsack {
      We handle an empty items set in the recursion case.
      Shows manual debugging technique.
      */
-     fun _computeWithRecursion5(items: Set<Item>, maxWeight: Int): Int {
+     fun computeWithRecursion5(items: Set<Item>, maxWeight: Int): Int {
         return when (maxWeight) {
-            0 -> return 0
+            0 -> return 0 +
+                    items.filter { it.weight == 0 }.sumBy { it.value }
             else -> {
                 (if (items.isEmpty()) null
                 else {
@@ -138,15 +145,16 @@ object ZeroOneKnapsack {
                     listOfNotNull(
                         (maxWeight - item.weight).let {
                             if (it >= 0)
-                                _computeWithRecursion5(nextItems, it) + item.value
+                                computeWithRecursion5(nextItems, it) + item.value
                             else null },
-                        _computeWithRecursion5(nextItems, maxWeight)
+                        computeWithRecursion5(nextItems, maxWeight)
                     ).max()
                 }) ?: 0
             }
         }
     }
 
+    // TODO Fix failing tests
     fun computeWithRecursionAndMemoization(
             items: List<Item>, maxWeight: Int, itemIndex: Int = 0,
             cache: MutableMap<Pair<Int, Int>, Int?> = mutableMapOf()): Int? {
@@ -176,6 +184,7 @@ object ZeroOneKnapsack {
 
     /* Illustrates (considerable number of) explicit variable declarations
     needed for debugging by hand */
+    // TODO Fix failing tests
     fun computeWithRecursionAndMemoizationForManualDebugging(
             items: List<Item>, maxWeight: Int, itemIndex: Int = 0,
             cache: MutableMap<Pair<Int, Int>, Int?> = mutableMapOf()): Int? {
@@ -216,6 +225,7 @@ object ZeroOneKnapsack {
     - the max value so far
     - the sets of _un_used items so far
     */
+    // TODO Fix failing tests
     fun computeWithMemoizationBottomUp1(items: Set<Item>, maxWeight: Int): Int {
         val cache = mutableMapOf<Int, MutableSet<CacheValue1>>()
         cache[0] = mutableSetOf(CacheValue1(items, 0))
@@ -250,6 +260,7 @@ object ZeroOneKnapsack {
     - the possibility of reaching each weight exactly by some
       combination of items (indicated by an empty set value for CacheValue2.allItems)
     */
+    // TODO Fix failing tests
     fun computeWithMemoizationBottomUp2(items: Set<Item>, maxWeight: Int): Int {
         val cache = mutableMapOf<Int, CacheValue2>()
         cache[0] = CacheValue2(mutableSetOf(Pair(emptySet(), 0)))
@@ -280,26 +291,29 @@ object ZeroOneKnapsack {
         }
     }
 
-    // TODO
-    /* Store results by item index */
-    fun computeWithMemoizationBottomUp3(items: List<Item>, maxWeight: Int) : Int {
-        val cache = mutableMapOf<Int, MutableMap<Int, Int>>().apply {
-            put(-1, mutableMapOf(0 to 0))
-        }
-        items.forEachIndexed { index, item ->
-            cache[index - 1]?.forEach { previousResult ->
-                cache.getOrPut(index, { mutableMapOf() }).let { currentResults ->
-                    val weight = previousResult.key + item.weight
-                    // TODO How about the not-putting-item-in-knapsack choice?
-//                    currentResults
-                    listOfNotNull(previousResult.value + item.value,
-                        currentResults[weight]).max()?.let {
-                        currentResults[weight] = it
-                    }
+    /*
+    A very functional approach. Compared with the others, it seems much easier to
+    reason about and debug, once one is familiar with what fold, map etc do.  There's
+    also less code.  The advantage of this approach derives from variables being
+    strictly local, vastly limiting their state space compared with either a partially
+    function approach that still relies on side-effects outside of the currently executing
+    scope, or one that is entirely imperative.
+    */
+    fun computeWithMemoizationBottomUp_functional(items: List<Item>, maxWeight: Int) : Int {
+        // Map of knapsack weight to max value
+        return items.fold(mapOf(0 to 0).withDefault { 0 }) { cache, item ->
+            cache.flatMap {
+                listOf(it.toPair(), Pair(item.weight + it.key, item.value + it.value))
+            }.fold(mutableMapOf<Int, Int>().withDefault { 0 }) { acc, pair ->
+                acc.also {
+                    if (pair.first <= maxWeight &&
+                            pair.second >= acc.getValue(pair.first))
+                        acc[pair.first] = pair.second
+                }.also {
+                    println(acc)
                 }
             }
-        }
-        return 0
+        }.values.max() ?: 0
     }
 
 }

@@ -24,3 +24,5 @@ fun <T : Comparable<T>> buildRandomBinarySearchTree(
 }
 
 data class Position(val row: Int, val col: Int)
+
+data class Quartet<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)

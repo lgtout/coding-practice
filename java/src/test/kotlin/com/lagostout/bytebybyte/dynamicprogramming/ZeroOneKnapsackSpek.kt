@@ -1,23 +1,27 @@
 package com.lagostout.bytebybyte.dynamicprogramming
 
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.Item.Companion.i
-import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack._computeWithRecursion1
-import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack._computeWithRecursion2
-import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack._computeWithRecursion3
-import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack._computeWithRecursion4
-import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack._computeWithRecursion5
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithMemoizationBottomUp1
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithMemoizationBottomUp2
-import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithMemoizationBottomUp3
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithMemoizationBottomUp_functional
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursion
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursion1
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursion2
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursion3
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursion4
+import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursion5
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursionAndMemoization
 import com.lagostout.bytebybyte.dynamicprogramming.ZeroOneKnapsack.computeWithRecursionAndMemoizationForManualDebugging
+import com.lagostout.common.nextInt
+import org.apache.commons.math3.random.RandomDataGenerator
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
+import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
+import org.paukov.combinatorics3.Generator
 
 object ZeroOneKnapsackSpek : Spek({
 
@@ -49,33 +53,96 @@ object ZeroOneKnapsackSpek : Spek({
         ).toTypedArray()
     }
 
-    // TODO Test with random data.
-    val randomData by memoized {
+    val randomData by memoized  {
         val caseCount = 100
-        val itemCountRange = (0..6)
-//        val
+        val itemCountRange = (0..5)
+        val valueRange = (0..5)
+        val weightRange = (0..10)
+        val random = RandomDataGenerator().apply { reSeed(1) }
+        (0..caseCount).map {
+            (0..random.nextInt(itemCountRange)).map {
+                ZeroOneKnapsack.Item(random.nextInt(valueRange),
+                    random.nextInt(weightRange))
+            }.let {
+                val maxWeight = random.nextInt(0,
+                    (it.sumBy { it.weight } * 1.25).toInt())
+                Triple(it, maxWeight,
+                    Generator.subset(it).simple().flatMap {
+                        Generator.permutation(it).simple()
+                    }.filter {
+                        it.sumBy { it.weight } <= maxWeight
+                    }.map {
+                        it.sumBy { it.value }
+                    }.max() ?: 0)
+            }
+        }.map {
+            data(it.first.toSet(), it.second, it.third)
+        }.toTypedArray()
     }
 
-    describe("computeWithRecursion") {
-        on("items %s, maxWeight: %s", with = *data) {
+    describe("randomData") {
+        randomData.forEach { (items, maxWeight, expected) ->
+            given("items $items, maxWeight: $maxWeight") {
+                it("should be $expected") {
+                    assertThat(computeWithRecursion1(items.toSet(), maxWeight))
+                            .isEqualTo(expected)
+                }
+            }
+        }
+    }
+
+    describe("computeWithRecursion1") {
+        on("items %s, maxWeight: %s", with = *randomData) {
                 items, maxWeight, expected ->
             it("should return $expected") {
                 assertThat(computeWithRecursion(
-                    items, maxWeight, ::_computeWithRecursion1)).isEqualTo(expected)
+                    items, maxWeight, ::computeWithRecursion1)).isEqualTo(expected)
+            }
+        }
+    }
+
+    describe("computeWithRecursion2") {
+        on("items %s, maxWeight: %s", with = *randomData) {
+                items, maxWeight, expected ->
+            it("should return $expected") {
                 assertThat(computeWithRecursion(
-                    items, maxWeight, ::_computeWithRecursion2)).isEqualTo(expected)
+                    items, maxWeight, ::computeWithRecursion2)).isEqualTo(expected)
+            }
+        }
+    }
+
+    describe("computeWithRecursion3") {
+        on("items %s, maxWeight: %s", with = *randomData) {
+                items, maxWeight, expected ->
+            it("should return $expected") {
                 assertThat(computeWithRecursion(
-                    items, maxWeight, ::_computeWithRecursion3)).isEqualTo(expected)
+                    items, maxWeight, ::computeWithRecursion3)).isEqualTo(expected)
+            }
+        }
+    }
+
+    describe("computeWithRecursion4") {
+        on("items %s, maxWeight: %s", with = *randomData) {
+                items, maxWeight, expected ->
+            it("should return $expected") {
                 assertThat(computeWithRecursion(
-                    items, maxWeight, ::_computeWithRecursion4)).isEqualTo(expected)
+                    items, maxWeight, ::computeWithRecursion4)).isEqualTo(expected)
+            }
+        }
+    }
+
+    describe("computeWithRecursion5") {
+        on("items %s, maxWeight: %s", with = *randomData) {
+                items, maxWeight, expected ->
+            it("should return $expected") {
                 assertThat(computeWithRecursion(
-                    items, maxWeight, ::_computeWithRecursion5)).isEqualTo(expected)
+                    items, maxWeight, ::computeWithRecursion5)).isEqualTo(expected)
             }
         }
     }
 
     describe("computeWithRecursionAndMemoization") {
-        on("items %s, maxWeight: %s", with = *data) {
+        on("items %s, maxWeight: %s", with = *randomData) {
                 items, maxWeight, expected ->
             it("should return $expected") {
                 assertThat(computeWithRecursionAndMemoization(
@@ -86,7 +153,7 @@ object ZeroOneKnapsackSpek : Spek({
     }
 
     describe("computeWithRecursionAndMemoizationForManualDebugging") {
-        on("items %s, maxWeight: %s", with = *data) {
+        on("items %s, maxWeight: %s", with = *randomData) {
                 items, maxWeight, expected ->
             it("should return $expected") {
                 assertThat(computeWithRecursionAndMemoizationForManualDebugging(
@@ -97,7 +164,7 @@ object ZeroOneKnapsackSpek : Spek({
     }
 
     describe("computeWithMemoizationBottomUp1") {
-        on("items %s, maxWeight: %s", with = *data) {
+        on("items %s, maxWeight: %s", with = *randomData) {
                 items, maxWeight, expected ->
             it("should return $expected") {
                 assertThat(computeWithMemoizationBottomUp1(
@@ -107,7 +174,7 @@ object ZeroOneKnapsackSpek : Spek({
     }
 
     describe("computeWithMemoizationBottomUp2") {
-        on("items %s, maxWeight: %s", with = *data) {
+        on("items %s, maxWeight: %s", with = *randomData) {
                 items, maxWeight, expected ->
             it("should return $expected") {
                 assertThat(computeWithMemoizationBottomUp2(
@@ -116,11 +183,11 @@ object ZeroOneKnapsackSpek : Spek({
         }
     }
 
-    describe("computeWithMemoizationBottomUp3") {
-        on("items %s, maxWeight: %s", with = *data) {
+    describe("computeWithMemoizationBottomUp_functional") {
+        on("items %s, maxWeight: %s", with = *randomData) {
                 items, maxWeight, expected ->
             it("should return $expected") {
-                assertThat(computeWithMemoizationBottomUp3(
+                assertThat(computeWithMemoizationBottomUp_functional(
                     items.toList(), maxWeight)).isEqualTo(expected)
             }
         }
