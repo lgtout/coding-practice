@@ -84,21 +84,19 @@ object ZeroOneKnapsack {
 
     /*
      Negative knapsack capacity is a base case, returning null.
-     As a result, we function return an optional.
+     As such, the function returns an optional.
      We explore every ordering of items.
      We handle an empty items set in a base case.
      */
-    // TODO Fix failing tests
     fun computeWithRecursion3(items: Set<Item>, maxWeight: Int): Int? {
         return when {
-            maxWeight == 0 -> return 0 + items.filter { it.weight == 0 }.sumBy { it.value }
-            items.isEmpty() && maxWeight > 0 -> return 0
+            maxWeight >= 0 && items.isEmpty() -> return 0
             maxWeight < 0 -> return null
             else -> {
-                items.mapNotNull { item ->
+                items.map { item ->
                     computeWithRecursion3(items - item, maxWeight - item.weight)?.let {
                         item.value + it
-                    }
+                    } ?: 0
                 }.max()
             }
         }
@@ -154,27 +152,22 @@ object ZeroOneKnapsack {
         }
     }
 
-    // TODO Fix failing tests
     fun computeWithRecursionAndMemoization(
             items: List<Item>, maxWeight: Int, itemIndex: Int = 0,
             cache: MutableMap<Pair<Int, Int>, Int?> = mutableMapOf()): Int? {
         val key = Pair(itemIndex, maxWeight)
         return if (cache.containsKey(key)) cache[key] else
             when {
-                maxWeight == 0 -> 0
+                maxWeight >= 0 && itemIndex > items.lastIndex -> 0
                 maxWeight < 0 -> null
                 else -> {
-                    if (itemIndex >= items.size) 0
-                    else {
-                        Pair(items[itemIndex], itemIndex + 1).let { (item, nextIndex) ->
-                            listOfNotNull(computeWithRecursionAndMemoization(items, maxWeight, nextIndex, cache),
-                                computeWithRecursionAndMemoization(
-                                    items, maxWeight - item.weight, nextIndex, cache)
-                                        ?.let { it + item.value }).let {
-                                if (it.isEmpty()) null
-                                else it.max()
-                            }
-                        }
+                    Pair(items[itemIndex], itemIndex + 1).let { (item, nextIndex) ->
+                        listOfNotNull(
+                            computeWithRecursionAndMemoization(
+                                items, maxWeight, nextIndex, cache),
+                            computeWithRecursionAndMemoization(
+                                items, maxWeight - item.weight, nextIndex, cache)
+                                    ?.let { it + item.value }).max()
                     }
                 }
             }.also {
@@ -184,7 +177,6 @@ object ZeroOneKnapsack {
 
     /* Illustrates (considerable number of) explicit variable declarations
     needed for debugging by hand */
-    // TODO Fix failing tests
     fun computeWithRecursionAndMemoizationForManualDebugging(
             items: List<Item>, maxWeight: Int, itemIndex: Int = 0,
             cache: MutableMap<Pair<Int, Int>, Int?> = mutableMapOf()): Int? {
@@ -196,7 +188,7 @@ object ZeroOneKnapsack {
             println("hit $key = $it")
         }!!
         else when {
-            maxWeight == 0 -> 0
+            maxWeight >= 0 && itemIndex > items.lastIndex -> 0
             maxWeight < 0 -> null
             else -> {
                 val noMoreItems = itemIndex > items.lastIndex
@@ -225,13 +217,14 @@ object ZeroOneKnapsack {
     - the max value so far
     - the sets of _un_used items so far
     */
-    // TODO Fix failing tests
+    // Failing tests - not worth fixing.
     fun computeWithMemoizationBottomUp1(items: Set<Item>, maxWeight: Int): Int {
+        // Map of used capacity to unused items and accumulated value.
         val cache = mutableMapOf<Int, MutableSet<CacheValue1>>()
         cache[0] = mutableSetOf(CacheValue1(items, 0))
         var maxValue = 0
         (0..maxWeight).forEach { weight ->
-            cache[weight]?.forEach { (remainingItems, value) ->
+            cache[weight]?.toList()?.forEach { (remainingItems, value) ->
                 remainingItems.forEach {
                     val nextWeight = weight + it.weight
                     cache.getOrPut(nextWeight, { mutableSetOf() })
@@ -260,7 +253,7 @@ object ZeroOneKnapsack {
     - the possibility of reaching each weight exactly by some
       combination of items (indicated by an empty set value for CacheValue2.allItems)
     */
-    // TODO Fix failing tests
+    // Failing tests - not worth fixing.
     fun computeWithMemoizationBottomUp2(items: Set<Item>, maxWeight: Int): Int {
         val cache = mutableMapOf<Int, CacheValue2>()
         cache[0] = CacheValue2(mutableSetOf(Pair(emptySet(), 0)))
