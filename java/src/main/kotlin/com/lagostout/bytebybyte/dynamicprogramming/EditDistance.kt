@@ -10,6 +10,7 @@ eg.
 editDistance("ABCD", "ACBD") = 2 (ABCD->ACCD->ACBD)
 editDistance("AC", "ABCD") = 2 (AC->ABC->ABCD) */
 
+@Suppress("NAME_SHADOWING")
 object EditDistance {
 
     fun computeWithBruteForceAndRecursion(
@@ -60,7 +61,6 @@ object EditDistance {
         }
     }
 
-    @Suppress("NAME_SHADOWING")
     fun computeWithMemoizationBottomUp(
             string1: String, string2: String): Int {
         val (string1, string2) = listOf(string1, string2).sortedBy { it.length }
@@ -98,4 +98,25 @@ object EditDistance {
             min(string2.lastIndex, 0))] ?: 0
     }
 
+    fun computeWithMemoizationBottomUpWithGrid(
+            string1: String, string2: String): Int {
+        val lastColIndex = string1.length
+        val lastRowIndex = string2.length
+        val grid = Array(lastRowIndex + 1, { row -> Array(lastColIndex + 1,
+            { col -> if (row == 0) col else if (col == 0) row else 0 })
+        })
+        (1..lastRowIndex).forEach { rowIndex ->
+            (1..lastColIndex).forEach { colIndex ->
+                grid[rowIndex][colIndex] = listOf(
+                    grid[rowIndex - 1][colIndex - 1] +
+                            if (string1[colIndex - 1] ==
+                                    string2[rowIndex - 1]) 0 else 1,
+                    // Insertion in string1
+                    grid[rowIndex][colIndex - 1] + 1,
+                    // Insertion in string2
+                    grid[rowIndex - 1][colIndex] + 1).min()!!
+            }
+        }
+        return grid.last().last()
+    }
 }
