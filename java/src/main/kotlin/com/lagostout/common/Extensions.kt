@@ -15,11 +15,11 @@ val Range<Int>.length: Int
                 if (upperBoundType() == BoundType.CLOSED) 0
                 else -1
 
-fun <T> List<T>.takeExceptLast() = this.take(this.size - 1)
-
-fun <T> List<T>.takeFrom(startIndexInclusive: Int) = this.takeLast(this.size - startIndexInclusive)
 fun <T> Iterable<T>.takeFrom(startIndexInclusive: Int) = this.toList().takeFrom(startIndexInclusive).asIterable()
 
+fun <T> List<T>.takeExceptLast() = this.take(this.size - 1)
+fun <T> List<T>.takeFrom(startIndexInclusive: Int) = this.takeLast(this.size - startIndexInclusive)
+fun <T> List<T>.second() = get(1)
 fun <T> List<T>.offsetFromLast(offset: Int): T = get(lastIndex - offset)
 
 fun <K, V> Map<K, V>.mergeReduce(other: Map<K, V>, reduce: (V, V) -> V = { a, b -> b }): Map<K, V> {
@@ -29,6 +29,12 @@ fun <K, V> Map<K, V>.mergeReduce(other: Map<K, V>, reduce: (V, V) -> V = { a, b 
         result[key] = result[key]?.let { reduce(value, it) } ?: value
     }
     return result
+}
+
+fun Map<Int, Int>.printValuesAsBinaryStrings() = {
+    forEach { t: Int, u: Int ->
+        println("${t.toBinaryString()}: ${u.toBinaryString()}")
+    }
 }
 
 fun RandomDataGenerator.nextInt(range: IntRange): Int =
@@ -75,13 +81,6 @@ val Int.isOdd: Boolean
 val Int.isEven: Boolean
     get() = !isOdd
 
-fun Map<Int, Int>.printValuesAsBinaryStrings() = {
-    forEach { t: Int, u: Int ->
-        println("${t.toBinaryString()}: ${u.toBinaryString()}")
-    }
-}
-
-fun <T> List<T>.second() = get(1)
 
 // This is interesting... But impractical: Required to import all 4
 // separately whenever I want to destructure Quartet.
@@ -89,4 +88,14 @@ operator fun <A, B, C, D> Quartet<A, B, C, D>.component1(): A = this.value0
 operator fun <A, B, C, D> Quartet<A, B, C, D>.component2(): B = this.value1
 operator fun <A, B, C, D> Quartet<A, B, C, D>.component3(): C = this.value2
 operator fun <A, B, C, D> Quartet<A, B, C, D>.component4(): D = this.value3
+
+// Pair
+
+fun Pair<Int, Int>.right(): Pair<Int, Int> {
+    return copy(second = second + 1)
+}
+
+fun Pair<Int, Int>.down(): Pair<Int, Int> {
+    return copy(first = first + 1)
+}
 
