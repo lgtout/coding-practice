@@ -95,6 +95,14 @@ fun Pair<Int, Int>.right(): Pair<Int, Int> {
     return copy(second = second + 1)
 }
 
+fun Pair<Int, Int>.left(): Pair<Int, Int> {
+    return copy(second = second - 1)
+}
+
+fun Pair<Int, Int>.up(): Pair<Int, Int> {
+    return copy(first = first - 1)
+}
+
 fun Pair<Int, Int>.down(): Pair<Int, Int> {
     return copy(first = first + 1)
 }
