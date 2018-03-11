@@ -1,5 +1,6 @@
 package com.lagostout.bytebybyte.dynamicprogramming;
 
+import com.lagostout.bytebybyte.dynamicprogramming.EggDrop.computeBottomUpWithMemoization
 import com.lagostout.bytebybyte.dynamicprogramming.EggDrop.computeWithRecursionAndMemoization
 import com.lagostout.bytebybyte.dynamicprogramming.EggDrop.computeWithRecursionByBruteForce
 import org.assertj.core.api.Assertions.assertThat
@@ -21,6 +22,9 @@ object EggDropSpek : Spek({
         data(2, 8, 4),
         data(2, 9, 4),
         data(2, 10, 4),
+        data(2, 11, 5),
+        data(2, 12, 5),
+        data(2, 15, 5),
         data(2, 20, 6),
         data(3, 10, 4),
         null
@@ -39,6 +43,15 @@ object EggDropSpek : Spek({
         on("eggs %s, floors %s", with = *data) { eggs, floors, expected ->
             it("returns $expected") {
                 assertThat(computeWithRecursionAndMemoization(eggs, floors))
+                        .isEqualTo(expected)
+            }
+        }
+    }
+
+    describe("computeBottomUpWithMemoization") {
+        on("eggs %s, floors %s", with = *data) { eggs, floors, expected ->
+            it("returns $expected") {
+                assertThat(computeBottomUpWithMemoization(eggs, floors))
                         .isEqualTo(expected)
             }
         }

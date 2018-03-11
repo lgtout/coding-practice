@@ -53,8 +53,8 @@ object EggDrop {
                 else -> {
                     (1..floors).map {
                         max(compute(eggs - 1, it - 1),
-                            compute(eggs, floors - it)) + 1
-                    }.min()!!
+                            compute(eggs, floors - it))
+                    }.min()!! + 1
                 }
             }
         }
@@ -73,36 +73,43 @@ object EggDrop {
                     else -> {
                         (1..floors).map {
                             max(compute(eggs - 1, it - 1),
-                                compute(eggs, floors - it)) + 1
-                        }.min()!!
+                                compute(eggs, floors - it))
+                        }.min()!! + 1
                     }
                 }.also {
                     cache[key] = it
                 }
             }
         }
-        return compute(eggs, floors).also { println(cache) }
+        return compute(eggs, floors)
     }
 
     fun computeBottomUpWithMemoization(eggs: Int, floors: Int): Int {
-        val cache = mutableMapOf<Pair<Int, Int>, Int>().apply {
-            putAll((1..floors).map {
-                (1 to it) to it
-            })
-//            putAll((2..eggs).flatMap {
-//                (it to floors) to 1
-//            }
-        }
-        (2..eggs).forEach { eggCount ->
-            (floors..1).forEach { floorCount ->
-                val key = Pair(eggCount, floorCount)
-//                cache[key] = max(cache[key.copy(key.first - 1, key.second - 1)],
-//                    cache[key.copy(key.first - 1, floorCount - key.second)])!!
-
+        val cache = List(eggs + 1) { eggCount ->
+            MutableList(floors + 1) {
+                when {
+                    it == 0 -> 0
+                    it == 1 -> 1
+                    eggCount == 1 -> it
+                    else -> 0
+                }
             }
-            cache
         }
-        return 0
+        // Instead of performing the following for all the columns prior to the
+        // current one, it may be sufficient to check moving left and right from
+        // the center of the columns, until the max goes dropping to rising.
+        // However, this wouldn't affect overall time complexity.
+        (2..eggs).forEach { eggCount ->
+            (2..floors).forEach { floorCount ->
+                val previousFloor = floorCount - 1
+                cache[eggCount][floorCount] = (0..previousFloor).mapNotNull {
+                    listOf(cache[eggCount - 1][it],
+                        cache[eggCount][floorCount - 1 - it]).also {
+                    }.max()
+                }.min()?.let { it + 1 } ?: 0
+            }
+        }
+        return cache[eggs][floors]
     }
 
 }
