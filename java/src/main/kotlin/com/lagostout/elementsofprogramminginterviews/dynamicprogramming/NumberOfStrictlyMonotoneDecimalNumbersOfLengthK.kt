@@ -1,5 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
+/* Problem 17.3.6 page 319 */
+
 object NumberOfStrictlyMonotoneDecimalNumbersOfLengthK {
 
     fun computeWithRecursionAndBruteForce(k: Int): Int {
