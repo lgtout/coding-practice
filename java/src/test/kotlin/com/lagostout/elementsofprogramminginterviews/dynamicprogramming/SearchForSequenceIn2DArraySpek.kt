@@ -13,8 +13,8 @@ import org.jetbrains.spek.data_driven.on
 object SearchForSequenceIn2DArraySpek : Spek({
 
     val data = listOfNotNull(
-        data(emptyList<List<Int>>(), emptyList(), true),
-        data(emptyList<List<Int>>(), listOf(1), false),
+        data(emptyList(), emptyList(), true),
+        data(emptyList(), listOf(1), false),
         data(listOf(listOf(0)), emptyList(), true),
         data(listOf(listOf(0)), listOf(0), true),
         data(listOf(listOf(0)), listOf(0,1), false),

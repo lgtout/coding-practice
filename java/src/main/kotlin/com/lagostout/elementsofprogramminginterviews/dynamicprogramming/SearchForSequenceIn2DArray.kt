@@ -64,9 +64,7 @@ object SearchForSequenceIn2DArray {
                 fun compute(start: Pair<Int, Int>, patternIndex: Int): Boolean {
                     val isValidPosition = start.first in (0..lastRow) &&
                                 start.second in (0..lastCol)
-                    return cache[start]?.get(patternIndex)?.also {
-//                        println("hit start: $start, patternIndex: $patternIndex")
-                    } ?: when {
+                    return cache[start]?.get(patternIndex) ?: when {
                         !isValidPosition -> false
                         grid[start.first][start.second] !=
                                 pattern[patternIndex] -> false
@@ -93,10 +91,7 @@ object SearchForSequenceIn2DArray {
                             compute(positions[positionsIndex], 0)
 
                 }
-                println(positions)
-                return search(0).also {
-//                    println(cache)
-                }
+                return search(0)
             }
         }
     }
@@ -107,32 +102,35 @@ object SearchForSequenceIn2DArray {
             grid.isEmpty() -> pattern.isEmpty()
             pattern.isEmpty() -> true
             else -> {
-                val lastCacheRow = grid.size
-                val lastCacheCol = grid.first().size
-                val positions = (-1..lastCacheRow).flatMap { row ->
-                    (-1..lastCacheCol).map { col ->
+                val lastCacheRow = grid.lastIndex
+                val lastCacheCol = grid.first().lastIndex
+                val positions = (0..lastCacheRow).flatMap { row ->
+                    (0..lastCacheCol).map { col ->
                         Pair(row, col)
                     }
                 }
                 val cache = positions.map { position ->
                     position to (-1..pattern.lastIndex).map { patternIndex ->
-                        patternIndex to when {
-                            patternIndex == -1 -> true
-                            position.first in setOf(-1, lastCacheRow) ||
-                                    position.second in setOf(-1, lastCacheCol) -> false
-                            else -> null
-                        }
+                        patternIndex to if (patternIndex == -1) true else null
                     }.toMap().toMutableMap()
                 }.toMap()
-                (1..pattern.lastIndex).map { patternIndex ->
-                    (0 until lastCacheRow).forEach { row ->
-                        (0 until lastCacheCol).forEach { col ->
-                            val position = Pair(row, col)
-                            cache[position]?.put(patternIndex, position.run {
-                                listOf(up, down, left, right).map {
-                                    cache[it]!![patternIndex - 1]!!
-                                }.any { it }
-                            })
+                (-1 until pattern.lastIndex).map { patternIndex ->
+                    positions.filter {
+                        cache[it]?.let {
+                            it[patternIndex]
+                        } == true
+                    }.forEach {
+                        it.run {
+                            if (patternIndex == -1) listOf(it)
+                            else listOf(up, down, left, right)
+                        }.forEach { position ->
+                            cache[position]?.let {
+                                it.merge(
+                                    patternIndex + 1,
+                                    pattern[patternIndex + 1] ==
+                                            grid[position.first][position.second],
+                                    { t, u -> t && u })
+                            }
                         }
                     }
                 }
