@@ -118,36 +118,44 @@ object SearchForSequenceIn2DArrayWithSingleVisitPerPositionLimit {
                     position to (-1..pattern.lastIndex).map { patternIndex ->
                         patternIndex to Pair(
                             if (patternIndex == -1) true else null,
-                            mutableSetOf<Pair<Int, Int>>())
+                            setOf<Set<Pair<Int, Int>>>())
                     }.toMap().toMutableMap()
                 }.toMap()
-                (-1 until pattern.lastIndex).map { patternIndex ->
+                (-1 until pattern.lastIndex).forEach { patternIndex ->
                     positions.filter {
                         cache[it]?.let {
                             it[patternIndex]?.first
                         } == true
                     }.forEach { position ->
-                        val visited = cache[position]?.get(patternIndex)?.second!!
                         position.run {
-                            if (patternIndex == -1) listOf(position)
-                            else listOf(up, down, left, right)
-                                    .filter { it !in visited }
-                        }.forEach { nextPosition ->
-                            cache[nextPosition]?.let {
-                                it.merge(
-                                    patternIndex + 1,
-                                    Pair(pattern[patternIndex + 1] ==
+                            (if (patternIndex == -1) listOf(
+                                Pair(position, setOf(emptySet())))
+                            else (listOf(up, down, left, right).map { nextPosition ->
+                                val paths = cache[position]?.get(patternIndex)?.second!!
+                                Pair(nextPosition, paths.filter { nextPosition !in it }.toSet())
+                            }.filter {
+                                it.second.isNotEmpty()
+                            })).map {
+                                Pair(it.first, it.second.map {
+                                    it.toMutableSet().apply { add(position) }.toSet()
+                                }.toMutableSet())
+                            }.toSet()
+                        }.forEach { (nextPosition, newPaths) ->
+                            val nextPatternIndex = patternIndex + 1
+                            cache[nextPosition]?.let { patternIndexToPathsMap ->
+                                patternIndexToPathsMap.merge(
+                                    nextPatternIndex,
+                                    Pair(pattern[nextPatternIndex] ==
                                             grid[nextPosition.first][nextPosition.second],
-                                        visited.run {
-                                            toMutableSet().apply { add(position) }
-                                        }),
-                                    { old, new ->
-                                        if (new.first == true) {
-                                            Pair(true, old.second.apply {
-                                                addAll(new.second)
-                                            })
-                                        } else old
-                                    })
+                                        setOf())) { old, new ->
+                                    if (new.first == true) {
+                                        val oldPaths = patternIndexToPathsMap[nextPatternIndex]!!.second
+                                        Pair(new.first, new.second.toMutableSet().apply {
+                                            addAll(oldPaths)
+                                            addAll(newPaths)
+                                        })
+                                    } else old
+                                }
                             }
                         }
                     }
