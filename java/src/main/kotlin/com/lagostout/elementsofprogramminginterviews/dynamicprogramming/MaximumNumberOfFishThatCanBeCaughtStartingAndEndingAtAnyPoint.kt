@@ -16,7 +16,7 @@ object MaximumNumberOfFishThatCanBeCaughtStartingAndEndingAtAnyPoint {
             fun compute(origin: Pair<Int, Int>): Int {
                 return mutableListOf(sea[origin.first][origin.second]).run {
                     addAll(
-                        listOf(origin.right(), origin.down()).filter {
+                        listOf(origin.right, origin.down).filter {
                             it.first <= limitPoint.first && it.second <= limitPoint.second
                         }.map {
                             compute(it) + first()
@@ -42,7 +42,7 @@ object MaximumNumberOfFishThatCanBeCaughtStartingAndEndingAtAnyPoint {
                 return cache[origin] ?: run {
                     mutableListOf(sea[origin.first][origin.second]).apply {
                         addAll(
-                            listOf(origin.right(), origin.down()).filter {
+                            listOf(origin.right, origin.down).filter {
                                 it.first <= limitPoint.first &&
                                         it.second <= limitPoint.second
                             }.map {
@@ -67,7 +67,7 @@ object MaximumNumberOfFishThatCanBeCaughtStartingAndEndingAtAnyPoint {
             val lastColumn = sea.first().lastIndex
             val lastRow = sea.lastIndex
             val lastPossiblePoint = Pair(lastRow, lastColumn)
-            var currentPoint = lastPossiblePoint.left()
+            var currentPoint = lastPossiblePoint.left
             val cache = mutableMapOf<Pair<Int, Int>, Int>().apply {
                 set(lastPossiblePoint, sea[lastPossiblePoint.first]
                         [lastPossiblePoint.second])
@@ -75,7 +75,7 @@ object MaximumNumberOfFishThatCanBeCaughtStartingAndEndingAtAnyPoint {
             while (currentPoint.first >= 0) {
                 while (currentPoint.second >= 0) {
                     val currentValue = sea[currentPoint.first][currentPoint.second]
-                    listOf(currentPoint.down(), currentPoint.right()).filter {
+                    listOf(currentPoint.down, currentPoint.right).filter {
                         it.first <= lastPossiblePoint.first &&
                                 it.second <= lastPossiblePoint.second
                     }.mapNotNull {
@@ -84,9 +84,9 @@ object MaximumNumberOfFishThatCanBeCaughtStartingAndEndingAtAnyPoint {
                         cache[currentPoint] = max(currentValue, it)
                     }
                     println(cache)
-                    currentPoint = currentPoint.left()
+                    currentPoint = currentPoint.left
                 }
-                currentPoint = currentPoint.up().copy(second = lastColumn)
+                currentPoint = currentPoint.up.copy(second = lastColumn)
             }
             cache.values.max() ?: 0
         }

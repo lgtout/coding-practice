@@ -91,19 +91,15 @@ operator fun <A, B, C, D> Quartet<A, B, C, D>.component4(): D = this.value3
 
 // Pair
 
-fun Pair<Int, Int>.right(): Pair<Int, Int> {
-    return copy(second = second + 1)
-}
+val Pair<Int, Int>.right
+    get() = copy(second = second + 1)
 
-fun Pair<Int, Int>.left(): Pair<Int, Int> {
-    return copy(second = second - 1)
-}
+val Pair<Int, Int>.left
+    get() = copy(second = second - 1)
 
-fun Pair<Int, Int>.up(): Pair<Int, Int> {
-    return copy(first = first - 1)
-}
+val Pair<Int, Int>.up
+    get() = copy(first = first - 1)
 
-fun Pair<Int, Int>.down(): Pair<Int, Int> {
-    return copy(first = first + 1)
-}
+val Pair<Int, Int>.down
+    get() = copy(first = first + 1)
 
