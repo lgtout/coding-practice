@@ -1,10 +1,8 @@
-package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
+package com.lagostout.elementsofprogramminginterviews.dynamicprogramming.knapsackproblem
 
 /* Problem 17.6.1 page 322 */
 
 object KnapsackProblem {
-
-    data class Clock(val weight: Int, val value: Int)
 
     fun computeWithRecursionAndBruteForce(capacity: Int, clocks: List<Clock>): Int {
         fun compute(capacity: Int, clocks: List<Clock>, clocksIndex: Int): Int {
@@ -23,8 +21,6 @@ object KnapsackProblem {
         }
         return compute(capacity, clocks, 0)
     }
-
-    data class Key(val capacity: Int, val clocksIndex: Int)
 
     fun computeWithRecursionAndMemoization(capacity: Int, clocks: List<Clock>): Int {
         val cache = mutableMapOf<Key, Int>()
