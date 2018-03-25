@@ -1,13 +1,14 @@
-package com.lagostout.elementsofprogramminginterviews.dynamicprogramming.knapsackproblem
+package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
-import com.lagostout.elementsofprogramminginterviews.dynamicprogramming.knapsackproblem.KnapsackProblemWithWeightSpaceComplexity.computeBottomUpWithMemoization
+import com.lagostout.elementsofprogramminginterviews.dynamicprogramming.KnapsackProblemSpek.randomData
+import com.lagostout.elementsofprogramminginterviews.dynamicprogramming.KnapsackProblemWithAchievableWeightSpaceComplexity.computeBottomUpWithMemoization
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 
-object KnapsackProblemWithWeightSpaceComplexitySpek : Spek({
+object KnapsackProblemWithAchievableWeightSpaceComplexitySpek : Spek({
 
     describe("computeBottomUpWithMemoization") {
         randomData.forEach { (clocks, capacity, expected) ->

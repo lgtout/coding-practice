@@ -1,4 +1,4 @@
-package com.lagostout.elementsofprogramminginterviews.dynamicprogramming.knapsackproblem
+package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
 import java.math.RoundingMode
 import kotlin.math.max

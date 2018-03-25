@@ -1,4 +1,6 @@
-package com.lagostout.elementsofprogramminginterviews.dynamicprogramming.knapsackproblem
+package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
+
+import com.lagostout.elementsofprogramminginterviews.dynamicprogramming.KnapsackProblem.Clock
 
 /* Problem 17.6.3 page 325 */
 

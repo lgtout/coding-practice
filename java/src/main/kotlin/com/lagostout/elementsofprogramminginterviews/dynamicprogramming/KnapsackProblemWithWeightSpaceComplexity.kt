@@ -1,6 +1,8 @@
-package com.lagostout.elementsofprogramminginterviews.dynamicprogramming.knapsackproblem
+package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
 /* Problem 17.6.2 page 325 */
+
+import com.lagostout.elementsofprogramminginterviews.dynamicprogramming.KnapsackProblem.Clock
 
 object KnapsackProblemWithWeightSpaceComplexity {
 

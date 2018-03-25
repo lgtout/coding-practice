@@ -1,8 +1,12 @@
-package com.lagostout.elementsofprogramminginterviews.dynamicprogramming.knapsackproblem
+package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
 /* Problem 17.6.1 page 322 */
 
 object KnapsackProblem {
+
+    data class Clock(val weight: Int, val value: Int)
+
+    data class Key(val capacity: Int, val clocksIndex: Int)
 
     fun computeWithRecursionAndBruteForce(capacity: Int, clocks: List<Clock>): Int {
         fun compute(capacity: Int, clocks: List<Clock>, clocksIndex: Int): Int {
