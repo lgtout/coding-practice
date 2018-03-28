@@ -3,6 +3,7 @@ import com.lagostout.common.takeFrom
 import kotlin.math.absoluteValue
 
 /* Problem 17.6.5 page 325 */
+
 object DivideSpoilsFairly {
 
     data class Spoils (val value: Int = 0, val items: List<Int> = emptyList()) {
