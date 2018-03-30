@@ -24,34 +24,37 @@ object DivideSpoilsFairlyWithSameNumberOfItemsForEachThiefSpek : Spek({
         val random = RandomDataGenerator().apply {
             reSeed(1)
         }
-        (1..caseCount).map {
-            (1..random.nextInt(itemCountRange)).map {
+        val items = mutableListOf<List<Int>>()
+        while (items.size < caseCount) {
+            val itemCount = random.nextInt(itemCountRange)
+            if (itemCount % 2 == 1) continue
+            else items.add((1..itemCount).map {
                 random.nextInt(valueRange)
-            }.withIndex().toList().let { items ->
-                // TODO
-                // This may need additional work to handle
-                // the possibility of excluding any item
-                // when the number of items is odd.
-                Generator.subset(items).simple().map {
-                    Pair(it, items - it)
-                }.filter {
-                    it.first.size == it.second.size
-                }.sortedBy {
-                    (it.first.sumBy { it.value } -
-                            it.second.sumBy { it.value }).absoluteValue
-                }.let {
-                    items.map { it.value }.let { itemValues ->
-                        if (it.isEmpty()) data(itemValues, emptyList())
-                        else
-                            it.first().let {
-                                data(itemValues,
-                                    listOf(Spoils(it.first.map { it.value }),
-                                        Spoils(it.second.map { it.value })))
-                            }
+            })
+        }
+        val cases = items.map {
+            it.withIndex().toList().let { items ->
+                    Generator.subset(items).simple().map {
+                        Pair(it, items - it)
+                    }.filter {
+                        it.first.size == it.second.size
+                    }.sortedBy {
+                        (it.first.sumBy { it.value } -
+                                it.second.sumBy { it.value }).absoluteValue
+                    }.let {
+                        items.map { it.value }.let { itemValues ->
+                            if (it.isEmpty()) data(itemValues, emptyList())
+                            else
+                                it.first().let {
+                                    data(itemValues,
+                                        listOf(Spoils(it.first.map { it.value }),
+                                            Spoils(it.second.map { it.value })))
+                                }
+                        }
                     }
                 }
-            }
-        }.toTypedArray()
+        }
+        cases.toTypedArray()
     }
 
     describe("computeWithRecursionAndBruteForce") {
@@ -86,4 +89,5 @@ object DivideSpoilsFairlyWithSameNumberOfItemsForEachThiefSpek : Spek({
             }
         }
     }
+
 })

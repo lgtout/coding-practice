@@ -7,6 +7,7 @@ import kotlin.math.absoluteValue
 object DivideSpoilsFairly {
 
     data class Spoils (val value: Int = 0, val items: List<Int> = emptyList()) {
+        constructor(item: Int) : this(item, listOf(item))
         constructor(items: List<Int>) : this(items.sum(), items)
         fun add(item: Int): Spoils = Spoils(
             value = value + item, items = listOf(item) + items)
