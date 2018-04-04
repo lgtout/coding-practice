@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E0793E0D735BF23C52FF2D5 /* EPBedBathAndBeyondProblem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079782EDBC422BC3B81BAD /* EPBedBathAndBeyondProblem.swift */; };
 		2E07957BE0D5C08C7F14079C /* IntersectionOfTwoArrays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E07908CBB4968D0BCAB50A1 /* IntersectionOfTwoArrays.swift */; };
 		2E0795950C11A4DD54E7835A /* IntersectionOfTwoArraysSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079DFD43BD20CC35CA3E69 /* IntersectionOfTwoArraysSpec.swift */; };
+		2E07961A2AFFA4087A125CC1 /* EPBedBathAndBeyondProblem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079782EDBC422BC3B81BAD /* EPBedBathAndBeyondProblem.swift */; };
 		2E0798AF80703CFC9293A98C /* NumberComplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079267D52C7F0A39E3DFA3 /* NumberComplement.swift */; };
 		2E0798F5B63266B62D2EB04A /* NumberComplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079267D52C7F0A39E3DFA3 /* NumberComplement.swift */; };
 		2E079AAA447F3E61C2CB4FF4 /* IntersectionOfTwoArrays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E07908CBB4968D0BCAB50A1 /* IntersectionOfTwoArrays.swift */; };
+		2E079B2061277DB296B45177 /* NimbleMatchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079817BA6B977B673B985C /* NimbleMatchers.swift */; };
+		2E079F0D399ABD4ED6DF7E18 /* EPBedBathAndBeyondProblemSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E07982C4EA2AB97B3016F5B /* EPBedBathAndBeyondProblemSpec.swift */; };
 		2E079F6180A2E4F4844391CF /* NumberComplementSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079081B905211D6A9BB5A8 /* NumberComplementSpec.swift */; };
 		44F3212CF89C2A97243C7D22 /* Pods_CodingPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B289D46F7B5F7DF819B3C1 /* Pods_CodingPractice.framework */; };
 		662879631E5521DE00D2EAE6 /* SumOfTwoIntegers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662879621E5521DE00D2EAE6 /* SumOfTwoIntegers.swift */; };
@@ -94,8 +98,11 @@
 		2E079081B905211D6A9BB5A8 /* NumberComplementSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberComplementSpec.swift; sourceTree = "<group>"; };
 		2E07908CBB4968D0BCAB50A1 /* IntersectionOfTwoArrays.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntersectionOfTwoArrays.swift; sourceTree = "<group>"; };
 		2E079267D52C7F0A39E3DFA3 /* NumberComplement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberComplement.swift; sourceTree = "<group>"; };
+		2E079782EDBC422BC3B81BAD /* EPBedBathAndBeyondProblem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPBedBathAndBeyondProblem.swift; sourceTree = "<group>"; };
+		2E079817BA6B977B673B985C /* NimbleMatchers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NimbleMatchers.swift; sourceTree = "<group>"; };
+		2E07982C4EA2AB97B3016F5B /* EPBedBathAndBeyondProblemSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPBedBathAndBeyondProblemSpec.swift; sourceTree = "<group>"; };
 		2E079DFD43BD20CC35CA3E69 /* IntersectionOfTwoArraysSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntersectionOfTwoArraysSpec.swift; sourceTree = "<group>"; };
-		6616F6AF1E52D57E004C79E2 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; };
+		6616F6AF1E52D57E004C79E2 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		662879601E5521CE00D2EAE6 /* SumOfTwoIntegersSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfTwoIntegersSpec.swift; sourceTree = "<group>"; };
 		662879621E5521DE00D2EAE6 /* SumOfTwoIntegers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfTwoIntegers.swift; sourceTree = "<group>"; };
 		662BA9421E2F52110015A79F /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
@@ -230,6 +237,7 @@
 				2E07908CBB4968D0BCAB50A1 /* IntersectionOfTwoArrays.swift */,
 				66DC37121E8B295300F5A42A /* FirstUniqueCharacterInAString.swift */,
 				664C57AE1E93FFAA00829C2A /* PaintHouse.swift */,
+				2E079782EDBC422BC3B81BAD /* EPBedBathAndBeyondProblem.swift */,
 			);
 			path = CodingPractice;
 			sourceTree = "<group>";
@@ -258,6 +266,8 @@
 				2E079DFD43BD20CC35CA3E69 /* IntersectionOfTwoArraysSpec.swift */,
 				66DC37101E8B293800F5A42A /* FirstUniqueCharacterInAStringSpec.swift */,
 				664C57B11E93FFBB00829C2A /* PaintHouseSpec.swift */,
+				2E07982C4EA2AB97B3016F5B /* EPBedBathAndBeyondProblemSpec.swift */,
+				2E079817BA6B977B673B985C /* NimbleMatchers.swift */,
 			);
 			path = CodingPracticeTests;
 			sourceTree = "<group>";
@@ -285,7 +295,6 @@
 				663F32101E2F2AAB0009C92D /* Frameworks */,
 				663F32111E2F2AAB0009C92D /* Headers */,
 				663F32121E2F2AAB0009C92D /* Resources */,
-				0E0AD443856E3BB35DABFD3D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -305,7 +314,6 @@
 				663F321A1E2F2AAB0009C92D /* Frameworks */,
 				663F321B1E2F2AAB0009C92D /* Resources */,
 				B9476CDFB7E2D039065A2B9D /* [CP] Embed Pods Frameworks */,
-				DE8BA42026BFFED057AA33AC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -329,11 +337,12 @@
 				TargetAttributes = {
 					663F32131E2F2AAB0009C92D = {
 						CreatedOnToolsVersion = 8.1;
-						LastSwiftMigration = 0810;
+						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 					};
 					663F321C1E2F2AAB0009C92D = {
 						CreatedOnToolsVersion = 8.1;
+						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -374,30 +383,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E0AD443856E3BB35DABFD3D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CodingPractice/Pods-CodingPractice-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		B9476CDFB7E2D039065A2B9D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Dollar/Dollar.framework",
+				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Dollar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -410,28 +411,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CodingPracticeTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		DE8BA42026BFFED057AA33AC /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CodingPracticeTests/Pods-CodingPracticeTests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EFF9D661304088AC1E497E7B /* [CP] Check Pods Manifest.lock */ = {
@@ -440,13 +429,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CodingPractice-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -481,6 +473,7 @@
 				2E0798AF80703CFC9293A98C /* NumberComplement.swift in Sources */,
 				66699F581E4AD2B1009E3067 /* RelativeRanks_QuickSort_Spec.swift in Sources */,
 				2E079AAA447F3E61C2CB4FF4 /* IntersectionOfTwoArrays.swift in Sources */,
+				2E07961A2AFFA4087A125CC1 /* EPBedBathAndBeyondProblem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +521,9 @@
 				66F25CC11E710D6000D94152 /* AddDigits.swift in Sources */,
 				2E0795950C11A4DD54E7835A /* IntersectionOfTwoArraysSpec.swift in Sources */,
 				2E07957BE0D5C08C7F14079C /* IntersectionOfTwoArrays.swift in Sources */,
+				2E079F0D399ABD4ED6DF7E18 /* EPBedBathAndBeyondProblemSpec.swift in Sources */,
+				2E0793E0D735BF23C52FF2D5 /* EPBedBathAndBeyondProblem.swift in Sources */,
+				2E079B2061277DB296B45177 /* NimbleMatchers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,7 +655,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -681,7 +678,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lagostout.CodingPractice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -702,7 +700,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lagostout.CodingPracticeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -715,7 +714,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lagostout.CodingPracticeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

@@ -18,8 +18,10 @@ class ConstructTheRectangleSpec : QuickSpec {
             ]
             let constructTheRectangle = ConstructTheRectangle()
             for (area, expected) in cases {
-                it("computes \(expected) are the sides with minimal difference for rectangle with area \(area)") {
-                    expect(constructTheRectangle.constructRectangle(area)).to(equal(expected))
+                it("computes \(expected) are the sides with " +
+                        "minimal difference for rectangle with area \(area)") {
+                    expect(constructTheRectangle.constructRectangle(area))
+                            .to(equal(expected))
                 }
             }
         }

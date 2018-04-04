@@ -72,7 +72,7 @@ class FirstUniqueCharacterInAString {
         }
         var charCounts = Dictionary<Character, Int>()
         var firstOccurrences = Dictionary<Character, Int>()
-        let chars = s.characters
+        let chars = s
         let lastIndex = chars.count - 1
         for index in (1...(lastIndex + 1)) {
             let sIndex = s.index(s.endIndex, offsetBy: -index)
@@ -96,7 +96,7 @@ class FirstUniqueCharacterInAString {
     func firstUniqChar_9(_ s: String) -> Int {
         var charCounts = Dictionary<Character, Int>()
         var firstOccurrences = Dictionary<Character, Int>()
-        let chars = s.characters
+        let chars = s
         let lastIndex = chars.count - 1
         for (index, char) in chars.reversed().enumerated() {
             let count = (charCounts[char] ?? 0) + 1
@@ -123,7 +123,7 @@ class FirstUniqueCharacterInAString {
         var charToFirstIndex = Dictionary<Character, Int>()
         var uniqueChars = Set<Character>()
         var duplicateChars = Set<Character>()
-        let chars = s.characters
+        let chars = s
         for (index, char) in chars.enumerated() {
             let count = (charCounts[char] ?? 0) + 1
             charCounts[char] = 1 + count
@@ -149,7 +149,7 @@ class FirstUniqueCharacterInAString {
     
     // Beats 66% - could be faster
     func firstUniqChar_6(_ s: String) -> Int {
-        switch s.characters.count {
+        switch s.count {
         case 0:
             return -1
         case 1:
@@ -158,7 +158,7 @@ class FirstUniqueCharacterInAString {
         }
         var duplicatedChars = Set<Character>()
         var uniqueChars = Set<Character>()
-        let chars = s.characters
+        let chars = s
         var firstOccurrenceOfChar = Dictionary<Character, Int>()
         for (index, char) in chars.enumerated() {
             if duplicatedChars.contains(char) {
@@ -188,7 +188,7 @@ class FirstUniqueCharacterInAString {
     func firstUniqChar_4(_ s: String) -> Int {
         var firstUniqueCharIndex = -1
         var charCounts = Dictionary<Character, Int>()
-        let chars = s.characters
+        let chars = s
         for char in chars {
             let count = charCounts[char] ?? 0
             charCounts[char] = 1 + count
@@ -207,7 +207,7 @@ class FirstUniqueCharacterInAString {
         var duplicatedChars = Set<Character>()
         var allChars = Set<Character>()
         var firstUniqueCharIndex = -1
-        let chars = s.characters
+        let chars = s
         for char in chars {
             if allChars.contains(char) {
                 duplicatedChars.insert(char)
@@ -229,7 +229,7 @@ class FirstUniqueCharacterInAString {
         var duplicatedChars = Set<Character>()
         var uniqueChars = Set<Character>()
         var firstUniqueCharIndex = -1
-        let chars = s.characters
+        let chars = s
         for char in chars {
             if duplicatedChars.contains(char) {
                 continue
@@ -253,11 +253,11 @@ class FirstUniqueCharacterInAString {
     func firstUniqChar_1(_ s: String) -> Int {
         var firstUniqueCharIndex = -1
         var charCounts = Dictionary<Character, Int>()
-        for char in s.characters {
+        for char in s {
             let count = charCounts[char] ?? 0
             charCounts[char] = 1 + count
         }
-        for (index, char) in s.characters.enumerated() {
+        for (index, char) in s.enumerated() {
             if charCounts[char] == 1 {
                 firstUniqueCharIndex = index
                 break
@@ -271,7 +271,7 @@ class FirstUniqueCharacterInAString {
         var duplicatedChars = Set<Character>()
         var uniqueChars = Set<Character>()
         var firstUniqueCharIndex = -1
-        for char in s.characters {
+        for char in s {
             if duplicatedChars.contains(char) {
                 continue
             } else if uniqueChars.contains(char) {
@@ -281,7 +281,7 @@ class FirstUniqueCharacterInAString {
                 uniqueChars.insert(char)
             }
         }
-        for (index, char) in s.characters.enumerated() {
+        for (index, char) in s.enumerated() {
             if uniqueChars.contains(char) {
                 firstUniqueCharIndex = index
                 break

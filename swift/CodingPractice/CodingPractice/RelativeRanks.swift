@@ -90,13 +90,13 @@ class RelativeRanks_QuickSort {
                 j -= 1
             }
             if (i < j) {
-                swap(&nums[i], &nums[j])
+                nums.swapAt(i, j)
             } else {
                 break
             }
         }
         if (j != lo) {
-            swap(&nums[j], &nums[lo])
+            nums.swapAt(j, lo)
         }
         return j
     }
@@ -113,7 +113,7 @@ class RelativeRanks_QuickSort {
         for index in stride(from:nums.count - 1, to:0, by:-1) {
             let randomIndex = Int(arc4random_uniform(UInt32(index + 1)))
             if randomIndex != index {
-                swap(&nums[index], &nums[randomIndex])
+                nums.swapAt(index, randomIndex)
             }
         }
     }
