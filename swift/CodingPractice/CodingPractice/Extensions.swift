@@ -6,7 +6,8 @@ extension String {
     func distanceTo(_ index: String.Index) -> Int {
         return distance(from: self.startIndex, to: index)
     }
-    func lastIndex() -> String.Index {
+    var lastIndex: String.Index {
         return index(endIndex, offsetBy: -1)
     }
 }
+
