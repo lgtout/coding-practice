@@ -6,7 +6,7 @@ class PalindromePermutation {
     class Solution {
         func canPermutePalindrome(_ s: String) -> Bool {
             var charCounts: Dictionary<Character, Int> = [:]
-            for char in s.characters {
+            for char in s {
                 charCounts[char] = (charCounts[char] ?? 0) + 1
             }
             var oddCharCountCount = 0

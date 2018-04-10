@@ -11,3 +11,9 @@ extension String {
     }
 }
 
+extension Substring {
+    var lastIndex: String.Index {
+        return index(endIndex, offsetBy: -1)
+    }
+}
+

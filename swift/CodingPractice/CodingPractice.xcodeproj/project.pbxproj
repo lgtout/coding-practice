@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E07925E59D1EF6F76732154 /* EPMinimumPalindromicDecomposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079AED6E6798F4C84F5554 /* EPMinimumPalindromicDecomposition.swift */; };
 		2E0793E0D735BF23C52FF2D5 /* EPBedBathAndBeyondProblem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079782EDBC422BC3B81BAD /* EPBedBathAndBeyondProblem.swift */; };
 		2E0794548876E9EFBD279DB0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E07900544C4A7A5E9F86323 /* Extensions.swift */; };
 		2E07956E1808161476037F53 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E07900544C4A7A5E9F86323 /* Extensions.swift */; };
@@ -16,6 +17,9 @@
 		2E0798AF80703CFC9293A98C /* NumberComplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079267D52C7F0A39E3DFA3 /* NumberComplement.swift */; };
 		2E0798F5B63266B62D2EB04A /* NumberComplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079267D52C7F0A39E3DFA3 /* NumberComplement.swift */; };
 		2E079AAA447F3E61C2CB4FF4 /* IntersectionOfTwoArrays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E07908CBB4968D0BCAB50A1 /* IntersectionOfTwoArrays.swift */; };
+		2E079B90D5C292C4EFAC6CF2 /* EPMinimumPalindromicDecompositionSpek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079FD7EC0F9E2E7BB958CC /* EPMinimumPalindromicDecompositionSpek.swift */; };
+		2E079C6BB457C541694F8C03 /* EPMinimumPalindromicDecompositionSpek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079FD7EC0F9E2E7BB958CC /* EPMinimumPalindromicDecompositionSpek.swift */; };
+		2E079D203DCF49DA22BF5CF1 /* EPMinimumPalindromicDecomposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079AED6E6798F4C84F5554 /* EPMinimumPalindromicDecomposition.swift */; };
 		2E079F0D399ABD4ED6DF7E18 /* EPBedBathAndBeyondProblemSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E07982C4EA2AB97B3016F5B /* EPBedBathAndBeyondProblemSpec.swift */; };
 		2E079F6180A2E4F4844391CF /* NumberComplementSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E079081B905211D6A9BB5A8 /* NumberComplementSpec.swift */; };
 		44F3212CF89C2A97243C7D22 /* Pods_CodingPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B289D46F7B5F7DF819B3C1 /* Pods_CodingPractice.framework */; };
@@ -102,7 +106,9 @@
 		2E079267D52C7F0A39E3DFA3 /* NumberComplement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberComplement.swift; sourceTree = "<group>"; };
 		2E079782EDBC422BC3B81BAD /* EPBedBathAndBeyondProblem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPBedBathAndBeyondProblem.swift; sourceTree = "<group>"; };
 		2E07982C4EA2AB97B3016F5B /* EPBedBathAndBeyondProblemSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPBedBathAndBeyondProblemSpec.swift; sourceTree = "<group>"; };
+		2E079AED6E6798F4C84F5554 /* EPMinimumPalindromicDecomposition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPMinimumPalindromicDecomposition.swift; sourceTree = "<group>"; };
 		2E079DFD43BD20CC35CA3E69 /* IntersectionOfTwoArraysSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntersectionOfTwoArraysSpec.swift; sourceTree = "<group>"; };
+		2E079FD7EC0F9E2E7BB958CC /* EPMinimumPalindromicDecompositionSpek.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPMinimumPalindromicDecompositionSpek.swift; sourceTree = "<group>"; };
 		6616F6AF1E52D57E004C79E2 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		662879601E5521CE00D2EAE6 /* SumOfTwoIntegersSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfTwoIntegersSpec.swift; sourceTree = "<group>"; };
 		662879621E5521DE00D2EAE6 /* SumOfTwoIntegers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfTwoIntegers.swift; sourceTree = "<group>"; };
@@ -240,6 +246,7 @@
 				664C57AE1E93FFAA00829C2A /* PaintHouse.swift */,
 				2E079782EDBC422BC3B81BAD /* EPBedBathAndBeyondProblem.swift */,
 				2E07900544C4A7A5E9F86323 /* Extensions.swift */,
+				2E079AED6E6798F4C84F5554 /* EPMinimumPalindromicDecomposition.swift */,
 			);
 			path = CodingPractice;
 			sourceTree = "<group>";
@@ -269,6 +276,7 @@
 				66DC37101E8B293800F5A42A /* FirstUniqueCharacterInAStringSpec.swift */,
 				664C57B11E93FFBB00829C2A /* PaintHouseSpec.swift */,
 				2E07982C4EA2AB97B3016F5B /* EPBedBathAndBeyondProblemSpec.swift */,
+				2E079FD7EC0F9E2E7BB958CC /* EPMinimumPalindromicDecompositionSpek.swift */,
 			);
 			path = CodingPracticeTests;
 			sourceTree = "<group>";
@@ -333,7 +341,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = lagostout;
 				TargetAttributes = {
 					663F32131E2F2AAB0009C92D = {
@@ -476,6 +484,8 @@
 				2E079AAA447F3E61C2CB4FF4 /* IntersectionOfTwoArrays.swift in Sources */,
 				2E07961A2AFFA4087A125CC1 /* EPBedBathAndBeyondProblem.swift in Sources */,
 				2E07956E1808161476037F53 /* Extensions.swift in Sources */,
+				2E07925E59D1EF6F76732154 /* EPMinimumPalindromicDecomposition.swift in Sources */,
+				2E079C6BB457C541694F8C03 /* EPMinimumPalindromicDecompositionSpek.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,6 +536,8 @@
 				2E079F0D399ABD4ED6DF7E18 /* EPBedBathAndBeyondProblemSpec.swift in Sources */,
 				2E0793E0D735BF23C52FF2D5 /* EPBedBathAndBeyondProblem.swift in Sources */,
 				2E0794548876E9EFBD279DB0 /* Extensions.swift in Sources */,
+				2E079D203DCF49DA22BF5CF1 /* EPMinimumPalindromicDecomposition.swift in Sources */,
+				2E079B90D5C292C4EFAC6CF2 /* EPMinimumPalindromicDecompositionSpek.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,15 +561,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -603,15 +623,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
