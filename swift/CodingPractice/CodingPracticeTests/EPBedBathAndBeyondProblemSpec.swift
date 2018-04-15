@@ -30,7 +30,7 @@ class EPBedBathAndBeyondProblemSpec : QuickSpec {
 
     class SharedExamples : QuickConfiguration {
         override class func configure(_ configuration: Configuration) {
-            sharedExamples("cases") { (context: SharedExampleContext) in
+            sharedExamples("bedBathAndBeyondProblem") { (context: SharedExampleContext) in
                 let fn = (context()["fn"]) as! (String, Set<String>) -> Array<Array<String>>
                 for (domain, dictionary, expected) in cases {
                     describe("given: domain \(domain), dictionary \(dictionary)") {
@@ -39,9 +39,9 @@ class EPBedBathAndBeyondProblemSpec : QuickSpec {
                             if let expectedValue = expected {
                                 expect(result).to(containElementSatisfying({ words in
                                     return Set(words) == Set(expectedValue) &&
-                                            words.count == expectedValue.count
+                                        words.count == expectedValue.count
                                 }), description: "expected \(String(describing: expected))" +
-                                        " but got \(result)")
+                                    " but got \(result)")
                             } else {
                                 expect(result).to(beEmpty())
                             }
@@ -51,34 +51,34 @@ class EPBedBathAndBeyondProblemSpec : QuickSpec {
             }
         }
     }
-
+    
     override func spec() {
 
         describe("EPBedBathAndBeyondProblemSpec") {
 
-            describe("computeWithBruteForceAndRecursion2()") {
-                itBehavesLike("cases") {
-                    ["context": EPBedBathAndBeyondProblem
+            fdescribe("computeWithBruteForceAndRecursion2()") {
+                itBehavesLike("bedBathAndBeyondProblem") {
+                    ["fn": EPBedBathAndBeyondProblem
                             .computeWithBruteForceAndRecursion2]
                 }
             }
 
-            fdescribe("computeWithBruteForceAndRecursion1()") {
-                itBehavesLike("cases") {
+            describe("computeWithBruteForceAndRecursion1()") {
+                itBehavesLike("bedBathAndBeyondProblem") {
                     ["fn": EPBedBathAndBeyondProblem
                             .computeWithBruteForceAndRecursion1]
                 }
             }
             
             describe("computeWithRecursionAndMemoization()") {
-                itBehavesLike("cases") {
+                itBehavesLike("bedBathAndBeyondProblem") {
                     ["fn": EPBedBathAndBeyondProblem
                             .computeWithRecursionAndMemoization]
                 }
             }
             
             describe("computeBottomUpWithMemoization()") {
-                itBehavesLike("cases") {
+                itBehavesLike("bedBathAndBeyondProblem") {
                     ["fn": EPBedBathAndBeyondProblem
                             .computeBottomUpWithMemoization]
                 }
