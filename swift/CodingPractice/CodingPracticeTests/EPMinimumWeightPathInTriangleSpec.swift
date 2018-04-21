@@ -27,7 +27,7 @@ class EPMinimumWeightPathInTriangleSpec : QuickSpec {
                 let fn = context()["fn"] as! (Array<Array<Int>>) ->
                     EPMinimumWeightPathInTriangle.Result
                 for (triangle, expected) in cases {
-                    describe("triangle \(triangle)") {
+                    describe("given triangle \(triangle)") {
                         it("should return \(expected)") {
                             let (path, weight) = fn(triangle)
                             expect(path).to(equal(expected.path))
