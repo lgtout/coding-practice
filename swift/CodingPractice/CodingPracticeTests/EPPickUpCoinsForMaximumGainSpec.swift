@@ -71,7 +71,7 @@ class EPPickUpCoinsForMaximumGainSpec : QuickSpec {
             }
         }
 
-        describe("computeBottomUpWithMemoization") {
+        fdescribe("computeBottomUpWithMemoization") {
             itBehavesLike(examplesName) {
                 ["fn": EPPickUpCoinsForMaximumGain.computeBottomUpWithMemoization]
             }

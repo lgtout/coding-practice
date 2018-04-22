@@ -80,36 +80,51 @@ class EPPickUpCoinsForMaximumGain {
     }
 
     static func computeBottomUpWithMemoization(_ coins: [Int]) -> Int {
-        var cache: Dictionary<Key, (Int, Int)> = [:]
-        (1...coins.count).reversed().forEach { pickCount in
+        var cache: Dictionary<Key, (first: Int, second: Int)> = [:]
+        guard coins.count > 0 else {
+            return 0
+        }
+        (0...coins.count).forEach { index in
+            cache[Key(index, index)] = (0,0)
+        }
+        stride(from: coins.count, to: 0, by: -1).forEach { pickCount in
             let coinSubsetCount = coins.count - pickCount + 1
-            (0...(coins.count - coinSubsetCount)).forEach { coinStartIndex in
-                let coinLastIndex = coinStartIndex + coinSubsetCount - 1
-                let coinSubset = coins[coinStartIndex...coinLastIndex]
-                let coinSubsetRemainderByFirstCoin = coinSubset.suffix(from: coinStartIndex + 1)
-                let coinSubsetRemainderByLastCoin = coinSubset.prefix(upTo: coinLastIndex)
-                var gainByFirstCoin = cache[Key(coinSubsetRemainderByFirstCoin.startIndex,
-                                                coinSubsetRemainderByFirstCoin.endIndex - 1)] ?? (0, 0)
-                var gainByLastCoin = cache[Key(coinSubsetRemainderByLastCoin.startIndex,
-                                               coinSubsetRemainderByLastCoin.endIndex - 1)] ?? (0, 0)
-                let firstCoin = coinSubset.first ?? 0
-                let lastCoin = coinSubset.last ?? 0
+            (0...(coins.count - coinSubsetCount)).forEach { coinSubsetStartIndex in
+                let coinSubsetEndIndex = coinSubsetStartIndex + coinSubsetCount
+                let coinSubset = coins[coinSubsetStartIndex..<coinSubsetEndIndex]
+                let coinSubsetRemainderByFirstCoin = coinSubset.suffix(
+                        from: coinSubsetStartIndex + 1)
+                let coinSubsetRemainderByLastCoin = coinSubset.prefix(
+                        upTo: coinSubsetEndIndex - 1)
+                var gainByFirstCoin = cache[Key(
+                        coinSubsetRemainderByFirstCoin.startIndex,
+                        coinSubsetRemainderByFirstCoin.endIndex)]!
+                var gainByLastCoin = cache[Key(
+                        coinSubsetRemainderByLastCoin.startIndex,
+                        coinSubsetRemainderByLastCoin.endIndex)]!
+                let firstCoin = coinSubset.first!
+                let lastCoin = coinSubset.last!
                 let gain: (Int, Int)
+                // The first pickCount is 1; the last is coins.count
                 if (pickCount % 2 == 1) {
-                    gainByFirstCoin = (gainByFirstCoin.0 + firstCoin, gainByFirstCoin.1)
-                    gainByLastCoin = (gainByLastCoin.0 + lastCoin, gainByLastCoin.1)
-                    gain = gainByFirstCoin.0 > gainByLastCoin.0 ?
-                        gainByFirstCoin : gainByLastCoin
+                    gainByFirstCoin = (gainByFirstCoin.first + firstCoin,
+                            gainByFirstCoin.second)
+                    gainByLastCoin = (gainByLastCoin.first + lastCoin,
+                            gainByLastCoin.second)
+                    gain = gainByFirstCoin.first > gainByLastCoin.first ?
+                            gainByFirstCoin : gainByLastCoin
                 } else {
-                    gainByFirstCoin = (gainByFirstCoin.0, gainByFirstCoin.1 + firstCoin)
-                    gainByLastCoin = (gainByLastCoin.0, gainByLastCoin.1 + lastCoin)
-                    gain = gainByFirstCoin.1 > gainByLastCoin.1 ?
-                        gainByFirstCoin : gainByLastCoin
+                    gainByFirstCoin = (gainByFirstCoin.first,
+                            gainByFirstCoin.second + firstCoin)
+                    gainByLastCoin = (gainByLastCoin.first,
+                            gainByLastCoin.second + lastCoin)
+                    gain = gainByFirstCoin.second > gainByLastCoin.second ?
+                            gainByFirstCoin : gainByLastCoin
                 }
-                cache[Key(coinStartIndex, coinLastIndex)] = gain
+                cache[Key(coinSubsetStartIndex, coinSubsetEndIndex)] = gain
             }
         }
-        return cache[Key(0, coins.count - 1)]?.0 ?? 0
+        return cache[Key(0, coins.count)]!.first
     }
 
 }
