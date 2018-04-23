@@ -67,6 +67,9 @@
 		669ED5861E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669ED5851E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift */; };
 		669ED5871E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669ED5851E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift */; };
 		669ED58A1E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669ED5881E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift */; };
+		66AD7FD9208C244400220A05 /* EPNumberOfWaysToClimbStairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AD7FD8208C244400220A05 /* EPNumberOfWaysToClimbStairs.swift */; };
+		66AD7FDB208C244F00220A05 /* EPNumberOfWaysToClimbStairsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AD7FDA208C244F00220A05 /* EPNumberOfWaysToClimbStairsSpec.swift */; };
+		66AD7FDC208C2B3F00220A05 /* EPNumberOfWaysToClimbStairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AD7FD8208C244400220A05 /* EPNumberOfWaysToClimbStairs.swift */; };
 		66C4DEB7208AFDD000295001 /* EPPickUpCoinsForMaximumGainSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C4DEB6208AFDD000295001 /* EPPickUpCoinsForMaximumGainSpec.swift */; };
 		66CF07241E83325C00C2D034 /* Scratch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF07231E83325C00C2D034 /* Scratch.swift */; };
 		66D9C66A1E750BF200DD92EC /* ConstructTheRectangleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D9C6691E750BF200DD92EC /* ConstructTheRectangleSpec.swift */; };
@@ -145,6 +148,8 @@
 		669EBB791E847E0700AB49C8 /* RelativeRanksSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelativeRanksSpec.swift; sourceTree = "<group>"; };
 		669ED5851E68D0ED000250B5 /* MaxDepthOfBinaryTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaxDepthOfBinaryTree.swift; sourceTree = "<group>"; };
 		669ED5881E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaxDepthOfBinaryTreeSpec.swift; sourceTree = "<group>"; };
+		66AD7FD8208C244400220A05 /* EPNumberOfWaysToClimbStairs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPNumberOfWaysToClimbStairs.swift; sourceTree = "<group>"; };
+		66AD7FDA208C244F00220A05 /* EPNumberOfWaysToClimbStairsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPNumberOfWaysToClimbStairsSpec.swift; sourceTree = "<group>"; };
 		66C4DEB6208AFDD000295001 /* EPPickUpCoinsForMaximumGainSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPPickUpCoinsForMaximumGainSpec.swift; sourceTree = "<group>"; };
 		66CF07231E83325C00C2D034 /* Scratch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scratch.swift; sourceTree = "<group>"; };
 		66D9C6691E750BF200DD92EC /* ConstructTheRectangleSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructTheRectangleSpec.swift; sourceTree = "<group>"; };
@@ -256,6 +261,7 @@
 				2E079B8BF0C3AC46BE0AB674 /* EPMinimumWeightPathInTriangle.swift */,
 				2E079E3BBCBB9A82DC4B43AC /* EPPickUpCoinsForMaximumGain.swift */,
 				2E07909B2593A944EA7944A7 /* Functions.swift */,
+				66AD7FD8208C244400220A05 /* EPNumberOfWaysToClimbStairs.swift */,
 			);
 			path = CodingPractice;
 			sourceTree = "<group>";
@@ -288,6 +294,7 @@
 				2E079FD7EC0F9E2E7BB958CC /* EPMinimumPalindromicDecompositionSpec.swift */,
 				2E07965A67C840E609D3D7E8 /* EPMinimumWeightPathInTriangleSpec.swift */,
 				66C4DEB6208AFDD000295001 /* EPPickUpCoinsForMaximumGainSpec.swift */,
+				66AD7FDA208C244F00220A05 /* EPNumberOfWaysToClimbStairsSpec.swift */,
 			);
 			path = CodingPracticeTests;
 			sourceTree = "<group>";
@@ -473,6 +480,7 @@
 				664C57AF1E93FFAA00829C2A /* PaintHouse.swift in Sources */,
 				66699F4F1E4ACCD3009E3067 /* SingleNumber.swift in Sources */,
 				66DC37131E8B295300F5A42A /* FirstUniqueCharacterInAString.swift in Sources */,
+				66AD7FD9208C244400220A05 /* EPNumberOfWaysToClimbStairs.swift in Sources */,
 				668C431A1E42F93300ED2902 /* FlipGame.swift in Sources */,
 				66F25CC01E710D6000D94152 /* AddDigits.swift in Sources */,
 				668DB3C91E3136390095473A /* IslandPerimeter.swift in Sources */,
@@ -505,6 +513,7 @@
 				668DB3CD1E3136C40095473A /* IslandPerimeterSpec.swift in Sources */,
 				66DC37141E8B295300F5A42A /* FirstUniqueCharacterInAString.swift in Sources */,
 				669ED58A1E68D0FB000250B5 /* MaxDepthOfBinaryTreeSpec.swift in Sources */,
+				66AD7FDB208C244F00220A05 /* EPNumberOfWaysToClimbStairsSpec.swift in Sources */,
 				66E851271E3A94D900E28A6A /* NimGameSpec.swift in Sources */,
 				66699F591E4AD2B1009E3067 /* RelativeRanks_QuickSort_Spec.swift in Sources */,
 				66D9C66A1E750BF200DD92EC /* ConstructTheRectangleSpec.swift in Sources */,
@@ -530,6 +539,7 @@
 				66E851221E39585100E28A6A /* PalindromePermutationSpec.swift in Sources */,
 				6692F8931E8615B300DFC8AA /* MinimumMovesToEqualArrayElementsSpec.swift in Sources */,
 				6674A37E1E67926100CB0502 /* SumOfTwoIntegersSpec.swift in Sources */,
+				66AD7FDC208C2B3F00220A05 /* EPNumberOfWaysToClimbStairs.swift in Sources */,
 				664BDBC11E2F2CCE0074D723 /* HammingDistance.swift in Sources */,
 				669EBB7A1E847E0700AB49C8 /* RelativeRanksSpec.swift in Sources */,
 				2E079F6180A2E4F4844391CF /* NumberComplementSpec.swift in Sources */,
