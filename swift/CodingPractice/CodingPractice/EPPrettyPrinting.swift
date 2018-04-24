@@ -93,9 +93,9 @@ class EPPrettyPrinting {
                 }
                 remainingSpace -= word.count
                 let messiness = remainingSpace * remainingSpace + cache[wordIndex + 1]!
+                messinesses.append(messiness)
                 // Handle space between words.
                 remainingSpace -= 1
-                messinesses.append(messiness)
                 wordIndex += 1
             }
             cache[lineStartWordIndex] = messinesses.min()
