@@ -4,7 +4,7 @@ import Foundation
 
 /* Problem 17.12.4 page 337 */
 
-class LongestWeaklyAlternatingSubsequence {
+class EPLongestWeaklyAlternatingSubsequence {
 
     static func computeBottomUpWithMemoization(sequence: [Int]) -> [[Int]] {
         if sequence.isEmpty {

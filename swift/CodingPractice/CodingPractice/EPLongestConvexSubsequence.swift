@@ -4,7 +4,7 @@ import Foundation
 
 /* Problem 17.12.5 page 337 */
 
-class LongestConvexSubsequence {
+class EPLongestConvexSubsequence {
 
     static func computeBottomUpWithMemoization(sequence: [Int]) -> [[Int]] {
         if sequence.isEmpty {

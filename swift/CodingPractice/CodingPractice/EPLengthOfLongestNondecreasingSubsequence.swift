@@ -4,7 +4,7 @@ import Foundation
 
 /* Problem 17.12.1 page 335 */
 
-class LengthOfLongestNondecreasingSubsequence {
+class EPLengthOfLongestNondecreasingSubsequence {
 
     static func computeWithRecursionAndBruteForce(sequence: [Int]) -> Int {
         if sequence.isEmpty {

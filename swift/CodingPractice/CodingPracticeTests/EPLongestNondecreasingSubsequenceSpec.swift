@@ -4,7 +4,7 @@ import Foundation
 import Quick
 import Nimble
 
-class LongestNondecreasingSubsequenceSpec: QuickSpec {
+class EPLongestNondecreasingSubsequenceSpec: QuickSpec {
 
     static let cases = [
         ([Int](), [[Int]]()),
@@ -46,7 +46,7 @@ class LongestNondecreasingSubsequenceSpec: QuickSpec {
 
         fdescribe("computeBottomUpWithMemoization") {
             itBehavesLike("longestNondecreasingSubsequence") {
-                ["fn" : LongestNondecreasingSubsequence.computeBottomUpWithMemoization]
+                ["fn" : EPLongestNondecreasingSubsequence.computeBottomUpWithMemoization]
             }
         }
 

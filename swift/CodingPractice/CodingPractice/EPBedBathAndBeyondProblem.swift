@@ -23,7 +23,7 @@ class EPBedBathAndBeyondProblem {
                      _ concatenation: Array<String>) -> Array<Array<String>> {
             if (domain.count == 0) {
                 let concatenationContainsAllWordsInDictionary =
-                        Set(concatenation) == Set(dictionary)
+                        Set<String>(concatenation) == Set<String>(dictionary)
                 if (concatenationContainsAllWordsInDictionary) {
                     return [concatenation]
                 } else {

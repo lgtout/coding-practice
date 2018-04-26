@@ -4,7 +4,7 @@ import Foundation
 import Quick
 import Nimble
 
-class LongestConvexSubsequenceSpec : QuickSpec {
+class EPLongestConvexSubsequenceSpec: QuickSpec {
 
     static let cases: [([Int], [Int])] = [
         ([], []),
@@ -46,7 +46,7 @@ class LongestConvexSubsequenceSpec : QuickSpec {
     override func spec() {
         describe("computeBottomUpWithMemoization") {
             itBehavesLike("longestConvexSubsequence") {
-                ["fn" : LongestConvexSubsequence
+                ["fn" : EPLongestConvexSubsequence
                         .computeBottomUpWithMemoization]
             }
         }
