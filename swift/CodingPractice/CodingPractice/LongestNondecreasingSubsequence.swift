@@ -11,22 +11,22 @@ class LongestNondecreasingSubsequence {
             return Array<[Int]>()
         }
         func compute(_ index: Int, _ lowerBound: Int) -> [[Int]] {
-            let value = sequence[index]
+            let entry = sequence[index]
             if index == sequence.endIndex - 1 {
-                return lowerBound <= value ? [[value]] : [[]]
+                return lowerBound <= entry ? [[entry]] : [[]]
             }
             let nextIndex = index + 1
-            var longestSubsequencesWithCurrentValue: [[Int]] = []
-            if value >= lowerBound {
-                longestSubsequencesWithCurrentValue =
-                        compute(nextIndex, value).map {
-                            [value] + $0
+            var longestSubsequencesWithEntry: [[Int]] = []
+            if entry >= lowerBound {
+                longestSubsequencesWithEntry =
+                        compute(nextIndex, entry).map {
+                            [entry] + $0
                         }
             }
-            let longestSubsequencesWithoutCurrentValue =
+            let longestSubsequencesWithoutEntry =
                     compute(nextIndex, lowerBound)
-            var subsequences = longestSubsequencesWithCurrentValue +
-                    longestSubsequencesWithoutCurrentValue
+            var subsequences = longestSubsequencesWithEntry +
+                    longestSubsequencesWithoutEntry
             subsequences.sort(by: { $0.count >= $1.count })
             let longestSubsequences = subsequences.prefix {
                 $0.count == subsequences[0].count }
@@ -61,23 +61,6 @@ class LongestNondecreasingSubsequence {
         // [ sequence_index : [ lower_bound_value : [[ longest_subsequence_of_values ]]
         var cache: [Int : [Int : [[Int]]]] = [:]
 
-        // Seed the cache.
-
-        var cacheLastColumn: [Int : [[Int]]] = [:]
-        let lastIndex = sequence.endIndex - 1
-        let lastEntry = sequence.last!
-        var lowerBoundIndex = lastIndex
-        while lowerBoundIndex >= 0 {
-            let lowerBound = sequence[lowerBoundIndex]
-            var longestSubsequences = [[]] as [[Int]]
-            if lastEntry >= lowerBound {
-                longestSubsequences = [[lastEntry]]
-            }
-            cacheLastColumn[lowerBound] = longestSubsequences
-            lowerBoundIndex -= 1
-        }
-        cache[lastIndex] = cacheLastColumn
-
         func longestOf(_ s1: [[Int]], _ s2: [[Int]]) -> [[Int]] {
             let s1Count = (s1.isEmpty ?
                     0 : s1.first!.count)
@@ -94,28 +77,39 @@ class LongestNondecreasingSubsequence {
             return result
         }
 
-        var sequenceIndex = lastIndex - 1
+        let lastIndex = sequence.endIndex - 1
+        var sequenceIndex = lastIndex
         while sequenceIndex >= 0 {
             var lowerBoundIndex = sequenceIndex
             var lowerBoundsToLongestSubsequences: [Int: [[Int]]] = [:]
+            let entry = sequence[sequenceIndex]
             cache[sequenceIndex] = lowerBoundsToLongestSubsequences
             while lowerBoundIndex >= 0 {
                 let lowerBound = sequence[lowerBoundIndex]
                 /* If we've already seen this lowerBound at this index, we
                 don't need to recompute longest subsequences, because it
-                won't change from what we currently have in the cache. */
+                won't change from what we currently have in the cache. This
+                occurs if we have duplicate entries in the sequence. */
                 if lowerBoundsToLongestSubsequences[lowerBound] == nil {
-                    let nextSubsequenceIndex = sequenceIndex + 1
-                    let subsequencesWithoutEntry = cache[nextSubsequenceIndex]![lowerBound]!
-                    let entry = sequence[sequenceIndex]
+                    var longestSubsequences: [[Int]] = [[]]
+                    var subsequencesWithoutEntry: [[Int]] = [[]]
                     var subsequencesWithEntry: [[Int]] = [[]]
+                    let nextSubsequenceIndex = sequenceIndex + 1
                     if entry >= lowerBound {
-                        subsequencesWithEntry = cache[nextSubsequenceIndex]![entry]!.map {
-                            [entry] + $0
+                        if sequenceIndex == lastIndex {
+                            subsequencesWithEntry = [[entry]]
+                        } else {
+                            subsequencesWithEntry = cache[nextSubsequenceIndex]![entry]!.map {
+                                [entry] + $0
+                            }
                         }
                     }
-                    cache[sequenceIndex]![lowerBound] = longestOf(
+                    if sequenceIndex < lastIndex {
+                        subsequencesWithoutEntry = cache[nextSubsequenceIndex]![lowerBound]!
+                    }
+                    longestSubsequences = longestOf(
                             subsequencesWithEntry, subsequencesWithoutEntry)
+                    cache[sequenceIndex]![lowerBound] = longestSubsequences
                 }
                 lowerBoundIndex -= 1
             }
