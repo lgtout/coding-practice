@@ -10,6 +10,8 @@ class LongestAlternatingSubsequenceSpec : QuickSpec {
         ([], []),
         ([1], [1]),
         ([1,2], [1,2]),
+        ([2,1], [1]),
+        ([2,1], [2]),
         ([1,2,3], [1,2]),
         ([1,2,3], [2,3]),
         ([1,3,2], [1,3,2]),
@@ -37,7 +39,22 @@ class LongestAlternatingSubsequenceSpec : QuickSpec {
     }
 
     override func spec() {
-        describe("computeBottomUpWithMemoization") {
+
+        describe("computeWithRecursionAndBruteForce") {
+            itBehavesLike("longestAlternatingSubsequence") {
+                ["fn" : EPLongestAlternatingSubsequence
+                        .computeWithRecursionAndBruteForce]
+            }
+        }
+
+        describe("computeByBruteForceWithoutRecursion") {
+            itBehavesLike("longestAlternatingSubsequence") {
+                ["fn" : EPLongestAlternatingSubsequence
+                        .computeByBruteForceWithoutRecursion]
+            }
+        }
+
+        fdescribe("computeBottomUpWithMemoization") {
             itBehavesLike("longestAlternatingSubsequence") {
                 ["fn" : EPLongestAlternatingSubsequence
                         .computeBottomUpWithMemoization]
