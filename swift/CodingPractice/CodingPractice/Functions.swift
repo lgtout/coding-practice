@@ -2,8 +2,11 @@
 
 import Foundation
 
-func reproducibleRandom(_ endExclusive: Int) -> Int {
-    let dr = drand48()
-    return Int(dr * Double(endExclusive))
+func printJson<T>(_ o: T, _ prettyPrint: Bool = true) where T : Encodable {
+    let encoder = JSONEncoder()
+    if prettyPrint {
+        encoder.outputFormatting = .prettyPrinted
+    }
+    let data = try! encoder.encode(o)
+    print(String(data: data, encoding: .utf8)!)
 }
-

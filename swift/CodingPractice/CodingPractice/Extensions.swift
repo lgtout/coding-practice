@@ -50,3 +50,16 @@ extension Sequence {
         return result
     }
 }
+
+//extension Array : Hashable where Element == Int {
+//    public var hashValue: Int {
+//        get {
+//            var hashCode = 1
+//            print(self)
+//            for i in self {
+//                hashCode = 31 * hashCode + i.hashValue
+//            }
+//            return hashCode
+//        }
+//    }
+//}
