@@ -12,6 +12,7 @@ def testing_pods
 end
 
 target 'CodingPractice' do
+    pod 'SwiftyJSON'
 #    testing_pods
 end
 
