@@ -51,15 +51,38 @@ extension Sequence {
     }
 }
 
-//extension Array : Hashable where Element == Int {
-//    public var hashValue: Int {
-//        get {
-//            var hashCode = 1
-//            print(self)
-//            for i in self {
-//                hashCode = 31 * hashCode + i.hashValue
+extension Array where Element : Equatable {
+    func distinct() -> Array {
+        return withoutDuplicates()
+    }
+    func withoutDuplicates() -> Array {
+        return self.reduce([]) {
+            (acc: Array, curr: Element) -> Array in
+            if (!acc.contains(curr)) {
+                return acc + [curr]
+            }
+            return acc
+        }
+    }
+}
+
+// TODO How do we get rid of the Int type, and make the method generic?
+//extension Array where Element == [Equatable] {
+////extension Array where Element == Array<AnyClass> {
+//    func selectLongest() -> [Element] {
+//        return reduce([Element]()) { acc, curr in
+//            if acc.isEmpty {
+//                return [curr]
+//            } else {
+//                let subsequenceCount = acc.first?.count ?? 0
+//                let currCount = curr.count
+//                if currCount > subsequenceCount {
+//                    return [curr]
+//                } else if currCount == subsequenceCount {
+//                    return acc + [curr]
+//                }
+//                return acc
 //            }
-//            return hashCode
 //        }
 //    }
 //}

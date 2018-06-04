@@ -74,10 +74,10 @@ class EPLongestWeaklyAlternatingSubsequence {
             }
 
             // Select longest subsequences
-            let longestSubsequences = self.longestSubsequences(
+            let result = longestSubsequences(
                     subsequencesWithoutEntry, subsequencesWithEntry)
 
-            return longestSubsequences
+            return result
         }
         return compute(0, nil, 0, 0)
     }
@@ -130,16 +130,16 @@ class EPLongestWeaklyAlternatingSubsequence {
             }
 
             // Select longest subsequences
-            let longestSubsequences = [
+            let result = [
                 subsequencesWithEntry,
                 subsequencesWithoutEntry,
                 subsequencesStartingAtEntry
             ].reduce ([[]]) {
                 (acc: [[Int]], curr: [[Int]]) in
-                return self.longestSubsequences(acc, curr)
+                return longestSubsequences(acc, curr)
             }
 
-            return longestSubsequences
+            return result
         }
         return compute(0, nil, 0, 0, [])
     }
@@ -346,18 +346,6 @@ class EPLongestWeaklyAlternatingSubsequence {
             return longestSubsequences(acc, curr)
         }
 
-        return result
-    }
-
-    private static func longestSubsequences(_ s1: [[Int]], _ s2: [[Int]]) -> [[Int]] {
-        let s1Count = s1.first?.count ?? 0
-        let s2Count = s2.first?.count ?? 0
-        var result = s1
-        if s2Count > s1Count {
-            result = s2
-        } else if s2Count == s1Count {
-            result += s2
-        }
         return result
     }
 
