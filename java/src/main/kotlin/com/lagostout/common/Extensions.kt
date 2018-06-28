@@ -44,6 +44,9 @@ fun Map<Int, Int>.printValuesAsBinaryStrings() = {
 fun RandomDataGenerator.nextInt(range: IntRange): Int =
         nextInt(range.start, range.endInclusive)
 
+fun RandomDataGenerator.nextInt(range: CharRange): Char =
+        nextInt(range.start.toInt(), range.endInclusive.toInt()).toChar()
+
 fun RandomDataGenerator.nextEvenInt(range: IntRange): Int =
     range.filter { it % 2 == 0 }.let {
         it[nextInt(0, it.lastIndex)]
