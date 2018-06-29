@@ -3,20 +3,18 @@ package com.lagostout.elementsofprogramminginterviews.graphs
 import java.util.*
 
 /*  Problem 19.7.1 page 372 */
+
 /*
     We'll assume that
     -- If there are words in the dictionary, they're
     the same length as [from] and [to].
     -- The source and destination strings are in the
     dictionary.
-    -- The length of the production sequence is the
-    length of the path in the graph from the source
-    string to the destination string.  This is one
-    less than the number of words on that path.
 */
+
 fun lengthOfShortestProductionSequence(from: String, to: String,
                                        dictionary: List<String>): Int? {
-    if (from == to) return 0
+    if (from == to) return 1
 
     // Build the graph
     val graph = mutableMapOf<String, MutableList<String>>()
@@ -24,17 +22,17 @@ fun lengthOfShortestProductionSequence(from: String, to: String,
         // Words that differ by one character are adjacent
         // in the graph e.g cod cad.
         val adjacentWordGroups = dictionary.groupBy {
-            it.removeRange(indexOfCharToIgnore,
-                    indexOfCharToIgnore + 1)
+            it.removeRange(indexOfCharToIgnore, indexOfCharToIgnore + 1)
         }
         println(adjacentWordGroups)
         adjacentWordGroups.values.forEach { adjacentWords ->
             for (source in 0..adjacentWords.lastIndex) {
-                (0..adjacentWords.lastIndex).filterNot { it == source }
+                (0..adjacentWords.lastIndex)
+                        .filterNot { it == source }
                         .forEach { destination ->
-                            graph.getOrPut(adjacentWords[source],
-                                    { mutableListOf() })
-                                    .add(adjacentWords[destination])
+                            graph.getOrPut(adjacentWords[source]) {
+                                mutableListOf()
+                            }.add(adjacentWords[destination])
                         }
             }
         }
@@ -50,21 +48,31 @@ fun lengthOfShortestProductionSequence(from: String, to: String,
     }
     explored.add(from)
     var distance: Int? = null
+    var shortestProductionSequence = listOf<String>()
     while (stack.isNotEmpty()) {
         run {
             stack.pop().let { (word, adjacentWordIndex) ->
                 graph[word]?.let {
-                    if (adjacentWordIndex >= it.size) return@run
+                    if (adjacentWordIndex >= it.size) {
+                        explored.remove(word)
+                        return@run
+                    }
                     stack.push(Frame(word, adjacentWordIndex.inc()))
                     it[adjacentWordIndex].let { adjacentWord ->
                         // Don't add _to_ to explored
                         if (adjacentWord == to) {
-                            val pathLength = stack.size
-                            distance = listOfNotNull(
-                                    distance, pathLength).min()
+                            // Include _to_ in path length.
+                            val pathLength = stack.size + 1
+                            val d = distance
+                            if (d == null || d > pathLength) {
+                                distance = pathLength
+                                shortestProductionSequence =
+                                        stack.map { it.word }.reversed() + to
+                            }
                             return@run
                         }
-                        if (stack.any { it.word == adjacentWord }) return@run
+                        // Don't double back on words already in the stack.
+                        if (explored.contains(adjacentWord)) return@run
                         stack.push(Frame(adjacentWord, 0))
                         explored.add(adjacentWord)
                     }
@@ -72,5 +80,6 @@ fun lengthOfShortestProductionSequence(from: String, to: String,
             }
         }
     }
+    println(shortestProductionSequence)
     return distance
 }
