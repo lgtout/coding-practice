@@ -1532,20 +1532,6 @@ class EPLongestConvexSubsequence {
             return []
         }
 
-        struct Key1: Hashable {
-            let distance: Int
-            let index: Int
-            init (_ distance: Int, _ startIndex: Int) {
-                self.distance = distance
-                self.index = startIndex
-            }
-            var hashValue: Int {
-                get {
-                    return (distance * 31) + index
-                }
-            }
-        }
-
         let lastIndex = sequence.endIndex - 1
         var cache: [Int : [Int : [[Int]]]] = [:]
 
@@ -1607,10 +1593,101 @@ class EPLongestConvexSubsequence {
         return selectLongest(longestSubsequencesOfSuffixes)
     }
 
-    /* IDEA: We could pre-compute a matrix of distances between every pair of
-      numbers.  We use vertical axis to represent first number and
-      horizontal for second number.  We take each position in the vertical axis
-      as the starting point of a suffix.  We move through subsequences by treating
-      a vertical axis position as a horizontal axis one, and vice-versa. */
+    /* IDEA: We pre-compute a matrix of distances between every pair of numbers.
+     We use vertical axis to represent first number and horizontal for second number.
+     We take each position in the vertical axis as the starting point of a suffix.
+     We move through subsequences by treating a vertical axis position as a horizontal
+     axis one, and vice-versa. */
 
+    /* IDEA: We move from right to left, marking the position of the third number in a convex
+     triple.  For each third number, we form a triple with every combination of first
+     and second number.  When the triple is convex, we make a new triple from its second
+     and third numbers.  We iterate over numbers to the right of the current position to
+     complete the new triple, each position providing a possible third number. */
+
+    // TODO
+
+    /* We cache by indices, not distance.  For a given second number, this allows
+     us to skip it and query the next second number to get the subsequences resulting
+     from selecting any subsequent second number. */
+
+    static func computeBottomUpWithMemoization2(sequence: [Int]) -> [[Int]] {
+
+        if sequence.count <= 2 {
+            return []
+        }
+
+        struct Key: Hashable {
+            let firstIndex: Int
+            let secondIndex: Int
+            init (_ firstIndex: Int, _ secondIndex: Int) {
+                self.firstIndex = firstIndex
+                self.secondIndex = secondIndex
+            }
+            var hashValue: Int {
+                get {
+                    return (firstIndex * 31) + secondIndex
+                }
+            }
+        }
+
+        let lastIndex = sequence.endIndex - 1
+        var cache: [Int : [Int : [[Int]]]] = [:]
+
+        /* Initialize cache by computing subsequences where the last number in the
+         sequence is the second number. */
+
+        let lastNumber = sequence[lastIndex]
+        cache[lastIndex] = [:]
+        for firstNumberIndex in 0..<lastIndex {
+            let firstNumber = sequence[firstNumberIndex]
+            cache[lastIndex]![firstNumberIndex] = [[lastNumber]]
+        }
+
+        // Compute subsequences at each possible second position of a convex triple.
+
+        for secondNumberIndex in stride(from: lastIndex - 1, through: 1, by: -1) {
+            cache[secondNumberIndex] = [:]
+            let secondNumber = sequence[secondNumberIndex]
+            for firstNumberIndex in 0..<secondNumberIndex {
+                let firstNumber = sequence[firstNumberIndex]
+                let minDistance = secondNumber - firstNumber
+                /* Given any distance between the first and second numbers, the second
+                 number will always be part of a possible subsequence, even if we can't
+                 can't extend the subsequence beyond the second number. */
+                var subsequences: [[Int]] = [[secondNumber]]
+                for thirdNumberIndex in secondNumberIndex + 1...lastIndex {
+                    let thirdNumber = sequence[thirdNumberIndex]
+                    let distance = thirdNumber - secondNumber
+                    if distance > minDistance {
+                        subsequences += cache[thirdNumberIndex]![distance]!.map {
+                            [secondNumber] + $0
+                        }
+                    }
+                }
+                cache[secondNumberIndex]?[minDistance] =
+                        selectLongest(subsequences.distinct())
+            }
+        }
+
+        // Compute longest subsequences of each suffix.
+
+        var longestSubsequencesOfSuffixes: [[Int]] = []
+        for firstNumberIndex in 0...(lastIndex - 2) {
+            let firstNumber = sequence[firstNumberIndex]
+            var subsequences: [[Int]] = []
+            for secondNumberIndex in (firstNumberIndex + 1)...lastIndex {
+                let secondNumber = sequence[secondNumberIndex]
+                let distance = secondNumber - firstNumber
+                subsequences += cache[secondNumberIndex]![distance]!
+            }
+            longestSubsequencesOfSuffixes += selectLongest(subsequences).map {
+                [firstNumber] + $0
+            }.filter { $0.count >= 3 }
+        }
+
+        // Select the longest subsequences of all suffixes.
+
+        return selectLongest(longestSubsequencesOfSuffixes)
+    }
 }
