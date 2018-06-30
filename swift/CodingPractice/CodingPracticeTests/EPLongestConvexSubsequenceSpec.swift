@@ -38,9 +38,9 @@ class EPLongestConvexSubsequenceSpec: QuickSpec {
         let numberRangeCount = numberRange.count
         let cases: [([Int], [Int])] = (0...caseCount).flatMap {
             num -> [([Int], [Int])] in
-            let numberCount = reproducibleRandom(maxNumberCount)
+            let numberCount = reproducibleRandom(endExclusive: maxNumberCount)
             let sequence: [Int] = (0...numberCount).map { num in
-                numberRange.min()! + reproducibleRandom(numberRangeCount)
+                numberRange.min()! + reproducibleRandom(endExclusive: numberRangeCount)
             }
             let solutions: [[Int]] = EPLongestConvexSubsequence
 //                    .computeByBruteForceWithRecursion1(sequence: sequence)

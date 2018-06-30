@@ -2,7 +2,11 @@
 
 import Foundation
 
-func reproducibleRandom(_ endExclusive: Int) -> Int {
+func reproducibleRandom(endExclusive: Int) -> Int {
     let dr = drand48()
     return Int(dr * Double(endExclusive))
+}
+
+func reproducibleRandom(endInclusive: Int) -> Int {
+    return reproducibleRandom(endExclusive: endInclusive + 1)
 }

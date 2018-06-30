@@ -28,12 +28,12 @@ class EPPickUpCoinsForMaximumGainSpec : QuickSpec {
             return 0
         }
         let cases: [([Int], Int)] = (1...caseCount).map { k in
-            let coinCount = reproducibleRandom(maxCoinCount + 1)
+            let coinCount = reproducibleRandom(endInclusive: maxCoinCount)
             let coinValues = (0..<coinCount).map { _ in
-                coinValueRange[reproducibleRandom(coinValueRange.count)]
+                coinValueRange[reproducibleRandom(endExclusive: coinValueRange.count)]
             }
             let coins: [Int] = (0..<coinCount).map { _ in
-                coinValues[reproducibleRandom(coinValues.count)]
+                coinValues[reproducibleRandom(endExclusive: coinValues.count)]
             }
             return (coins, computeExpected(coins))
         }
