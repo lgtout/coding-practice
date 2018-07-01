@@ -2,13 +2,29 @@
 
 package com.lagostout.elementsofprogramminginterviews.honors
 
+import com.lagostout.elementsofprogramminginterviews.honors.BuyAndSellStockKTimes.BuySell
+
 /**
  * Problem 25.3.1 page 445
  */
+object BuyAndSellStockKTimes {
+
+    enum class TransactionType {
+        BUY, SELL;
+        val opposite: TransactionType
+            get() = when (this) {
+                BUY -> SELL
+                SELL -> BUY
+            }
+    }
+
+    data class BuySell(val startIndex: Int, val endIndex: Int)
+
+}
+
 fun buyAndSellStockKTimes(prices: List<Int>, k: Int): Int {
     if (prices.isEmpty()) return 0
     if (k == 0) return 0
-    data class BuySell(val startIndex: Int, val endIndex: Int)
     data class Range(val best: BuySell, val explored: BuySell,
                      val indexOfHighestPossibleSellPrice: Int) {
 
