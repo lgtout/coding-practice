@@ -41,6 +41,9 @@ fun Map<Int, Int>.printValuesAsBinaryStrings() = {
     }
 }
 
+fun RandomDataGenerator.nextInt(range: Pair<Int, Int>): Int =
+        nextInt(range.first, range.second)
+
 fun RandomDataGenerator.nextInt(range: IntRange): Int =
         nextInt(range.start, range.endInclusive)
 
