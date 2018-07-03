@@ -2,14 +2,14 @@ package com.lagostout.elementsofprogramminginterviews.linkedlists
 
 /* Problem 8.8.2 page 125 */
 
-fun <T : Comparable<T>> removeEntriesFromListWhenThereAreMoreThanMDuplicates(
+fun <T : Comparable<T>> removeEntriesFromListWhenMoreThanMDuplicates(
         list: LinkedListNode<T>, m: Int): LinkedListNode<T>? {
     val sentinelNode = LinkedListNode(next = list)
     var filteredEntriesTail: LinkedListNode<T> = sentinelNode
     var currentNode = sentinelNode
-    var duplicateCount = 0
     while (true) {
         currentNode.next?.let {
+            var duplicateCount = 1
             currentNode = it
             while (true) {
                 currentNode.next?.let {
@@ -19,10 +19,11 @@ fun <T : Comparable<T>> removeEntriesFromListWhenThereAreMoreThanMDuplicates(
                     } else null
                 } ?: break
             }
-            if (duplicateCount == m) {
+            if (duplicateCount > m) {
                 filteredEntriesTail.next = currentNode.next
+            } else {
+                filteredEntriesTail = currentNode
             }
-            filteredEntriesTail = currentNode
         } ?: break
     }
     return sentinelNode.next

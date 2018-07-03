@@ -17,6 +17,10 @@ fun <T> toLinkedList(values: List<T>): LinkedListNode<T> {
     }.first()
 }
 
+fun <T> toLinkedListOrNull(values: List<T>): LinkedListNode<T>? {
+   return if (values.isEmpty()) null else toLinkedList(values)
+}
+
 fun <T> toLinkedListWithExplicitLinkage(
         values: List<RawLinkedListNode<T>>): LinkedListNode<T>? {
     if (values.isEmpty()) return null

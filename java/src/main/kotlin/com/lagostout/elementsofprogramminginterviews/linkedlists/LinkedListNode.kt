@@ -73,3 +73,8 @@ fun <T> LinkedListNode<T>.toList(): List<LinkedListNode<T>> {
         }
     }
 }
+
+//fun <T> LinkedListNode<T>.toValues(): List<T> {
+//    val result = toList().map { it.data }
+//    return result
+//}
