@@ -12,8 +12,8 @@ object ComputeExteriorOfBinaryTree {
 
     private data class Frame<T>(val node: BinaryTreeNode<T>,
                                 val step: Step = LEFT,
-                                val leftCount: Int = 0,
-                                val rightCount: Int = 0)
+                                val inLeftSubtree: Boolean = false,
+                                val inRightSubtree: Boolean = false)
 
     fun <T> computeExteriorOfBinaryTree(root: BinaryTreeNode<T>) :
             List<T> {
@@ -28,12 +28,12 @@ object ComputeExteriorOfBinaryTree {
                     frame = frame.copy(step = RIGHT)
                     stack.push(frame)
                 }
-                if (frame.rightCount == 0 || frame.node.isALeaf)
+                if (!frame.inRightSubtree || frame.node.isALeaf)
                     exterior.add(frame.node.value)
                 frame.node.left?.let { node ->
                     stack.push(Frame(node = node,
-                            leftCount = frame.leftCount + 1,
-                            rightCount = frame.rightCount))
+                            inLeftSubtree = true,
+                            inRightSubtree = frame.inRightSubtree))
                 }
             } else if (frame.step == RIGHT)  {
                 if (frame.node.isNotALeaf) {
@@ -44,10 +44,10 @@ object ComputeExteriorOfBinaryTree {
                     exterior.add(frame.node.value)
                 frame.node.right?.let { node ->
                     stack.push(Frame(node = node,
-                            leftCount = frame.leftCount,
-                            rightCount = frame.rightCount + 1))
+                            inLeftSubtree = frame.inLeftSubtree,
+                            inRightSubtree = true))
                 }
-            } else if (frame.rightCount == 0 && frame.node != root) {
+            } else if (!frame.inLeftSubtree && frame.node != root) {
                 exterior.add(frame.node.value)
             }
         }
