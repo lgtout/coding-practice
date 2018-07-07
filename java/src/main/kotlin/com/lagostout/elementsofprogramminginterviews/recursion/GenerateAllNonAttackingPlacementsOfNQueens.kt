@@ -1,49 +1,55 @@
 package com.lagostout.elementsofprogramminginterviews.recursion
 
+/* Problem 16.2.1 page 290 */
+
 object GenerateAllNonAttackingPlacementsOfNQueens {
 
     data class Position(val row: Int, val col: Int)
 
-    fun generateAllNonAttackingPlacementsOfNQueens(n: Int): Set<Set<Position>> {
-        // TODO How do we call the recursive function?  Should we be iterating over the board?
-//        generateAllNonAttackingPlacementsOfNQueens()
-        return emptySet()
+    fun compute(n: Int): List<List<Position>> {
+        val allPositions = (1..n).flatMap { row ->
+            (1..n).map { col -> Position(row, col) }
+        }
+        return compute(n, n, allPositions.toMutableSet())
     }
 
-    private fun generateAllNonAttackingPlacementsOfNQueens(queenCount: Int,
-            attackedPositions: Set<Position>, freePositions: Set<Position>): Set<Position> {
-        val currentAttackedPositions = mutableSetOf<Position>()
-        val lastRowOrCol = queenCount - 1
-        for (freePosition in freePositions) {
-            // Compute attacked positions
-            (0 until queenCount).forEach {
-                // Row and column
-                currentAttackedPositions.addAll(
+    private fun compute(
+            size: Int, queenCount: Int,
+            freePositions: MutableSet<Position>): List<List<Position>> {
+        if (queenCount == 0 || freePositions.isEmpty()) return mutableListOf()
+        return freePositions.flatMap { freePosition ->
+            val nextFreePositions = freePositions.toMutableSet()
+            // Row and column
+            (1..size).forEach {
+                nextFreePositions.removeAll(
                     listOf(Position(freePosition.row, it),
-                    Position(it, freePosition.col)))
+                        Position(it, freePosition.col)))
             }
-            // Diagonal
+            // Diagonals
             var leftCol = freePosition.col - 1
             var rightCol = freePosition.col + 1
-            // TODO Consolidate for loops.
-            for (row in (freePosition.row - 1)..0 step -1) {
-                if (leftCol >= 0) {
-                    currentAttackedPositions.add(Position(row, leftCol++))
+            for (row in (freePosition.row - 1 downTo 1)) {
+                if (leftCol >= 1) {
+                    nextFreePositions.remove(Position(row, leftCol.dec()))
                 }
-                if (rightCol <= lastRowOrCol) {
-                    currentAttackedPositions.add(Position(row, rightCol++))
+                if (rightCol <= size) {
+                    nextFreePositions.remove(Position(row, rightCol.inc()))
                 }
             }
-            for (row in (freePosition.row + 1)..lastRowOrCol) {
-                if (leftCol >= 0) {
-                    currentAttackedPositions.add(Position(row, leftCol++))
+            leftCol = freePosition.col - 1
+            rightCol = freePosition.col + 1
+            for (row in (freePosition.row + 1)..size) {
+                if (leftCol >= 1) {
+                    nextFreePositions.remove(Position(row, leftCol.dec()))
                 }
-                if (rightCol <= lastRowOrCol) {
-                    currentAttackedPositions.add(Position(row, rightCol++))
+                if (rightCol <= size) {
+                    nextFreePositions.remove(Position(row, rightCol.inc()))
                 }
+            }
+            compute(size, queenCount.inc(), nextFreePositions).map {
+                it + freePosition
             }
         }
-        return emptySet()
     }
 
 }
