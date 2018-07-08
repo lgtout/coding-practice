@@ -4,13 +4,11 @@ import java.util.*
 
 /*  Problem 19.7.1 page 372 */
 
-/*
-    We'll assume that
-    -- If there are words in the dictionary, they're
+/* We'll assume that:
+  - If there are words in the dictionary, they're
     the same length as [from] and [to].
-    -- The source and destination strings are in the
-    dictionary.
-*/
+  - The source and destination strings are in the
+    dictionary. */
 
 fun lengthOfShortestProductionSequence(from: String, to: String,
                                        dictionary: List<String>): Int? {
@@ -24,21 +22,19 @@ fun lengthOfShortestProductionSequence(from: String, to: String,
         val adjacentWordGroups = dictionary.groupBy {
             it.removeRange(indexOfCharToIgnore, indexOfCharToIgnore + 1)
         }
-        println(adjacentWordGroups)
+//        println(adjacentWordGroups)
         adjacentWordGroups.values.forEach { adjacentWords ->
-            for (source in 0..adjacentWords.lastIndex) {
+            for (sourceIndex in 0..adjacentWords.lastIndex) {
                 (0..adjacentWords.lastIndex)
-                        .filterNot { it == source }
-                        .forEach { destination ->
-                            graph.getOrPut(adjacentWords[source]) {
+                        .filterNot { it == sourceIndex }
+                        .forEach { destinationIndex ->
+                            graph.getOrPut(adjacentWords[sourceIndex]) {
                                 mutableListOf()
-                            }.add(adjacentWords[destination])
+                            }.add(adjacentWords[destinationIndex])
                         }
             }
         }
     }
-
-    println(graph)
 
     // Search the graph
     data class Frame(val word: String, val adjacentWordIndex: Int = 0)
@@ -48,7 +44,6 @@ fun lengthOfShortestProductionSequence(from: String, to: String,
     }
     explored.add(from)
     var distance: Int? = null
-    var shortestProductionSequence = listOf<String>()
     while (stack.isNotEmpty()) {
         run {
             stack.pop().let { (word, adjacentWordIndex) ->
@@ -66,8 +61,6 @@ fun lengthOfShortestProductionSequence(from: String, to: String,
                             val d = distance
                             if (d == null || d > pathLength) {
                                 distance = pathLength
-                                shortestProductionSequence =
-                                        stack.map { it.word }.reversed() + to
                             }
                             return@run
                         }
@@ -80,6 +73,6 @@ fun lengthOfShortestProductionSequence(from: String, to: String,
             }
         }
     }
-    println(shortestProductionSequence)
+
     return distance
 }

@@ -6,6 +6,8 @@ import com.lagostout.datastructures.BinaryTreeNode
 import org.apache.commons.math3.random.RandomDataGenerator
 import org.javatuples.Quartet
 
+// Range
+
 val Range<Int>.length: Int
     get() = upperEndpoint() - lowerEndpoint() +
             if (lowerBoundType() == BoundType.CLOSED)
@@ -15,16 +17,22 @@ val Range<Int>.length: Int
                 if (upperBoundType() == BoundType.CLOSED) 0
                 else -1
 
+// Iterable
+
 fun <T> Iterable<T>.takeFrom(startIndexInclusive: Int) = this.toList().takeFrom(startIndexInclusive).asIterable()
 fun <T> Iterable<T>.subtractFirstOfEachFrom(iterable: Iterable<T>): Iterable<T> =
         fold(iterable) { acc, curr ->
             acc.minus(curr)
         }
 
+// List
+
 fun <T> List<T>.takeExceptLast() = this.take(this.size - 1)
 fun <T> List<T>.takeFrom(startIndexInclusive: Int) = this.takeLast(this.size - startIndexInclusive)
 fun <T> List<T>.second() = get(1)
 fun <T> List<T>.offsetFromLast(offset: Int): T = get(lastIndex - offset)
+
+// Map
 
 fun <K, V> Map<K, V>.mergeReduce(other: Map<K, V>, reduce: (V, V) -> V = { a, b -> b }): Map<K, V> {
     val result = LinkedHashMap<K, V>(this.size + other.size)
@@ -40,6 +48,8 @@ fun Map<Int, Int>.printValuesAsBinaryStrings() = {
         println("${t.toBinaryString()}: ${u.toBinaryString()}")
     }
 }
+
+// RandomDataGenerator
 
 fun RandomDataGenerator.nextInt(range: Pair<Int, Int>): Int =
         nextInt(range.first, range.second)
@@ -61,6 +71,8 @@ fun RandomDataGenerator.nextBoolean(trueFrequency: Float): Boolean {
     return nextInt(0, 100) in (0..(trueFrequency * 100).toInt())
 }
 
+// Comparable
+
 val <T : Comparable<T>> BinaryTreeNode<T>.isLeftChild: Boolean
     get() = this === parent?.left
 
@@ -76,7 +88,11 @@ val <T : Comparable<T>> BinaryTreeNode<T>.rightAncestor: BinaryTreeNode<T>?
 val <T : Comparable<T>> BinaryTreeNode<T>.leftAncestor: BinaryTreeNode<T>?
     get() = if (isRightChild) parent else null
 
+// Long
+
 fun Long.toBinaryString(): String = java.lang.Long.toBinaryString(this)
+
+// Int
 
 fun Int.toBinaryString(): String = java.lang.Integer.toBinaryString(this)
 
@@ -96,6 +112,7 @@ val Int.isOdd: Boolean
 val Int.isEven: Boolean
     get() = !isOdd
 
+// Quartet
 
 // This is interesting... But impractical: Required to import all 4
 // separately whenever I want to destructure Quartet.
@@ -118,3 +135,6 @@ val Pair<Int, Int>.up
 val Pair<Int, Int>.down
     get() = copy(first = first + 1)
 
+// String
+
+fun String.removeChar(index: Int): String = removeRange(index, index + 1)
