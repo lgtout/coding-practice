@@ -10,17 +10,17 @@ import org.jetbrains.spek.data_driven.on
 object ComputeProductWithoutArithmeticOperatorsSpek : Spek({
 
     val data = listOfNotNull(
-//        data(Pair(0,0), 0),
-//        data(Pair(1,0), 0),
-//        data(Pair(0,1), 0),
-//        data(Pair(1,1), 1),
-//        data(Pair(2,1), 2),
-//        data(Pair(5,1), 5),
-//        data(Pair(5,1), 5),
-//        data(Pair(3,2), 6),
+        data(Pair(0,0), 0),
+        data(Pair(1,0), 0),
+        data(Pair(0,1), 0),
+        data(Pair(1,1), 1),
+        data(Pair(2,1), 2),
+        data(Pair(5,1), 5),
+        data(Pair(5,1), 5),
+        data(Pair(3,2), 6),
         data(Pair(3,3), 9),
-//        data(Pair(3,5), 15),
-//        data(Pair(3,8), 24),
+        data(Pair(3,5), 15),
+        data(Pair(3,8), 24),
         data(Pair(3,11), 33),
         null
     ).toTypedArray()
