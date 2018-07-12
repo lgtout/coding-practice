@@ -46,6 +46,16 @@ fun <T> LinkedListNode<T>.advance(distance: Int): LinkedListNode<T> {
     return node
 }
 
+fun <T> LinkedListNode<T>.count(): Int {
+    var count = 1
+    var node: LinkedListNode<T> = this
+    while (node.hasNext) {
+        node = node.next!!
+        count += 1
+    }
+    return count
+}
+
 val <T> LinkedListNode<T>.last: LinkedListNode<T>
     get() {
         var lastNode = this
