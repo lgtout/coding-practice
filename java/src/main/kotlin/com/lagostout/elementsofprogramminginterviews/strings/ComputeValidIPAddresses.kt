@@ -6,23 +6,25 @@ fun computeValidIPAddresses(addressWithNoPeriods:String): List<String> {
     // TODO Should octetOrdinal be increasing or decreasing?
     fun computeOctets(addressWithNoPeriods: String,
                       start: Int, octetOrdinal: Int): List<String> {
+
+        // Base case
+        if (octetOrdinal > 3 && start == addressWithNoPeriods.count())
+            return listOf("")
+        else if (octetOrdinal > 3 || start > addressWithNoPeriods.count())
+            return emptyList()
+
         val addressWithPeriods = mutableListOf<String>()
-        Pair(addressWithNoPeriods.length - start !in
-                (octetOrdinal..octetOrdinal * 3),
-                (octetOrdinal > 4)).let {
-            (tooManyOrTooFewNumbersRemaining, illegalOctetOrdinal) ->
-            if (tooManyOrTooFewNumbersRemaining || illegalOctetOrdinal)
-                return addressWithPeriods
-        }
-        var currentOctet: String
-        (1..4).forEach {
-            val nextOctetStart = start + it
-            currentOctet = addressWithNoPeriods.substring(start, nextOctetStart)
-            computeOctets(addressWithNoPeriods, nextOctetStart, octetOrdinal + 1).map {
-                addressWithPeriods.add("$currentOctet.$it")
+        for (currentOctetLength in (1..3)) {
+            val nextOctetStart = start + currentOctetLength
+            computeOctets(addressWithNoPeriods, nextOctetStart, octetOrdinal + 1).forEach {
+//                println(it)
+                val currentOctet = addressWithNoPeriods.substring(start, nextOctetStart)
+                addressWithPeriods.add("$currentOctet${if (it.isNotEmpty()) "." else ""}$it")
             }
         }
+
         return addressWithPeriods
     }
-    return computeOctets(addressWithNoPeriods, 0, 1)
+
+    return computeOctets(addressWithNoPeriods, 0, 0).also { println(it) }
 }
