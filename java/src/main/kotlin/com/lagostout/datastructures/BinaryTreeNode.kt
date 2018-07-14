@@ -11,6 +11,16 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
                              var right: BinaryTreeNode<T>? = null,
                              val value: T) {
 
+    constructor(parent: BinaryTreeNode<T>? = null,
+                left: BinaryTreeNode<T>? = null,
+                right: BinaryTreeNode<T>? = null,
+                levelNext: BinaryTreeNode<T>? = null,
+                value: T) : this (parent, left, right, value) {
+        this.levelNext = levelNext
+    }
+
+    var levelNext: BinaryTreeNode<T>? = null
+
     val id = nextId
 
     val isRoot: Boolean
@@ -87,7 +97,7 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
             return Pair(nodes[0], nodes.toSortedMap().values.toList())
         }
 
-        fun <T : Comparable<T>> bbtr (rawNodes: List<RawBinaryTreeNode<T>>): BinaryTreeNode<T>? {
+        fun <T : Comparable<T>> bbtr(rawNodes: List<RawBinaryTreeNode<T>>): BinaryTreeNode<T>? {
             return BinaryTreeNode.buildBinaryTree(rawNodes).first
         }
 
@@ -143,7 +153,7 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
                 nodes.addAll(levelNodes)
                 val nextLevelNodes = mutableListOf<BinaryTreeNode<T>>()
                 levelNodes.forEach {
-                    listOf(it.left, it.right).filterNotNull().forEach {
+                    listOfNotNull(it.left, it.right).forEach {
                         nextLevelNodes.add(it)
                     }
                 }
@@ -151,6 +161,19 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
                     stack.push(nextLevelNodes)
             }
             return nodes
+        }
+
+        fun <T> levels(root: BinaryTreeNode<T>?): List<List<BinaryTreeNode<T>>> {
+            if (root == null) return emptyList()
+            var level = listOf(root)
+            val levels = mutableListOf<List<BinaryTreeNode<T>>>()
+            while (level.isNotEmpty()) {
+                levels.add(level)
+                level = level.flatMap {
+                    listOfNotNull(it.left, it.right)
+                }
+            }
+            return levels
         }
 
     }
