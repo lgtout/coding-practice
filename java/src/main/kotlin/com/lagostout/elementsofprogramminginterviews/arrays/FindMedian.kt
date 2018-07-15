@@ -12,16 +12,12 @@ fun findMedian(array: List<Int>): Double? {
     if (array.isEmpty()) return null
 
     val array = array.toMutableList()
-    var leftBounds: Pair<Int, Int>
-    var rightBounds = Pair(0, array.lastIndex)
-    var boundsToSearch = rightBounds
+    var boundsToSearch = Pair(0, array.lastIndex)
     val random = RandomDataGenerator().apply { reSeed(1) }
-    val medianBounds = (array.count() / 2).let {
-        val countIsOdd = array.count() % 2 == 1
-        Pair(it, it).let {
-            if (countIsOdd) it
-            else it.copy(first = it.first - 1)
-        }
+    val countIsOdd = array.count() % 2 == 1
+    val medianIndices = (array.count() / 2).let {
+        if (countIsOdd) listOf(it)
+        else listOf(it - 1, it)
     }
 
     fun swap(from: Int, to: Int) {
@@ -30,36 +26,34 @@ fun findMedian(array: List<Int>): Double? {
         array[to] = temp
     }
 
-    fun contains(bounds1: Pair<Int, Int>,
-                 bounds2: Pair<Int, Int>): Boolean {
-        return bounds2.toList().all {
-            it >= bounds1.first && it <= bounds1.second
-        }
-    }
-
-    while (boundsToSearch != medianBounds) {
+    val remainingMedianIndices = medianIndices.toMutableList()
+    while (true) {
         val pivotIndex = random.nextInt(boundsToSearch)
         val pivotValue = array[pivotIndex]
         swap(boundsToSearch.first, pivotIndex)
-        var sortedIndex = boundsToSearch.first
+        var sortedEndIndex = boundsToSearch.first
         var unsortedIndex = boundsToSearch.second
-        while (sortedIndex < unsortedIndex) {
+        while (sortedEndIndex < unsortedIndex) {
             val unsortedValue = array[unsortedIndex]
             if (unsortedValue <= pivotValue) {
-                swap(sortedIndex + 1, unsortedIndex)
-                sortedIndex += 1
+                swap(sortedEndIndex + 1, unsortedIndex)
+                sortedEndIndex += 1
+            } else {
+                unsortedIndex -= 1
             }
-            unsortedIndex -= 1
         }
-        swap(boundsToSearch.first, sortedIndex)
-        leftBounds = boundsToSearch.copy(second = sortedIndex)
-        rightBounds = boundsToSearch.copy(first = sortedIndex + 1)
-        boundsToSearch = if (contains(leftBounds, medianBounds))
-            leftBounds else rightBounds
+        swap(boundsToSearch.first, sortedEndIndex)
+        if (sortedEndIndex in remainingMedianIndices) {
+            remainingMedianIndices.remove(sortedEndIndex)
+            if (remainingMedianIndices.isEmpty()) break
+        }
+        val medianIndex = remainingMedianIndices.first()
+        boundsToSearch = if (medianIndex < sortedEndIndex)
+            boundsToSearch.copy(second = sortedEndIndex - 1)
+        else  boundsToSearch.copy(first = sortedEndIndex + 1)
     }
 
-    return boundsToSearch.let {
-        (array[it.first] + array[it.second]) / 2.0
-    }
+    return medianIndices.sumBy { array[it] }
+            .let { it / (if (countIsOdd) 1.0 else 2.0) }
 
 }

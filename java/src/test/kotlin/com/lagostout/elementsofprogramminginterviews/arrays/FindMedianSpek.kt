@@ -12,20 +12,15 @@ import org.jetbrains.spek.data_driven.on
 object FindMedianSpek : Spek({
 
     fun computeExpected(list: List<Int>): Double? {
-        fun medianBounds(array: List<Int>): Pair<Int, Int> {
-            return (array.count() / 2).let {
-                Pair(it, it).let {
-                    val countIsOdd = array.count() % 2 == 1
-                    if (countIsOdd) it
-                    else it.copy(first = it.first - 1)
-                }
-            }
+        val countIsOdd = list.count() % 2 == 1
+        val medianIndices = (list.count() / 2).let {
+            if (countIsOdd) listOf(it)
+            else listOf(it - 1, it)
         }
         return if (list.isEmpty()) null
         else list.sorted().let { sortedList ->
-            medianBounds(sortedList).let {
-                (sortedList[it.first] + sortedList[it.second]) / 2.0
-            }
+            medianIndices.sumBy { sortedList[it] }
+                    .let { it / (if (countIsOdd) 1.0 else 2.0) }
         }
     }
 
@@ -44,6 +39,13 @@ object FindMedianSpek : Spek({
             }
         }.toTypedArray()
     }
+
+    val data = listOfNotNull(
+        data(listOf(-5,-1,1,3), 0.0),
+        data(listOf(0,2), 1.0),
+        data(listOf(-5,5,-5), -5.0),
+        null
+    ).toTypedArray()
 
     describe("findMedian") {
         on("array: %s", with = *randomData) { array, expected ->
