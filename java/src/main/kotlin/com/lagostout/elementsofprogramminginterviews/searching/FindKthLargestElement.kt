@@ -2,7 +2,7 @@ package com.lagostout.elementsofprogramminginterviews.searching
 
 import org.apache.commons.math3.random.RandomDataGenerator
 
-/* Problem 12.8 page 202 */
+/* Problem 12.8.1 page 202 */
 
 fun findKthLargestElement(list: MutableList<Int>, k: Int): Int {
     quickSelect(list, 0, list.lastIndex, k,
