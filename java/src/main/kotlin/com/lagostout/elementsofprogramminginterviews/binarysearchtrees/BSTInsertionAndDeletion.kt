@@ -1,8 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
-import com.lagostout.common.isLeftChild
-import com.lagostout.common.isRightChild
 import com.lagostout.datastructures.BinaryTreeNode
+import kotlin.reflect.KMutableProperty1
 
 /* Problem 15.10.1 page 277 */
 
@@ -23,66 +22,40 @@ object BSTInsertionAndDeletion {
     fun <T : Comparable<T>> delete(value: T, root: BinaryTreeNode<T>):
             BinaryTreeNode<T>? {
 
+        fun extractNode(
+                node: BinaryTreeNode<T>,
+                comparisonResult: (T) -> Int,
+                leftOrRight: KMutableProperty1<
+                        BinaryTreeNode<T>, BinaryTreeNode<T>?>): BinaryTreeNode<T>? {
+            // Find the node with the smallest/largest value in the
+            // right/left subtree.  It will only have a right/left
+            // subtree, if any.
+            val replacementNode = find(leftOrRight(node)!!, comparisonResult)
+            // Detach the replacement and promote its left/right subtree.
+            val parent = replacementNode.parent
+            leftOrRight(replacementNode)?.parent = parent
+            replacementNode.parent?.let {
+                leftOrRight.set(it, leftOrRight(replacementNode))
+            }
+            return replacementNode
+        }
+
         @Suppress("NAME_SHADOWING")
-        var root = root
         val node =  find(value, root)
+        // No such node in tree.
         if (node.value != value) return root
 
-        // If there's a left subtree, find within it the node
-        // with the max value.  Otherwise, use the right node
-        // as the replacement.
+        // TODO Is this right?
 
-        val replacementNode = node.left?.let {
-            find(it) { -1 }
-        } ?: node.right
-
-        // If replacement node is null, the node to delete is the
-        // root, so we return null.
-
-        return replacementNode?.let {
-
-            // Detach the node to delete from its parent,
-            // swapping it with the replacement.  If the
-            // node to delete is the root, this operation
-            // has no effect.
-
-            if (node.isRightChild) {
-                node.parent?.right = replacementNode
-            } else if (node.isLeftChild){
-                node.parent?.left = replacementNode
-            }
-
-            // Attach the deleted node's subtrees to the replacement node.
-            // Attach the replacement node to its new parent.
-
-            with (it) {
-
-                // Prevent a cycle from being created on replacement node
-                // when the replacement node is the child of node to
-                // delete.
-
-                if (node.right != this) right = node.right
-                if (node.left != this) left = node.left
-                parent = node.parent.apply {
-
-                    // If we're deleting the root, let's make the
-                    // replacement node the new root.
-
-                    if (node == root) root = it
-                }
-            }
-
-            // Detach the replacement node from its parent.
-
-            it.parent?.let { parent ->
-                (if (it.isRightChild)
-                    parent::right else parent::left).set(null)
-            }
-
-            // Return the root.
-
-            root
+        val replacementNode = if (node.hasLeft) {
+            extractNode(node, { 1 }, BinaryTreeNode<T>::left)
+        } else {
+            extractNode(node, { -1 }, BinaryTreeNode<T>::right)
         }
+        node.left = null
+        node.right = null
+        node.parent = null
+        return if (root == node) replacementNode else root
     }
 
     private fun <T : Comparable<T>> find(
@@ -92,17 +65,18 @@ object BSTInsertionAndDeletion {
         var currentNode = root
         while (true) {
             when (compareTo(currentNode.value)) {
-                0 -> null
+                0 -> currentNode
                 1 -> {
-                    currentNode.left?.let {
-                        currentNode = it
-                    }
-                }
-                else -> {
                     currentNode.right?.let {
                         currentNode = it
                     }
                 }
+                -1 -> {
+                    currentNode.left?.let {
+                        currentNode = it
+                    }
+                }
+                else -> null
             } ?: break
         }
         return currentNode
