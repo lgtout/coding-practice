@@ -10,16 +10,21 @@ import org.jetbrains.spek.data_driven.on
 object ComputeValidIPAddressesSpek : Spek({
 
     // Too slow.
+    @Suppress("NAME_SHADOWING")
     fun bruteForceComputeValidIPAddresses1(
             mangledAddress: String): List<String> {
         val result = mutableListOf<String>()
         (1..256).forEach { firstOctet ->
+            val number = firstOctet.toString()
             (1..256).forEach { secondOctet ->
+                val number = number + secondOctet.toString()
                 (1..256).forEach { thirdOctet ->
+                    val number = number + thirdOctet.toString()
                     (1..256).forEach { fourthOctet ->
-                        println("$firstOctet$secondOctet$thirdOctet$fourthOctet")
-                        if ("$firstOctet$secondOctet$thirdOctet$fourthOctet" == mangledAddress)
-                            result.add("$firstOctet.$secondOctet.$thirdOctet.$fourthOctet")
+                        val number = number + fourthOctet.toString()
+                        print(number)
+                        if (number == mangledAddress)
+                            result.add(number)
                     }
                 }
             }
@@ -27,42 +32,51 @@ object ComputeValidIPAddressesSpek : Spek({
         return result
     }
 
+    // Better - fast!
     fun bruteForceComputeValidIPAddresses2(
             mangledAddress: String): List<String> {
-        val result = mutableListOf<String>()
-        var addresses = mutableListOf(Pair(listOf(""), 0))
+        val completedAddresses = mutableListOf<String>()
+        var addresses = listOf(Pair(emptyList<String>(), 0))
         while (true) {
-            break
-//            addresses = addresses.flatMap { address ->
-//                (1..3).map { octetLength ->
-//                    address.first.add(mangledAddress.substring(
-//                        address.second+ octetLength))
-//
-//                    if (address.right >= mangledAddress.length) {
-//                        addresses.remove(address)
-//                        if (address.left.count() == 4) {
-//                            result.add(address.left.joinToString("."))
-//                        }
-//                    }
-//                }
-//            }
+            addresses.flatMap { (octets, startIndex) ->
+                (1..3).mapNotNull { octetLength ->
+                    val nextStartIndex = startIndex + octetLength
+                    if (nextStartIndex > mangledAddress.count()) null
+                    else {
+                        Pair(octets + listOf(mangledAddress.substring(
+                            startIndex, nextStartIndex)), nextStartIndex)
+                    }
+                }
+            }.fold(Pair(mutableListOf<Pair<List<String>, Int>>(),
+                mutableListOf<String>())) { acc, (octets, startIndex) ->
+                if (octets.count() < 4 && startIndex < mangledAddress.count())
+                    acc.first.add(Pair(octets, startIndex))
+                else if (octets.count() == 4 && startIndex == mangledAddress.count())
+                    acc.second.add(octets.joinToString(separator = "."))
+                acc
+            }.let {
+                addresses = it.first
+                completedAddresses.addAll(it.second)
+            }
+            if (addresses.isEmpty()) break
         }
-        return emptyList()
+        println(completedAddresses)
+        return completedAddresses
     }
 
     val data = listOfNotNull(
-//            "1921",
-//            "19216",
-//            "192168",
+            "1921",
+            "19216",
+            "192168",
             "1921682",
-//            "19216825",
-//            "192168256",
-//            "1921682561",
-//            "19216825612",
-//            "192168256123",
+            "19216825",
+            "192168256",
+            "1921682561",
+            "19216825612",
+            "192168256123",
             null
     ).map {
-        data(it, bruteForceComputeValidIPAddresses1(it))
+        data(it, bruteForceComputeValidIPAddresses2(it))
     }.toTypedArray()
 
     describe("computeValidIPAddresses") {

@@ -3,7 +3,7 @@ package com.lagostout.elementsofprogramminginterviews.strings
 /* Problem 7.10.1  Page 106 */
 
 fun computeValidIPAddresses(addressWithNoPeriods:String): List<String> {
-    // TODO Should octetOrdinal be increasing or decreasing?
+
     fun computeOctets(addressWithNoPeriods: String,
                       start: Int, octetOrdinal: Int): List<String> {
 
@@ -17,7 +17,6 @@ fun computeValidIPAddresses(addressWithNoPeriods:String): List<String> {
         for (currentOctetLength in (1..3)) {
             val nextOctetStart = start + currentOctetLength
             computeOctets(addressWithNoPeriods, nextOctetStart, octetOrdinal + 1).forEach {
-//                println(it)
                 val currentOctet = addressWithNoPeriods.substring(start, nextOctetStart)
                 addressWithPeriods.add("$currentOctet${if (it.isNotEmpty()) "." else ""}$it")
             }
