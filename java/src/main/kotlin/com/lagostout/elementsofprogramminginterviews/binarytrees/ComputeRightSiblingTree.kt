@@ -7,21 +7,20 @@ import com.lagostout.datastructures.BinaryTreeNode
 object ComputeRightSiblingTree {
 
     fun <T> computeRightSiblingTree(root: BinaryTreeNode<T>) {
-        var leftmostNode = root
-        outer@ while  (true) {
-            var currentNode: BinaryTreeNode<T>? = leftmostNode
-            var previousNodeRight: BinaryTreeNode<T>? = null
-            while (true) {
-                if (currentNode == null) break
-                if (currentNode.left == null) break@outer
-                previousNodeRight?.let {
-                    it.levelNext = currentNode!!.left
-                }
-                currentNode.left!!.levelNext = currentNode.right
-                previousNodeRight = currentNode.right!!
-                currentNode = currentNode.levelNext
+        var node = root
+        var levelNextPreviousNode: BinaryTreeNode<T>? = null
+        var leftmostNodeOnLevel = node.left
+        while (true) {
+            node.left ?: break
+            levelNextPreviousNode?.let {
+                it.levelNext = node.left
             }
-            leftmostNode = leftmostNode.left!!
+            node.left!!.levelNext = node.right
+            levelNextPreviousNode = node.right
+            node = node.levelNext ?: leftmostNodeOnLevel?.also {
+                levelNextPreviousNode = null
+                leftmostNodeOnLevel = it.left
+            } ?: break
         }
     }
 

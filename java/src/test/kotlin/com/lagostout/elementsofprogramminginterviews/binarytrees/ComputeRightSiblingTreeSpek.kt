@@ -19,14 +19,16 @@ object ComputeRightSiblingTreeSpek : Spek({
     fun <Alphabet> computeExpected(root: BinaryTreeNode<Alphabet>):
             List<BinaryTreeNode<Alphabet>?> {
         return levels(root).flatMap {
-//            println("level $it")
-            it.takeFrom(1).toMutableList<BinaryTreeNode<Alphabet>?>() + listOf(null)
+            it.takeFrom(1).toMutableList<BinaryTreeNode<Alphabet>?>() +
+                    listOf(null)
         }
     }
 
     val data = listOfNotNull(
         bbtr(listOf(rbt(A))),
         bbtr(listOf(rbt(A, left = 1, right = 2), rbt(B), rbt(C))),
+        bbtr(listOf(rbt(A, left = 1, right = 2), rbt(B, left = 3, right = 4),
+            rbt(C, left = 5, right = 6), rbt(D), rbt(E), rbt(F), rbt(G))),
         null
     ).map {
         data(it, computeExpected(it))
@@ -37,10 +39,10 @@ object ComputeRightSiblingTreeSpek : Spek({
             computeRightSiblingTree(root)
             it("should set levelNext values to $expected") {
                 val levelNexts = levels(root).flatMap {
-                    it.map {
-                        it.levelNext
-                    }
+                    it.map { it.levelNext }
                 }
+                println(expected.map { it?.value })
+                println(levelNexts.map { it?.value })
                 assertThat(levelNexts).containsExactlyElementsOf(expected)
             }
         }
