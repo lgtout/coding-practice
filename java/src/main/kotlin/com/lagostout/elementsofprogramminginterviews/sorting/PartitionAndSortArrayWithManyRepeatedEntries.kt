@@ -6,29 +6,31 @@ object PartitionAndSortArrayWithManyRepeatedEntries {
 
     data class Student(val age: Int, val name: String = "")
 
-    // TODO Test!
-
     fun groupByAge(students: MutableList<Student>) {
         val ageToStudentCountMap = students.fold(mutableMapOf<Int, Int>()) {
                 acc, (age) ->
-            acc.apply { set(age, getOrDefault(age, 0) + 1) }
+            acc.apply { merge(age, 1) { t, u -> t + 1 } }
         }
+        println(ageToStudentCountMap)
         var groupStartIndex = 0
         for ((age, count) in ageToStudentCountMap) {
             ageToStudentCountMap[age] = groupStartIndex
             groupStartIndex += count
         }
-        var count = 0
-        var student = students[0]
-        while (count < students.count()) {
+        println(ageToStudentCountMap)
+        var studentIndex = 0
+        while (studentIndex < students.lastIndex) {
+            val student = students[studentIndex]
             val sortedIndex = ageToStudentCountMap[student.age]!!
-            ageToStudentCountMap.computeIfPresent(student.age) { _, value ->
-                value.dec()
+            ageToStudentCountMap.compute(student.age) { _, value ->
+                value!!.inc()
             }
-            val nextStudent = students[sortedIndex]
-            students[sortedIndex] = student
-            student = nextStudent
-            count += 1
+            if (sortedIndex == studentIndex) {
+                studentIndex += 1
+            } else {
+                students[studentIndex] = students[sortedIndex]
+                students[sortedIndex] = student
+            }
         }
     }
 
@@ -60,6 +62,9 @@ object PartitionAndSortArrayWithManyRepeatedEntries {
         }
     }
 
+    /* A stable sort.  We store counts in the map and allocate additional
+    O(n) space for the result array.  But we could also store the students
+    in the map.  This would result in the same space complexity. */
     fun stableSortByAge(students: List<Student>): List<Student> {
         val ageToStudentCountMap = students.fold(sortedMapOf<Int, Int>()) {
                 acc, (age) ->
