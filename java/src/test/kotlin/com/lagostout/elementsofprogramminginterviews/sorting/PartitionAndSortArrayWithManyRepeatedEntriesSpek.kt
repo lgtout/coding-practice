@@ -1,54 +1,121 @@
 package com.lagostout.elementsofprogramminginterviews.sorting
 
+import com.lagostout.common.nextInt
+import com.lagostout.common.rdg
 import com.lagostout.elementsofprogramminginterviews.sorting.PartitionAndSortArrayWithManyRepeatedEntries.Student
 import com.lagostout.elementsofprogramminginterviews.sorting.PartitionAndSortArrayWithManyRepeatedEntries.groupByAge
+import com.lagostout.elementsofprogramminginterviews.sorting.PartitionAndSortArrayWithManyRepeatedEntries.stableSortByAge
+import com.lagostout.elementsofprogramminginterviews.sorting.PartitionAndSortArrayWithManyRepeatedEntries.unstableSortByAge
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Condition
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
-import java.util.function.Predicate
-
-private typealias s = PartitionAndSortArrayWithManyRepeatedEntries.Student
 
 object PartitionAndSortArrayWithManyRepeatedEntriesSpek : Spek({
 
-    describe("groupByAge") {
+    fun groupByAgeInLinearSpace(students: List<Student>) =
+            students.groupBy { it.age }.values.map { it.toSet() }
 
-        val data = listOfNotNull(
-//            Pair(listOf(s(1)), listOf(listOf(s(1)))),
-//            Pair(listOf(s(1), s(2)), listOf(listOf(s(1)), listOf(s(2)))),
-//            Pair(listOf(s(1), s(2), s(1)), listOf(listOf(s(1), s(1)), listOf(s(2)))),
-            Pair(listOf(s(1), s(2), s(1), s(2)), listOf(listOf(s(1), s(1)), listOf(s(2), s(2)))),
-            null
-        ).map {
-            data(it.first.toMutableList(), it.second)
+    val randomData = run {
+        val caseCount = 100
+        val studentCountRange = Pair(0, 5)
+        val studentAgeRange = Pair(1, 5)
+        val random = rdg()
+        (0 until caseCount).map {
+            val studentCount = random.nextInt(studentCountRange)
+            (0 until studentCount).map {
+                Student(random.nextInt(studentAgeRange), "s$it")
+            }
+        }.map {
+            data(it.toMutableList(), groupByAgeInLinearSpace(it),
+                it.sortedBy { it.age })
         }.toTypedArray()
+    }
 
-        on("students %s", with = *data) { students, expected ->
-            groupByAge(students)
+    val data = listOfNotNull (
+        listOf(1),
+        listOf(1, 2),
+        listOf(1, 2, 1),
+        listOf(1, 2, 1, 2),
+        listOf(4, 6, 7, 7, 6),
+        listOf(4, 6, 6, 7, 7),
+        listOf(7, 7),
+        listOf(3, 5, 5, 4),
+        null
+    ).map {
+        it.mapIndexed { index, age ->
+            Student(age, "s$index")
+        }.let {
+            data(it.toMutableList(), groupByAgeInLinearSpace(it),
+                it.sortedBy { it.age })
+        }
+    }.toTypedArray()
+
+    describe("unstableSortByAge") {
+//        on("students %s", with = *randomData) { students, _, expected ->
+        on("students %s", with = *data) { students, _, expected ->
+            unstableSortByAge(students)
             it("should group students as $expected") {
-                assertThat(students).has(Condition<List<Student>>(
-                    Predicate <List<Student>> { students ->
-                        students.fold(Pair(mutableSetOf<List<Student>>(), mutableListOf<Student>())) { (groupedStudents, currentGroup), student ->
-                            println(student)
-                            if (currentGroup.isEmpty() || currentGroup.first().age == student.age) {
-                                currentGroup.apply {
-                                    add(student)
-                                }
-                            } else {
-                                groupedStudents.add(currentGroup)
-                                mutableListOf(student)
-                            }.let {
-                                Pair(groupedStudents, it)
-                            }
+                assertThat(students).apply {
+                    if (expected.isEmpty()) {
+                        isEmpty()
+                    } else {
+                        usingElementComparatorOnFields("age").isEqualTo(expected)
+                    }
+                }
+            }
+        }
+    }
+
+    describe("stableSortByAge") {
+        on("students %s", with = *randomData) { students, _, expected ->
+//        on("students %s", with = *data) { students, _, expected ->
+            val sortedStudents = stableSortByAge(students)
+            it("should group students as $expected") {
+                assertThat(sortedStudents).apply {
+                    if (expected.isEmpty()) {
+                        isEmpty()
+                    } else {
+                        sortedStudents.map { it.age }
+                        containsExactlyElementsOf(expected)
+                    }
+                }
+            }
+        }
+    }
+
+    /* We simplify testing by introducing the constraint that no two students
+    may have the same name and age.  This allows us to use sets for comparison. */
+
+    describe("groupByAge") {
+//        on("students %s", with = *data) { students, expected, _ ->
+        on("students %s", with = *randomData) { students, expected, _ ->
+            groupByAge(students)
+            it("should group students as any arrangement of $expected") {
+                assertThat(students).apply {
+                    if (expected.isEmpty()) {
+                        isEmpty()
+                    } else {
+                        val groupedStudents = students.fold(
+                            Pair(mutableSetOf<Set<Student>>(), mutableSetOf<Student>())) {
+                                (groupedStudents, currentGroup), student ->
+                            Pair(groupedStudents,
+                                if (currentGroup.isEmpty() || currentGroup.first().age == student.age) {
+                                    currentGroup.apply { add(student) }
+                                } else {
+                                    groupedStudents.add(currentGroup)
+                                    mutableSetOf(student)
+                                })
                         }.let { (groupedStudents, currentGroup) ->
-                            groupedStudents.add(currentGroup)
-                            groupedStudents.toSet() == expected.toSet()
-                        }
-                    }, "groups $expected, but was $students"))
+                            groupedStudents.apply {
+                                add(currentGroup)
+                            }
+                        }.toSet()
+                        assertThat(groupedStudents).isEqualTo(expected.toSet())
+                    }
+                }
             }
         }
     }
