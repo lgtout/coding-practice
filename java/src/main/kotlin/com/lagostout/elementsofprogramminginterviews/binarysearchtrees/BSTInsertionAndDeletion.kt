@@ -1,7 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.binarysearchtrees
 
 import com.lagostout.datastructures.BinaryTreeNode
-import kotlin.reflect.KMutableProperty1
 
 /* Problem 15.10.1 page 277 */
 
@@ -19,43 +18,44 @@ object BSTInsertionAndDeletion {
         }
     }
 
+    /* We see two possible approaches.  The first is to push the node we're
+    deleting down the tree, till it's a leaf, then pruning it from the tree.
+    The second is to replace the node-to-delete with either the node with the
+    largest value in the node-to-delete's left subtree or the one with the
+    smallest value in the node-to-delete's right subtree.  We choose to
+    implement the second approach, as it seems simpler. */
+
     fun <T : Comparable<T>> delete(value: T, root: BinaryTreeNode<T>):
             BinaryTreeNode<T>? {
-
-        fun extractNode(
-                node: BinaryTreeNode<T>,
-                comparisonResult: (T) -> Int,
-                leftOrRight: KMutableProperty1<
-                        BinaryTreeNode<T>, BinaryTreeNode<T>?>): BinaryTreeNode<T>? {
-            // Find the node with the smallest/largest value in the
-            // right/left subtree.  It will only have a right/left
-            // subtree, if any.
-            val replacementNode = find(leftOrRight(node)!!, comparisonResult)
-            // Detach the replacement and promote its left/right subtree.
-            val parent = replacementNode.parent
-            leftOrRight(replacementNode)?.parent = parent
-            replacementNode.parent?.let {
-                leftOrRight.set(it, leftOrRight(replacementNode))
+        var modifiedTreeRoot: BinaryTreeNode<T>? = root
+        val nodeToDelete = find(value, root)
+        if (nodeToDelete.value != value) return modifiedTreeRoot
+        if (nodeToDelete == root) modifiedTreeRoot = nodeToDelete.left ?: nodeToDelete.right
+        while (true) {
+            val left: BinaryTreeNode<T>?
+            val right: BinaryTreeNode<T>?
+            val replacementNode: BinaryTreeNode<T>?
+            if (nodeToDelete.hasLeft) {
+                replacementNode = nodeToDelete.left
+                right = nodeToDelete.right
+                left = nodeToDelete
+            } else if (nodeToDelete.hasRight) {
+                replacementNode = nodeToDelete.right
+                right = nodeToDelete
+                left = nodeToDelete.left
+            } else {
+                nodeToDelete.parent = null
+                break
             }
-            return replacementNode
+            replacementNode?.parent = nodeToDelete.parent
+            nodeToDelete.parent = replacementNode
+            nodeToDelete.left = replacementNode?.left
+            nodeToDelete.right = replacementNode?.right
+            replacementNode?.left = left
+            replacementNode?.right = right
         }
 
-        @Suppress("NAME_SHADOWING")
-        val node =  find(value, root)
-        // No such node in tree.
-        if (node.value != value) return root
-
-        // TODO Is this right?
-
-        val replacementNode = if (node.hasLeft) {
-            extractNode(node, { 1 }, BinaryTreeNode<T>::left)
-        } else {
-            extractNode(node, { -1 }, BinaryTreeNode<T>::right)
-        }
-        node.left = null
-        node.right = null
-        node.parent = null
-        return if (root == node) replacementNode else root
+        return modifiedTreeRoot
     }
 
     private fun <T : Comparable<T>> find(
@@ -84,7 +84,7 @@ object BSTInsertionAndDeletion {
 
     private fun <T : Comparable<T>> find(
             value: T, root: BinaryTreeNode<T>): BinaryTreeNode<T> {
-        return find(root) { it.compareTo(value) }
+        return find(root) { value.compareTo(it) }
     }
 
 }

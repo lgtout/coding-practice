@@ -41,6 +41,16 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
     val children: Set<BinaryTreeNode<T>>
         get() = listOfNotNull(left, right).toSet()
 
+    fun detach() {
+        parent = null
+        left = null
+        right = null
+        levelNext = null
+    }
+
+    fun copy(): BinaryTreeNode<T> = BinaryTreeNode(left, right, parent, levelNext, value)
+
+
     override fun hashCode(): Int = HashCodeBuilder().append(id).toHashCode()
 
     override fun equals(other: Any?): Boolean = when {
