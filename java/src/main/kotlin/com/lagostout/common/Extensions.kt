@@ -28,7 +28,12 @@ fun <T> Iterable<T>.subtractFirstOfEachFrom(iterable: Iterable<T>): Iterable<T> 
 // List
 
 fun <T> List<T>.takeExceptLast() = this.take(this.size - 1)
-fun <T> List<T>.takeFrom(startIndexInclusive: Int) = this.takeLast(this.size - startIndexInclusive)
+fun <T> List<T>.takeFrom(startIndexInclusive: Int) =
+        if (startIndexInclusive >= size) emptyList()
+        else this.takeLast(this.size - startIndexInclusive)
+fun <T> List<T>.takeFromOrNull(startIndexInclusive: Int) =
+        if (startIndexInclusive >= size) null
+        else this.takeLast(this.size - startIndexInclusive)
 fun <T> List<T>.second() = get(1)
 fun <T> List<T>.offsetFromLast(offset: Int): T = get(lastIndex - offset)
 
