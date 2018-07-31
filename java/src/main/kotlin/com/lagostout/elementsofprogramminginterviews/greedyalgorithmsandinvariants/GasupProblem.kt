@@ -1,27 +1,64 @@
 package com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants
 
+import com.lagostout.common.MultilineShortPrefixRecursiveToStringStyle
+import org.apache.commons.lang3.builder.HashCodeBuilder
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder
+
 /* Problem 18.6.1 page 348 */
 
 object GasupProblem {
 
     data class City(val name: String, val distanceToNextCity: Int,
-                    val gas: Double, var next: City? = null)
+                    val gas: Double, var next: City? = null) {
+
+        override fun hashCode(): Int {
+            // As long as we don't repeat names, this will generate
+            // a unique hashcode for each city.
+            return HashCodeBuilder()
+                    .append(name)
+                    .hashCode()
+        }
+
+        override fun toString(): String {
+            return ReflectionToStringBuilder(this,
+                MultilineShortPrefixRecursiveToStringStyle()).toString()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other !is City) return false
+
+            if (name != other.name) return false
+
+            return true
+        }
+    }
 
     fun findAmpleCity(city: City, mpg: Double): City {
+        if (city.next == city) return city
         var startCity = city
         var currentCity = city
         var gasRemaining = city.gas
         while (true) {
-            val distance = city.distanceToNextCity
-            if (currentCity == startCity) break
-            currentCity = currentCity.next!!
-            val gasUsed = distance / mpg
-            gasRemaining -= gasUsed
-            if (gasRemaining < 0) {
-                gasRemaining = currentCity.gas
-                startCity = currentCity
+            val distance = currentCity.distanceToNextCity
+            val gasRequired = distance / mpg
+            if (gasRemaining < gasRequired) {
+                if (startCity != currentCity) {
+                    val distanceToNextCityAfterStart =
+                            startCity.distanceToNextCity
+                    val gasUsedToGetToNextCityAfterStart =
+                            distanceToNextCityAfterStart / mpg
+                    gasRemaining += gasUsedToGetToNextCityAfterStart
+                    startCity = startCity.next!!
+                } else {
+                    currentCity = currentCity.next!!
+                    startCity = currentCity
+                    gasRemaining = currentCity.gas
+                }
             } else {
-                gasRemaining += currentCity.gas
+                if (currentCity.next == startCity) break
+                currentCity = currentCity.next!!
+                gasRemaining += currentCity.gas - gasRequired
             }
         }
         return startCity

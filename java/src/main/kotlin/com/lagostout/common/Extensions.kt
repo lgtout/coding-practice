@@ -76,6 +76,11 @@ fun RandomDataGenerator.nextBoolean(trueFrequency: Float): Boolean {
     return nextInt(0, 100) in (0..(trueFrequency * 100).toInt())
 }
 
+fun RandomDataGenerator.nextDouble(range: Pair<Double, Double>): Double {
+    return (randomGenerator.nextDouble() * range.second - range.first) +
+            range.first
+}
+
 // Comparable
 
 val <T : Comparable<T>> BinaryTreeNode<T>.isLeftChild: Boolean
