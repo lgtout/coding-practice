@@ -151,6 +151,9 @@ val Pair<Int, Int>.up
 val Pair<Int, Int>.down
     get() = copy(first = first + 1)
 
+val Pair<Int, Int>.count: Int
+    get() = second - first + 1
+
 // String
 
 fun String.removeChar(index: Int): String = removeRange(index, index + 1)
