@@ -1,22 +1,21 @@
 package com.lagostout.elementsofprogramminginterviews.strings
 
-/* Problem 7.10.1  Page 106 */
+/* Problem 7.10.2 page 107 */
 
-fun computeValidIPAddresses(addressWithNoPeriods: String): List<String> {
+fun computeValidIPAddressesWhenNumberOfPeriodsVariableAndStringLengthUnbounded
+            (mangledAddress: String, periodCount: Int): List<String> {
 
     val maxOctetLength = 3
-    val maxOctetOrdinal = 3
 
-    fun computeOctets(addressWithNoPeriods: String,
-                      start: Int, octetOrdinal: Int): List<String> {
+    fun computeOctets(addressWithNoPeriods: String, start: Int,
+                      octetOrdinal: Int): List<String> {
 
         // Base case
-        if (octetOrdinal > 3 && start == addressWithNoPeriods.count())
+        if (octetOrdinal > periodCount && start == addressWithNoPeriods.count())
             return listOf("")
-        else if (octetOrdinal > 3 || start > addressWithNoPeriods.count() ||
-                (addressWithNoPeriods.length - start).let {
-                        remainingAddressLength ->
-                    val remainingOctetCount = maxOctetOrdinal - octetOrdinal + 1
+        else if (octetOrdinal > periodCount || start > addressWithNoPeriods.count() ||
+                (addressWithNoPeriods.length - start).let { remainingAddressLength ->
+                    val remainingOctetCount = periodCount - octetOrdinal + 1
                     remainingAddressLength < remainingOctetCount &&
                             remainingAddressLength > remainingOctetCount * maxOctetLength
                 })
@@ -34,5 +33,5 @@ fun computeValidIPAddresses(addressWithNoPeriods: String): List<String> {
         return addressWithPeriods
     }
 
-    return computeOctets(addressWithNoPeriods, 0, 0)
+    return computeOctets(mangledAddress, 0, 0)
 }
