@@ -55,8 +55,8 @@ object TestForOverlappingListsSpek : Spek({
                 val secondLinkedList = link(secondListPrefix)!!
                 val suffixList = listSuffix?.let { link(it) }
                 suffixList?.let {
-                    firstLinkedList.last.next = suffixList
-                    secondLinkedList.last.next = suffixList
+                    firstLinkedList.tail.next = suffixList
+                    secondLinkedList.tail.next = suffixList
                 }
                 data(firstLinkedList, secondLinkedList, expected)
             }

@@ -137,7 +137,7 @@ object TestForOverlappingListsWithCyclesPossibleSpek : Spek({
                     firstListSuffixIntersectionIndex?.let {
                         val intersectionNode = suffixList.advance(it)
                         firstLinkedList?.let {
-                            it.last.next = intersectionNode
+                            it.tail.next = intersectionNode
                         } ?: run {
                             firstLinkedList = intersectionNode
                         }
@@ -145,7 +145,7 @@ object TestForOverlappingListsWithCyclesPossibleSpek : Spek({
                     secondListSuffixIntersectionIndex?.let {
                         val intersectionNode = suffixList.advance(it)
                         secondLinkedList?.let {
-                            it.last.next = intersectionNode
+                            it.tail.next = intersectionNode
                         } ?: run {
                             secondLinkedList = intersectionNode
                         }

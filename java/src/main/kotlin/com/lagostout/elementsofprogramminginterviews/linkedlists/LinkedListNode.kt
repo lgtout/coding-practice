@@ -4,17 +4,23 @@ import com.lagostout.common.MultilineShortPrefixRecursiveToStringStyle
 import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 
-data class LinkedListNode<T>(var data: T? = null,
-                             var next: LinkedListNode<T>? = null) {
+data class LinkedListNode<T>(
+        var data: T? = null,
+        var next: LinkedListNode<T>? = null,
+        var previous: LinkedListNode<T>? = null) {
 
     private val id = nextId
 
     val hasNext: Boolean
         get() = next != null
 
+    val hasPrevious: Boolean
+        get() = previous != null
+
     override fun toString(): String {
-        return ReflectionToStringBuilder(
-                this, MultilineShortPrefixRecursiveToStringStyle()).toString()
+        return ReflectionToStringBuilder(this,
+            MultilineShortPrefixRecursiveToStringStyle())
+                .toString()
     }
 
     override fun hashCode(): Int =
@@ -56,7 +62,7 @@ fun <T> LinkedListNode<T>.count(): Int {
     return count
 }
 
-val <T> LinkedListNode<T>.last: LinkedListNode<T>
+val <T> LinkedListNode<T>.tail: LinkedListNode<T>
     get() {
         var lastNode = this
         while (true) {
