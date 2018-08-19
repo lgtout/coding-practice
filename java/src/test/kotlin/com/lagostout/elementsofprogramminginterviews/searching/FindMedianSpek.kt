@@ -1,4 +1,4 @@
-package com.lagostout.elementsofprogramminginterviews.arrays
+package com.lagostout.elementsofprogramminginterviews.searching
 
 import com.lagostout.common.nextInt
 import org.apache.commons.math3.random.RandomDataGenerator
