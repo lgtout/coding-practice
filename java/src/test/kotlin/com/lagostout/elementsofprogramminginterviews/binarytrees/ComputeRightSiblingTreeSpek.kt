@@ -5,7 +5,6 @@ import com.lagostout.datastructures.BinaryTreeNode
 import com.lagostout.datastructures.BinaryTreeNode.Companion.bbtr
 import com.lagostout.datastructures.BinaryTreeNode.Companion.levels
 import com.lagostout.datastructures.RawBinaryTreeNode.Companion.rbt
-import com.lagostout.elementsofprogramminginterviews.binarytrees.ComputeRightSiblingTree.computeRightSiblingTree
 import com.lagostout.kotlin.common.Alphabet.*
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
