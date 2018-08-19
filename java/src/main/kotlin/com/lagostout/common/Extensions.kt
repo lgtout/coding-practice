@@ -41,7 +41,12 @@ fun <T> List<T>.thirdOrNull() = if (count() >= 2) get(2) else null
 fun <T> List<T>.offsetFromLast(offset: Int): T = get(lastIndex - offset)
 fun List<Int>.productOrNull(): Int? =
         if (isEmpty()) null else fold(1) { acc, curr -> acc * curr }
-fun List<Int>.product(): Int =fold(1) { acc, curr -> acc * curr }
+fun List<Int>.product(): Int = fold(1) { acc, curr -> acc * curr }
+fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
+    val temp = get(index1)
+    set(index1, get(index2))
+    set(index2, temp)
+}
 
 // Map
 
