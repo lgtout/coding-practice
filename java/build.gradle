@@ -117,6 +117,7 @@ dependencies {
     }
 
     testCompile 'org.assertj:assertj-core:3.8.0'
+    testCompile 'com.willowtreeapps.assertk:assertk-jvm:0.12'
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 //    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 
