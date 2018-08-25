@@ -1,10 +1,10 @@
 package com.lagostout.elementsofprogramminginterviews.recursion
 
+import com.lagostout.common.Position
+
 /* Problem 16.2.1 page 290 */
 
 object GenerateAllNonAttackingPlacementsOfNQueens {
-
-    data class Position(val row: Int, val col: Int)
 
     fun compute(n: Int): Set<Set<Position>> {
         val allPositions = (1..n).flatMap { row ->

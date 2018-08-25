@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.recursion
 
-import com.lagostout.elementsofprogramminginterviews.recursion.GenerateAllNonAttackingPlacementsOfNQueens.Position
+import com.lagostout.common.Position
 import com.lagostout.elementsofprogramminginterviews.recursion.GenerateAllNonAttackingPlacementsOfNQueens.compute
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
