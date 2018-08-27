@@ -202,6 +202,13 @@ class EPLongestConvexSubsequenceSpec: QuickSpec {
                         .computeBottomUpWithMemoization1]
             }
         }
+        // TODO Fails
+        describe("computeBottomUpWithMemoization2") {
+            itBehavesLike("longestConvexSubsequence") {
+                ["fn" : EPLongestConvexSubsequence
+                        .computeBottomUpWithMemoization2]
+            }
+        }
     }
 
 }
