@@ -7,6 +7,8 @@ import kotlin.math.absoluteValue
  * Problem 18.4.3 page 346
  */
 
+// TODO Solve
+
 fun canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
         list: List<Int>, k: Int, sum: Int,
         findClosestSum: (List<Int>, Int, Int) -> Int): Boolean  {
@@ -29,6 +31,10 @@ fun canPickKNumbersThatAddUpToSumWithRepetitionAllowed(
 }
 
 fun findClosestSum1(list: List<Int>, k: Int, targetSum: Int): Int {
+    if (k <= 0) {
+        println("findClosestSum($list, $k, $targetSum) sum: 0")
+        return 0
+    }
     println("findClosestSum($list, $k, $targetSum)")
     var leftIndex = 0
     var rightIndex = list.lastIndex
@@ -39,9 +45,13 @@ fun findClosestSum1(list: List<Int>, k: Int, targetSum: Int): Int {
     while  (leftIndex <= rightIndex && !targetSumFound) {
         left = list[leftIndex]
         right = list[rightIndex]
-        sum = if (k >= 4) {
-            findClosestSum1(list, k - 2, targetSum - (left + right))
-        } else { 0 } + (left + right)
+        val leftPlusRight = left + right
+        println("left $left, right $right, left+right $leftPlusRight")
+        sum = findClosestSum1(list, k - 2,
+            targetSum - leftPlusRight) + leftPlusRight
+//        sum = if (k >= 4) {
+//            findClosestSum1(list, k - 2, targetSum - (left + right))
+//        } else { 0 } + (left + right)
         when {
             sum < targetSum ->
                 leftIndex += 1
