@@ -8,11 +8,10 @@ fun primesToN(n: Int): List<Int> {
         indices.drop(2).run {
             forEach {
                 if (candidates[it]) {
-                    val step = it * it
-                    var index = step
+                    var index = it * it
                     while (index <= n) {
                         candidates[index] = false
-                        index += step
+                        index += it
                     }
                 }
             }
