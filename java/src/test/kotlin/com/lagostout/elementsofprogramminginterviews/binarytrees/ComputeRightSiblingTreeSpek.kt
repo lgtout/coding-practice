@@ -37,11 +37,9 @@ object ComputeRightSiblingTreeSpek : Spek({
         on("root %s", with = *data) { root, expected ->
             computeRightSiblingTree(root)
             it("should set levelNext values to $expected") {
-                val levelNexts = levels(root).flatMap {
-                    it.map { it.levelNext }
+                val levelNexts = levels(root).flatMap { level ->
+                    level.map { it.levelNext }
                 }
-                println(expected.map { it?.value })
-                println(levelNexts.map { it?.value })
                 assertThat(levelNexts).containsExactlyElementsOf(expected)
             }
         }
