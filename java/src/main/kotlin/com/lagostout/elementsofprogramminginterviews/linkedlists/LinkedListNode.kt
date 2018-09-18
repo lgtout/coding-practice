@@ -33,9 +33,22 @@ data class LinkedListNode<T>(
     }
 
     companion object {
+
         private var _id:Int = 0
+
         val nextId: Int
             get() = ++_id
+
+        fun <T> from(list: List<T>): LinkedListNode<T> {
+            val nodes = list.map {
+                LinkedListNode(it)
+            }
+            nodes.windowed(2).forEach { (left, right) ->
+                left.next = right
+            }
+            return nodes.first()
+        }
+
     }
 
 }
