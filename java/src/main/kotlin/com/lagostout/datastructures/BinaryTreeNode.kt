@@ -188,3 +188,15 @@ open class BinaryTreeNode<T>(var parent: BinaryTreeNode<T>? = null,
 
     }
 }
+
+fun <T : Comparable<T>> BinaryTreeNode<T>.bstFind(it: T): BinaryTreeNode<T>? {
+    var node: BinaryTreeNode<T>? = this
+    while (node != null && node.value != it) {
+        if (node.value < it) {
+            node = node.right
+        } else if (node.value > it) {
+            node = node.left
+        }
+    }
+    return node
+}

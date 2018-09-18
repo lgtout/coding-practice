@@ -35,7 +35,7 @@ fun <T> List<T>.takeFromOrNull(startIndexInclusive: Int) =
         if (startIndexInclusive >= size) null
         else this.takeLast(this.size - startIndexInclusive)
 fun <T> List<T>.second() = get(1)
-fun <T> List<T>.third() = get(1)
+fun <T> List<T>.third() = get(2)
 fun <T> List<T>.secondOrNull() = if (count() >= 1) get(1) else null
 fun <T> List<T>.thirdOrNull() = if (count() >= 2) get(2) else null
 fun <T> List<T>.offsetFromLast(offset: Int): T = get(lastIndex - offset)
