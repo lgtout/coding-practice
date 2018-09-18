@@ -73,9 +73,6 @@ object BSTInsertionAndDeletion {
         nodeToDelete.left?.parent = replacementNode
         nodeToDelete.right?.parent = replacementNode
 
-//        println("replacementNode.value ${replacementNode?.value}")
-//        println("root $root")
-
         // Clean up.
         nodeToDelete.parent = null
 

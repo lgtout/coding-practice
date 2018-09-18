@@ -80,8 +80,9 @@ object BSTInsertionAndDeletionSpek : Spek({
                 bbtr(listOf(rbt(C, left = 1, right = 2), rbt(A, right = 3), rbt(E), rbt(B)))),
 
             // Delete non-root node
-            // These sub-cases are not exhaustive, but I believe I've covered enough to be somewhat
-            // confident of the correctness of the solution.
+
+            // The following sub-cases are not exhaustive, but I believe I've covered enough to be
+            // somewhat confident of the correctness of the solution.
 
             // Delete non-root node that is a left or right child, when there is no replacement node.
             data(bbtr(listOf(rbt(A, right = 1), rbt(B))), B, bbtr(listOf(rbt(A)))),
@@ -102,7 +103,6 @@ object BSTInsertionAndDeletionSpek : Spek({
             // Delete non-root node that is a left or right child, when there is a replacement node,
             // the replacement node is not a child of the node to delete, and the replacement node has
             // a child.
-
             data(bbtr(listOf(rbt(A, right = 1), rbt(E, left = 2), rbt(B, right = 3), rbt(D, left = 4), rbt(C))), E,
                 bbtr(listOf(rbt(A, right = 1), rbt(D, left = 2), rbt(B, right = 3), rbt(C)))),
             data(bbtr(listOf(rbt(E, left = 1), rbt(A, right = 2), rbt(D, left = 3), rbt(B, right = 4), rbt(C))), A,
@@ -114,7 +114,6 @@ object BSTInsertionAndDeletionSpek : Spek({
         on("tree: %s, valueToDelete: %s", with = *data) { root, valueToDelete, expected ->
             it("should return $expected") {
                 val tree = BSTInsertionAndDeletion.delete(valueToDelete, root!!)
-                println(tree)
                 assertThat(tree).isEqualTo(expected)
             }
         }
