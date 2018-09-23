@@ -2,7 +2,7 @@ package com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvaria
 
 import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants.GasupProblem.City
 import com.lagostout.elementsofprogramminginterviews.greedyalgorithmsandinvariants
-        .GasupProblemWhenAmpleCityMayNotExist.findAmpleCity
+        .GasupProblemWhenAmpleCityMayNotExist.findAmpleCityIfItExists
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -50,26 +50,30 @@ object GasupProblemWhenAmpleCityMayNotExistSpek : Spek({
         listOfNotNull(
             // Ample city exists
             // Exact amount of gas to visit all cities
-//            Pair(listOf(City("a", 0, 0.0)), 1.0),
-//            Pair(listOf(City("a", 1, 1.0), City("b", 1, 1.0)), 1.0),
-//            Pair(listOf(City("a", 1, 2.0), City("b", 1, 1.0)), 1.0),
-//            Pair(listOf(City("a", 1, 2.0), City("b", 1, 0.0)), 1.0),
-//            Pair(listOf(City("a", 1, 0.0), City("b", 1, 2.0)), 1.0),
-//            Pair(listOf(City("a", 1, 1.0), City("b", 1, 2.0)), 1.0),
-//            Pair(listOf(City("a", 2, 1.0), City("b", 2, 1.0), City("c", 2, 4.0), City("d", 1, 1.0)), 1.0),
-//            Pair(listOf(City("a", 4, 4.7), City("b", 1, 1.2), City("c", 3, 3.4)), 0.9),
-//            Pair(listOf(City("c",200,5.0), City("d",400,35.0), City("e",600,25.0),
-//                City("f",200,10.0), City("g",100,10.0), City("a",900,45.0),
-//                City("b",600,20.0)), 20.0),
-            // Excess gas after all cities visited
-//            Pair(listOf(City("c",200,5.0), City("d",400,50.0), City("e",600,25.0),
-//                City("f",200,10.0), City("g",100,10.0), City("a",900,50.0),
-//                City("b",600,20.0)), 20.0),
-            // No ample city exists
-//            Pair(listOf(City("a", 1, 1.0), City("b", 1, 0.5)), 1.0),
+            Pair(listOf(City("a", 0, 0.0)), 1.0),
+            Pair(listOf(City("a", 1, 1.0), City("b", 1, 1.0)), 1.0),
+            Pair(listOf(City("a", 1, 2.0), City("b", 1, 1.0)), 1.0),
+            Pair(listOf(City("a", 1, 2.0), City("b", 1, 0.0)), 1.0),
+            Pair(listOf(City("a", 1, 0.0), City("b", 1, 2.0)), 1.0),
+            Pair(listOf(City("a", 1, 1.0), City("b", 1, 2.0)), 1.0),
+            Pair(listOf(City("a", 2, 1.0), City("b", 2, 1.0), City("c", 2, 4.0), City("d", 1, 1.0)), 1.0),
+            Pair(listOf(City("a", 4, 4.7), City("b", 1, 1.2), City("c", 3, 3.4)), 0.9),
             Pair(listOf(City("c",200,5.0), City("d",400,35.0), City("e",600,25.0),
-                City("f",200,10.0), City("g",100,5.0), City("a",900,45.0),
+                City("f",200,10.0), City("g",100,10.0), City("a",900,45.0),
                 City("b",600,20.0)), 20.0),
+            // Excess gas after all cities visited
+            Pair(listOf(City("c",200,5.0), City("d",400,50.0), City("e",600,25.0),
+                City("f",200,10.0), City("g",100,10.0), City("a",900,50.0),
+                City("b",600,20.0)), 20.0),
+            // No ample city exists
+            Pair(listOf(City("a", 1, 1.0), City("b", 1, 0.0)), 1.0),
+            Pair(listOf(City("a", 1, 1.0), City("b", 1, 1.0), City("c", 1, 0.0)), 1.0),
+            Pair(listOf(City("a", 1, 0.0), City("b", 1, 1.0), City("c", 1, 1.0)), 1.0),
+            Pair(listOf(City("a", 1, 1.0), City("b", 1, 0.0), City("c", 1, 1.0)), 1.0),
+            Pair(listOf(City("a", 1, 1.0), City("b", 1, 0.5)), 1.0),
+            Pair(listOf(City("a",200,5.0), City("b",400,35.0), City("c",600,25.0),
+                City("d",200,10.0), City("e",100,5.0), City("f",900,45.0),
+                City("g",600,20.0)), 20.0),
             null
         ).map { (cities, mpg) ->
             connect(cities)
@@ -77,9 +81,9 @@ object GasupProblemWhenAmpleCityMayNotExistSpek : Spek({
         }.toTypedArray()
     }
 
-    describe("findAmpleCity") {
+    describe("findAmpleCityIfItExists") {
         on("cities %s, mpg %s", with = *data) { cities, mpg, expected ->
-            val ampleCity = findAmpleCity(cities, mpg)
+            val ampleCity = findAmpleCityIfItExists(cities, mpg)
             it("should return $expected") {
                 assertThat(ampleCity).let {
                     if (expected.isEmpty()) it.isNull()
