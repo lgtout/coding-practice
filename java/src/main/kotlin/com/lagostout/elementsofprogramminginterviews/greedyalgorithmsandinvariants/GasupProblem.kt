@@ -43,22 +43,13 @@ object GasupProblem {
             val distance = currentCity.distanceToNextCity
             val gasRequired = distance / mpg
             if (gasRemaining < gasRequired) {
-                if (startCity != currentCity) {
-                    val distanceToNextCityAfterStart =
-                            startCity.distanceToNextCity
-                    val gasUsedToGetToNextCityAfterStart =
-                            distanceToNextCityAfterStart / mpg
-                    gasRemaining += gasUsedToGetToNextCityAfterStart
-                    startCity = startCity.next!!
-                } else {
-                    currentCity = currentCity.next!!
-                    startCity = currentCity
-                    gasRemaining = currentCity.gas
-                }
+                currentCity = currentCity.next!!
+                startCity = currentCity
+                gasRemaining = currentCity.gas
             } else {
-                if (currentCity.next == startCity) break
                 currentCity = currentCity.next!!
                 gasRemaining += currentCity.gas - gasRequired
+                if (currentCity == startCity) break
             }
         }
         return startCity
