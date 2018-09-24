@@ -5,8 +5,8 @@ import java.util.*
 /* Problem 19.7.2 page 373 */
 
 /* From a complexity perspective, in the case where the graph isn't reused,
-I don't see the advantage of constructing a graph, versus using just recursion
-with caching. */
+There doesn't seem to be an advantage to constructing a graph, versus using
+just recursion with caching. */
 
 fun shortestAdditionChainExponentiation(n: Int): List<Int> {
 
@@ -49,9 +49,10 @@ fun shortestAdditionChainExponentiation(n: Int): List<Int> {
 
     fun compute(exponent: Int): Set<Int> {
         return cache[exponent] ?:
-        exponentToDecompositionsMap[exponent]?.map { decomposition ->
+        exponentToDecompositionsMap[exponent]
+                ?.asSequence()?.map { decomposition ->
             val chainExponents = mutableSetOf<Int>()
-            decomposition.map {
+            decomposition.asSequence().map {
                 listOf(it) + compute(it)
             }.fold(chainExponents) { acc, list ->
                 acc.apply { addAll(list) }

@@ -9,7 +9,9 @@ import org.jetbrains.spek.data_driven.on
 
 object ShortestAdditionChainExponentiation : Spek({
 
-    // TODO More cases. What does brute force solution look like?
+    /* A brute force solution could be implemented using recursion.
+    We would explore the entire space of possible chains, optimizing
+    for the shortest one. */
 
     val data = listOfNotNull(
         data(1, listOf(1)),
@@ -17,6 +19,8 @@ object ShortestAdditionChainExponentiation : Spek({
         data(3, listOf(1,2,3)),
         data(4, listOf(1,2,4)),
         data(5, listOf(1,2,4,5)),
+        data(6, listOf(1,2,3,6)),
+        data(15, listOf(1,2,3,6,12,15)),
         null
     ).toTypedArray()
 
