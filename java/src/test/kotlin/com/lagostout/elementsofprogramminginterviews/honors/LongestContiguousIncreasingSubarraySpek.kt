@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.xdescribe
 import org.jetbrains.spek.data_driven.Data1
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
@@ -22,6 +23,15 @@ object LongestContiguousIncreasingSubarray : Spek({
     describe("longestContiguousIncreasingSubarray") {
         on("list %s", with = *data) { list, expected ->
             val result = longestContiguousIncreasingSubarray(list)
+            it("returns $expected") {
+                assertThat(result).isEqualTo(expected)
+            }
+        }
+    }
+
+    describe("longestContiguousIncreasingSubarrayWithSkipping") {
+        on("list %s", with = *data) { list, expected ->
+            val result = longestContiguousIncreasingSubarrayWithSkipping(list)
             it("returns $expected") {
                 assertThat(result).isEqualTo(expected)
             }
