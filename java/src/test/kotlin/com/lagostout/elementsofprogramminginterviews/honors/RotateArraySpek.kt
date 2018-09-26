@@ -13,18 +13,22 @@ object RotateArraySpek : Spek({
 
     @Suppress("NAME_SHADOWING")
     fun rotate(distance: Int, array: List<Alphabet?>): List<Alphabet?> {
-        val distance = distance % array.size
+        val distance = if (array.isNotEmpty()) distance % array.size else 0
         val suffixSize = array.size - distance
         return array.drop(suffixSize) + array.take(suffixSize)
     }
 
     val data = listOfNotNull(
+        Pair(0, mutableListOf()),
+        Pair(0, mutableListOf<Alphabet?>(A)),
         Pair(0, mutableListOf<Alphabet?>(A, B, C, D)),
         Pair(1, mutableListOf<Alphabet?>(A, B, C, D)),
         Pair(2, mutableListOf<Alphabet?>(A, B, C, D)),
         Pair(3, mutableListOf<Alphabet?>(A, B, C, D)),
         Pair(4, mutableListOf<Alphabet?>(A, B, C, D)),
+        Pair(5, mutableListOf<Alphabet?>(A, B, C, D)),
         Pair(6, mutableListOf<Alphabet?>(A, B, C, D)),
+        Pair(7, mutableListOf<Alphabet?>(A, B, C, D)),
         null
     ).map { (distance, array) ->
         data(distance, array, rotate(distance, array))
