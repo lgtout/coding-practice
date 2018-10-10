@@ -28,3 +28,13 @@ data class Position(val row: Int, val col: Int)
 data class Quartet<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
 
 fun rdg(): RandomDataGenerator = RandomDataGenerator().apply { reSeed(1) }
+
+fun <T> fisherYates(random: RandomDataGenerator, list: Iterable<T>): List<T> {
+    val result = list.toMutableList()
+    val lastIndex = list.count() - 1
+    repeat(list.count()) {
+        val fromIndex = random.nextInt(it, lastIndex)
+        result.swap(fromIndex, it)
+    }
+    return result
+}
