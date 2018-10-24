@@ -1,7 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.arrays
 
 import com.lagostout.common.nextInt
-import com.lagostout.common.rdg
+import com.lagostout.common.reproducibleRdg
 import com.lagostout.common.shuffled
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
@@ -21,7 +21,7 @@ object PermuteElementsOfArraySpek : Spek({
 
     val randomData = run {
         val count = 100
-        val random = rdg()
+        val random = reproducibleRdg()
         val arraySizeRange = (1..10)
         val valueRange = (1..10)
         val cases = mutableListOf<List<Int>>()

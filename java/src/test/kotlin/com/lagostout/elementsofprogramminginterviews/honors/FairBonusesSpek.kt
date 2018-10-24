@@ -1,7 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.honors
 
 import com.lagostout.common.nextInt
-import com.lagostout.common.rdg
+import com.lagostout.common.reproducibleRdg
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -34,7 +34,7 @@ object FairBonusesSpek : Spek({
     }
 
     val randomData = run {
-        val rdg = rdg()
+        val rdg = reproducibleRdg()
         val developerCountRange = (1..6)
         val caseCount = 100
         val locRange = (1..10)

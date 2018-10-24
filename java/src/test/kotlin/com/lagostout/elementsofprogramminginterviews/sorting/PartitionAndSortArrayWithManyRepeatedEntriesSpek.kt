@@ -1,7 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.sorting
 
 import com.lagostout.common.nextInt
-import com.lagostout.common.rdg
+import com.lagostout.common.reproducibleRdg
 import com.lagostout.elementsofprogramminginterviews.sorting.PartitionAndSortArrayWithManyRepeatedEntries.Student
 import com.lagostout.elementsofprogramminginterviews.sorting.PartitionAndSortArrayWithManyRepeatedEntries.groupByAge
 import com.lagostout.elementsofprogramminginterviews.sorting.PartitionAndSortArrayWithManyRepeatedEntries.stableSortByAge
@@ -22,7 +22,7 @@ object PartitionAndSortArrayWithManyRepeatedEntriesSpek : Spek({
         val caseCount = 100
         val studentCountRange = Pair(0, 5)
         val studentAgeRange = Pair(1, 5)
-        val random = rdg()
+        val random = reproducibleRdg()
         (0 until caseCount).map {
             val studentCount = random.nextInt(studentCountRange)
             (0 until studentCount).map {

@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
-import com.lagostout.common.rdg
+import com.lagostout.common.reproducibleRdg
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -44,7 +44,7 @@ object MinimizeMessinessInLinearTimeConstantSpaceSpek : Spek({
         val maxWordCount = 10
         val maxLineCapacity = 10
         val caseCount = 100
-        val random = rdg()
+        val random = reproducibleRdg()
         val char = "x"
         (0 until caseCount).map {
             val wordCount = random.nextInt(0, maxWordCount)

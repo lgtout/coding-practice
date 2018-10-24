@@ -1,7 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.dynamicprogramming
 
 import com.lagostout.common.nextInt
-import com.lagostout.common.rdg
+import com.lagostout.common.reproducibleRdg
 import com.lagostout.elementsofprogramminginterviews.dynamicprogramming.MaximumAscendingSubsetOfPointsInAPlane.ascendsTo
 import com.lagostout.elementsofprogramminginterviews.dynamicprogramming.MaximumAscendingSubsetOfPointsInAPlane.computeBottomUpWithMemoization
 import com.lagostout.elementsofprogramminginterviews.dynamicprogramming.MaximumAscendingSubsetOfPointsInAPlane.selectLongest
@@ -26,7 +26,7 @@ object MaximumAscendingSubsetOfPointsInAPlaneSpek : Spek({
     }
 
     val randomData = run {
-        val random = rdg()
+        val random = reproducibleRdg()
         val caseCount = 10
         val axisRange = Pair(0,5)
         val pointCountRange = Pair(1,20)

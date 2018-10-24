@@ -1,7 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.sorting
 
 import com.lagostout.common.nextInt
-import com.lagostout.common.rdg
+import com.lagostout.common.reproducibleRdg
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -45,7 +45,7 @@ object TeamPhotoDaySpek : Spek({
     }
 
     val randomData = run {
-        val rdg = rdg()
+        val rdg = reproducibleRdg()
         val caseCount = 100
         val teamSize = 5
         val heightRange = Pair(0, 10)

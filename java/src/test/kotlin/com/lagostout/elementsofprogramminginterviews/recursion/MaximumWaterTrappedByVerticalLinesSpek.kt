@@ -1,7 +1,7 @@
 package com.lagostout.elementsofprogramminginterviews.recursion
 
 import com.lagostout.common.nextInt
-import com.lagostout.common.rdg
+import com.lagostout.common.reproducibleRdg
 import com.lagostout.common.second
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
@@ -11,17 +11,18 @@ import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
 import org.paukov.combinatorics3.Generator
 import java.lang.Math.abs
+import java.lang.Math.min
 
 object MaximumWaterTrappedByVerticalLinesSpek : Spek({
 
     val randomData = run {
         val lineLengthRange = (1..10)
         val lineCountRange = (1..6)
-        val random = rdg()
+        val random = reproducibleRdg()
         val caseCount = 1000
-        (0..caseCount).map { _ ->
+        (0..caseCount).map {
             val lineCount = random.nextInt(lineCountRange)
-            (0..lineCount).map { _ ->
+            (0..lineCount).map {
                 random.nextInt(lineLengthRange)
             }
         }.map { it ->
@@ -29,7 +30,7 @@ object MaximumWaterTrappedByVerticalLinesSpek : Spek({
                     .simple(2).map {
                         val first = it.first()
                         val second = it.second()
-                        abs(first.index - second.index) * minOf(first.value, second.value)
+                        abs(first.index - second.index) * min(first.value, second.value)
                     }.max()
             data(it, expected)
         }.toTypedArray()

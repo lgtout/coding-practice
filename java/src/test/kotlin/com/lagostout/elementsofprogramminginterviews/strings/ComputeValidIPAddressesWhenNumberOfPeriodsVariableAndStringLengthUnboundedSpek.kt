@@ -1,6 +1,6 @@
 package com.lagostout.elementsofprogramminginterviews.strings
 
-import com.lagostout.common.rdg
+import com.lagostout.common.reproducibleRdg
 import org.assertj.core.api.Assertions
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -60,7 +60,7 @@ object ComputeValidIPAddressesWhenNumberOfPeriodsVariableAndStringLengthUnbounde
     val randomData = run {
         val caseCount = 100
         val maxMangledAddressLength = 20
-        val random = rdg()
+        val random = reproducibleRdg()
         (0 until caseCount).map {
             val mangledAddressLength = random.nextInt(2, maxMangledAddressLength)
             val periodCount = random.nextInt(1, mangledAddressLength - 1)

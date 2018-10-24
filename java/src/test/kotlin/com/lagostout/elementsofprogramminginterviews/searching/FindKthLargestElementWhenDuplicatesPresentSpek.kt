@@ -1,13 +1,14 @@
 package com.lagostout.elementsofprogramminginterviews.searching
 
 import com.lagostout.common.nextInt
-import com.lagostout.common.rdg
+import com.lagostout.common.reproducibleRdg
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.data_driven.data
 import org.jetbrains.spek.data_driven.on
+import java.lang.Integer.max
 
 /**
  * Our list may contain duplicates.  [Element] allows us to track the distinct
@@ -44,13 +45,13 @@ object FindKthLargestElementWhenDuplicatesPresentSpek : Spek({
     }
 
     val randomData = run {
-        val rdg = rdg()
+        val rdg = reproducibleRdg()
         val caseCount = 100
         val elementRange = Pair(0, 5)
         val listSizeRange = Pair(0, 10)
-        (0 until caseCount).map { _ ->
+        (0 until caseCount).map {
             val listSize = rdg.nextInt(listSizeRange)
-            val k = rdg.nextInt(1, maxOf(listSize, 1))
+            val k = rdg.nextInt(1, max(listSize, 1))
             (0 until listSize).map { index ->
                 Element(index, rdg.nextInt(elementRange))
             }.let { list ->
