@@ -47,6 +47,7 @@ fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
     set(index1, get(index2))
     set(index2, temp)
 }
+
 fun <T> Iterable<T>.shuffled(random: RandomDataGenerator): List<T> =
         fisherYates(random, this)
 
