@@ -1,6 +1,6 @@
 # coding-practice
 
-This repo contains solutions for about 260 coding problems completed over the last year or so.  All are backed by tests.
+This repo contains solutions for about 260 coding problems completed over the last year or so.  All are backed by tests that I wrote from scratch, too.
 Most are in Kotlin for problems presented in the [Elements of Programming Interviews in Java](http://elementsofprogramminginterviews.com/) book.
 
 #### Problem sources
